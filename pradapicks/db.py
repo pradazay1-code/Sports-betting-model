@@ -29,8 +29,20 @@ from .config import get_settings
 Base = declarative_base()
 _settings = get_settings()
 
-connect_args = {"check_same_thread": False} if _settings.database_url.startswith("sqlite") else {}
-engine = create_engine(_settings.database_url, future=True, pool_pre_ping=True, connect_args=connect_args)
+
+def _normalize_db_url(url: str) -> str:
+    # Render's managed Postgres exposes "postgres://..." but SQLAlchemy 2.x
+    # requires the "postgresql://" scheme. Normalize for portability.
+    if url.startswith("postgres://"):
+        return "postgresql+psycopg2://" + url[len("postgres://"):]
+    if url.startswith("postgresql://"):
+        return "postgresql+psycopg2://" + url[len("postgresql://"):]
+    return url
+
+
+_db_url = _normalize_db_url(_settings.database_url)
+connect_args = {"check_same_thread": False} if _db_url.startswith("sqlite") else {}
+engine = create_engine(_db_url, future=True, pool_pre_ping=True, connect_args=connect_args)
 SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False, expire_on_commit=False)
 
 

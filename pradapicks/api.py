@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import logging
+from contextlib import asynccontextmanager
 from datetime import date, timedelta
 from typing import Optional
 
@@ -22,8 +23,25 @@ from .betslip import analyze_slip
 logging.basicConfig(level=get_settings().log_level)
 log = logging.getLogger("pradapicks")
 
-app = FastAPI(title="Pradapicks", version="0.1.0", description="AI-driven prop scoring for MLB / NBA / NHL")
-_scheduler = None
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    init_db()
+    kick_off_bootstrap_if_needed(days=get_settings().auto_bootstrap_days)
+    sched = start_scheduler()
+    try:
+        yield
+    finally:
+        if sched:
+            sched.shutdown(wait=False)
+
+
+app = FastAPI(
+    title="Pradapicks",
+    version="0.1.0",
+    description="AI-driven prop scoring for MLB / NBA / NHL",
+    lifespan=lifespan,
+)
 
 
 def get_db():
@@ -44,23 +62,23 @@ def require_token(authorization: Optional[str] = Header(None)) -> None:
         raise HTTPException(status_code=403, detail="bad token")
 
 
-@app.on_event("startup")
-def _startup() -> None:
-    init_db()
-    kick_off_bootstrap_if_needed(days=get_settings().auto_bootstrap_days)
-    global _scheduler
-    _scheduler = start_scheduler()
-
-
-@app.on_event("shutdown")
-def _shutdown() -> None:
-    if _scheduler:
-        _scheduler.shutdown(wait=False)
-
-
 @app.get("/health")
-def health():
-    return {"ok": True, "service": "pradapicks"}
+def health(db: Session = Depends(get_db)):
+    from .db import PlayerGameStat, ModelArtifact, PropOffer
+    n_player_rows = db.query(PlayerGameStat).count()
+    n_models = db.query(ModelArtifact).filter(ModelArtifact.is_active.is_(True)).count()
+    n_offers_today = db.query(PropOffer).filter(PropOffer.game_date == date.today()).count()
+    n_picks_today = db.query(Pick).filter(Pick.pick_date == date.today()).count()
+    bootstrapping = n_player_rows == 0
+    return {
+        "ok": True,
+        "service": "pradapicks",
+        "bootstrapping": bootstrapping,
+        "player_rows": n_player_rows,
+        "active_models": n_models,
+        "offers_today": n_offers_today,
+        "picks_today": n_picks_today,
+    }
 
 
 @app.get("/picks/today")

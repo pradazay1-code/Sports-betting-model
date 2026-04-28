@@ -3,7 +3,7 @@ services:
     name: pradapicks-api
     env: python
     plan: starter
-    buildCommand: "pip install -r requirements.txt"
+    buildCommand: "pip install --upgrade pip && pip install -r requirements.txt"
     startCommand: "gunicorn pradapicks.api:app -k uvicorn.workers.UvicornWorker -w 1 -b 0.0.0.0:$PORT --timeout 600"
     healthCheckPath: /health
     autoDeploy: true
