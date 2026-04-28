@@ -4,7 +4,7 @@ services:
     env: python
     plan: starter
     buildCommand: "pip install -r requirements.txt"
-    startCommand: "gunicorn pradapicks.api:app -k uvicorn.workers.UvicornWorker -w 2 -b 0.0.0.0:$PORT --timeout 120"
+    startCommand: "gunicorn pradapicks.api:app -k uvicorn.workers.UvicornWorker -w 1 -b 0.0.0.0:$PORT --timeout 600"
     healthCheckPath: /health
     autoDeploy: true
     envVars:
@@ -14,12 +14,12 @@ services:
         fromDatabase:
           name: pradapicks-db
           property: connectionString
-      - key: ODDS_API_KEY
-        sync: false
       - key: API_AUTH_TOKEN
         generateValue: true
       - key: RUN_SCHEDULER
         value: "true"
+      - key: AUTO_BOOTSTRAP_DAYS
+        value: "30"
       - key: TZ
         value: America/New_York
 

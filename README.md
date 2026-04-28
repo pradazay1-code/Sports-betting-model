@@ -37,33 +37,45 @@ pradapicks/
 | Sample size | 0.10 | Training rows for that (sport, market) |
 | Market depth | 0.10 | Number of books offering the line |
 
+## Zero-config: 100% free data, zero manual steps
+
+Pradapicks ships with **free** data providers — no paid keys required:
+
+| Source | What it gives | Auth |
+|--------|---------------|------|
+| MLB Stats API | Schedule + box scores | none |
+| NBA stats.nba.com | Schedule + box scores | none |
+| NHL api-web.nhle.com | Schedule + box scores | none |
+| **PrizePicks** public projections | Player prop **lines** for MLB / NBA / NHL | none |
+| **DraftKings** public sportsbook JSON | Player prop **lines + American odds** | none |
+
+These two odds sources are aggregated into the same `PropOffer` schema so the model treats them as a single market with multiple "books." Optionally, if you set `ODDS_API_KEY`, the paid The Odds API is layered in on top — but it is not required.
+
 ## Running locally
 
 ```bash
 cp .env.example .env
-# edit .env: set ODDS_API_KEY (the-odds-api.com), DATABASE_URL (sqlite for local), API_AUTH_TOKEN
 pip install -r requirements.txt
-
-# 1) Backfill historical data + train initial models (cold start)
-python -m scripts.bootstrap --days 30
-
-# 2) Start the API (also starts the scheduler if RUN_SCHEDULER=true)
 python main.py
 # -> http://localhost:8000/docs
+# On first boot the API kicks off a 30-day backfill + training in a background thread.
 ```
 
-## Deploying to Render
+## Deploying to Render (one click)
 
 1. Push this repo to GitHub.
 2. In Render, click **New → Blueprint** and point at the repo. `render.yaml` provisions:
    - a managed Postgres 16 database
-   - a Python web service running `gunicorn pradapicks.api:app -k uvicorn.workers.UvicornWorker`
-3. Set the `ODDS_API_KEY` secret in the Render dashboard.
-4. After first deploy, run a one-time bootstrap from the Render shell:
-   ```bash
-   python -m scripts.bootstrap --days 30
-   ```
-5. The scheduler runs inside the web process (`RUN_SCHEDULER=true`):
+   - a Python web service running gunicorn + uvicorn
+3. **That's it.** No API keys, no shell commands. On first boot the service:
+   - creates all tables
+   - kicks off a 30-day backfill of MLB/NBA/NHL box scores in a background thread
+   - trains every (sport, market) model
+   - pulls live PrizePicks + DraftKings odds and publishes today's top-25 picks
+
+   You can watch progress in the Render logs or by polling `GET /progress`.
+
+4. The scheduler runs inside the web process (`RUN_SCHEDULER=true`):
    - **09:00 ET** — pull odds, generate top-25 picks
    - **11:15 / 14:15 / 17:15 ET** — refresh odds for line moves
    - **04:00 ET** — ingest yesterday's box scores + grade yesterday's picks
@@ -91,6 +103,7 @@ python main.py
 | POST | `/admin/ingest/backfill?days=30` | Backfill historical box scores |
 | POST | `/admin/train` | Retrain all models |
 | POST | `/admin/grade?on=YYYY-MM-DD` | Grade a day's picks |
+| POST | `/admin/bootstrap?days=30` | Re-run a full backfill + train + pick cycle |
 
 ### Bet slip request shape
 
@@ -104,14 +117,16 @@ python main.py
 }
 ```
 
-## Data sources
+## Data sources (all free)
 
 - **MLB** — [statsapi.mlb.com](https://statsapi.mlb.com) (public, no key)
 - **NBA** — [stats.nba.com](https://stats.nba.com) (public, browser-style headers)
 - **NHL** — [api-web.nhle.com](https://api-web.nhle.com) (public, no key)
-- **Odds** — [the-odds-api.com](https://the-odds-api.com) (free tier covers main markets; player props require a paid tier)
+- **PrizePicks** — `api.prizepicks.com/projections` (public, no key)
+- **DraftKings** — `sportsbook-nash.draftkings.com/sites/US-SB/api/v5` (public, no key)
+- *(optional)* **The Odds API** — only used if `ODDS_API_KEY` is set
 
-Each data source lives behind a single provider class — replace any one (e.g. swap to SportsDataIO or OddsJam) without touching the rest of the system.
+Each source lives behind a single provider class — drop in SportsDataIO, OddsJam, FanDuel, etc. without touching the rest of the system.
 
 ## Notes on honesty
 

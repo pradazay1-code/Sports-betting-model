@@ -18,6 +18,7 @@ class Settings(BaseSettings):
 
     daily_pick_count: int = 25
     sports: tuple[str, ...] = ("MLB", "NBA", "NHL")
+    auto_bootstrap_days: int = 30
 
     odds_regions: str = "us"
     odds_books: tuple[str, ...] = ("draftkings", "fanduel", "betmgm", "caesars")

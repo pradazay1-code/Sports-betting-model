@@ -9,6 +9,7 @@ from fastapi import Depends, FastAPI, Header, HTTPException, Query
 from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 
+from .bootstrap import kick_off_bootstrap_if_needed
 from .config import get_settings
 from .db import Pick, SessionLocal, init_db
 from .ingest import backfill_box_scores, ingest_box_scores, ingest_odds
@@ -46,6 +47,7 @@ def require_token(authorization: Optional[str] = Header(None)) -> None:
 @app.on_event("startup")
 def _startup() -> None:
     init_db()
+    kick_off_bootstrap_if_needed(days=get_settings().auto_bootstrap_days)
     global _scheduler
     _scheduler = start_scheduler()
 
@@ -155,6 +157,15 @@ def admin_train(db: Session = Depends(get_db)):
 @app.post("/admin/grade", dependencies=[Depends(require_token)])
 def admin_grade(on: Optional[date] = None, db: Session = Depends(get_db)):
     return grade_picks(db, on=on)
+
+
+@app.post("/admin/bootstrap", dependencies=[Depends(require_token)])
+def admin_bootstrap(days: int = 30):
+    """Force a backfill + train + pick-generation cycle in the background."""
+    from .bootstrap import run_bootstrap
+    import threading
+    threading.Thread(target=run_bootstrap, args=(days,), daemon=True).start()
+    return {"status": "started", "days": days}
 
 
 def _pick_dict(p: Pick) -> dict:

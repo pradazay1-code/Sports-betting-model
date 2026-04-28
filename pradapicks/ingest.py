@@ -6,7 +6,9 @@ from datetime import date, timedelta
 
 from sqlalchemy.orm import Session
 
+from .config import get_settings
 from .data import PROVIDERS, OddsAPIClient
+from .data.free_odds import FreeOddsAggregator
 from .db import Game, PlayerGameStat, PropOffer, TeamGameStat, Player
 
 log = logging.getLogger(__name__)
@@ -53,8 +55,24 @@ def backfill_box_scores(db: Session, days: int = 30) -> dict:
 
 
 def ingest_odds(db: Session, on: date | None = None) -> int:
-    client = OddsAPIClient()
-    rows = client.fetch_all(("MLB", "NBA", "NHL"), on=on)
+    """Pull current player-prop offers from all available free sources.
+
+    Uses PrizePicks + DraftKings public JSON by default (no key needed).
+    If ODDS_API_KEY is set, also augments with The Odds API.
+    """
+    settings = get_settings()
+    rows: list[dict] = []
+    free = FreeOddsAggregator()
+    try:
+        rows.extend(free.fetch_all(("MLB", "NBA", "NHL"), on=on))
+    finally:
+        free.close()
+    if settings.odds_api_key:
+        client = OddsAPIClient()
+        try:
+            rows.extend(client.fetch_all(("MLB", "NBA", "NHL"), on=on))
+        finally:
+            client.close()
     n = 0
     for r in rows:
         try:
@@ -76,7 +94,6 @@ def ingest_odds(db: Session, on: date | None = None) -> int:
         ))
         n += 1
     db.commit()
-    client.close()
     return n
 
 
