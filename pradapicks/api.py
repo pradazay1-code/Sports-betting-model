@@ -62,6 +62,23 @@ def require_token(authorization: Optional[str] = Header(None)) -> None:
         raise HTTPException(status_code=403, detail="bad token")
 
 
+@app.get("/")
+def root():
+    return {
+        "service": "Pradapicks",
+        "version": "0.1.0",
+        "description": "AI-driven prop scoring for MLB / NBA / NHL",
+        "docs": "/docs",
+        "endpoints": {
+            "health": "/health",
+            "picks_today": "/picks/today",
+            "picks_by_date": "/picks?on=YYYY-MM-DD",
+            "betslip_analyze": "POST /betslip/analyze",
+            "progress": "/progress?days=30",
+        },
+    }
+
+
 @app.get("/health")
 def health(db: Session = Depends(get_db)):
     from .db import PlayerGameStat, ModelArtifact, PropOffer
