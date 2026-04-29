@@ -66,6 +66,7 @@ def generate_daily_picks(db: Session, on: date | None = None, top_n: int | None 
 
     cache_models: dict[tuple[str, str], object] = {}
     candidates: list[dict] = []
+    fallback_candidates: list[dict] = []
 
     grouped = _consensus(offers)
     for (player_lc, market, line), group in grouped.items():
@@ -112,8 +113,6 @@ def generate_daily_picks(db: Session, on: date | None = None, top_n: int | None 
             if offer is None:
                 continue
             ed = edge_pct(p_side, offer.price_american)
-            if ed < settings.min_edge_pct:
-                continue
             rating, breakdown = rating_from_components(
                 model_prob=p_side,
                 price_american=offer.price_american,
@@ -122,7 +121,7 @@ def generate_daily_picks(db: Session, on: date | None = None, top_n: int | None 
                 market_consensus_count=len({o.book for o in group}),
             )
             kel = kelly_fraction(p_side, offer.price_american, settings.kelly_fraction)
-            candidates.append({
+            entry = {
                 "sport": sport,
                 "player_name": offer.player_name,
                 "team": team,
@@ -139,7 +138,11 @@ def generate_daily_picks(db: Session, on: date | None = None, top_n: int | None 
                 "kelly_unit": kel,
                 "rationale": {**breakdown, "predicted_value": round(mu, 3), "sample_size": sample_size},
                 "game_external_id": offer.game_external_id,
-            })
+            }
+            if ed >= settings.min_edge_pct:
+                candidates.append(entry)
+            else:
+                fallback_candidates.append(entry)
 
     # one pick per (player, market) — keep highest rating
     best_per_key: dict[tuple, dict] = {}
@@ -149,6 +152,21 @@ def generate_daily_picks(db: Session, on: date | None = None, top_n: int | None 
             best_per_key[k] = c
 
     ranked = sorted(best_per_key.values(), key=lambda x: x["rating"], reverse=True)[:top_n]
+
+    # If we don't have enough edge-clearing picks, top up from the fallback
+    # pool (still ranked by rating). Guarantees the daily list isn't empty
+    # when live odds are unavailable / synthetic mode is active.
+    if len(ranked) < top_n and fallback_candidates:
+        seen = {(p["player_name"].lower(), p["market"]) for p in ranked}
+        fb_best: dict[tuple, dict] = {}
+        for c in fallback_candidates:
+            k = (c["player_name"].lower(), c["market"])
+            if k in seen:
+                continue
+            if k not in fb_best or c["rating"] > fb_best[k]["rating"]:
+                fb_best[k] = c
+        extras = sorted(fb_best.values(), key=lambda x: x["rating"], reverse=True)
+        ranked.extend(extras[: top_n - len(ranked)])
 
     # persist
     db.query(Pick).filter(Pick.pick_date == on).delete()

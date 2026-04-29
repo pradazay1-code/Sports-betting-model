@@ -9,6 +9,7 @@ from sqlalchemy.orm import Session
 from .config import get_settings
 from .data import PROVIDERS, OddsAPIClient
 from .data.free_odds import FreeOddsAggregator
+from .data.synthetic import generate as generate_synthetic_odds
 from .db import Game, PlayerGameStat, PropOffer, TeamGameStat, Player
 
 log = logging.getLogger(__name__)
@@ -73,6 +74,13 @@ def ingest_odds(db: Session, on: date | None = None) -> int:
             rows.extend(client.fetch_all(("MLB", "NBA", "NHL"), on=on))
         finally:
             client.close()
+
+    # Synthetic fallback: if we got nothing live, build offers from rolling
+    # averages so the system still publishes picks today.
+    if not rows:
+        log.warning("no live odds available; falling back to synthetic offers")
+        rows = generate_synthetic_odds(db, ("MLB", "NBA", "NHL"), on=on or date.today())
+
     n = 0
     for r in rows:
         try:

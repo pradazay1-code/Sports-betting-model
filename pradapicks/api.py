@@ -4,9 +4,12 @@ from __future__ import annotations
 import logging
 from contextlib import asynccontextmanager
 from datetime import date, timedelta
+from pathlib import Path
 from typing import Optional
 
 from fastapi import Depends, FastAPI, Header, HTTPException, Query
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 
@@ -43,6 +46,10 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+_STATIC_DIR = Path(__file__).parent / "static"
+if _STATIC_DIR.exists():
+    app.mount("/static", StaticFiles(directory=str(_STATIC_DIR)), name="static")
+
 
 def get_db():
     db = SessionLocal()
@@ -64,10 +71,22 @@ def require_token(authorization: Optional[str] = Header(None)) -> None:
 
 @app.get("/")
 def root():
+    """Serve the dashboard if present, else a JSON index."""
+    index = _STATIC_DIR / "index.html"
+    if index.exists():
+        return FileResponse(str(index))
     return {
         "service": "Pradapicks",
         "version": "0.1.0",
-        "description": "AI-driven prop scoring for MLB / NBA / NHL",
+        "docs": "/docs",
+        "endpoints": ["/health", "/picks/today", "/betslip/analyze", "/progress"],
+    }
+
+
+@app.get("/api")
+def api_index():
+    return {
+        "service": "Pradapicks",
         "docs": "/docs",
         "endpoints": {
             "health": "/health",
@@ -81,6 +100,7 @@ def root():
 
 @app.get("/health")
 def health(db: Session = Depends(get_db)):
+    from .data.free_odds import health_snapshot
     from .db import PlayerGameStat, ModelArtifact, PropOffer
     n_player_rows = db.query(PlayerGameStat).count()
     n_models = db.query(ModelArtifact).filter(ModelArtifact.is_active.is_(True)).count()
@@ -95,6 +115,7 @@ def health(db: Session = Depends(get_db)):
         "active_models": n_models,
         "offers_today": n_offers_today,
         "picks_today": n_picks_today,
+        "providers": health_snapshot(),
     }
 
 
