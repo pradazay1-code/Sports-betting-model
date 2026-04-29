@@ -158,9 +158,43 @@ def kick_off_bootstrap_if_needed(days: int = 30) -> None:
         log.info("bootstrap: already started")
         return
     _state["started"] = True
+
+    # If the database already has data (i.e. we're using a persistent
+    # Postgres and this is a normal restart, not a fresh deploy), skip the
+    # expensive backfill entirely. Just kick off a refresh so today's odds
+    # and picks are current.
+    if not needs_bootstrap():
+        log.info("bootstrap: db already populated, just refreshing odds + picks")
+        threading.Thread(
+            target=_refresh_only, name="pradapicks-refresh", daemon=True
+        ).start()
+        _state["fast_done"] = True  # nothing to do
+        _state["slow_done"] = True
+        return
+
     threading.Thread(target=_fast_pass, name="pradapicks-fast", daemon=True).start()
     threading.Thread(target=_slow_pass, args=(days,), name="pradapicks-slow", daemon=True).start()
-    log.info("bootstrap: kicked off fast + slow passes")
+    log.info("bootstrap: kicked off fast + slow passes (cold start)")
+
+
+def _refresh_only() -> None:
+    """Lightweight refresh — fetch today's box scores, odds, regenerate picks."""
+    try:
+        with SessionLocal() as db:
+            try:
+                ingest_box_scores(db, date.today())
+            except Exception:
+                log.exception("refresh: today ingest failed")
+            try:
+                ingest_odds(db, on=date.today())
+            except Exception:
+                log.exception("refresh: odds failed")
+            try:
+                generate_daily_picks(db, on=date.today())
+            except Exception:
+                log.exception("refresh: pick generation failed")
+    except Exception:
+        log.exception("refresh: outer failure")
 
 
 def run_bootstrap(days: int = 30) -> None:

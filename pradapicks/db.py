@@ -46,6 +46,20 @@ engine = create_engine(_db_url, future=True, pool_pre_ping=True, connect_args=co
 SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False, expire_on_commit=False)
 
 
+def database_kind() -> str:
+    if _db_url.startswith("sqlite"):
+        return "sqlite"
+    if _db_url.startswith("postgresql"):
+        return "postgresql"
+    return "other"
+
+
+def is_persistent() -> bool:
+    """SQLite on Render's ephemeral filesystem is NOT persistent across
+    deploys/restarts. Only Postgres counts as persistent here."""
+    return database_kind() == "postgresql"
+
+
 def get_db() -> Session:
     db = SessionLocal()
     try:

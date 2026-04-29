@@ -109,11 +109,15 @@ def api_index():
 @app.get("/health")
 def health(db: Session = Depends(get_db)):
     from .data.free_odds import health_snapshot
-    from .db import PlayerGameStat, ModelArtifact, PropOffer
+    from .db import PlayerGameStat, ModelArtifact, PropOffer, database_kind, is_persistent
+    from sqlalchemy import func
     n_player_rows = db.query(PlayerGameStat).count()
     n_models = db.query(ModelArtifact).filter(ModelArtifact.is_active.is_(True)).count()
     n_offers_today = db.query(PropOffer).filter(PropOffer.game_date == date.today()).count()
     n_picks_today = db.query(Pick).filter(Pick.pick_date == date.today()).count()
+    last_box_score_date = db.query(func.max(PlayerGameStat.game_date)).scalar()
+    last_odds_ts = db.query(func.max(PropOffer.captured_at)).scalar()
+    last_pick_ts = db.query(func.max(Pick.created_at)).scalar()
     bs = bootstrap_status()
     bootstrapping = not bs.get("fast_done") and n_player_rows == 0
     return {
@@ -121,10 +125,20 @@ def health(db: Session = Depends(get_db)):
         "service": "pradapicks",
         "bootstrapping": bootstrapping,
         "bootstrap": bs,
+        "database_kind": database_kind(),
+        "persistent": is_persistent(),
+        "warning": (
+            "Using SQLite on ephemeral filesystem — data will be wiped on every "
+            "Render restart. Add a Postgres database and set DATABASE_URL."
+            if not is_persistent() else None
+        ),
         "player_rows": n_player_rows,
         "active_models": n_models,
         "offers_today": n_offers_today,
         "picks_today": n_picks_today,
+        "last_box_score_date": last_box_score_date.isoformat() if last_box_score_date else None,
+        "last_odds_fetch": last_odds_ts.isoformat() if last_odds_ts else None,
+        "last_pick_generation": last_pick_ts.isoformat() if last_pick_ts else None,
         "providers": health_snapshot(),
     }
 
@@ -320,6 +334,16 @@ def admin_bootstrap(days: int = 30):
     import threading
     threading.Thread(target=run_bootstrap, args=(days,), daemon=True).start()
     return {"status": "started", "days": days}
+
+
+@app.post("/refresh")
+def refresh_now():
+    """Public endpoint: force a fresh odds pull + pick regeneration.
+    Cheap; safe to call from the dashboard."""
+    import threading
+    from .bootstrap import _refresh_only
+    threading.Thread(target=_refresh_only, daemon=True).start()
+    return {"status": "refreshing"}
 
 
 def _pick_dict(p: Pick) -> dict:

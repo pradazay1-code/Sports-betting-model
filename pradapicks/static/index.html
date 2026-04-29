@@ -30,6 +30,21 @@
   .pill b { color: var(--text); margin-left: 4px; }
   .pill.live { color: var(--good); }
   .pill.boot { color: var(--warn); }
+  .pill.bad { color: var(--bad); border-color: rgba(239, 71, 111, 0.4); }
+  .banner {
+    background: rgba(239, 71, 111, 0.12); border: 1px solid rgba(239, 71, 111, 0.4);
+    color: #ffb6c5; padding: 10px 14px; border-radius: 8px; margin: 12px 0 0;
+    font-size: 13px; display: none;
+  }
+  .banner.show { display: block; }
+  .refresh-btn {
+    background: var(--panel-2); border: 1px solid var(--border); color: var(--text);
+    padding: 5px 12px; border-radius: 999px; font-size: 12px; cursor: pointer;
+    margin-left: 6px;
+  }
+  .refresh-btn:hover { background: var(--accent); color: #0b0e14; border-color: var(--accent); }
+  .refresh-btn:disabled { opacity: 0.5; cursor: default; }
+  .freshness { color: var(--muted); font-size: 11px; margin-left: 8px; }
   .tabs { display: flex; gap: 2px; margin-top: 18px; }
   .tabs button {
     background: transparent; color: var(--muted); border: 0;
@@ -174,12 +189,16 @@
     </div>
     <div class="stats" id="status-pills">
       <span class="pill" id="pill-status">Status <b id="status-text">…</b></span>
+      <span class="pill" id="pill-db">DB <b id="status-db">—</b></span>
       <span class="pill">Models <b id="status-models">—</b></span>
       <span class="pill">Picks <b id="status-picks">—</b></span>
       <span class="pill">Offers <b id="status-offers">—</b></span>
       <span class="pill">Players <b id="status-players">—</b></span>
+      <button class="refresh-btn" id="refresh-btn" title="Force fresh odds + pick regeneration">↻ Refresh</button>
+      <span class="freshness" id="freshness">—</span>
     </div>
   </div>
+  <div class="banner" id="warning-banner"></div>
   <div class="tabs">
     <button data-tab="picks" class="active">Picks of the Day</button>
     <button data-tab="slip">Bet Slip Analyzer</button>
@@ -292,6 +311,15 @@ $$(".tabs button").forEach(b => b.addEventListener("click", () => {
 }));
 
 // ---------- Status ----------
+function ago(iso) {
+  if (!iso) return "—";
+  const t = new Date(iso).getTime();
+  const s = Math.floor((Date.now() - t) / 1000);
+  if (s < 60) return s + "s ago";
+  if (s < 3600) return Math.floor(s / 60) + "m ago";
+  if (s < 86400) return Math.floor(s / 3600) + "h ago";
+  return Math.floor(s / 86400) + "d ago";
+}
 async function loadHealth() {
   try {
     const r = await fetch("/health");
@@ -303,8 +331,20 @@ async function loadHealth() {
     $("#status-picks").textContent = j.picks_today ?? 0;
     $("#status-offers").textContent = j.offers_today ?? 0;
     $("#status-players").textContent = j.player_rows ?? 0;
+    $("#status-db").textContent = j.database_kind || "—";
+    $("#pill-db").className = "pill " + (j.persistent ? "live" : "bad");
+    const banner = $("#warning-banner");
+    if (j.warning) { banner.textContent = "⚠ " + j.warning; banner.classList.add("show"); }
+    else banner.classList.remove("show");
+    $("#freshness").textContent = "odds " + ago(j.last_odds_fetch) + " · picks " + ago(j.last_pick_generation);
   } catch { $("#status-text").textContent = "offline"; }
 }
+$("#refresh-btn").addEventListener("click", async () => {
+  const btn = $("#refresh-btn");
+  btn.disabled = true; btn.textContent = "↻ Refreshing…";
+  try { await fetch("/refresh", {method: "POST"}); } catch {}
+  setTimeout(() => { btn.disabled = false; btn.textContent = "↻ Refresh"; loadHealth(); loadPicks(); }, 4000);
+});
 
 // ---------- Picks ----------
 let allPicks = [];
