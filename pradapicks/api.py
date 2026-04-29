@@ -13,7 +13,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 
-from .bootstrap import kick_off_bootstrap_if_needed
+from .bootstrap import kick_off_bootstrap_if_needed, status as bootstrap_status
 from .config import get_settings
 from .db import Pick, SessionLocal, init_db
 from .ingest import backfill_box_scores, ingest_box_scores, ingest_odds
@@ -22,6 +22,14 @@ from .picks import generate_daily_picks
 from .scheduler import start_scheduler
 from .tracker import grade_picks, progress_report
 from .betslip import analyze_slip
+from .services.players import (
+    search_players,
+    list_roster,
+    list_teams,
+    player_detail,
+)
+from .services.matchups import defensive_rankings, matchup_for_team
+from .services.live_metrics import metrics_for_leg
 
 logging.basicConfig(level=get_settings().log_level)
 log = logging.getLogger("pradapicks")
@@ -106,17 +114,75 @@ def health(db: Session = Depends(get_db)):
     n_models = db.query(ModelArtifact).filter(ModelArtifact.is_active.is_(True)).count()
     n_offers_today = db.query(PropOffer).filter(PropOffer.game_date == date.today()).count()
     n_picks_today = db.query(Pick).filter(Pick.pick_date == date.today()).count()
-    bootstrapping = n_player_rows == 0
+    bs = bootstrap_status()
+    bootstrapping = not bs.get("fast_done") and n_player_rows == 0
     return {
         "ok": True,
         "service": "pradapicks",
         "bootstrapping": bootstrapping,
+        "bootstrap": bs,
         "player_rows": n_player_rows,
         "active_models": n_models,
         "offers_today": n_offers_today,
         "picks_today": n_picks_today,
         "providers": health_snapshot(),
     }
+
+
+# --- Player search / rosters / matchups ---
+
+@app.get("/players/search")
+def players_search(
+    q: str = "",
+    sport: Optional[str] = Query(None, pattern="^(MLB|NBA|NHL)$"),
+    limit: int = 20,
+    db: Session = Depends(get_db),
+):
+    return {"results": search_players(db, q, sport=sport, limit=limit)}
+
+
+@app.get("/rosters/{sport}")
+def rosters(
+    sport: str,
+    team: Optional[str] = None,
+    db: Session = Depends(get_db),
+):
+    sport = sport.upper()
+    if sport not in ("MLB", "NBA", "NHL"):
+        raise HTTPException(404, "unknown sport")
+    return {
+        "sport": sport,
+        "teams": list_teams(db, sport),
+        "players": list_roster(db, sport, team=team),
+    }
+
+
+@app.get("/players/{sport}/{external_id}")
+def player_endpoint(
+    sport: str,
+    external_id: str,
+    last_n: int = 20,
+    db: Session = Depends(get_db),
+):
+    sport = sport.upper()
+    if sport not in ("MLB", "NBA", "NHL"):
+        raise HTTPException(404, "unknown sport")
+    detail = player_detail(db, sport, external_id, last_n=last_n)
+    if not detail:
+        raise HTTPException(404, "player not found")
+    return detail
+
+
+@app.get("/matchups/{sport}")
+def matchups_endpoint(
+    sport: str,
+    days: int = 30,
+    db: Session = Depends(get_db),
+):
+    sport = sport.upper()
+    if sport not in ("MLB", "NBA", "NHL"):
+        raise HTTPException(404, "unknown sport")
+    return {"sport": sport, "rankings": defensive_rankings(db, sport, days=days)}
 
 
 @app.get("/picks/today")
@@ -176,11 +242,43 @@ class BetSlipRequest(BaseModel):
 def betslip_analyze(req: BetSlipRequest, db: Session = Depends(get_db)):
     if not req.legs:
         raise HTTPException(status_code=400, detail="legs required")
-    return analyze_slip(
-        db,
-        legs=[l.model_dump() for l in req.legs],
-        book=req.book,
-        submitted_by=req.submitted_by,
+    legs = [l.model_dump() for l in req.legs]
+    result = analyze_slip(db, legs=legs, book=req.book, submitted_by=req.submitted_by)
+    # Attach rich live metrics per leg.
+    enriched = []
+    for src, scored in zip(legs, result.get("legs", [])):
+        m = metrics_for_leg(
+            db,
+            sport=src["sport"].upper(),
+            player_name=src["player_name"],
+            market=src["market"],
+            line=float(src["line"]),
+            side=src["side"].lower(),
+            price_american=int(src["price_american"]),
+            opponent=src.get("opponent"),
+            is_home=src.get("is_home"),
+        )
+        enriched.append({**scored, "metrics": m})
+    result["legs"] = enriched
+    return result
+
+
+@app.post("/leg/metrics")
+def leg_metrics(
+    sport: str,
+    player_name: str,
+    market: str,
+    line: float,
+    side: str,
+    price_american: int,
+    opponent: Optional[str] = None,
+    is_home: Optional[bool] = None,
+    db: Session = Depends(get_db),
+):
+    return metrics_for_leg(
+        db, sport=sport.upper(), player_name=player_name, market=market,
+        line=line, side=side, price_american=price_american,
+        opponent=opponent, is_home=is_home,
     )
 
 

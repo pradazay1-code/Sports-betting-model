@@ -14,7 +14,7 @@ class HTTPProvider:
     """Tiny shared HTTP layer with retries."""
 
     base_url: str = ""
-    timeout: float = 20.0
+    timeout: float = 12.0
     headers: dict[str, str] = {}
 
     def __init__(self) -> None:
@@ -25,17 +25,18 @@ class HTTPProvider:
         )
 
     @retry(
-        stop=stop_after_attempt(4),
-        wait=wait_exponential(multiplier=0.5, min=0.5, max=8),
-        retry=retry_if_exception_type((httpx.TransportError, httpx.HTTPStatusError)),
+        stop=stop_after_attempt(3),
+        wait=wait_exponential(multiplier=0.3, min=0.3, max=3),
+        retry=retry_if_exception_type((httpx.TransportError,)),
         reraise=True,
     )
     def _get(self, url: str, params: dict | None = None) -> Any:
         r = self._client.get(url, params=params)
-        if r.status_code >= 500:
-            r.raise_for_status()
+        # Don't burn retries on 4xx — those are auth/block/blob, not transient.
         if r.status_code == 429:
             raise httpx.HTTPStatusError("rate limited", request=r.request, response=r)
+        if 500 <= r.status_code < 600:
+            r.raise_for_status()
         r.raise_for_status()
         return r.json()
 
