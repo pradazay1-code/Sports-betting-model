@@ -129,6 +129,41 @@
   .badge.NHL { background: #1a2f47; color: #8db7ff; }
   .empty { padding: 24px; text-align: center; color: var(--muted); font-size: 13px; }
 
+  /* games */
+  .game-row {
+    display: grid; grid-template-columns: 60px 1fr 100px 1fr 60px;
+    gap: 10px; align-items: center; padding: 14px 0;
+    border-top: 1px solid var(--border);
+  }
+  .game-row:first-child { border-top: 0; }
+  .team-name { font-weight: 600; font-size: 14px; }
+  .team-name.away { text-align: right; }
+  .team-score { font-size: 20px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .team-score.away { text-align: right; }
+  .vs-block { text-align: center; }
+  .vs-block .total { font-size: 11px; color: var(--muted); }
+  .vs-block .total b { color: var(--text); }
+  .winprob-bar {
+    height: 6px; background: var(--bad); border-radius: 3px;
+    margin: 6px 0; overflow: hidden;
+  }
+  .winprob-bar > div {
+    height: 100%; background: var(--good);
+  }
+  .winprob-labels {
+    display: flex; justify-content: space-between; font-size: 10px;
+    color: var(--muted);
+  }
+  .ml-pick {
+    font-size: 11px; color: var(--muted); text-align: center;
+    margin-top: 4px;
+  }
+  .ml-pick b { color: var(--accent); }
+  .conf-badge {
+    text-align: center; padding: 4px 8px; border-radius: 999px;
+    font-size: 10px; font-weight: 700; background: var(--panel-2);
+  }
+
   /* slip */
   form.slip { display: flex; flex-direction: column; gap: 8px; }
   .leg { background: var(--panel-2); border: 1px solid var(--border);
@@ -283,6 +318,7 @@
 
 <div class="tabs" style="max-width: 1400px; margin: 0 auto; padding: 0 32px;">
   <button data-tab="picks" class="active">Picks of the Day</button>
+  <button data-tab="games">Game Predictions</button>
   <button data-tab="slip">Bet Slip Analyzer</button>
   <button data-tab="rosters">Rosters</button>
   <button data-tab="progress">Progress &amp; Health</button>
@@ -301,6 +337,20 @@
       <button data-sport="NHL">NHL</button>
     </div>
     <div id="picks"></div>
+  </div>
+</section>
+
+<!-- GAMES -->
+<section id="tab-games" class="panel">
+  <div class="card">
+    <h2>Today's Game Predictions <span class="sub" id="games-meta">—</span></h2>
+    <div class="filters" id="games-filters">
+      <button data-sport="" class="active">All</button>
+      <button data-sport="MLB">MLB</button>
+      <button data-sport="NBA">NBA</button>
+      <button data-sport="NHL">NHL</button>
+    </div>
+    <div id="games-list"></div>
   </div>
 </section>
 
@@ -388,6 +438,7 @@ $$(".tabs button").forEach(b => b.addEventListener("click", () => {
   $$(".panel").forEach(p => p.classList.remove("active"));
   $(`#tab-${b.dataset.tab}`).classList.add("active");
   if (b.dataset.tab === "rosters" && !rosterLoaded) { loadRoster(currentRosterSport); }
+  if (b.dataset.tab === "games") { loadGames(); }
   if (b.dataset.tab === "progress") { loadProgress(); loadProviders(); }
 }));
 
@@ -491,6 +542,58 @@ $$("#filters button").forEach(b => b.addEventListener("click", () => {
   b.classList.add("active"); currentSport = b.dataset.sport; renderPicks();
 }));
 
+// ---------- Game predictions ----------
+let allGames = [], gameFilter = "";
+async function loadGames() {
+  try {
+    const j = await (await fetch("/games/today")).json();
+    allGames = j.games || [];
+    $("#games-meta").textContent = `${j.date} · ${allGames.length} games`;
+    renderGames();
+  } catch (e) {
+    $("#games-list").innerHTML = `<div class="empty">Couldn't load games: ${e}</div>`;
+  }
+}
+function renderGames() {
+  const f = gameFilter ? allGames.filter(g => g.sport === gameFilter) : allGames;
+  if (!f.length) {
+    $("#games-list").innerHTML = `<div class="empty">No games predicted yet — system needs box-score history. Check back after the bootstrap finishes (~3–5 min).</div>`;
+    return;
+  }
+  $("#games-list").innerHTML = f.map(g => {
+    const homePct = Math.round(g.home_win_prob * 100);
+    const awayPct = 100 - homePct;
+    const confColor = g.confidence > 0.6 ? "var(--good)" : g.confidence > 0.3 ? "var(--warn)" : "var(--muted)";
+    const pickedTeam = g.moneyline_pick === "home" ? g.home_team : g.away_team;
+    return `
+      <div class="game-row">
+        <div class="conf-badge" style="color:${confColor}">${Math.round(g.confidence*100)}%</div>
+        <div>
+          <div class="team-name">${g.home_team} <span class="badge ${g.sport}">${g.sport}</span></div>
+          <div class="team-score">${g.pred_home_score}</div>
+          <div class="meta">avg for ${g.rationale?.home_avg_for ?? "—"} · against ${g.rationale?.home_avg_against ?? "—"}</div>
+        </div>
+        <div class="vs-block">
+          <div class="total">total <b>${g.pred_total}</b></div>
+          <div class="total">spread <b>${g.pred_spread > 0 ? "+" : ""}${g.pred_spread}</b></div>
+          <div class="winprob-bar"><div style="width: ${homePct}%"></div></div>
+          <div class="winprob-labels"><span>${homePct}%</span><span>${awayPct}%</span></div>
+          <div class="ml-pick">ML pick: <b>${pickedTeam}</b></div>
+        </div>
+        <div style="text-align:right">
+          <div class="team-name away">${g.away_team} <span class="badge ${g.sport}">${g.sport}</span></div>
+          <div class="team-score away">${g.pred_away_score}</div>
+          <div class="meta">avg for ${g.rationale?.away_avg_for ?? "—"} · against ${g.rationale?.away_avg_against ?? "—"}</div>
+        </div>
+        <div></div>
+      </div>`;
+  }).join("");
+}
+$$("#games-filters button").forEach(b => b.addEventListener("click", () => {
+  $$("#games-filters button").forEach(x => x.classList.remove("active"));
+  b.classList.add("active"); gameFilter = b.dataset.sport; renderGames();
+}));
+
 // ---------- Bet Slip + Autocomplete ----------
 let legCount = 0;
 function legHtml(i) {
@@ -569,10 +672,17 @@ $("#slip-form").addEventListener("submit", async (e) => {
     const j = await r.json();
     const legCards = (j.legs || []).map(l => {
       const m = l.metrics || {};
+      const ls = l.lineshop || {};
       const recent = (m.recent || []).map(x => {
-        const cls = x.v == null ? "" : (m.line && x.v > m.line ? "over" : "under");
+        const cls = x.v == null ? "" : (l.line && x.v > l.line ? "over" : "under");
         return `<span class="${cls}">${x.opp || "?"}: ${x.v ?? "—"}</span>`;
       }).join("");
+      const altLines = (ls.alt_lines || []).map(a =>
+        `<span style="background:var(--panel-2);padding:2px 6px;border-radius:4px;font-size:10px;margin-right:3px">${a.line} @ ${fmtPrice(a.best_price_american)}</span>`
+      ).join("");
+      const bestBookNote = ls.best && ls.price_lift_vs_current_pct > 0
+        ? `<div style="color:var(--warn);font-size:11px;margin-top:4px">⚡ Better at <b>${ls.best.book}</b>: ${fmtPrice(ls.best.price_american)} (+${ls.price_lift_vs_current_pct}% EV)</div>`
+        : "";
       return `
         <div class="leg-card">
           <div class="head">
@@ -591,15 +701,34 @@ $("#slip-form").addEventListener("submit", async (e) => {
             <div><b style="color:${l.edge_pct >= 0 ? 'var(--good)' : 'var(--bad)'}">${l.edge_pct != null ? (l.edge_pct >= 0 ? "+" : "")+l.edge_pct.toFixed(2)+"%" : "—"}</b>edge</div>
             <div><b>${m.opponent_matchup ? "#" + m.opponent_matchup.rank + "/" + m.opponent_matchup.of : "—"}</b>matchup</div>
           </div>
-          <div class="recent">${recent || ""}</div>
+          <div class="row2" style="margin-top:4px">
+            <div><b>${l.predicted_value ?? "—"}</b>predicted</div>
+            <div><b>[${l.edge_ci_low?.toFixed(1) ?? "—"}, ${l.edge_ci_high?.toFixed(1) ?? "—"}]</b>edge 90% CI</div>
+            <div><b>${(l.kelly_fraction*100).toFixed(2)}%</b>Kelly</div>
+            <div><b>$${l.recommended_stake}</b>stake</div>
+          </div>
+          ${recent ? `<div class="recent" style="margin-top:6px">${recent}</div>` : ""}
+          ${altLines ? `<div style="margin-top:6px;font-size:10px;color:var(--muted)">alt lines: ${altLines}</div>` : ""}
+          ${bestBookNote}
         </div>`;
     }).join("");
+
+    const warnings = (j.warnings || []).map(w => `<div style="color:var(--warn);font-size:12px;margin-top:4px">⚠ ${w}</div>`).join("");
+    const corrLine = j.combined_model_prob_correlated !== j.combined_model_prob_independent
+      ? `<div style="color:var(--muted);font-size:11px;margin-top:2px">independent ${(j.combined_model_prob_independent*100).toFixed(2)}% → correlation-adjusted ${(j.combined_model_prob_correlated*100).toFixed(2)}%</div>`
+      : "";
+
     $("#slip-result").innerHTML = `
       <div class="slip-result">
         <div class="verdict" style="color:${ratingColor(j.rating)}">${j.verdict} · ${j.rating}/100</div>
         <div>Combined: ${fmtPrice(j.combined_american_odds)} (${j.combined_decimal_odds.toFixed(2)})  ·
-          Model ${(j.combined_model_prob*100).toFixed(2)}%  ·  Implied ${(j.combined_implied_prob*100).toFixed(2)}%  ·
-          Edge ${j.combined_edge_pct >= 0 ? "+" : ""}${j.combined_edge_pct.toFixed(2)}%</div>
+          Model ${(j.combined_model_prob_correlated*100).toFixed(2)}%  ·  Implied ${(j.combined_implied_prob*100).toFixed(2)}%  ·
+          Edge ${j.combined_edge_pct_correlated >= 0 ? "+" : ""}${j.combined_edge_pct_correlated.toFixed(2)}%</div>
+        ${corrLine}
+        <div style="font-size:12px;color:var(--muted);margin-top:6px">
+          Recommended stake: <b style="color:var(--text)">$${j.recommended_stake}</b> (${j.recommended_stake_units}u of $${j.bankroll} bankroll)
+        </div>
+        ${warnings}
         ${legCards}
       </div>`;
   } catch (e) {

@@ -24,6 +24,7 @@ from .config import get_settings
 from .db import SessionLocal
 from .ingest import ingest_box_scores, ingest_odds
 from .models.trainer import train_all
+from .models.game_model import generate_game_predictions
 from .picks import generate_daily_picks
 from .tracker import grade_picks
 
@@ -33,7 +34,7 @@ log = logging.getLogger(__name__)
 # --- jobs ---------------------------------------------------------------
 
 def _job_refresh_odds_and_picks() -> None:
-    """Every 30 min: pull fresh odds and regenerate today's top-25."""
+    """Every 30 min: pull fresh odds, regenerate top-25, refresh game preds."""
     with SessionLocal() as db:
         try:
             n = ingest_odds(db, on=date.today())
@@ -45,6 +46,11 @@ def _job_refresh_odds_and_picks() -> None:
             log.info("scheduler.refresh: regenerated %d picks", len(picks))
         except Exception:
             log.exception("scheduler.refresh: picks failed")
+        try:
+            preds = generate_game_predictions(db, on=date.today())
+            log.info("scheduler.refresh: %d game predictions", len(preds))
+        except Exception:
+            log.exception("scheduler.refresh: game predictions failed")
 
 
 def _job_ingest_today_box_scores() -> None:

@@ -30,6 +30,7 @@ from sqlalchemy import select
 from .db import PlayerGameStat, SessionLocal
 from .ingest import ingest_box_scores, ingest_odds
 from .models.trainer import train_all
+from .models.game_model import generate_game_predictions
 from .picks import generate_daily_picks
 
 log = logging.getLogger(__name__)
@@ -80,6 +81,11 @@ def _odds_and_picks() -> None:
             log.info("bootstrap: generated %d picks", len(picks))
         except Exception:
             log.exception("bootstrap: pick generation failed")
+        try:
+            preds = generate_game_predictions(db, on=date.today())
+            log.info("bootstrap: generated %d game predictions", len(preds))
+        except Exception:
+            log.exception("bootstrap: game predictions failed")
 
 
 # --- fast pass ------------------------------------------------------------

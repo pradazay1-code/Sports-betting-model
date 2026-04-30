@@ -201,3 +201,43 @@ class ModelArtifact(Base):
     trained_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, index=True)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, index=True)
     __table_args__ = (UniqueConstraint("sport", "market", "version", name="uq_artifact"),)
+
+
+class GamePrediction(Base):
+    """Daily game-level predictions: score, ML prob, spread, total."""
+    __tablename__ = "game_predictions"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    sport: Mapped[str] = mapped_column(String(8), index=True)
+    game_external_id: Mapped[str] = mapped_column(String(64), index=True)
+    game_date: Mapped[date] = mapped_column(Date, index=True)
+    home_team: Mapped[str] = mapped_column(String(64))
+    away_team: Mapped[str] = mapped_column(String(64))
+    pred_home_score: Mapped[float] = mapped_column(Float)
+    pred_away_score: Mapped[float] = mapped_column(Float)
+    pred_total: Mapped[float] = mapped_column(Float)
+    pred_spread: Mapped[float] = mapped_column(Float)  # home - away
+    home_win_prob: Mapped[float] = mapped_column(Float)
+    confidence: Mapped[float] = mapped_column(Float)  # 0..1, how sure the model is
+    # Posted market lines (for edge calc against books).
+    market_total: Mapped[Optional[float]] = mapped_column(Float)
+    market_spread: Mapped[Optional[float]] = mapped_column(Float)
+    market_home_ml: Mapped[Optional[int]] = mapped_column(Integer)
+    market_away_ml: Mapped[Optional[int]] = mapped_column(Integer)
+    rationale: Mapped[dict] = mapped_column(JSON, default=dict)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    __table_args__ = (UniqueConstraint("sport", "game_external_id", name="uq_gpred"),)
+
+
+class GameOdds(Base):
+    """Posted game-level offers (h2h / spread / total) per book."""
+    __tablename__ = "game_odds"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    sport: Mapped[str] = mapped_column(String(8), index=True)
+    game_external_id: Mapped[str] = mapped_column(String(64), index=True)
+    game_date: Mapped[date] = mapped_column(Date, index=True)
+    book: Mapped[str] = mapped_column(String(32), index=True)
+    market: Mapped[str] = mapped_column(String(16), index=True)  # h2h | spread | total
+    side: Mapped[str] = mapped_column(String(16))  # home/away/over/under
+    line: Mapped[Optional[float]] = mapped_column(Float)
+    price_american: Mapped[int] = mapped_column(Integer)
+    captured_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, index=True)

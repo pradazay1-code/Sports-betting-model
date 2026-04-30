@@ -187,6 +187,87 @@ def player_endpoint(
     return detail
 
 
+@app.get("/games/today")
+def games_today(
+    sport: Optional[str] = Query(None, pattern="^(MLB|NBA|NHL)$"),
+    db: Session = Depends(get_db),
+):
+    from .db import GamePrediction
+    q = db.query(GamePrediction).filter(GamePrediction.game_date == date.today())
+    if sport:
+        q = q.filter(GamePrediction.sport == sport)
+    rows = q.order_by(GamePrediction.confidence.desc()).all()
+    return {
+        "date": date.today().isoformat(),
+        "count": len(rows),
+        "games": [_pred_dict(p) for p in rows],
+    }
+
+
+@app.get("/games/{sport}/{external_id}")
+def game_detail(
+    sport: str,
+    external_id: str,
+    db: Session = Depends(get_db),
+):
+    from .db import GamePrediction
+    sport = sport.upper()
+    pred = (
+        db.query(GamePrediction)
+        .filter(
+            GamePrediction.sport == sport,
+            GamePrediction.game_external_id == external_id,
+        )
+        .one_or_none()
+    )
+    if not pred:
+        raise HTTPException(404, "no prediction for that game")
+    return _pred_dict(pred)
+
+
+@app.post("/games/regenerate", dependencies=[Depends(require_token)])
+def games_regenerate(db: Session = Depends(get_db)):
+    from .models.game_model import generate_game_predictions
+    rows = generate_game_predictions(db, on=date.today())
+    return {"count": len(rows), "games": [_pred_dict(r) for r in rows]}
+
+
+def _pred_dict(p) -> dict:
+    return {
+        "id": p.id,
+        "sport": p.sport,
+        "game_external_id": p.game_external_id,
+        "game_date": p.game_date.isoformat(),
+        "home_team": p.home_team,
+        "away_team": p.away_team,
+        "pred_home_score": p.pred_home_score,
+        "pred_away_score": p.pred_away_score,
+        "pred_total": p.pred_total,
+        "pred_spread": p.pred_spread,
+        "home_win_prob": p.home_win_prob,
+        "away_win_prob": round(1.0 - p.home_win_prob, 4),
+        "confidence": p.confidence,
+        "rationale": p.rationale,
+        "moneyline_pick": "home" if p.home_win_prob > 0.5 else "away",
+    }
+
+
+@app.get("/lineshop")
+def lineshop(
+    sport: str = Query(..., pattern="^(MLB|NBA|NHL)$"),
+    player_name: str = Query(...),
+    market: str = Query(...),
+    line: float = Query(...),
+    side: str = Query(..., pattern="^(over|under)$"),
+    db: Session = Depends(get_db),
+):
+    from .services.lineshop import best_price_table, alt_line_ladder
+    return {
+        "books": best_price_table(db, sport, player_name, market, line, side),
+        "alt_lines": alt_line_ladder(db, sport, player_name, market, side),
+    }
+
+
 @app.get("/matchups/{sport}")
 def matchups_endpoint(
     sport: str,
@@ -250,6 +331,7 @@ class BetSlipRequest(BaseModel):
     legs: list[BetSlipLeg]
     book: Optional[str] = None
     submitted_by: Optional[str] = None
+    bankroll: float = 1000.0
 
 
 @app.post("/betslip/analyze")
@@ -257,24 +339,9 @@ def betslip_analyze(req: BetSlipRequest, db: Session = Depends(get_db)):
     if not req.legs:
         raise HTTPException(status_code=400, detail="legs required")
     legs = [l.model_dump() for l in req.legs]
-    result = analyze_slip(db, legs=legs, book=req.book, submitted_by=req.submitted_by)
-    # Attach rich live metrics per leg.
-    enriched = []
-    for src, scored in zip(legs, result.get("legs", [])):
-        m = metrics_for_leg(
-            db,
-            sport=src["sport"].upper(),
-            player_name=src["player_name"],
-            market=src["market"],
-            line=float(src["line"]),
-            side=src["side"].lower(),
-            price_american=int(src["price_american"]),
-            opponent=src.get("opponent"),
-            is_home=src.get("is_home"),
-        )
-        enriched.append({**scored, "metrics": m})
-    result["legs"] = enriched
-    return result
+    return analyze_slip(
+        db, legs=legs, book=req.book, submitted_by=req.submitted_by, bankroll=req.bankroll,
+    )
 
 
 @app.post("/leg/metrics")
