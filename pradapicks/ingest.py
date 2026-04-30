@@ -10,7 +10,9 @@ from .config import get_settings
 from .data import PROVIDERS, OddsAPIClient
 from .data.free_odds import FreeOddsAggregator
 from .data.synthetic import generate as generate_synthetic_odds
-from .db import Game, PlayerGameStat, PropOffer, TeamGameStat, Player
+from .db import Game, GameOdds, PlayerGameStat, PropOffer, TeamGameStat, Player
+
+GAME_LEVEL_MARKETS = {"moneyline", "spread", "total"}
 
 log = logging.getLogger(__name__)
 
@@ -82,11 +84,26 @@ def ingest_odds(db: Session, on: date | None = None) -> int:
         rows = generate_synthetic_odds(db, ("MLB", "NBA", "NHL"), on=on or date.today())
 
     n = 0
+    n_game = 0
     for r in rows:
         try:
             gd = date.fromisoformat(r["game_date"][:10]) if r.get("game_date") else (on or date.today())
         except ValueError:
             gd = on or date.today()
+        market = r.get("market") or ""
+        if market in GAME_LEVEL_MARKETS:
+            db.add(GameOdds(
+                sport=r["sport"],
+                game_external_id=str(r["game_external_id"]),
+                game_date=gd,
+                book=r.get("book") or "",
+                market=market,
+                side=(r.get("side") or "").lower(),
+                line=float(r.get("line")) if r.get("line") is not None else None,
+                price_american=int(r.get("price_american") or 0),
+            ))
+            n_game += 1
+            continue
         db.add(PropOffer(
             sport=r["sport"],
             game_external_id=str(r["game_external_id"]),
@@ -102,7 +119,8 @@ def ingest_odds(db: Session, on: date | None = None) -> int:
         ))
         n += 1
     db.commit()
-    return n
+    log.info("ingest_odds: %d player props + %d game-level offers", n, n_game)
+    return n + n_game
 
 
 def _upsert_game(db: Session, sport: str, g: dict) -> None:

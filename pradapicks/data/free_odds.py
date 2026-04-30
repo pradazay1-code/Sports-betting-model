@@ -176,14 +176,23 @@ class ActionNetworkProvider(HTTPProvider):
         if not gid:
             return []
         out: list[dict] = []
-        # Pull the per-game props endpoint. The schema varies by season; we
-        # walk it defensively.
-        try:
-            data = self._get(
-                f"/web/v2/games/{gid}/props",
-                params={"book_ids": "15,30,75,123"},
-            )
-        except Exception:
+        # Action Network's v2/games/{id}/props endpoint returns 400 — the
+        # current working path is per-league props by core_bet_type.
+        # Try multiple known patterns; first one that returns data wins.
+        candidates = [
+            (f"/web/v1/leagues/{league}/props/core_bet_type_27_player_points", {}),
+            (f"/web/v2/scoreboard/publicbetting/{league}", {"gameId": str(gid)}),
+            (f"/web/v1/games/{gid}/polls", {}),
+        ]
+        data = None
+        for path, params in candidates:
+            try:
+                data = self._get(path, params=params)
+                if data:
+                    break
+            except Exception:
+                continue
+        if not data:
             return []
 
         teams = game.get("teams") or []
@@ -263,6 +272,14 @@ PIN_GUEST_KEY = "CmX2KcMrXuFmNg6YFbmTxE0y9CIrOi0R"  # public guest key, stable
 
 
 class PinnacleProvider(HTTPProvider):
+    """Pinnacle guest API.
+
+    Pinnacle's matchups response contains BOTH parent matchups (type="matchup")
+    and prop "specials" (type="special") in the same list. Specials have a
+    `parentId` and a `special.description` describing the prop, plus
+    participants that include the player name. To get prices, hit
+    /markets/related/straight on the special's id.
+    """
     base_url = "https://guest.api.arcadia.pinnacle.com"
     headers = {
         "Accept": "application/json",
@@ -283,66 +300,74 @@ class PinnacleProvider(HTTPProvider):
                 )
                 if not isinstance(matchups, list):
                     continue
-                for m in matchups[:60]:  # cap to avoid burning request budget
-                    rows.extend(self._fetch_matchup_props(sport, m))
             except Exception as e:
                 _record_failure("pinnacle", e)
                 return rows
-        _record_success("pinnacle", len(rows))
+
+            # Build a quick parent lookup so specials know which game they belong to.
+            parents = {m.get("id"): m for m in matchups if m.get("type") == "matchup"}
+            specials = [m for m in matchups if m.get("type") == "special"]
+
+            # Cap calls per league to avoid hammering.
+            for special in specials[:120]:
+                rows.extend(self._fetch_special_prices(sport, special, parents))
+        if rows:
+            _record_success("pinnacle", len(rows))
         return rows
 
-    def _fetch_matchup_props(self, sport: str, matchup: dict) -> list[dict]:
-        mid = matchup.get("id")
-        if not mid or matchup.get("type") != "matchup":
+    def _fetch_special_prices(self, sport: str, special: dict, parents: dict) -> list[dict]:
+        sid = special.get("id")
+        if not sid:
             return []
-        out: list[dict] = []
-        try:
-            related = self._get(f"/0.1/matchups/{mid}/related")
-        except Exception:
+        sp = special.get("special") or {}
+        description = sp.get("description") or ""
+        category = (sp.get("category") or "").lower()
+        # The category often tells us the market: "Total Points (Player)", etc.
+        market = map_market(sport, category) or map_market(sport, description)
+        if not market:
             return []
-        try:
-            markets = self._get(f"/0.1/matchups/{mid}/markets/related/straight")
-        except Exception:
-            markets = []
-        if not isinstance(related, list) or not isinstance(markets, list):
-            return out
 
-        # Build a fast lookup of related matchups (e.g. "Player Total Points").
-        rel_by_id = {r.get("id"): r for r in related if isinstance(r, dict)}
+        # Find the player name from participants whose name is NOT "Over/Under".
+        player_name = None
+        for p in special.get("participants") or []:
+            n = (p.get("name") or "").strip()
+            if n and n.lower() not in ("over", "under"):
+                player_name = n
+                break
+        if not player_name:
+            # Fallback: parse description like "LeBron James (Total Points)"
+            if "(" in description:
+                player_name = description.split("(")[0].strip()
+        if not player_name:
+            return []
 
-        gd = (matchup.get("startTime") or "")[:10]
-        home_team = away_team = None
-        for p in matchup.get("participants") or []:
+        # Parent game info
+        parent = parents.get(special.get("parentId")) or {}
+        gd = (parent.get("startTime") or special.get("startTime") or "")[:10]
+        home = away = None
+        for p in parent.get("participants") or []:
             if p.get("alignment") == "home":
-                home_team = p.get("name")
+                home = p.get("name")
             elif p.get("alignment") == "away":
-                away_team = p.get("name")
+                away = p.get("name")
 
+        try:
+            markets = self._get(f"/0.1/matchups/{sid}/markets/related/straight")
+        except Exception:
+            return []
+        if not isinstance(markets, list):
+            return []
+
+        out: list[dict] = []
         for mk in markets:
-            related_id = mk.get("matchupId")
-            rel = rel_by_id.get(related_id) or {}
-            participants = rel.get("participants") or []
-            special = rel.get("special") or {}
-            market_name = special.get("description") or rel.get("type") or ""
-            market = map_market(sport, market_name)
-            if not market:
-                continue
-            # In Pinnacle props, the participant is the player; sides are on prices.
-            player_name = None
-            for p in participants:
-                if p.get("name") and "Over" not in p["name"] and "Under" not in p["name"]:
-                    player_name = p["name"]
-                    break
-            if not player_name:
-                continue
-
-            prices = mk.get("prices") or []
-            for pr in prices:
+            for pr in mk.get("prices") or []:
                 designation = (pr.get("designation") or "").lower()
                 side = "over" if designation == "over" else "under" if designation == "under" else None
                 if side is None:
                     continue
                 line = pr.get("points")
+                if line is None:
+                    line = sp.get("points")
                 price = pr.get("price")
                 try:
                     price = int(price)
@@ -352,7 +377,7 @@ class PinnacleProvider(HTTPProvider):
                     continue
                 out.append({
                     "sport": sport,
-                    "game_external_id": f"pin:{matchup.get('id')}",
+                    "game_external_id": f"pin:{special.get('parentId') or sid}",
                     "game_date": gd,
                     "player_name": player_name,
                     "team": None,
@@ -361,8 +386,8 @@ class PinnacleProvider(HTTPProvider):
                     "side": side,
                     "price_american": price,
                     "book": "pinnacle",
-                    "home_team": home_team,
-                    "away_team": away_team,
+                    "home_team": home,
+                    "away_team": away,
                 })
         return out
 
@@ -400,56 +425,74 @@ class BovadaProvider(HTTPProvider):
             except Exception as e:
                 _record_failure("bovada", e)
                 continue
-            for chunk in data or []:
-                for ev in chunk.get("events") or []:
-                    gd = (ev.get("startTime") or 0)
-                    try:
-                        from datetime import datetime
-                        gd_iso = datetime.utcfromtimestamp(int(gd) / 1000).date().isoformat() if gd else ""
-                    except Exception:
-                        gd_iso = ""
-                    home_team = away_team = None
-                    comps = ev.get("competitors") or []
-                    for c in comps:
-                        if c.get("home"):
-                            home_team = c.get("name")
-                        else:
-                            away_team = c.get("name")
-                    for dg in ev.get("displayGroups") or []:
-                        for mk in dg.get("markets") or []:
-                            desc = (mk.get("description") or "")
-                            market = map_market(sport, desc)
-                            if not market:
+            # Bovada returns a list of "groups", each containing "events" or "paths".
+            events = []
+            stack = list(data) if isinstance(data, list) else [data]
+            while stack:
+                node = stack.pop()
+                if isinstance(node, dict):
+                    if isinstance(node.get("events"), list):
+                        events.extend(node["events"])
+                    if isinstance(node.get("children"), list):
+                        stack.extend(node["children"])
+                elif isinstance(node, list):
+                    stack.extend(node)
+            for ev in events:
+                gd_raw = ev.get("startTime") or 0
+                try:
+                    from datetime import datetime
+                    gd_iso = datetime.utcfromtimestamp(int(gd_raw) / 1000).date().isoformat() if gd_raw else ""
+                except Exception:
+                    gd_iso = ""
+                home_team = away_team = None
+                for c in ev.get("competitors") or []:
+                    if c.get("home"):
+                        home_team = c.get("name")
+                    else:
+                        away_team = c.get("name")
+                for dg in ev.get("displayGroups") or []:
+                    for mk in dg.get("markets") or []:
+                        desc = (mk.get("description") or "")
+                        market = map_market(sport, desc)
+                        if not market:
+                            continue
+                        # Player name often lives in the market description: "LeBron James - Total Points"
+                        player_from_desc = None
+                        if " - " in desc:
+                            player_from_desc = desc.split(" - ")[0].strip()
+                        for o in mk.get("outcomes") or []:
+                            player_name = (
+                                (o.get("competitor") or "").strip()
+                                or player_from_desc
+                                or (o.get("description") or "").strip()
+                            )
+                            price_obj = o.get("price") or {}
+                            line = price_obj.get("handicap")
+                            am = price_obj.get("american")
+                            if am in (None, "", "EVEN"):
+                                am = "100"
+                            try:
+                                price = int(str(am).replace("EVEN", "100").replace("+", ""))
+                            except (TypeError, ValueError):
                                 continue
-                            for o in mk.get("outcomes") or []:
-                                player_name = (o.get("competitor") or "").strip()
-                                if not player_name:
-                                    player_name = (o.get("description") or "").strip()
-                                price_obj = o.get("price") or {}
-                                line = price_obj.get("handicap")
-                                price = price_obj.get("american")
-                                try:
-                                    price = int(str(price).replace("EVEN", "100").replace("+", ""))
-                                except (TypeError, ValueError):
-                                    continue
-                                side_label = (o.get("description") or "").lower()
-                                side = "over" if "over" in side_label else "under" if "under" in side_label else None
-                                if side is None or line is None:
-                                    continue
-                                rows.append({
-                                    "sport": sport,
-                                    "game_external_id": f"bov:{ev.get('id')}",
-                                    "game_date": gd_iso,
-                                    "player_name": player_name,
-                                    "team": None,
-                                    "market": market,
-                                    "line": float(line),
-                                    "side": side,
-                                    "price_american": price,
-                                    "book": "bovada",
-                                    "home_team": home_team,
-                                    "away_team": away_team,
-                                })
+                            side_label = (o.get("description") or "").lower()
+                            side = "over" if "over" in side_label else "under" if "under" in side_label else None
+                            if side is None or line is None:
+                                continue
+                            rows.append({
+                                "sport": sport,
+                                "game_external_id": f"bov:{ev.get('id')}",
+                                "game_date": gd_iso,
+                                "player_name": player_name,
+                                "team": None,
+                                "market": market,
+                                "line": float(line),
+                                "side": side,
+                                "price_american": price,
+                                "book": "bovada",
+                                "home_team": home_team,
+                                "away_team": away_team,
+                            })
         if rows:
             _record_success("bovada", len(rows))
         return rows
@@ -644,10 +687,12 @@ class FreeOddsAggregator:
     """Tries every free provider in priority order, accumulates all rows."""
 
     def __init__(self) -> None:
+        from .espn_odds import ESPNOddsProvider
         self.providers = [
-            ("actionnetwork", ActionNetworkProvider()),
+            ("espn_odds", ESPNOddsProvider()),
             ("pinnacle", PinnacleProvider()),
             ("bovada", BovadaProvider()),
+            ("actionnetwork", ActionNetworkProvider()),
             ("prizepicks", PrizePicksProvider()),
             ("draftkings", DraftKingsProvider()),
         ]
