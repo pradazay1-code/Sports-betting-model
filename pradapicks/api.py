@@ -268,6 +268,43 @@ def lineshop(
     }
 
 
+@app.get("/slips/recommended")
+def slips_recommended(db: Session = Depends(get_db)):
+    """Curated bet slips for today: safe single, 3-leg, 5-leg, ML lock, SGP."""
+    from .services.recommended_slips import generate_recommended_slips
+    return {
+        "date": date.today().isoformat(),
+        "slips": generate_recommended_slips(db, on=date.today()),
+    }
+
+
+class AskRequest(BaseModel):
+    question: str
+
+
+@app.post("/ask")
+def ask_endpoint(req: AskRequest, db: Session = Depends(get_db)):
+    from .services.qa import ask
+    return ask(db, req.question)
+
+
+@app.get("/ask")
+def ask_get(q: str = Query(..., description="natural-language question"),
+            db: Session = Depends(get_db)):
+    from .services.qa import ask
+    return ask(db, q)
+
+
+@app.get("/weather/mlb/{team}")
+def weather_endpoint(team: str):
+    from .data.weather import WeatherProvider
+    w = WeatherProvider()
+    try:
+        return w.fetch(team) or {"error": "no coords for team"}
+    finally:
+        w.close()
+
+
 @app.get("/matchups/{sport}")
 def matchups_endpoint(
     sport: str,

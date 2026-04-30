@@ -129,6 +129,50 @@
   .badge.NHL { background: #1a2f47; color: #8db7ff; }
   .empty { padding: 24px; text-align: center; color: var(--muted); font-size: 13px; }
 
+  /* recommended slips */
+  .slip-card {
+    background: var(--panel-2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px; margin-bottom: 12px;
+  }
+  .slip-card .slip-head {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 10px;
+  }
+  .slip-card .slip-label {
+    font-weight: 700; font-size: 15px;
+  }
+  .slip-card .slip-blurb { color: var(--muted); font-size: 12px; margin-top: 2px; }
+  .slip-card .slip-stats {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+    margin: 10px 0; font-size: 11px; color: var(--muted);
+  }
+  .slip-card .slip-stats div b { color: var(--text); display: block; font-size: 14px; }
+  .slip-card .slip-legs {
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .slip-card .slip-leg {
+    background: var(--bg); border: 1px solid var(--border); border-radius: 6px;
+    padding: 8px; font-size: 12px; display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 8px; align-items: center;
+  }
+  .slip-card .slip-leg .price { font-weight: 600; }
+
+  /* ai chat */
+  .ai-msg {
+    background: var(--panel-2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 14px; margin-bottom: 10px;
+  }
+  .ai-msg .ai-q {
+    color: var(--accent); font-weight: 600; margin-bottom: 6px; font-size: 13px;
+  }
+  .ai-msg .ai-a {
+    color: var(--text); font-size: 14px; white-space: pre-wrap; line-height: 1.6;
+  }
+  .ai-msg .ai-meta {
+    color: var(--muted); font-size: 11px; margin-top: 6px;
+  }
+
   /* games */
   .game-row {
     display: grid; grid-template-columns: 60px 1fr 100px 1fr 60px;
@@ -318,7 +362,9 @@
 
 <div class="tabs" style="max-width: 1400px; margin: 0 auto; padding: 0 32px;">
   <button data-tab="picks" class="active">Picks of the Day</button>
+  <button data-tab="slips">Recommended Slips</button>
   <button data-tab="games">Game Predictions</button>
+  <button data-tab="ai">AI Chat</button>
   <button data-tab="slip">Bet Slip Analyzer</button>
   <button data-tab="rosters">Rosters</button>
   <button data-tab="progress">Progress &amp; Health</button>
@@ -337,6 +383,33 @@
       <button data-sport="NHL">NHL</button>
     </div>
     <div id="picks"></div>
+  </div>
+</section>
+
+<!-- RECOMMENDED SLIPS -->
+<section id="tab-slips" class="panel">
+  <div class="card">
+    <h2>Recommended Slips for Today <span class="sub" id="slips-meta">—</span></h2>
+    <div id="recommended-slips"></div>
+  </div>
+</section>
+
+<!-- AI CHAT -->
+<section id="tab-ai" class="panel">
+  <div class="card">
+    <h2>Ask Pradapicks <span class="sub">natural-language sports betting analysis</span></h2>
+    <div style="margin-bottom:14px;color:var(--muted);font-size:12px">
+      Try: "will the Lakers win tonight?" · "best NBA pick today" ·
+      "how is Aaron Judge hitting lately?" · "biggest favorite in MLB today" ·
+      "LeBron over 25 points"
+    </div>
+    <form id="ai-form" style="display:flex;gap:8px;margin-bottom:14px">
+      <input id="ai-input" type="text" placeholder="Ask any sports betting question…"
+        style="flex:1;background:var(--bg);color:var(--text);border:1px solid var(--border);
+        border-radius:8px;padding:10px 14px;font-size:14px" required />
+      <button type="submit" class="submit">Ask</button>
+    </form>
+    <div id="ai-history"></div>
   </div>
 </section>
 
@@ -439,6 +512,8 @@ $$(".tabs button").forEach(b => b.addEventListener("click", () => {
   $(`#tab-${b.dataset.tab}`).classList.add("active");
   if (b.dataset.tab === "rosters" && !rosterLoaded) { loadRoster(currentRosterSport); }
   if (b.dataset.tab === "games") { loadGames(); }
+  if (b.dataset.tab === "slips") { loadRecommendedSlips(); }
+  if (b.dataset.tab === "ai") { setTimeout(() => $("#ai-input").focus(), 100); }
   if (b.dataset.tab === "progress") { loadProgress(); loadProviders(); }
 }));
 
@@ -593,6 +668,86 @@ $$("#games-filters button").forEach(b => b.addEventListener("click", () => {
   $$("#games-filters button").forEach(x => x.classList.remove("active"));
   b.classList.add("active"); gameFilter = b.dataset.sport; renderGames();
 }));
+
+// ---------- Recommended Slips ----------
+async function loadRecommendedSlips() {
+  $("#recommended-slips").innerHTML = `<div class="empty">Loading…</div>`;
+  try {
+    const j = await (await fetch("/slips/recommended")).json();
+    const slips = j.slips || [];
+    $("#slips-meta").textContent = `${j.date} · ${slips.length} slips`;
+    if (!slips.length) {
+      $("#recommended-slips").innerHTML = `<div class="empty">No recommended slips yet — system needs picks first. Check back after the bootstrap finishes.</div>`;
+      return;
+    }
+    $("#recommended-slips").innerHTML = slips.map(s => {
+      const legs = (s.legs || []).map(l => `
+        <div class="slip-leg">
+          <div>
+            <b>${l.player_name}</b>
+            <span class="badge ${l.sport}">${l.sport}</span>
+            <span style="color:var(--muted);margin-left:6px">${marketLabel(l.market)} ${l.side.toUpperCase()} ${l.line}</span>
+          </div>
+          <div class="price">${fmtPrice(l.price_american)}</div>
+          <div style="color:${l.edge_pct >= 0 ? 'var(--good)' : 'var(--bad)'};font-size:11px">
+            ${l.edge_pct >= 0 ? "+" : ""}${l.edge_pct.toFixed(1)}%
+          </div>
+        </div>`).join("");
+      return `
+        <div class="slip-card">
+          <div class="slip-head">
+            <div>
+              <div class="slip-label">${s.label}</div>
+              <div class="slip-blurb">${s.blurb}</div>
+            </div>
+            <div class="rating-circle" style="background:${ratingColor(s.avg_rating)}; width:36px; height:36px; font-size:13px">
+              ${Math.round(s.avg_rating)}
+            </div>
+          </div>
+          <div class="slip-stats">
+            <div><b>${fmtPrice(s.combined_american_odds)}</b>combined</div>
+            <div><b>${(s.combined_model_prob*100).toFixed(1)}%</b>model prob</div>
+            <div><b style="color:${s.edge_pct >= 0 ? 'var(--good)' : 'var(--bad)'}">${s.edge_pct >= 0 ? "+" : ""}${s.edge_pct.toFixed(1)}%</b>edge</div>
+            <div><b>${(s.kelly_fraction*100).toFixed(2)}%</b>Kelly</div>
+          </div>
+          <div class="slip-legs">${legs}</div>
+        </div>`;
+    }).join("");
+  } catch (e) {
+    $("#recommended-slips").innerHTML = `<div class="empty">Couldn't load slips: ${e}</div>`;
+  }
+}
+
+// ---------- AI Chat ----------
+$("#ai-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const input = $("#ai-input");
+  const q = input.value.trim();
+  if (!q) return;
+  input.value = "";
+  const placeholder = document.createElement("div");
+  placeholder.className = "ai-msg";
+  placeholder.innerHTML = `
+    <div class="ai-q">${q}</div>
+    <div class="ai-a" style="color:var(--muted)">Thinking…</div>`;
+  $("#ai-history").prepend(placeholder);
+  try {
+    const r = await fetch("/ask", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({question: q}),
+    });
+    const j = await r.json();
+    placeholder.innerHTML = `
+      <div class="ai-q">${q}</div>
+      <div class="ai-a">${(j.answer || "(no answer)").replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>")}</div>
+      <div class="ai-meta">intent: ${j.intent || "—"}</div>`;
+  } catch (err) {
+    placeholder.innerHTML = `
+      <div class="ai-q">${q}</div>
+      <div class="ai-a" style="color:var(--bad)">Error: ${err}</div>`;
+  }
+});
 
 // ---------- Bet Slip + Autocomplete ----------
 let legCount = 0;
