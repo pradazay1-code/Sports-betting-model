@@ -321,11 +321,132 @@ def _intent_biggest_favorite(db: Session, text: str) -> dict | None:
 
 # --- public --------------------------------------------------------------
 
+def _intent_total_spread(db: Session, text: str) -> dict | None:
+    """Total / over-under / spread questions about a game."""
+    if not re.search(r"\b(total|over\s*under|o/u|spread|points|score)\b", text, re.I):
+        return None
+    sport = _detect_sport(text)
+    team = _fuzzy_team(text, db, sport)
+    if not team:
+        return None
+    pred = (
+        db.query(GamePrediction)
+        .filter(GamePrediction.game_date == date.today())
+        .filter((GamePrediction.home_team == team) | (GamePrediction.away_team == team))
+        .first()
+    )
+    if not pred:
+        return None
+    answer = (
+        f"{pred.away_team} @ {pred.home_team}: predicted total **{pred.pred_total:.1f}** "
+        f"({pred.pred_home_score:.1f}–{pred.pred_away_score:.1f}). "
+        f"Spread {pred.pred_spread:+.1f} (home favorite means negative). "
+        f"Confidence {pred.confidence*100:.0f}%."
+    )
+    return {"intent": "total_spread", "answer": answer, "data": {
+        "total": pred.pred_total, "spread": pred.pred_spread, "confidence": pred.confidence,
+    }}
+
+
+def _intent_team_compare(db: Session, text: str) -> dict | None:
+    """X vs Y comparison."""
+    if not re.search(r"\b(vs|versus|against|compared)\b", text, re.I):
+        return None
+    # Find two teams
+    teams_found = []
+    for word, full in _TEAM_WORDS.items():
+        if word in text.lower() and full not in teams_found:
+            teams_found.append(full)
+        if len(teams_found) >= 2:
+            break
+    if len(teams_found) < 2:
+        return None
+    a, b = teams_found[0], teams_found[1]
+    pred = (
+        db.query(GamePrediction)
+        .filter(GamePrediction.game_date == date.today())
+        .filter(((GamePrediction.home_team == a) & (GamePrediction.away_team == b)) |
+                ((GamePrediction.home_team == b) & (GamePrediction.away_team == a)))
+        .first()
+    )
+    if not pred:
+        return {"intent": "team_compare",
+                "answer": f"{a} and {b} aren't playing each other today.", "data": None}
+    fav = pred.home_team if pred.home_win_prob > 0.5 else pred.away_team
+    fav_prob = max(pred.home_win_prob, 1 - pred.home_win_prob)
+    answer = (
+        f"**{fav}** is favored ({fav_prob*100:.1f}%) in {pred.away_team} @ {pred.home_team}. "
+        f"Predicted: {pred.pred_home_score:.1f}–{pred.pred_away_score:.1f}, "
+        f"total {pred.pred_total:.1f}."
+    )
+    return {"intent": "team_compare", "answer": answer, "data": None}
+
+
+def _intent_safest_pick(db: Session, text: str) -> dict | None:
+    if not re.search(r"\b(safe|safest|lock|surest|highest\s+rated)\b", text, re.I):
+        return None
+    sport = _detect_sport(text)
+    q = db.query(Pick).filter(Pick.pick_date == date.today())
+    if sport:
+        q = q.filter(Pick.sport == sport)
+    p = q.order_by(Pick.rating.desc()).first()
+    if not p:
+        return {"intent": "safest", "answer": "No picks generated yet today.", "data": None}
+    answer = (
+        f"Safest play today: **{p.player_name}** ({p.team or '?'}) "
+        f"{p.side.upper()} {p.line} {p.market} ({p.price_american:+d}) — "
+        f"rating {p.rating:.0f}/100, model {p.model_prob*100:.1f}%, edge {p.edge_pct:+.1f}%."
+    )
+    return {"intent": "safest", "answer": answer, "data": None}
+
+
+def _intent_parlay(db: Session, text: str) -> dict | None:
+    if not re.search(r"\b(parlay|slip|sgp|combo|combine)\b", text, re.I):
+        return None
+    from .recommended_slips import generate_recommended_slips
+    slips = generate_recommended_slips(db, on=date.today())
+    if not slips:
+        return {"intent": "parlay", "answer": "No recommended slips yet today.", "data": None}
+    parts = []
+    for s in slips[:3]:
+        legs_text = " · ".join(
+            f"{l['player_name']} {l['side']} {l['line']}" for l in s["legs"][:5]
+        )
+        parts.append(
+            f"**{s['label']}** ({fmt := s['combined_american_odds']:+d}, "
+            f"model {s['combined_model_prob']*100:.1f}%): {legs_text}"
+        )
+    return {"intent": "parlay", "answer": "Today's recommended slips:\n" + "\n".join(parts), "data": slips}
+
+
+def _intent_help(db: Session, text: str) -> dict | None:
+    if not re.search(r"^\s*(help|what can you|examples?|how to)", text, re.I):
+        return None
+    answer = (
+        "I can answer:\n"
+        "• Game outcomes — *will the Lakers win tonight?*\n"
+        "• Best picks — *best NBA pick today*, *safest play*\n"
+        "• Player form — *how is Judge hitting lately?*\n"
+        "• Player props — *LeBron over 25 points*\n"
+        "• Totals — *Lakers total points tonight*\n"
+        "• Comparisons — *Yankees vs Red Sox*\n"
+        "• Parlays — *recommended parlay today*\n"
+        "• Low-prob — *what team won't hit a home run?*\n"
+        "Set GROQ_API_KEY for unlimited free general sports Q&A via Llama 3.3."
+    )
+    return {"intent": "help", "answer": answer, "data": None}
+
+
 INTENT_HANDLERS = [
+    _intent_help,
     _intent_low_prob_market,
     _intent_biggest_favorite,
+    _intent_safest_pick,
+    _intent_parlay,
     _intent_top_picks,
     _intent_player_form,
+    _intent_team_compare,
+    _intent_total_spread,
     _intent_game_winner,
     _intent_player_prop,
 ]

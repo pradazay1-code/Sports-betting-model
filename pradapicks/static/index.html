@@ -173,6 +173,23 @@
     color: var(--muted); font-size: 11px; margin-top: 6px;
   }
 
+  /* logos + jerseys */
+  .team-logo {
+    width: 28px; height: 28px; vertical-align: middle;
+    object-fit: contain; margin-right: 6px;
+    border-radius: 4px; background: #fff1; padding: 2px;
+  }
+  .team-logo-large { width: 56px; height: 56px; }
+  .jersey-num {
+    background: var(--panel-2); color: var(--accent); border: 1px solid var(--accent);
+    border-radius: 4px; padding: 1px 5px; font-size: 10px; font-weight: 700;
+    margin-right: 6px; font-variant-numeric: tabular-nums;
+  }
+  .player-headshot {
+    width: 32px; height: 32px; border-radius: 50%; object-fit: cover;
+    background: var(--panel-2); margin-right: 8px; vertical-align: middle;
+  }
+
   /* games */
   .game-row {
     display: grid; grid-template-columns: 60px 1fr 100px 1fr 60px;
@@ -578,10 +595,27 @@ $("#refresh-btn").addEventListener("click", async () => {
 });
 
 // ---------- Picks ----------
+// Logos cache
+const TEAM_LOGOS = {MLB: {}, NBA: {}, NHL: {}};
+async function loadTeamLogos(sport) {
+  if (Object.keys(TEAM_LOGOS[sport] || {}).length > 0) return;
+  try {
+    const r = await fetch(`/team_logos/${sport}`);
+    if (r.ok) TEAM_LOGOS[sport] = await r.json();
+  } catch {}
+}
+function teamLogoTag(sport, team, size = "") {
+  const info = (TEAM_LOGOS[sport] || {})[team];
+  if (!info?.logo) return "";
+  const cls = size === "large" ? "team-logo team-logo-large" : "team-logo";
+  return `<img class="${cls}" src="${info.logo}" alt="${info.abbr || team}" onerror="this.style.display='none'" />`;
+}
+
 let allPicks = [];
 let currentSport = "";
 async function loadPicks() {
   try {
+    await Promise.all(["MLB","NBA","NHL"].map(loadTeamLogos));
     const j = await (await fetch("/picks/today")).json();
     allPicks = j.picks || [];
     $("#picks-meta").textContent = `${j.date} · ${allPicks.length} picks`;
@@ -598,7 +632,7 @@ function renderPicks() {
     <div class="pick-row">
       <div class="rating-circle" style="background:${ratingColor(p.rating)}">${Math.round(p.rating)}</div>
       <div>
-        <div class="player">${p.player_name} <span class="badge ${p.sport}">${p.sport}</span></div>
+        <div class="player">${teamLogoTag(p.sport, p.team)}${p.player_name} <span class="badge ${p.sport}">${p.sport}</span></div>
         <div class="meta">${marketLabel(p.market)} · ${p.team || "—"} ${p.opponent ? "vs " + p.opponent : ""} · ${p.book}</div>
       </div>
       <div class="pick-side">
@@ -621,6 +655,7 @@ $$("#filters button").forEach(b => b.addEventListener("click", () => {
 let allGames = [], gameFilter = "";
 async function loadGames() {
   try {
+    await Promise.all(["MLB","NBA","NHL"].map(loadTeamLogos));
     const j = await (await fetch("/games/today")).json();
     allGames = j.games || [];
     $("#games-meta").textContent = `${j.date} · ${allGames.length} games`;
@@ -644,7 +679,7 @@ function renderGames() {
       <div class="game-row">
         <div class="conf-badge" style="color:${confColor}">${Math.round(g.confidence*100)}%</div>
         <div>
-          <div class="team-name">${g.home_team} <span class="badge ${g.sport}">${g.sport}</span></div>
+          <div class="team-name">${teamLogoTag(g.sport, g.home_team)}${g.home_team} <span class="badge ${g.sport}">${g.sport}</span></div>
           <div class="team-score">${g.pred_home_score}</div>
           <div class="meta">avg for ${g.rationale?.home_avg_for ?? "—"} · against ${g.rationale?.home_avg_against ?? "—"}</div>
         </div>
@@ -656,7 +691,7 @@ function renderGames() {
           <div class="ml-pick">ML pick: <b>${pickedTeam}</b></div>
         </div>
         <div style="text-align:right">
-          <div class="team-name away">${g.away_team} <span class="badge ${g.sport}">${g.sport}</span></div>
+          <div class="team-name away">${g.away_team}${teamLogoTag(g.sport, g.away_team)} <span class="badge ${g.sport}">${g.sport}</span></div>
           <div class="team-score away">${g.pred_away_score}</div>
           <div class="meta">avg for ${g.rationale?.away_avg_for ?? "—"} · against ${g.rationale?.away_avg_against ?? "—"}</div>
         </div>
@@ -928,10 +963,15 @@ function renderPlayerList() {
   if (!players.length) {
     $("#player-list").innerHTML = `<div class="empty">No players</div>`; return;
   }
-  $("#player-list").innerHTML = players.map(p => `
+  $("#player-list").innerHTML = players.map(p => {
+    const head = p.headshot_url ? `<img class="player-headshot" src="${p.headshot_url}" onerror="this.style.display='none'" />` : "";
+    const jers = p.jersey ? `<span class="jersey-num">#${p.jersey}</span>` : "";
+    return `
     <div class="p" data-id="${p.id}" data-sport="${p.sport}">
-      <span>${p.name}</span><span class="meta">${p.position || ""}</span>
-    </div>`).join("");
+      <span style="display:flex;align-items:center;gap:4px">${head}${jers}<span>${p.name}</span></span>
+      <span class="meta">${p.position || ""}</span>
+    </div>`;
+  }).join("");
   $$("#player-list .p").forEach(el => el.addEventListener("click", async () => {
     const r = await fetch(`/players/${el.dataset.sport}/${el.dataset.id}`);
     if (!r.ok) { $("#player-detail").innerHTML = `<div class="empty">Failed to load</div>`; return; }
@@ -943,9 +983,13 @@ function renderPlayerDetail(d) {
   const stats = Object.entries(d.aggregates || {}).slice(0, 8);
   const games = d.games || [];
   const allKeys = stats.map(([k]) => k);
+  const head = d.headshot_url || (d.aggregates && d.headshot_url) || null;
+  const meta = d.meta || {};
+  const headshot = (d.headshot_url || meta.headshot_url) ? `<img class="player-headshot" style="width:48px;height:48px" src="${d.headshot_url || meta.headshot_url}" />` : "";
+  const jersey = (d.jersey || meta.jersey) ? `<span class="jersey-num" style="font-size:14px">#${d.jersey || meta.jersey}</span>` : "";
   $("#player-detail").innerHTML = `
-    <h3>${d.name} <span class="badge ${d.sport}">${d.sport}</span></h3>
-    <div class="meta">${d.team || ""} · ${d.position || ""}</div>
+    <h3 style="display:flex;align-items:center;gap:8px">${headshot}${jersey}${d.name} <span class="badge ${d.sport}">${d.sport}</span></h3>
+    <div class="meta">${teamLogoTag(d.sport, d.team)}${d.team || ""} · ${d.position || ""}</div>
     <div class="stat-grid">
       ${stats.map(([k, v]) => `
         <div class="s">

@@ -27,12 +27,15 @@ def search_players(db: Session, q: str, sport: str | None = None, limit: int = 2
 
 
 def _player_summary(p: Player) -> dict:
+    meta = p.meta or {}
     return {
         "id": p.external_id,
         "name": p.name,
         "team": p.team,
         "sport": p.sport,
         "position": p.position,
+        "jersey": meta.get("jersey"),
+        "headshot_url": meta.get("headshot_url"),
     }
 
 
@@ -122,12 +125,15 @@ def player_detail(db: Session, sport: str, external_id: str, last_n: int = 20) -
             "last10_avg": round(mean(vals[:10]) if len(vals) >= 1 else 0.0, 3),
         }
 
+    meta = p.meta or {}
     return {
         "id": p.external_id,
         "name": p.name,
         "team": p.team,
         "sport": p.sport,
         "position": p.position,
+        "jersey": meta.get("jersey"),
+        "headshot_url": meta.get("headshot_url"),
         "games": games,
         "aggregates": agg,
     }

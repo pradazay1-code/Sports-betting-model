@@ -178,8 +178,25 @@ def _upsert_player_game(db: Session, sport: str, r: dict) -> None:
         .filter(Player.sport == sport, Player.external_id == pid)
         .one_or_none()
     )
+    extras = {}
+    if r.get("jersey") is not None:
+        extras["jersey"] = r["jersey"]
+    if r.get("headshot_url"):
+        extras["headshot_url"] = r["headshot_url"]
     if p is None and r.get("player_name"):
-        db.add(Player(sport=sport, external_id=pid, name=r["player_name"], team=r.get("team")))
+        db.add(Player(
+            sport=sport, external_id=pid, name=r["player_name"],
+            team=r.get("team"), position=r.get("position"),
+            meta=extras,
+        ))
+    elif p is not None:
+        # Backfill jersey / headshot if missing or stale.
+        if extras:
+            p.meta = {**(p.meta or {}), **extras}
+        if r.get("position") and not p.position:
+            p.position = r["position"]
+        if r.get("team") and r["team"] != p.team:
+            p.team = r["team"]
 
 
 def _upsert_team_game(db: Session, sport: str, r: dict) -> None:

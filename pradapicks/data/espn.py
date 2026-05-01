@@ -89,12 +89,19 @@ class ESPNProvider(SportProvider):
         for ev in data.get("events") or []:
             comps = (ev.get("competitions") or [{}])[0].get("competitors") or []
             home = away = None
+            home_logo = away_logo = None
+            home_color = away_color = None
+            home_abbr = away_abbr = None
             for c in comps:
-                name = (c.get("team") or {}).get("displayName")
+                team = c.get("team") or {}
+                name = team.get("displayName")
+                logo = team.get("logo") or (team.get("logos") or [{}])[0].get("href")
+                color = team.get("color")
+                abbr = team.get("abbreviation")
                 if c.get("homeAway") == "home":
-                    home = name
+                    home = name; home_logo = logo; home_color = color; home_abbr = abbr
                 else:
-                    away = name
+                    away = name; away_logo = logo; away_color = color; away_abbr = abbr
             out.append({
                 "external_id": str(ev.get("id")),
                 "game_date": on,
@@ -102,7 +109,15 @@ class ESPNProvider(SportProvider):
                 "away_team": away,
                 "starts_at": ev.get("date"),
                 "venue": ((ev.get("competitions") or [{}])[0].get("venue") or {}).get("fullName"),
-                "meta": {"status": (ev.get("status", {}).get("type") or {}).get("description")},
+                "meta": {
+                    "status": (ev.get("status", {}).get("type") or {}).get("description"),
+                    "home_logo": home_logo,
+                    "away_logo": away_logo,
+                    "home_color": home_color,
+                    "away_color": away_color,
+                    "home_abbr": home_abbr,
+                    "away_abbr": away_abbr,
+                },
             })
         return out
 
@@ -133,6 +148,10 @@ class ESPNProvider(SportProvider):
                         stats = self._parse_stats(self.sport, names, stats_arr, grp)
                         if not stats:
                             continue
+                        # Pull jersey + headshot from athlete record (ESPN exposes them).
+                        jersey = person.get("jersey")
+                        headshot = (person.get("headshot") or {}).get("href") if isinstance(person.get("headshot"), dict) else person.get("headshot")
+                        position = (person.get("position") or {}).get("abbreviation") if isinstance(person.get("position"), dict) else person.get("position")
                         rows.append({
                             "player_external_id": str(person.get("id")),
                             "player_name": person.get("displayName"),
@@ -142,6 +161,9 @@ class ESPNProvider(SportProvider):
                             "opponent": opp,
                             "is_home": is_home,
                             "stats": stats,
+                            "jersey": jersey,
+                            "headshot_url": headshot,
+                            "position": position,
                         })
         return rows
 

@@ -252,6 +252,38 @@ def _pred_dict(p) -> dict:
     }
 
 
+@app.get("/team_logos/{sport}")
+def team_logos(sport: str, db: Session = Depends(get_db)):
+    """Aggregate team logo URLs from recent Game.meta entries."""
+    from .db import Game
+    sport = sport.upper()
+    if sport not in ("MLB", "NBA", "NHL"):
+        raise HTTPException(404, "unknown sport")
+    rows = (
+        db.query(Game)
+        .filter(Game.sport == sport)
+        .order_by(Game.game_date.desc())
+        .limit(200)
+        .all()
+    )
+    out: dict[str, dict] = {}
+    for g in rows:
+        m = g.meta or {}
+        if g.home_team and m.get("home_logo") and g.home_team not in out:
+            out[g.home_team] = {
+                "logo": m.get("home_logo"),
+                "color": m.get("home_color"),
+                "abbr": m.get("home_abbr"),
+            }
+        if g.away_team and m.get("away_logo") and g.away_team not in out:
+            out[g.away_team] = {
+                "logo": m.get("away_logo"),
+                "color": m.get("away_color"),
+                "abbr": m.get("away_abbr"),
+            }
+    return out
+
+
 @app.get("/lineshop")
 def lineshop(
     sport: str = Query(..., pattern="^(MLB|NBA|NHL)$"),
@@ -284,15 +316,15 @@ class AskRequest(BaseModel):
 
 @app.post("/ask")
 def ask_endpoint(req: AskRequest, db: Session = Depends(get_db)):
-    from .services.qa import ask
-    return ask(db, req.question)
+    from .services.qa_llm import ask_llm
+    return ask_llm(db, req.question)
 
 
 @app.get("/ask")
 def ask_get(q: str = Query(..., description="natural-language question"),
             db: Session = Depends(get_db)):
-    from .services.qa import ask
-    return ask(db, q)
+    from .services.qa_llm import ask_llm
+    return ask_llm(db, q)
 
 
 @app.get("/weather/mlb/{team}")
