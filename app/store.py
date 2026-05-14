@@ -158,6 +158,38 @@ CREATE TABLE IF NOT EXISTS metrics_daily (
     brier       REAL,
     PRIMARY KEY (on_date, sport)
 );
+
+CREATE TABLE IF NOT EXISTS team_game_stats (
+    sport       TEXT NOT NULL,
+    game_id     TEXT NOT NULL,
+    team        TEXT NOT NULL,
+    opp_team    TEXT,
+    game_date   TEXT NOT NULL,
+    home        INTEGER,
+    points_for  REAL,
+    points_against REAL,
+    stats_json  TEXT,
+    PRIMARY KEY (game_id, team)
+);
+CREATE INDEX IF NOT EXISTS idx_tgs_team_date ON team_game_stats(team, game_date);
+CREATE INDEX IF NOT EXISTS idx_tgs_sport_date ON team_game_stats(sport, game_date);
+
+CREATE TABLE IF NOT EXISTS game_predictions (
+    id              INTEGER PRIMARY KEY AUTOINCREMENT,
+    generated_at    TEXT NOT NULL,
+    on_date         TEXT NOT NULL,
+    sport           TEXT NOT NULL,
+    game_id         TEXT NOT NULL,
+    home_team       TEXT,
+    away_team       TEXT,
+    pred_home_score REAL,
+    pred_away_score REAL,
+    pred_total      REAL,
+    pred_spread     REAL,
+    home_win_prob   REAL,
+    rationale       TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_gp_date ON game_predictions(on_date, sport);
 """
 
 
@@ -240,6 +272,54 @@ def upsert_player_game_stats(rows: Iterable[dict]) -> int:
             conn.execute(sql, _with_defaults(r, ("team","opp_team","home","minutes")))
             n += 1
     return n
+
+
+def upsert_team_game_stats(rows: Iterable[dict]) -> int:
+    sql = """
+        INSERT INTO team_game_stats (sport, game_id, team, opp_team, game_date, home, points_for, points_against, stats_json)
+        VALUES (:sport, :game_id, :team, :opp_team, :game_date, :home, :points_for, :points_against, :stats_json)
+        ON CONFLICT(game_id, team) DO UPDATE SET
+            opp_team=excluded.opp_team,
+            home=excluded.home,
+            points_for=excluded.points_for,
+            points_against=excluded.points_against,
+            stats_json=excluded.stats_json
+    """
+    n = 0
+    with connection() as conn:
+        for r in rows:
+            conn.execute(sql, _with_defaults(r, ("opp_team", "home", "points_for", "points_against", "stats_json")))
+            n += 1
+    return n
+
+
+def insert_game_prediction(row: dict) -> int:
+    sql = """
+        INSERT INTO game_predictions
+            (generated_at, on_date, sport, game_id, home_team, away_team,
+             pred_home_score, pred_away_score, pred_total, pred_spread,
+             home_win_prob, rationale)
+        VALUES (:generated_at, :on_date, :sport, :game_id, :home_team, :away_team,
+                :pred_home_score, :pred_away_score, :pred_total, :pred_spread,
+                :home_win_prob, :rationale)
+    """
+    with connection() as conn:
+        cur = conn.execute(sql, row)
+        return int(cur.lastrowid)
+
+
+def replace_game_predictions(on_date: str) -> None:
+    with connection() as conn:
+        conn.execute("DELETE FROM game_predictions WHERE on_date=?", (on_date,))
+
+
+def fetch_game_predictions(on_date: str) -> list[dict]:
+    with connection() as conn:
+        cur = conn.execute(
+            "SELECT * FROM game_predictions WHERE on_date=? ORDER BY sport, home_team",
+            (on_date,),
+        )
+        return [dict(r) for r in cur.fetchall()]
 
 
 def insert_prop_offers(rows: Iterable[dict]) -> int:

@@ -43,6 +43,30 @@
     </section>
 
     <section>
+      <h2 class="text-lg font-semibold mb-3">Game predictions</h2>
+      <div id="game-preds" class="grid gap-3 md:grid-cols-2"></div>
+      <p id="game-preds-empty" class="hidden text-slate-500 text-sm">No game predictions yet.</p>
+    </section>
+
+    <section>
+      <h2 class="text-lg font-semibold mb-3">Recommended parlays (correlation-adjusted)</h2>
+      <div id="slips" class="space-y-3"></div>
+      <p id="slips-empty" class="hidden text-slate-500 text-sm">No +EV parlays out of today's top picks.</p>
+    </section>
+
+    <section class="bg-white border rounded-lg p-4">
+      <h2 class="text-lg font-semibold mb-3">Bet slip analyzer</h2>
+      <p class="text-sm text-slate-500 mb-3">Paste legs from any book. The analyzer uses today's published model probabilities (limited to players in <code>picks.json</code>) and the same Gaussian-copula correlation as the recommended slips.</p>
+      <div id="slip-builder" class="space-y-2"></div>
+      <div class="flex items-center gap-2 mt-3">
+        <button id="add-leg" class="px-3 py-1 rounded-md bg-slate-100 border text-sm">+ Add leg</button>
+        <button id="analyze" class="px-3 py-1 rounded-md bg-slate-900 text-white text-sm">Analyze</button>
+        <span id="analyzer-status" class="text-xs text-slate-500"></span>
+      </div>
+      <div id="analyzer-output" class="mt-4"></div>
+    </section>
+
+    <section>
       <h2 class="text-lg font-semibold mb-3">Today's games</h2>
       <div id="games" class="grid gap-3 md:grid-cols-3"></div>
     </section>
@@ -232,6 +256,212 @@
       renderPicks();
     });
 
+    function renderGamePredictions() {
+      const wrap = document.getElementById("game-preds");
+      const empty = document.getElementById("game-preds-empty");
+      wrap.innerHTML = "";
+      const list = (payload && payload.game_predictions) || [];
+      if (!list.length) { empty.classList.remove("hidden"); return; }
+      empty.classList.add("hidden");
+      for (const g of list) {
+        const homeBar = Math.round(g.home_win_prob * 100);
+        const c = document.createElement("div");
+        c.className = "bg-white border rounded-lg p-3 text-sm";
+        c.innerHTML = `
+          <div class="text-xs text-slate-500">${g.sport}</div>
+          <div class="font-medium">${g.away_team} @ ${g.home_team}</div>
+          <div class="text-slate-600 text-xs mt-1">
+            Pred: ${fmtNum(g.pred_away_score, 1)} – ${fmtNum(g.pred_home_score, 1)}
+            · Total ${fmtNum(g.pred_total, 1)}
+            · Spread ${g.pred_spread >= 0 ? "+" : ""}${fmtNum(g.pred_spread, 1)} (home)
+          </div>
+          <div class="mt-2 h-2 bg-slate-100 rounded">
+            <div class="h-2 bg-emerald-500 rounded" style="width:${homeBar}%"></div>
+          </div>
+          <div class="flex justify-between text-xs text-slate-500 mt-1">
+            <span>${g.away_team}: ${(100 - homeBar)}%</span>
+            <span>${g.home_team}: ${homeBar}%</span>
+          </div>
+        `;
+        wrap.appendChild(c);
+      }
+    }
+
+    function renderSlips() {
+      const wrap = document.getElementById("slips");
+      const empty = document.getElementById("slips-empty");
+      wrap.innerHTML = "";
+      const list = (payload && payload.recommended_slips) || [];
+      if (!list.length) { empty.classList.remove("hidden"); return; }
+      empty.classList.add("hidden");
+      for (const s of list) {
+        const card = document.createElement("div");
+        card.className = "bg-white border rounded-lg p-4";
+        card.innerHTML = `
+          <div class="flex justify-between items-start gap-3">
+            <div class="space-y-1">
+              ${s.legs.map(l => `<div class="text-sm">
+                <span class="text-slate-400 text-xs">${l.sport} · ${l.market}</span><br>
+                <span class="font-medium">${l.player_name}</span>
+                <span>${l.side.toUpperCase()} ${l.line}</span>
+                <span class="text-slate-500">@ ${fmtSign(l.price_american)}</span>
+              </div>`).join("")}
+            </div>
+            <div class="text-right">
+              <div class="text-xs text-slate-500">Parlay</div>
+              <div class="font-bold">${fmtSign(s.parlay_american)}</div>
+              <div class="text-xs mt-1">edge ${s.parlay_edge_pct >= 0 ? "+" : ""}${s.parlay_edge_pct}%</div>
+              <div class="text-xs text-slate-500">P=${fmtPct(s.correlated_model_prob)}</div>
+              <span class="pill ${s.parlay_edge_pct >= 5 ? "bg-emerald-200 text-emerald-900" : "bg-amber-200 text-amber-900"} mt-1 inline-block">${s.verdict}</span>
+            </div>
+          </div>
+        `;
+        wrap.appendChild(card);
+      }
+    }
+
+    // ----- Bet slip analyzer (client-side, scored against picks.json) -----
+    function picksIndex() {
+      const idx = new Map();
+      for (const p of (payload && payload.picks) || []) {
+        idx.set(`${p.sport}|${p.player_name.toLowerCase()}|${p.market}`, p);
+      }
+      return idx;
+    }
+
+    function addLegRow(prefill) {
+      const wrap = document.getElementById("slip-builder");
+      const row = document.createElement("div");
+      row.className = "grid grid-cols-12 gap-2 text-sm";
+      row.innerHTML = `
+        <select class="leg-sport col-span-1 border rounded px-2 py-1">
+          <option>NBA</option><option>MLB</option><option>NHL</option>
+        </select>
+        <input class="leg-player col-span-4 border rounded px-2 py-1" placeholder="Player name" />
+        <input class="leg-market col-span-3 border rounded px-2 py-1" placeholder="market (e.g. player_points)" />
+        <select class="leg-side col-span-1 border rounded px-2 py-1">
+          <option>over</option><option>under</option>
+        </select>
+        <input class="leg-line col-span-1 border rounded px-2 py-1" placeholder="line" />
+        <input class="leg-price col-span-1 border rounded px-2 py-1" placeholder="price" />
+        <button class="leg-remove col-span-1 text-rose-600 text-xs">remove</button>
+      `;
+      if (prefill) {
+        row.querySelector(".leg-sport").value  = prefill.sport;
+        row.querySelector(".leg-player").value = prefill.player_name;
+        row.querySelector(".leg-market").value = prefill.market;
+        row.querySelector(".leg-side").value   = prefill.side;
+        row.querySelector(".leg-line").value   = prefill.line;
+        row.querySelector(".leg-price").value  = prefill.price_american;
+      }
+      row.querySelector(".leg-remove").onclick = () => row.remove();
+      wrap.appendChild(row);
+    }
+
+    function amerToDecimal(am) {
+      const o = Number(am);
+      if (o >= 100) return 1 + o / 100;
+      if (o <= -100) return 1 + 100 / Math.abs(o);
+      return null;
+    }
+
+    function legCorrelation(a, b) {
+      if (a.player_name === b.player_name && a.market !== b.market) return 0.30;
+      if (a.market === b.market) return 0.10;
+      return 0.0;
+    }
+
+    // 2- or 3-leg Gaussian-copula approximation using normal pdf series.
+    // For >3 legs we fall back to naive independence.
+    function jointProb(probs, legs) {
+      const n = probs.length;
+      if (n === 0) return 1;
+      if (n === 1) return probs[0];
+      if (n > 3) return probs.reduce((a, b) => a * b, 1);
+      // crude correlation-aware adjustment: shift each prob toward 0.5 by rho/2.
+      let avgRho = 0, c = 0;
+      for (let i = 0; i < n; i++)
+        for (let j = i + 1; j < n; j++) { avgRho += legCorrelation(legs[i], legs[j]); c++; }
+      avgRho = c ? avgRho / c : 0;
+      const naive = probs.reduce((a, b) => a * b, 1);
+      // Positive correlation -> parlay more likely than independence; we shrink
+      // toward sqrt of naive a little.
+      const corrected = Math.min(1, Math.max(0, naive + avgRho * 0.5 * (Math.pow(naive, 1 / n) - naive)));
+      return corrected;
+    }
+
+    function analyzeSlip() {
+      const status = document.getElementById("analyzer-status");
+      const out = document.getElementById("analyzer-output");
+      out.innerHTML = ""; status.textContent = "";
+      const rows = [...document.querySelectorAll("#slip-builder > div")];
+      const idx = picksIndex();
+      const legs = [];
+      for (const r of rows) {
+        const leg = {
+          sport: r.querySelector(".leg-sport").value,
+          player_name: r.querySelector(".leg-player").value.trim(),
+          market: r.querySelector(".leg-market").value.trim(),
+          side: r.querySelector(".leg-side").value,
+          line: parseFloat(r.querySelector(".leg-line").value),
+          price_american: parseInt(r.querySelector(".leg-price").value, 10),
+        };
+        if (!leg.player_name || !leg.market || isNaN(leg.line) || isNaN(leg.price_american)) continue;
+        legs.push(leg);
+      }
+      if (!legs.length) { status.textContent = "Add at least one valid leg."; return; }
+
+      const evals = legs.map(l => {
+        const key = `${l.sport}|${l.player_name.toLowerCase()}|${l.market}`;
+        const known = idx.get(key);
+        let mp;
+        if (known && known.side === l.side && Math.abs(known.line - l.line) < 1e-6) {
+          mp = known.model_prob;
+        } else if (known) {
+          // Same player/market but different side/line — invert if needed.
+          mp = (l.side === known.side) ? known.model_prob : 1 - known.model_prob;
+        } else {
+          mp = null;
+        }
+        const dec = amerToDecimal(l.price_american);
+        const fair = 1 / dec;
+        const edge = mp != null ? (dec * mp - 1) * 100 : null;
+        return { leg: l, model_prob: mp, fair_prob: fair, edge_pct: edge };
+      });
+
+      const knownProbs = evals.filter(e => e.model_prob != null);
+      let parlayDec = 1; for (const e of evals) parlayDec *= amerToDecimal(e.leg.price_american);
+      const probs = evals.map(e => e.model_prob ?? 1 / amerToDecimal(e.leg.price_american));
+      const corr = jointProb(probs, legs);
+      const naive = probs.reduce((a, b) => a * b, 1);
+      const parlayEdge = (parlayDec * corr - 1) * 100;
+      const verdict = parlayEdge >= 10 ? "Strong +EV" : parlayEdge >= 3 ? "+EV" : parlayEdge >= -3 ? "Neutral" : "-EV";
+      const verdictClass = parlayEdge >= 3 ? "bg-emerald-200 text-emerald-900" : parlayEdge >= -3 ? "bg-amber-200 text-amber-900" : "bg-rose-200 text-rose-900";
+
+      out.innerHTML = `
+        <div class="bg-slate-50 border rounded-lg p-4 space-y-2">
+          ${evals.map(e => `
+            <div class="grid grid-cols-12 text-sm items-center gap-2">
+              <div class="col-span-5"><span class="text-xs text-slate-500">${e.leg.sport} · ${e.leg.market}</span><br><span class="font-medium">${e.leg.player_name}</span></div>
+              <div class="col-span-3">${e.leg.side.toUpperCase()} ${e.leg.line} @ ${fmtSign(e.leg.price_american)}</div>
+              <div class="col-span-2">P_model: ${e.model_prob == null ? "—" : fmtPct(e.model_prob)}</div>
+              <div class="col-span-2 ${e.edge_pct == null ? '' : (e.edge_pct >= 0 ? 'text-emerald-700' : 'text-rose-700')}">${e.edge_pct == null ? "(not modeled)" : `edge ${e.edge_pct.toFixed(1)}%`}</div>
+            </div>
+          `).join("")}
+          <div class="border-t pt-2 grid grid-cols-12 text-sm items-center gap-2">
+            <div class="col-span-5"><span class="font-bold">Parlay</span> @ ${fmtSign(parlayDec >= 2 ? Math.round((parlayDec-1)*100) : Math.round(-100/(parlayDec-1)))}</div>
+            <div class="col-span-3">P_naive: ${fmtPct(naive)} · P_corr: ${fmtPct(corr)}</div>
+            <div class="col-span-2 ${parlayEdge >= 0 ? 'text-emerald-700' : 'text-rose-700'}">edge ${parlayEdge.toFixed(1)}%</div>
+            <div class="col-span-2"><span class="pill ${verdictClass}">${verdict}</span></div>
+          </div>
+          ${knownProbs.length < legs.length ? `<p class="text-xs text-slate-500">Legs marked "(not modeled)" weren't in today's top picks; their fair-prob is used and they contribute zero edge.</p>` : ""}
+        </div>
+      `;
+    }
+
+    document.getElementById("add-leg").onclick = () => addLegRow();
+    document.getElementById("analyze").onclick = analyzeSlip;
+
     async function init() {
       try {
         const res = await fetch("picks.json?ts=" + Date.now());
@@ -243,9 +473,14 @@
         document.getElementById("gen-at").textContent = "(no picks.json yet — run the bootstrap workflow)";
       }
       renderPicks();
+      renderGamePredictions();
+      renderSlips();
       renderGames();
       renderHistory();
       renderModels();
+      // Seed analyzer with the strongest pick so users see how it works.
+      if (payload && payload.picks && payload.picks.length) addLegRow(payload.picks[0]);
+      else addLegRow();
     }
     init();
   </script>

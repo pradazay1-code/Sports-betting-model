@@ -7,13 +7,15 @@ A 100% free, self-updating sports-betting model + dashboard for **NBA / MLB / NH
 Every day, automatically, with no input from you:
 
 1. **Pulls schedules + box scores** from MLB Stats API, stats.nba.com and api-web.nhle.com.
-2. **Pulls live prop lines** from PrizePicks, DraftKings, and Bovada (all public endpoints, no keys).
-3. **Pulls context**: ESPN injuries for every league, Open-Meteo weather for outdoor MLB parks, MLB confirmed lineups.
+2. **Pulls live prop lines** from PrizePicks, DraftKings, FanDuel, Bovada, and Pinnacle — five free books for line-shopping and a sharp anchor.
+3. **Pulls context**: ESPN injuries for every league, Open-Meteo weather for outdoor MLB parks, MLB confirmed lineups, MLB park factors.
 4. **Trains a LightGBM regressor** per `(sport, market)` over rolling-window features (last 5/10/25 game means, opponent-allowed averages, days rest, home/away, season-to-date averages).
 5. **Computes EV vs. the book**: de-vigs the two-way market with a multiplicative model, estimates a `P(over line)` via Poisson (count markets) or Normal (continuous), runs that through an isotonic calibrator, and prices Kelly stake + edge%.
 6. **Picks the top plays** with a 0–100 rating that combines edge / confidence / disagreement / sample size / market depth.
-7. **Grades yesterday's picks** against the actual box scores at 04:00 ET, records ROI in units, and **retrains every model** so the system gets better every day.
-8. **Writes `docs/picks.json`** which the static dashboard reads. GitHub Pages serves the dashboard.
+7. **Predicts every game's score, total, spread, and home-win probability** from rolling team form, with park-factor adjustment for MLB.
+8. **Builds recommended parlays** from today's top picks with a Gaussian-copula same-game-correlation adjustment.
+9. **Grades yesterday's picks** against the actual box scores at 04:00 ET, records ROI in units, and **retrains every model** so the system gets better every day.
+10. **Writes `docs/picks.json`** which the static dashboard reads. GitHub Pages serves the dashboard, complete with a client-side bet-slip analyzer that uses today's published model probabilities.
 
 Everything lives in this repo — code, training data (`data/pradapicks.db`), trained model artifacts (`models/*.joblib`), and rendered dashboard (`docs/`). The GitHub Actions bot commits updates back so the whole history is versioned in git.
 
