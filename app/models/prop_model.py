@@ -64,31 +64,45 @@ class TrainedModel:
 
     def prob_over(self, features: dict, line: float) -> float:
         x = np.array([[features.get(c, 0.0) for c in self.feature_cols]], dtype=float)
-        mu = float(self.model.predict(x)[0])
+        if not np.all(np.isfinite(x)):
+            return 0.5
+        try:
+            mu = float(self.model.predict(x)[0])
+        except Exception:
+            return 0.5
+        if not math.isfinite(mu):
+            return 0.5
         sigma = max(self.residual_std, 0.5)
+        if not math.isfinite(sigma):
+            sigma = 1.0
         if self.market in COUNT_MARKETS:
-            # Poisson over: P(X > line) using floor(line). For half-line, line.5,
-            # P(X >= ceil(line)).
             lam = max(mu, 0.05)
             threshold = math.floor(line) if (line % 1) > 0 else int(line)
-            # If line is half (e.g. 2.5) we want P(X >= 3) = 1 - P(X <= 2) = 1 - cdf(2)
-            # If line is whole (push possible) treat over as P(X > line) = 1 - cdf(line).
             p = 1.0 - float(poisson.cdf(threshold, lam))
         else:
             z = (line - mu) / sigma
             p = 1.0 - float(norm.cdf(z))
+        if not math.isfinite(p):
+            return 0.5
         p = min(max(p, 1e-4), 1 - 1e-4)
         if self.calibrator is not None:
             try:
-                p = float(self.calibrator.predict([p])[0])
-                p = min(max(p, 1e-4), 1 - 1e-4)
+                cal = float(self.calibrator.predict([p])[0])
+                if math.isfinite(cal):
+                    p = min(max(cal, 1e-4), 1 - 1e-4)
             except Exception:
                 pass
         return p
 
     def predict_mean(self, features: dict) -> float:
         x = np.array([[features.get(c, 0.0) for c in self.feature_cols]], dtype=float)
-        return float(self.model.predict(x)[0])
+        if not np.all(np.isfinite(x)):
+            return float(self.extra.get("median_target", 0.0))
+        try:
+            mu = float(self.model.predict(x)[0])
+        except Exception:
+            return float(self.extra.get("median_target", 0.0))
+        return mu if math.isfinite(mu) else float(self.extra.get("median_target", 0.0))
 
 
 def model_path(sport: str, market: str) -> Path:

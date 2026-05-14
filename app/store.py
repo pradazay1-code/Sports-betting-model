@@ -195,9 +195,10 @@ CREATE INDEX IF NOT EXISTS idx_gp_date ON game_predictions(on_date, sport);
 
 def _connect() -> sqlite3.Connection:
     ensure_dirs()
-    conn = sqlite3.connect(str(CFG.db_path), isolation_level=None, timeout=30)
+    conn = sqlite3.connect(str(CFG.db_path), isolation_level=None, timeout=60)
     conn.row_factory = sqlite3.Row
     conn.execute("PRAGMA foreign_keys = ON")
+    conn.execute("PRAGMA busy_timeout = 60000")
     return conn
 
 

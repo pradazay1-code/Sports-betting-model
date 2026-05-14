@@ -464,7 +464,10 @@
 
     async function init() {
       try {
-        const res = await fetch("picks.json?ts=" + Date.now());
+        // Resolve relative to current document so this works at both
+        // username.github.io/<repo>/ and username.github.io/ roots.
+        const url = new URL("picks.json", window.location.href).toString() + "?ts=" + Date.now();
+        const res = await fetch(url);
         if (!res.ok) throw new Error("HTTP " + res.status);
         payload = await res.json();
         document.getElementById("gen-at").textContent = payload.generated_at || "—";

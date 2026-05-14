@@ -2,7 +2,11 @@ name: deploy-pages
 
 on:
   push:
-    branches: [main]
+    # Default branch is currently `claude/sports-betting-model-tTevm`; we list
+    # both so this keeps working if you later rename to `main`.
+    branches:
+      - main
+      - "claude/sports-betting-model-tTevm"
     paths:
       - "docs/**"
       - ".github/workflows/pages.yml"
