@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pradapicks — daily +EV plays</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='52' font-size='52'%3E%F0%9F%92%B0%3C/text%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto; }
+    .pill { font-size: 0.7rem; padding: 0.1rem 0.5rem; border-radius: 999px; }
+    .skel { background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 50%, #e5e7eb 75%); background-size: 200% 100%; animation: sk 1.5s linear infinite; }
+    @keyframes sk { 0% {background-position: 200% 0;} 100% {background-position: -200% 0;} }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+  <header class="bg-slate-900 text-white">
+    <div class="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
+      <div>
+        <h1 class="text-2xl font-bold tracking-tight">Pradapicks</h1>
+        <p class="text-slate-300 text-sm">Daily +EV NBA / MLB / NHL props — fully free, fully automated.</p>
+      </div>
+      <div id="meta" class="text-right text-sm text-slate-300">
+        <div>generated: <span id="gen-at">—</span></div>
+        <div>for: <span id="for-date">—</span></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-6 py-8 space-y-10">
+    <section>
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-lg font-semibold">Today's top plays</h2>
+        <div class="space-x-1 text-sm" id="sport-tabs">
+          <button data-sport="ALL" class="px-3 py-1 rounded-full bg-slate-900 text-white">All</button>
+          <button data-sport="NBA" class="px-3 py-1 rounded-full bg-white border">NBA</button>
+          <button data-sport="MLB" class="px-3 py-1 rounded-full bg-white border">MLB</button>
+          <button data-sport="NHL" class="px-3 py-1 rounded-full bg-white border">NHL</button>
+        </div>
+      </div>
+      <div id="picks-grid" class="grid gap-4 md:grid-cols-2"></div>
+      <p id="picks-empty" class="hidden text-slate-500 text-sm">No qualifying plays right now. The pipeline regenerates every 2 hours during the slate.</p>
+    </section>
+
+    <section>
+      <h2 class="text-lg font-semibold mb-3">Today's games</h2>
+      <div id="games" class="grid gap-3 md:grid-cols-3"></div>
+    </section>
+
+    <section>
+      <h2 class="text-lg font-semibold mb-3">Recent performance (last 30 days)</h2>
+      <div class="overflow-x-auto bg-white border rounded-lg">
+        <table class="w-full text-sm">
+          <thead class="bg-slate-100">
+            <tr>
+              <th class="px-3 py-2 text-left">Date</th>
+              <th class="px-3 py-2 text-left">Sport</th>
+              <th class="px-3 py-2 text-right">Picks</th>
+              <th class="px-3 py-2 text-right">W</th>
+              <th class="px-3 py-2 text-right">L</th>
+              <th class="px-3 py-2 text-right">Push</th>
+              <th class="px-3 py-2 text-right">ROI (u)</th>
+            </tr>
+          </thead>
+          <tbody id="history-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-lg font-semibold mb-3">Model quality</h2>
+      <div class="overflow-x-auto bg-white border rounded-lg">
+        <table class="w-full text-sm">
+          <thead class="bg-slate-100">
+            <tr>
+              <th class="px-3 py-2 text-left">Sport</th>
+              <th class="px-3 py-2 text-left">Market</th>
+              <th class="px-3 py-2 text-right">Rows</th>
+              <th class="px-3 py-2 text-right">MAE</th>
+              <th class="px-3 py-2 text-right">Brier</th>
+              <th class="px-3 py-2 text-right">LogLoss</th>
+              <th class="px-3 py-2 text-left">Trained</th>
+            </tr>
+          </thead>
+          <tbody id="models-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="max-w-6xl mx-auto px-6 py-10 text-xs text-slate-500">
+    <p>Free, public sources only — MLB Stats API, stats.nba.com, api-web.nhle.com, PrizePicks, DraftKings, Bovada, Open-Meteo, ESPN injuries.</p>
+    <p>This is a model, not investment advice. Bet only what you can afford to lose.</p>
+  </footer>
+
+  <script>
+    const fmtPct = v => (v == null ? "—" : (Number(v) * 100).toFixed(1) + "%");
+    const fmtNum = (v, d = 2) => (v == null ? "—" : Number(v).toFixed(d));
+    const fmtSign = v => (v == null ? "—" : (v >= 0 ? "+" : "") + v);
+    const fmtPrice = v => fmtSign(v);
+
+    const colorRating = r => {
+      if (r >= 80) return "bg-emerald-600 text-white";
+      if (r >= 65) return "bg-emerald-200 text-emerald-900";
+      if (r >= 50) return "bg-amber-200 text-amber-900";
+      return "bg-slate-200 text-slate-800";
+    };
+
+    let currentSport = "ALL";
+    let payload = null;
+
+    function renderPicks() {
+      const grid = document.getElementById("picks-grid");
+      const empty = document.getElementById("picks-empty");
+      grid.innerHTML = "";
+      if (!payload || !payload.picks) return;
+      const picks = payload.picks.filter(p => currentSport === "ALL" || p.sport === currentSport);
+      if (!picks.length) {
+        empty.classList.remove("hidden");
+        return;
+      }
+      empty.classList.add("hidden");
+      for (const p of picks) {
+        const r = Math.round(p.rating || 0);
+        const card = document.createElement("article");
+        card.className = "bg-white border rounded-lg p-4 shadow-sm";
+        card.innerHTML = `
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <div class="text-xs text-slate-500">${p.sport} • ${p.market.replaceAll("_", " ")}</div>
+              <div class="text-lg font-semibold">${p.player_name}</div>
+              <div class="text-sm">
+                <span class="font-medium">${p.side.toUpperCase()} ${fmtNum(p.line, 1)}</span>
+                <span class="text-slate-500">@ ${fmtPrice(p.price_american)}</span>
+                <span class="text-slate-400">· ${p.book}</span>
+              </div>
+            </div>
+            <div class="text-center">
+              <div class="px-3 py-1 rounded-full font-bold text-sm ${colorRating(r)}">${r}</div>
+              <div class="text-xs text-slate-400 mt-1">rating</div>
+            </div>
+          </div>
+          <div class="mt-3 grid grid-cols-4 gap-2 text-xs">
+            <div><div class="text-slate-500">Model</div><div class="font-medium">${fmtPct(p.model_prob)}</div></div>
+            <div><div class="text-slate-500">Fair</div><div class="font-medium">${fmtPct(p.fair_prob)}</div></div>
+            <div><div class="text-slate-500">Edge</div><div class="font-medium ${p.edge_pct >= 0 ? 'text-emerald-700' : 'text-rose-700'}">${fmtNum(p.edge_pct, 1)}%</div></div>
+            <div><div class="text-slate-500">Kelly stake</div><div class="font-medium">${fmtNum(p.recommended_stake_units, 1)}u</div></div>
+          </div>
+        `;
+        grid.appendChild(card);
+      }
+    }
+
+    function renderGames() {
+      const wrap = document.getElementById("games");
+      wrap.innerHTML = "";
+      if (!payload || !payload.by_sport) return;
+      const all = ["NBA", "MLB", "NHL"].flatMap(s => (payload.by_sport[s] || []).map(g => ({ ...g, sport: s })));
+      if (!all.length) {
+        wrap.innerHTML = `<p class="text-slate-500 text-sm">No games scheduled.</p>`;
+        return;
+      }
+      for (const g of all) {
+        const c = document.createElement("div");
+        c.className = "bg-white border rounded-lg p-3 text-sm";
+        c.innerHTML = `
+          <div class="text-xs text-slate-500">${g.sport} · ${g.status || ""}</div>
+          <div class="font-medium">${g.away_team || "—"} @ ${g.home_team || "—"}</div>
+          <div class="text-xs text-slate-400">${g.venue || ""}</div>
+        `;
+        wrap.appendChild(c);
+      }
+    }
+
+    function renderHistory() {
+      const tb = document.getElementById("history-tbody");
+      tb.innerHTML = "";
+      if (!payload || !payload.history_30d || !payload.history_30d.length) {
+        tb.innerHTML = `<tr><td class="px-3 py-3 text-slate-500" colspan="7">No graded picks yet — first nightly run hasn't happened.</td></tr>`;
+        return;
+      }
+      for (const r of payload.history_30d) {
+        const roi = Number(r.roi_units || 0);
+        const tr = document.createElement("tr");
+        tr.className = "border-t";
+        tr.innerHTML = `
+          <td class="px-3 py-2">${r.on_date}</td>
+          <td class="px-3 py-2">${r.sport}</td>
+          <td class="px-3 py-2 text-right">${r.n_picks}</td>
+          <td class="px-3 py-2 text-right">${r.n_wins}</td>
+          <td class="px-3 py-2 text-right">${r.n_losses}</td>
+          <td class="px-3 py-2 text-right">${r.n_push}</td>
+          <td class="px-3 py-2 text-right ${roi >= 0 ? 'text-emerald-700' : 'text-rose-700'}">${roi.toFixed(2)}</td>
+        `;
+        tb.appendChild(tr);
+      }
+    }
+
+    function renderModels() {
+      const tb = document.getElementById("models-tbody");
+      tb.innerHTML = "";
+      if (!payload || !payload.model_summary || !payload.model_summary.length) {
+        tb.innerHTML = `<tr><td class="px-3 py-3 text-slate-500" colspan="7">No models trained yet.</td></tr>`;
+        return;
+      }
+      for (const m of payload.model_summary) {
+        const tr = document.createElement("tr");
+        tr.className = "border-t";
+        tr.innerHTML = `
+          <td class="px-3 py-2">${m.sport}</td>
+          <td class="px-3 py-2">${m.market}</td>
+          <td class="px-3 py-2 text-right">${m.rows ?? '—'}</td>
+          <td class="px-3 py-2 text-right">${m.mae != null ? Number(m.mae).toFixed(2) : '—'}</td>
+          <td class="px-3 py-2 text-right">${m.brier != null ? Number(m.brier).toFixed(3) : '—'}</td>
+          <td class="px-3 py-2 text-right">${m.log_loss != null ? Number(m.log_loss).toFixed(3) : '—'}</td>
+          <td class="px-3 py-2 text-xs text-slate-500">${m.finished_at || ''}</td>
+        `;
+        tb.appendChild(tr);
+      }
+    }
+
+    document.getElementById("sport-tabs").addEventListener("click", (e) => {
+      const b = e.target.closest("button");
+      if (!b) return;
+      currentSport = b.dataset.sport;
+      for (const btn of document.querySelectorAll("#sport-tabs button")) {
+        btn.classList.toggle("bg-slate-900", btn === b);
+        btn.classList.toggle("text-white",  btn === b);
+        btn.classList.toggle("bg-white",   btn !== b);
+        btn.classList.toggle("border",     btn !== b);
+      }
+      renderPicks();
+    });
+
+    async function init() {
+      try {
+        const res = await fetch("picks.json?ts=" + Date.now());
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        payload = await res.json();
+        document.getElementById("gen-at").textContent = payload.generated_at || "—";
+        document.getElementById("for-date").textContent = payload.on_date || "—";
+      } catch (e) {
+        document.getElementById("gen-at").textContent = "(no picks.json yet — run the bootstrap workflow)";
+      }
+      renderPicks();
+      renderGames();
+      renderHistory();
+      renderModels();
+    }
+    init();
+  </script>
+</body>
+</html>

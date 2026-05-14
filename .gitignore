@@ -4,12 +4,13 @@ __pycache__/
 .venv/
 venv/
 .env
-*.db
-*.sqlite
-*.sqlite3
-.models/
-models_artifacts/
 .pytest_cache/
 .DS_Store
 .idea/
 .vscode/
+.ipynb_checkpoints/
+# Keep data/ and models/ tracked so GH Actions can commit updates.
+# Ignore only transient files inside them:
+data/*.tmp
+data/*.lock
+models/*.tmp

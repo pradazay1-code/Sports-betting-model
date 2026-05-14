@@ -1,137 +1,99 @@
 # Pradapicks
 
-AI-driven player-prop scoring engine for **MLB**, **NBA**, and **NHL**. Pradapicks ingests schedules, box scores, and sportsbook prop markets daily, fits per-(sport, market) gradient-boosted models with isotonic calibration, and publishes the **top 25 props of the day** with a 0–100 rating. It also analyzes user-submitted bet slips, tracks results, and retrains itself nightly.
+A 100% free, self-updating sports-betting model + dashboard for **NBA / MLB / NHL** player props. No paid APIs, no servers to rent — everything runs on **GitHub Actions** and the dashboard is served by **GitHub Pages**.
 
 ## What it does
 
-- **Daily Top 25 Props** — best edges across MLB / NBA / NHL with a 0–100 rating, recommended Kelly stake, model probability, no-vig fair probability, and full rationale.
-- **Bet Slip Analyzer** — drop in legs from DraftKings, FanDuel, BetMGM, Caesars, etc. Returns per-leg + parlay rating with verdict.
-- **Results Tracker** — automatically grades picks against actual box scores and reports hit rate / ROI by sport and overall.
-- **Self-Improvement** — nightly job retrains models on the new labeled data so the system keeps getting smarter.
+Every day, automatically, with no input from you:
+
+1. **Pulls schedules + box scores** from MLB Stats API, stats.nba.com and api-web.nhle.com.
+2. **Pulls live prop lines** from PrizePicks, DraftKings, and Bovada (all public endpoints, no keys).
+3. **Pulls context**: ESPN injuries for every league, Open-Meteo weather for outdoor MLB parks, MLB confirmed lineups.
+4. **Trains a LightGBM regressor** per `(sport, market)` over rolling-window features (last 5/10/25 game means, opponent-allowed averages, days rest, home/away, season-to-date averages).
+5. **Computes EV vs. the book**: de-vigs the two-way market with a multiplicative model, estimates a `P(over line)` via Poisson (count markets) or Normal (continuous), runs that through an isotonic calibrator, and prices Kelly stake + edge%.
+6. **Picks the top plays** with a 0–100 rating that combines edge / confidence / disagreement / sample size / market depth.
+7. **Grades yesterday's picks** against the actual box scores at 04:00 ET, records ROI in units, and **retrains every model** so the system gets better every day.
+8. **Writes `docs/picks.json`** which the static dashboard reads. GitHub Pages serves the dashboard.
+
+Everything lives in this repo — code, training data (`data/pradapicks.db`), trained model artifacts (`models/*.joblib`), and rendered dashboard (`docs/`). The GitHub Actions bot commits updates back so the whole history is versioned in git.
+
+## How it runs itself
+
+Three scheduled workflows do all the work:
+
+| Workflow | When | What it does |
+|---|---|---|
+| `daily-picks.yml` | 13:00 UTC (~09:00 ET) | Pulls today's odds + context, regenerates the top-25 picks, refreshes the dashboard. |
+| `refresh-odds.yml` | Every 2h during the slate | Re-pulls odds, regenerates picks for line moves. |
+| `nightly.yml` | 08:00 UTC (~04:00 ET) | Ingests yesterday's finals, grades picks, retrains every model. |
+| `bootstrap.yml` | Manual one-shot | Backfills 45 days of history, trains every model, generates the first picks. |
+| `pages.yml` | On push to `docs/` | Re-deploys the GitHub Pages site. |
+| `ci.yml` | On every push/PR | Runs unit tests. |
+
+## Setup (one time, ~3 minutes)
+
+1. **Make the repo public** (optional — only matters for unlimited free Actions minutes; private has 2,000/mo which is also plenty).
+2. **Enable GitHub Pages**: Repo *Settings -> Pages -> Source = GitHub Actions*.
+3. **Enable Actions write permissions**: Repo *Settings -> Actions -> General -> Workflow permissions -> Read and write permissions*.
+4. Go to *Actions -> bootstrap -> Run workflow* and pick e.g. `45` days. This populates `data/pradapicks.db`, trains every model, and writes the first `docs/picks.json`.
+5. Visit the GitHub Pages URL the *deploy-pages* workflow prints. That's your dashboard.
+
+From that point on the daily / odds-refresh / nightly workflows take over and you never have to touch it.
 
 ## Architecture
 
 ```
-pradapicks/
-  config.py          settings (env-driven)
-  db.py              SQLAlchemy models (Postgres or SQLite)
-  data/              MLB, NBA, NHL, and Odds API providers
-  features.py        rolling-window feature engineering
-  models/            LightGBM regressor + Poisson/Normal P(over) + isotonic calibration
-  scoring.py         0..100 rating engine (edge / confidence / disagreement / sample / depth)
-  picks.py           daily top-N generator with consensus + de-vig
-  betslip.py         per-leg + parlay analyzer
-  tracker.py         grading + progress reports
-  ingest.py          schedule / box / odds upserts
-  scheduler.py       APScheduler jobs (morning picks, mid-day refresh, nightly grade + retrain)
-  api.py             FastAPI app
+app/
+  config.py             env-driven config + sport/market registry
+  utils.py              http client with retries, time helpers
+  store.py              SQLite schema + read/write helpers
+  features.py           rolling-window feature engineering (no leakage)
+  ev.py                 de-vig, kelly, edge, 0-100 rating
+  ingest.py             pulls schedules/box scores into the DB
+  picks.py              picks generator
+  tracker.py            grading + ROI/Brier accumulation
+  backtest.py           walk-forward backtest harness
+  pipeline.py           CLI entry points used by the workflows
+  models/
+    prop_model.py       LightGBM regressor + isotonic + Poisson/Normal tail
+    trainer.py          train every (sport, market) model
+  sources/
+    mlb.py nba.py nhl.py        schedule + box score scrapers
+    prizepicks.py draftkings.py bovada.py   odds scrapers
+    markets.py                  market-name normalisation
+    odds.py                     parallel multi-book aggregator
+    injuries.py weather.py lineups.py   context scrapers
+
+data/pradapicks.db      SQLite — committed back by the workflows
+models/*.joblib         Trained model bundles — committed back
+docs/                   Static dashboard + picks.json (GitHub Pages)
+.github/workflows/      CI + scheduled pipelines
 ```
 
-### Rating components (weights)
+## CLI
 
-| Component | Weight | What it measures |
-|-----------|-------:|------------------|
-| Edge      | 0.45 | Model EV vs. posted price |
-| Confidence| 0.15 | Distance from 50/50 |
-| Disagreement | 0.20 | Model probability minus no-vig fair prob |
-| Sample size | 0.10 | Training rows for that (sport, market) |
-| Market depth | 0.10 | Number of books offering the line |
-
-## Zero-config: 100% free data, zero manual steps
-
-Pradapicks ships with **free** data providers — no paid keys required:
-
-| Source | What it gives | Auth |
-|--------|---------------|------|
-| MLB Stats API | Schedule + box scores | none |
-| NBA stats.nba.com | Schedule + box scores | none |
-| NHL api-web.nhle.com | Schedule + box scores | none |
-| **PrizePicks** public projections | Player prop **lines** for MLB / NBA / NHL | none |
-| **DraftKings** public sportsbook JSON | Player prop **lines + American odds** | none |
-
-These two odds sources are aggregated into the same `PropOffer` schema so the model treats them as a single market with multiple "books." Optionally, if you set `ODDS_API_KEY`, the paid The Odds API is layered in on top — but it is not required.
-
-## Running locally
+The pipeline is also runnable locally:
 
 ```bash
-cp .env.example .env
 pip install -r requirements.txt
-python main.py
-# -> http://localhost:8000/docs
-# On first boot the API kicks off a 30-day backfill + training in a background thread.
+python -m app.pipeline bootstrap 30   # backfill 30 days, train, generate picks
+python -m app.pipeline daily          # today's picks
+python -m app.pipeline odds           # refresh just odds + regen picks
+python -m app.pipeline nightly        # grade yesterday + retrain
+python -m app.backtest                # walk-forward eval per (sport, market)
 ```
 
-## Deploying to Render (one click)
+## How the model gets better every day
 
-1. Push this repo to GitHub.
-2. In Render, click **New → Blueprint** and point at the repo. `render.yaml` provisions:
-   - a managed Postgres 16 database
-   - a Python web service running gunicorn + uvicorn
-3. **That's it.** No API keys, no shell commands. On first boot the service:
-   - creates all tables
-   - kicks off a 30-day backfill of MLB/NBA/NHL box scores in a background thread
-   - trains every (sport, market) model
-   - pulls live PrizePicks + DraftKings odds and publishes today's top-25 picks
+- The nightly job ingests yesterday's final box scores and appends them to the training table.
+- The grader marks each pick win/loss/push and records ROI in units.
+- The trainer retrains every `(sport, market)` model on the full updated history — including a fresh isotonic calibration, so calibration drift gets corrected daily.
+- Per-model metrics (rows, MAE, Brier, log-loss) get inserted into `model_runs` and surfaced on the dashboard, so you can watch quality move over time.
 
-   You can watch progress in the Render logs or by polling `GET /progress`.
+## Honest reporting
 
-4. The scheduler runs inside the web process (`RUN_SCHEDULER=true`):
-   - **09:00 ET** — pull odds, generate top-25 picks
-   - **11:15 / 14:15 / 17:15 ET** — refresh odds for line moves
-   - **04:00 ET** — ingest yesterday's box scores + grade yesterday's picks
-   - **05:00 ET** — retrain all (sport, market) models
-
-> For more reliable scheduling at scale, split the scheduler into a Render **Background Worker** running `python -c "from pradapicks.scheduler import start_scheduler; start_scheduler(); import time; time.sleep(10**9)"` and set `RUN_SCHEDULER=false` on the web service.
-
-## Public endpoints
-
-| Method | Path | Purpose |
-|---|---|---|
-| GET  | `/health` | Liveness |
-| GET  | `/picks/today?sport=NBA` | Today's top picks (filterable) |
-| GET  | `/picks?on=YYYY-MM-DD` | Picks for a specific date |
-| POST | `/betslip/analyze` | Analyze a bet slip |
-| GET  | `/progress?days=30` | Hit rate + ROI report |
-
-## Admin endpoints (require `Authorization: Bearer $API_AUTH_TOKEN`)
-
-| Method | Path | Purpose |
-|---|---|---|
-| POST | `/picks/generate` | Force-regenerate today's picks |
-| POST | `/admin/ingest/odds` | Pull latest props |
-| POST | `/admin/ingest/box?on=YYYY-MM-DD` | Ingest a day's box scores |
-| POST | `/admin/ingest/backfill?days=30` | Backfill historical box scores |
-| POST | `/admin/train` | Retrain all models |
-| POST | `/admin/grade?on=YYYY-MM-DD` | Grade a day's picks |
-| POST | `/admin/bootstrap?days=30` | Re-run a full backfill + train + pick cycle |
-
-### Bet slip request shape
-
-```json
-{
-  "book": "DraftKings",
-  "legs": [
-    {"sport":"NBA","player_name":"Jayson Tatum","market":"player_points","line":27.5,"side":"over","price_american":-115},
-    {"sport":"MLB","player_name":"Aaron Judge","market":"batter_total_bases","line":1.5,"side":"over","price_american":+105}
-  ]
-}
-```
-
-## Data sources (all free)
-
-- **MLB** — [statsapi.mlb.com](https://statsapi.mlb.com) (public, no key)
-- **NBA** — [stats.nba.com](https://stats.nba.com) (public, browser-style headers)
-- **NHL** — [api-web.nhle.com](https://api-web.nhle.com) (public, no key)
-- **PrizePicks** — `api.prizepicks.com/projections` (public, no key)
-- **DraftKings** — `sportsbook-nash.draftkings.com/sites/US-SB/api/v5` (public, no key)
-- *(optional)* **The Odds API** — only used if `ODDS_API_KEY` is set
-
-Each source lives behind a single provider class — drop in SportsDataIO, OddsJam, FanDuel, etc. without touching the rest of the system.
-
-## Notes on honesty
-
-The popular "72% verified hit rate" framing in the prompt is marketing. Pradapicks reports **calibrated probabilities, edge%, ROI in units, and Brier score**, which are durable measures of model quality. Hit rate alone is meaningless without juice context.
+The dashboard shows **calibrated probability, fair probability, edge%, Kelly stake, rating, and rolling ROI in units** — not made-up hit-rate marketing claims. Brier and log-loss are tracked per model so you can see calibration quality at a glance.
 
 ## License
 
-MIT (or your choice).
+MIT.

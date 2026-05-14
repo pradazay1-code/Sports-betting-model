@@ -1,0 +1,9 @@
+{
+  "generated_at": null,
+  "on_date": null,
+  "picks": [],
+  "by_sport": {"NBA": [], "MLB": [], "NHL": []},
+  "history_30d": [],
+  "model_summary": [],
+  "note": "Placeholder. Run the bootstrap workflow to populate."
+}
