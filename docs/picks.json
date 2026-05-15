@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-05-14T23:05:34+00:00",
+  "generated_at": "2026-05-15T02:50:10+00:00",
   "on_date": "2026-05-14",
   "picks": [
     {
-      "id": 76,
-      "generated_at": "2026-05-14T23:05:34+00:00",
+      "id": 101,
+      "generated_at": "2026-05-15T02:50:10+00:00",
       "on_date": "2026-05-14",
       "sport": "MLB",
       "player_name": "A.J. Ewing",
@@ -38,8 +38,8 @@
       "recommended_stake_units": 193.17
     },
     {
-      "id": 77,
-      "generated_at": "2026-05-14T23:05:34+00:00",
+      "id": 102,
+      "generated_at": "2026-05-15T02:50:10+00:00",
       "on_date": "2026-05-14",
       "sport": "MLB",
       "player_name": "Aaron Judge",
@@ -73,8 +73,8 @@
       "recommended_stake_units": 236.64
     },
     {
-      "id": 78,
-      "generated_at": "2026-05-14T23:05:34+00:00",
+      "id": 103,
+      "generated_at": "2026-05-15T02:50:10+00:00",
       "on_date": "2026-05-14",
       "sport": "MLB",
       "player_name": "Aaron Judge",
@@ -108,8 +108,8 @@
       "recommended_stake_units": 249.45
     },
     {
-      "id": 79,
-      "generated_at": "2026-05-14T23:05:34+00:00",
+      "id": 104,
+      "generated_at": "2026-05-15T02:50:10+00:00",
       "on_date": "2026-05-14",
       "sport": "MLB",
       "player_name": "Adolis Garc\u00eda",
@@ -143,8 +143,8 @@
       "recommended_stake_units": 193.17
     },
     {
-      "id": 80,
-      "generated_at": "2026-05-14T23:05:34+00:00",
+      "id": 105,
+      "generated_at": "2026-05-15T02:50:10+00:00",
       "on_date": "2026-05-14",
       "sport": "MLB",
       "player_name": "Adolis Garc\u00eda",
@@ -178,8 +178,8 @@
       "recommended_stake_units": 249.45
     },
     {
-      "id": 81,
-      "generated_at": "2026-05-14T23:05:34+00:00",
+      "id": 106,
+      "generated_at": "2026-05-15T02:50:10+00:00",
       "on_date": "2026-05-14",
       "sport": "MLB",
       "player_name": "Alec Bohm",
@@ -213,8 +213,8 @@
       "recommended_stake_units": 249.45
     },
     {
-      "id": 82,
-      "generated_at": "2026-05-14T23:05:34+00:00",
+      "id": 107,
+      "generated_at": "2026-05-15T02:50:10+00:00",
       "on_date": "2026-05-14",
       "sport": "MLB",
       "player_name": "Alex Bregman",
@@ -248,8 +248,8 @@
       "recommended_stake_units": 248.35
     },
     {
-      "id": 83,
-      "generated_at": "2026-05-14T23:05:34+00:00",
+      "id": 108,
+      "generated_at": "2026-05-15T02:50:10+00:00",
       "on_date": "2026-05-14",
       "sport": "MLB",
       "player_name": "Alex Bregman",
@@ -283,8 +283,8 @@
       "recommended_stake_units": 249.45
     },
     {
-      "id": 84,
-      "generated_at": "2026-05-14T23:05:34+00:00",
+      "id": 109,
+      "generated_at": "2026-05-15T02:50:10+00:00",
       "on_date": "2026-05-14",
       "sport": "MLB",
       "player_name": "Andrew Benintendi",
@@ -318,8 +318,8 @@
       "recommended_stake_units": 135.57
     },
     {
-      "id": 85,
-      "generated_at": "2026-05-14T23:05:34+00:00",
+      "id": 110,
+      "generated_at": "2026-05-15T02:50:10+00:00",
       "on_date": "2026-05-14",
       "sport": "MLB",
       "player_name": "Andrew Benintendi",
@@ -353,8 +353,8 @@
       "recommended_stake_units": 249.45
     },
     {
-      "id": 86,
-      "generated_at": "2026-05-14T23:05:34+00:00",
+      "id": 111,
+      "generated_at": "2026-05-15T02:50:10+00:00",
       "on_date": "2026-05-14",
       "sport": "MLB",
       "player_name": "Andruw Monasterio",
@@ -388,8 +388,8 @@
       "recommended_stake_units": 189.71
     },
     {
-      "id": 87,
-      "generated_at": "2026-05-14T23:05:34+00:00",
+      "id": 112,
+      "generated_at": "2026-05-15T02:50:10+00:00",
       "on_date": "2026-05-14",
       "sport": "MLB",
       "player_name": "Andruw Monasterio",
@@ -423,8 +423,8 @@
       "recommended_stake_units": 249.45
     },
     {
-      "id": 88,
-      "generated_at": "2026-05-14T23:05:34+00:00",
+      "id": 113,
+      "generated_at": "2026-05-15T02:50:10+00:00",
       "on_date": "2026-05-14",
       "sport": "MLB",
       "player_name": "Andy Pages",
@@ -458,8 +458,8 @@
       "recommended_stake_units": 245.71
     },
     {
-      "id": 89,
-      "generated_at": "2026-05-14T23:05:34+00:00",
+      "id": 114,
+      "generated_at": "2026-05-15T02:50:10+00:00",
       "on_date": "2026-05-14",
       "sport": "MLB",
       "player_name": "Andy Pages",
@@ -493,8 +493,8 @@
       "recommended_stake_units": 249.45
     },
     {
-      "id": 90,
-      "generated_at": "2026-05-14T23:05:34+00:00",
+      "id": 115,
+      "generated_at": "2026-05-15T02:50:10+00:00",
       "on_date": "2026-05-14",
       "sport": "MLB",
       "player_name": "Angel Mart\u00ednez",
@@ -528,8 +528,8 @@
       "recommended_stake_units": 183.75
     },
     {
-      "id": 91,
-      "generated_at": "2026-05-14T23:05:34+00:00",
+      "id": 116,
+      "generated_at": "2026-05-15T02:50:10+00:00",
       "on_date": "2026-05-14",
       "sport": "MLB",
       "player_name": "Angel Mart\u00ednez",
@@ -563,8 +563,8 @@
       "recommended_stake_units": 249.45
     },
     {
-      "id": 92,
-      "generated_at": "2026-05-14T23:05:34+00:00",
+      "id": 117,
+      "generated_at": "2026-05-15T02:50:10+00:00",
       "on_date": "2026-05-14",
       "sport": "MLB",
       "player_name": "Anthony Volpe",
@@ -598,8 +598,8 @@
       "recommended_stake_units": 246.33
     },
     {
-      "id": 93,
-      "generated_at": "2026-05-14T23:05:34+00:00",
+      "id": 118,
+      "generated_at": "2026-05-15T02:50:10+00:00",
       "on_date": "2026-05-14",
       "sport": "MLB",
       "player_name": "Austin Hedges",
@@ -633,8 +633,8 @@
       "recommended_stake_units": 119.69
     },
     {
-      "id": 94,
-      "generated_at": "2026-05-14T23:05:34+00:00",
+      "id": 119,
+      "generated_at": "2026-05-15T02:50:10+00:00",
       "on_date": "2026-05-14",
       "sport": "MLB",
       "player_name": "Austin Hedges",
@@ -668,8 +668,8 @@
       "recommended_stake_units": 249.45
     },
     {
-      "id": 95,
-      "generated_at": "2026-05-14T23:05:34+00:00",
+      "id": 120,
+      "generated_at": "2026-05-15T02:50:10+00:00",
       "on_date": "2026-05-14",
       "sport": "MLB",
       "player_name": "Austin Riley",
@@ -703,8 +703,8 @@
       "recommended_stake_units": 138.52
     },
     {
-      "id": 96,
-      "generated_at": "2026-05-14T23:05:34+00:00",
+      "id": 121,
+      "generated_at": "2026-05-15T02:50:10+00:00",
       "on_date": "2026-05-14",
       "sport": "MLB",
       "player_name": "Austin Riley",
@@ -738,8 +738,8 @@
       "recommended_stake_units": 249.45
     },
     {
-      "id": 97,
-      "generated_at": "2026-05-14T23:05:34+00:00",
+      "id": 122,
+      "generated_at": "2026-05-15T02:50:10+00:00",
       "on_date": "2026-05-14",
       "sport": "MLB",
       "player_name": "Austin Wells",
@@ -773,8 +773,8 @@
       "recommended_stake_units": 246.33
     },
     {
-      "id": 98,
-      "generated_at": "2026-05-14T23:05:34+00:00",
+      "id": 123,
+      "generated_at": "2026-05-15T02:50:10+00:00",
       "on_date": "2026-05-14",
       "sport": "MLB",
       "player_name": "Austin Wells",
@@ -808,8 +808,8 @@
       "recommended_stake_units": 117.14
     },
     {
-      "id": 99,
-      "generated_at": "2026-05-14T23:05:34+00:00",
+      "id": 124,
+      "generated_at": "2026-05-15T02:50:10+00:00",
       "on_date": "2026-05-14",
       "sport": "MLB",
       "player_name": "Ben Rice",
@@ -843,8 +843,8 @@
       "recommended_stake_units": 248.35
     },
     {
-      "id": 100,
-      "generated_at": "2026-05-14T23:05:34+00:00",
+      "id": 125,
+      "generated_at": "2026-05-15T02:50:10+00:00",
       "on_date": "2026-05-14",
       "sport": "MLB",
       "player_name": "Ben Rice",
@@ -1150,8 +1150,8 @@
   },
   "game_predictions": [
     {
-      "id": 59,
-      "generated_at": "2026-05-14T23:05:34+00:00",
+      "id": 72,
+      "generated_at": "2026-05-15T02:50:10+00:00",
       "on_date": "2026-05-14",
       "sport": "MLB",
       "game_id": "MLB-825008",
@@ -1177,8 +1177,8 @@
       }
     },
     {
-      "id": 61,
-      "generated_at": "2026-05-14T23:05:34+00:00",
+      "id": 74,
+      "generated_at": "2026-05-15T02:50:10+00:00",
       "on_date": "2026-05-14",
       "sport": "MLB",
       "game_id": "MLB-824926",
@@ -1204,8 +1204,8 @@
       }
     },
     {
-      "id": 60,
-      "generated_at": "2026-05-14T23:05:34+00:00",
+      "id": 73,
+      "generated_at": "2026-05-15T02:50:10+00:00",
       "on_date": "2026-05-14",
       "sport": "MLB",
       "game_id": "MLB-824762",
@@ -1231,8 +1231,8 @@
       }
     },
     {
-      "id": 62,
-      "generated_at": "2026-05-14T23:05:34+00:00",
+      "id": 75,
+      "generated_at": "2026-05-15T02:50:10+00:00",
       "on_date": "2026-05-14",
       "sport": "MLB",
       "game_id": "MLB-824602",
@@ -1258,8 +1258,8 @@
       }
     },
     {
-      "id": 54,
-      "generated_at": "2026-05-14T23:05:34+00:00",
+      "id": 67,
+      "generated_at": "2026-05-15T02:50:10+00:00",
       "on_date": "2026-05-14",
       "sport": "MLB",
       "game_id": "MLB-824517",
@@ -1285,8 +1285,8 @@
       }
     },
     {
-      "id": 58,
-      "generated_at": "2026-05-14T23:05:34+00:00",
+      "id": 71,
+      "generated_at": "2026-05-15T02:50:10+00:00",
       "on_date": "2026-05-14",
       "sport": "MLB",
       "game_id": "MLB-824196",
@@ -1312,8 +1312,8 @@
       }
     },
     {
-      "id": 63,
-      "generated_at": "2026-05-14T23:05:34+00:00",
+      "id": 76,
+      "generated_at": "2026-05-15T02:50:10+00:00",
       "on_date": "2026-05-14",
       "sport": "MLB",
       "game_id": "MLB-823950",
@@ -1339,8 +1339,8 @@
       }
     },
     {
-      "id": 57,
-      "generated_at": "2026-05-14T23:05:34+00:00",
+      "id": 70,
+      "generated_at": "2026-05-15T02:50:10+00:00",
       "on_date": "2026-05-14",
       "sport": "MLB",
       "game_id": "MLB-823789",
@@ -1366,8 +1366,8 @@
       }
     },
     {
-      "id": 56,
-      "generated_at": "2026-05-14T23:05:34+00:00",
+      "id": 69,
+      "generated_at": "2026-05-15T02:50:10+00:00",
       "on_date": "2026-05-14",
       "sport": "MLB",
       "game_id": "MLB-823709",
@@ -1393,8 +1393,8 @@
       }
     },
     {
-      "id": 55,
-      "generated_at": "2026-05-14T23:05:34+00:00",
+      "id": 68,
+      "generated_at": "2026-05-15T02:50:10+00:00",
       "on_date": "2026-05-14",
       "sport": "MLB",
       "game_id": "MLB-823630",
@@ -1420,8 +1420,8 @@
       }
     },
     {
-      "id": 53,
-      "generated_at": "2026-05-14T23:05:34+00:00",
+      "id": 66,
+      "generated_at": "2026-05-15T02:50:10+00:00",
       "on_date": "2026-05-14",
       "sport": "MLB",
       "game_id": "MLB-823383",
@@ -1447,8 +1447,8 @@
       }
     },
     {
-      "id": 65,
-      "generated_at": "2026-05-14T23:05:34+00:00",
+      "id": 78,
+      "generated_at": "2026-05-15T02:50:10+00:00",
       "on_date": "2026-05-14",
       "sport": "NHL",
       "game_id": "NHL-2025030246",
@@ -1474,8 +1474,8 @@
       }
     },
     {
-      "id": 64,
-      "generated_at": "2026-05-14T23:05:34+00:00",
+      "id": 77,
+      "generated_at": "2026-05-15T02:50:10+00:00",
       "on_date": "2026-05-14",
       "sport": "NHL",
       "game_id": "NHL-2025030215",
