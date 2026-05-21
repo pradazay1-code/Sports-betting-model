@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-05-21T11:50:33+00:00",
+  "generated_at": "2026-05-21T16:36:02+00:00",
   "on_date": "2026-05-21",
   "picks": [
     {
-      "id": 401,
-      "generated_at": "2026-05-21T11:50:33+00:00",
+      "id": 426,
+      "generated_at": "2026-05-21T16:36:02+00:00",
       "on_date": "2026-05-21",
       "sport": "MLB",
       "player_name": "A.J. Ewing",
@@ -38,8 +38,8 @@
       "recommended_stake_units": 249.45
     },
     {
-      "id": 402,
-      "generated_at": "2026-05-21T11:50:33+00:00",
+      "id": 427,
+      "generated_at": "2026-05-21T16:36:02+00:00",
       "on_date": "2026-05-21",
       "sport": "MLB",
       "player_name": "Aaron Judge",
@@ -73,8 +73,8 @@
       "recommended_stake_units": 249.45
     },
     {
-      "id": 403,
-      "generated_at": "2026-05-21T11:50:33+00:00",
+      "id": 428,
+      "generated_at": "2026-05-21T16:36:02+00:00",
       "on_date": "2026-05-21",
       "sport": "MLB",
       "player_name": "Adam Frazier",
@@ -108,8 +108,8 @@
       "recommended_stake_units": 231.27
     },
     {
-      "id": 404,
-      "generated_at": "2026-05-21T11:50:33+00:00",
+      "id": 429,
+      "generated_at": "2026-05-21T16:36:02+00:00",
       "on_date": "2026-05-21",
       "sport": "MLB",
       "player_name": "Adrian Del Castillo",
@@ -143,8 +143,8 @@
       "recommended_stake_units": 249.45
     },
     {
-      "id": 405,
-      "generated_at": "2026-05-21T11:50:33+00:00",
+      "id": 430,
+      "generated_at": "2026-05-21T16:36:02+00:00",
       "on_date": "2026-05-21",
       "sport": "MLB",
       "player_name": "Alec Burleson",
@@ -178,8 +178,8 @@
       "recommended_stake_units": 249.45
     },
     {
-      "id": 406,
-      "generated_at": "2026-05-21T11:50:33+00:00",
+      "id": 431,
+      "generated_at": "2026-05-21T16:36:02+00:00",
       "on_date": "2026-05-21",
       "sport": "MLB",
       "player_name": "Andr\u00e9s Chaparro",
@@ -213,8 +213,8 @@
       "recommended_stake_units": 248.14
     },
     {
-      "id": 407,
-      "generated_at": "2026-05-21T11:50:33+00:00",
+      "id": 432,
+      "generated_at": "2026-05-21T16:36:02+00:00",
       "on_date": "2026-05-21",
       "sport": "MLB",
       "player_name": "Angel Mart\u00ednez",
@@ -248,8 +248,8 @@
       "recommended_stake_units": 249.45
     },
     {
-      "id": 408,
-      "generated_at": "2026-05-21T11:50:33+00:00",
+      "id": 433,
+      "generated_at": "2026-05-21T16:36:02+00:00",
       "on_date": "2026-05-21",
       "sport": "MLB",
       "player_name": "Anthony Volpe",
@@ -283,78 +283,8 @@
       "recommended_stake_units": 249.45
     },
     {
-      "id": 409,
-      "generated_at": "2026-05-21T11:50:33+00:00",
-      "on_date": "2026-05-21",
-      "sport": "MLB",
-      "player_name": "Austin Hedges",
-      "market": "batter_hits",
-      "side": "under",
-      "line": 1.5,
-      "price_american": -119,
-      "book": "prizepicks",
-      "model_prob": 0.7794457274826789,
-      "fair_prob": 0.5,
-      "edge_pct": 43.444213713198906,
-      "kelly_stake": 0.12924653579676673,
-      "rating": 90.0,
-      "rationale": {
-        "components": {
-          "edge": 1.0,
-          "confidence": 1.0,
-          "disagreement": 1.0,
-          "sample": 1.0,
-          "depth": 0.0
-        },
-        "books_count": 1,
-        "pred_mean": 0.8963336728796483,
-        "residual_std": 0.8614017144755541,
-        "book": "prizepicks"
-      },
-      "graded": 0,
-      "actual_value": null,
-      "won": null,
-      "payout_units": null,
-      "recommended_stake_units": 129.25
-    },
-    {
-      "id": 410,
-      "generated_at": "2026-05-21T11:50:33+00:00",
-      "on_date": "2026-05-21",
-      "sport": "MLB",
-      "player_name": "Austin Hedges",
-      "market": "batter_hits",
-      "side": "over",
-      "line": 0.5,
-      "price_american": -119,
-      "book": "prizepicks",
-      "model_prob": 0.999,
-      "fair_prob": 0.5,
-      "edge_pct": 83.84957983193277,
-      "kelly_stake": 0.2494525,
-      "rating": 90.0,
-      "rationale": {
-        "components": {
-          "edge": 1.0,
-          "confidence": 1.0,
-          "disagreement": 1.0,
-          "sample": 1.0,
-          "depth": 0.0
-        },
-        "books_count": 1,
-        "pred_mean": 0.8963336728796483,
-        "residual_std": 0.8614017144755541,
-        "book": "prizepicks"
-      },
-      "graded": 0,
-      "actual_value": null,
-      "won": null,
-      "payout_units": null,
-      "recommended_stake_units": 249.45
-    },
-    {
-      "id": 411,
-      "generated_at": "2026-05-21T11:50:33+00:00",
+      "id": 434,
+      "generated_at": "2026-05-21T16:36:02+00:00",
       "on_date": "2026-05-21",
       "sport": "MLB",
       "player_name": "Austin Riley",
@@ -388,8 +318,8 @@
       "recommended_stake_units": 249.45
     },
     {
-      "id": 412,
-      "generated_at": "2026-05-21T11:50:33+00:00",
+      "id": 435,
+      "generated_at": "2026-05-21T16:36:02+00:00",
       "on_date": "2026-05-21",
       "sport": "MLB",
       "player_name": "Austin Wells",
@@ -423,8 +353,8 @@
       "recommended_stake_units": 240.35
     },
     {
-      "id": 413,
-      "generated_at": "2026-05-21T11:50:33+00:00",
+      "id": 436,
+      "generated_at": "2026-05-21T16:36:02+00:00",
       "on_date": "2026-05-21",
       "sport": "MLB",
       "player_name": "Ben Rice",
@@ -458,8 +388,8 @@
       "recommended_stake_units": 118.41
     },
     {
-      "id": 414,
-      "generated_at": "2026-05-21T11:50:33+00:00",
+      "id": 437,
+      "generated_at": "2026-05-21T16:36:02+00:00",
       "on_date": "2026-05-21",
       "sport": "MLB",
       "player_name": "Ben Rice",
@@ -493,8 +423,8 @@
       "recommended_stake_units": 249.45
     },
     {
-      "id": 415,
-      "generated_at": "2026-05-21T11:50:33+00:00",
+      "id": 438,
+      "generated_at": "2026-05-21T16:36:02+00:00",
       "on_date": "2026-05-21",
       "sport": "MLB",
       "player_name": "Bo Bichette",
@@ -528,8 +458,8 @@
       "recommended_stake_units": 206.9
     },
     {
-      "id": 416,
-      "generated_at": "2026-05-21T11:50:33+00:00",
+      "id": 439,
+      "generated_at": "2026-05-21T16:36:02+00:00",
       "on_date": "2026-05-21",
       "sport": "MLB",
       "player_name": "Bo Bichette",
@@ -563,8 +493,8 @@
       "recommended_stake_units": 195.38
     },
     {
-      "id": 417,
-      "generated_at": "2026-05-21T11:50:33+00:00",
+      "id": 440,
+      "generated_at": "2026-05-21T16:36:02+00:00",
       "on_date": "2026-05-21",
       "sport": "MLB",
       "player_name": "Bo Bichette",
@@ -598,8 +528,8 @@
       "recommended_stake_units": 249.45
     },
     {
-      "id": 418,
-      "generated_at": "2026-05-21T11:50:33+00:00",
+      "id": 441,
+      "generated_at": "2026-05-21T16:36:02+00:00",
       "on_date": "2026-05-21",
       "sport": "MLB",
       "player_name": "Brandon Lowe",
@@ -633,8 +563,8 @@
       "recommended_stake_units": 249.45
     },
     {
-      "id": 419,
-      "generated_at": "2026-05-21T11:50:33+00:00",
+      "id": 442,
+      "generated_at": "2026-05-21T16:36:02+00:00",
       "on_date": "2026-05-21",
       "sport": "MLB",
       "player_name": "Brandon Valenzuela",
@@ -668,8 +598,8 @@
       "recommended_stake_units": 155.24
     },
     {
-      "id": 420,
-      "generated_at": "2026-05-21T11:50:33+00:00",
+      "id": 443,
+      "generated_at": "2026-05-21T16:36:02+00:00",
       "on_date": "2026-05-21",
       "sport": "MLB",
       "player_name": "Brandon Valenzuela",
@@ -703,8 +633,8 @@
       "recommended_stake_units": 249.45
     },
     {
-      "id": 421,
-      "generated_at": "2026-05-21T11:50:33+00:00",
+      "id": 444,
+      "generated_at": "2026-05-21T16:36:02+00:00",
       "on_date": "2026-05-21",
       "sport": "MLB",
       "player_name": "Braxton Fulford",
@@ -738,8 +668,8 @@
       "recommended_stake_units": 180.46
     },
     {
-      "id": 422,
-      "generated_at": "2026-05-21T11:50:33+00:00",
+      "id": 445,
+      "generated_at": "2026-05-21T16:36:02+00:00",
       "on_date": "2026-05-21",
       "sport": "MLB",
       "player_name": "Braxton Fulford",
@@ -773,8 +703,8 @@
       "recommended_stake_units": 249.45
     },
     {
-      "id": 423,
-      "generated_at": "2026-05-21T11:50:33+00:00",
+      "id": 446,
+      "generated_at": "2026-05-21T16:36:02+00:00",
       "on_date": "2026-05-21",
       "sport": "MLB",
       "player_name": "Brayan Rocchio",
@@ -808,8 +738,8 @@
       "recommended_stake_units": 227.97
     },
     {
-      "id": 424,
-      "generated_at": "2026-05-21T11:50:33+00:00",
+      "id": 447,
+      "generated_at": "2026-05-21T16:36:02+00:00",
       "on_date": "2026-05-21",
       "sport": "MLB",
       "player_name": "Brayan Rocchio",
@@ -843,8 +773,8 @@
       "recommended_stake_units": 249.45
     },
     {
-      "id": 425,
-      "generated_at": "2026-05-21T11:50:33+00:00",
+      "id": 448,
+      "generated_at": "2026-05-21T16:36:02+00:00",
       "on_date": "2026-05-21",
       "sport": "MLB",
       "player_name": "Brent Rooker",
@@ -868,6 +798,76 @@
         },
         "books_count": 1,
         "pred_mean": 1.023329106816704,
+        "residual_std": 0.8614017144755541,
+        "book": "prizepicks"
+      },
+      "graded": 0,
+      "actual_value": null,
+      "won": null,
+      "payout_units": null,
+      "recommended_stake_units": 249.45
+    },
+    {
+      "id": 449,
+      "generated_at": "2026-05-21T16:36:02+00:00",
+      "on_date": "2026-05-21",
+      "sport": "MLB",
+      "player_name": "Brett Baty",
+      "market": "batter_hits",
+      "side": "over",
+      "line": 0.5,
+      "price_american": -119,
+      "book": "prizepicks",
+      "model_prob": 0.999,
+      "fair_prob": 0.5,
+      "edge_pct": 83.84957983193277,
+      "kelly_stake": 0.2494525,
+      "rating": 90.0,
+      "rationale": {
+        "components": {
+          "edge": 1.0,
+          "confidence": 1.0,
+          "disagreement": 1.0,
+          "sample": 1.0,
+          "depth": 0.0
+        },
+        "books_count": 1,
+        "pred_mean": 1.1689570128498288,
+        "residual_std": 0.8614017144755541,
+        "book": "prizepicks"
+      },
+      "graded": 0,
+      "actual_value": null,
+      "won": null,
+      "payout_units": null,
+      "recommended_stake_units": 249.45
+    },
+    {
+      "id": 450,
+      "generated_at": "2026-05-21T16:36:02+00:00",
+      "on_date": "2026-05-21",
+      "sport": "MLB",
+      "player_name": "Bryan Reynolds",
+      "market": "batter_hits",
+      "side": "over",
+      "line": 0.5,
+      "price_american": -119,
+      "book": "prizepicks",
+      "model_prob": 0.999,
+      "fair_prob": 0.5,
+      "edge_pct": 83.84957983193277,
+      "kelly_stake": 0.2494525,
+      "rating": 90.0,
+      "rationale": {
+        "components": {
+          "edge": 1.0,
+          "confidence": 1.0,
+          "disagreement": 1.0,
+          "sample": 1.0,
+          "depth": 0.0
+        },
+        "books_count": 1,
+        "pred_mean": 0.9560739834626824,
         "residual_std": 0.8614017144755541,
         "book": "prizepicks"
       },
