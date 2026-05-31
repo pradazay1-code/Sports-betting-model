@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-05-31T14:39:53+00:00",
+  "generated_at": "2026-05-31T17:13:15+00:00",
   "on_date": "2026-05-31",
   "picks": [
     {
-      "id": 851,
-      "generated_at": "2026-05-31T14:39:53+00:00",
+      "id": 876,
+      "generated_at": "2026-05-31T17:13:15+00:00",
       "on_date": "2026-05-31",
       "sport": "MLB",
       "player_name": "Adam Frazier",
@@ -38,8 +38,8 @@
       "recommended_stake_units": 181.41
     },
     {
-      "id": 852,
-      "generated_at": "2026-05-31T14:39:53+00:00",
+      "id": 877,
+      "generated_at": "2026-05-31T17:13:15+00:00",
       "on_date": "2026-05-31",
       "sport": "MLB",
       "player_name": "Adam Frazier",
@@ -73,8 +73,8 @@
       "recommended_stake_units": 249.45
     },
     {
-      "id": 853,
-      "generated_at": "2026-05-31T14:39:53+00:00",
+      "id": 878,
+      "generated_at": "2026-05-31T17:13:15+00:00",
       "on_date": "2026-05-31",
       "sport": "MLB",
       "player_name": "Adley Rutschman",
@@ -108,8 +108,8 @@
       "recommended_stake_units": 240.16
     },
     {
-      "id": 854,
-      "generated_at": "2026-05-31T14:39:53+00:00",
+      "id": 879,
+      "generated_at": "2026-05-31T17:13:15+00:00",
       "on_date": "2026-05-31",
       "sport": "MLB",
       "player_name": "Adley Rutschman",
@@ -143,8 +143,8 @@
       "recommended_stake_units": 249.45
     },
     {
-      "id": 855,
-      "generated_at": "2026-05-31T14:39:53+00:00",
+      "id": 880,
+      "generated_at": "2026-05-31T17:13:15+00:00",
       "on_date": "2026-05-31",
       "sport": "MLB",
       "player_name": "Adolis Garc\u00eda",
@@ -178,8 +178,8 @@
       "recommended_stake_units": 246.21
     },
     {
-      "id": 856,
-      "generated_at": "2026-05-31T14:39:53+00:00",
+      "id": 881,
+      "generated_at": "2026-05-31T17:13:15+00:00",
       "on_date": "2026-05-31",
       "sport": "MLB",
       "player_name": "Alec Bohm",
@@ -213,8 +213,8 @@
       "recommended_stake_units": 188.56
     },
     {
-      "id": 857,
-      "generated_at": "2026-05-31T14:39:53+00:00",
+      "id": 882,
+      "generated_at": "2026-05-31T17:13:15+00:00",
       "on_date": "2026-05-31",
       "sport": "MLB",
       "player_name": "Alec Bohm",
@@ -248,8 +248,8 @@
       "recommended_stake_units": 249.45
     },
     {
-      "id": 858,
-      "generated_at": "2026-05-31T14:39:53+00:00",
+      "id": 883,
+      "generated_at": "2026-05-31T17:13:15+00:00",
       "on_date": "2026-05-31",
       "sport": "MLB",
       "player_name": "Alec Burleson",
@@ -283,8 +283,8 @@
       "recommended_stake_units": 220.44
     },
     {
-      "id": 859,
-      "generated_at": "2026-05-31T14:39:53+00:00",
+      "id": 884,
+      "generated_at": "2026-05-31T17:13:15+00:00",
       "on_date": "2026-05-31",
       "sport": "MLB",
       "player_name": "Alec Burleson",
@@ -318,8 +318,8 @@
       "recommended_stake_units": 249.45
     },
     {
-      "id": 860,
-      "generated_at": "2026-05-31T14:39:53+00:00",
+      "id": 885,
+      "generated_at": "2026-05-31T17:13:15+00:00",
       "on_date": "2026-05-31",
       "sport": "MLB",
       "player_name": "Alex Bregman",
@@ -353,8 +353,8 @@
       "recommended_stake_units": 249.45
     },
     {
-      "id": 861,
-      "generated_at": "2026-05-31T14:39:53+00:00",
+      "id": 886,
+      "generated_at": "2026-05-31T17:13:15+00:00",
       "on_date": "2026-05-31",
       "sport": "MLB",
       "player_name": "Alex Call",
@@ -388,8 +388,8 @@
       "recommended_stake_units": 224.07
     },
     {
-      "id": 862,
-      "generated_at": "2026-05-31T14:39:53+00:00",
+      "id": 887,
+      "generated_at": "2026-05-31T17:13:15+00:00",
       "on_date": "2026-05-31",
       "sport": "MLB",
       "player_name": "Alex Call",
@@ -423,8 +423,8 @@
       "recommended_stake_units": 230.71
     },
     {
-      "id": 863,
-      "generated_at": "2026-05-31T14:39:53+00:00",
+      "id": 888,
+      "generated_at": "2026-05-31T17:13:15+00:00",
       "on_date": "2026-05-31",
       "sport": "MLB",
       "player_name": "Alex Jackson",
@@ -458,8 +458,8 @@
       "recommended_stake_units": 246.21
     },
     {
-      "id": 864,
-      "generated_at": "2026-05-31T14:39:53+00:00",
+      "id": 889,
+      "generated_at": "2026-05-31T17:13:15+00:00",
       "on_date": "2026-05-31",
       "sport": "MLB",
       "player_name": "Andrew Benintendi",
@@ -493,8 +493,8 @@
       "recommended_stake_units": 249.45
     },
     {
-      "id": 865,
-      "generated_at": "2026-05-31T14:39:53+00:00",
+      "id": 890,
+      "generated_at": "2026-05-31T17:13:15+00:00",
       "on_date": "2026-05-31",
       "sport": "MLB",
       "player_name": "Andr\u00e9s Gim\u00e9nez",
@@ -528,8 +528,8 @@
       "recommended_stake_units": 246.21
     },
     {
-      "id": 866,
-      "generated_at": "2026-05-31T14:39:53+00:00",
+      "id": 891,
+      "generated_at": "2026-05-31T17:13:15+00:00",
       "on_date": "2026-05-31",
       "sport": "MLB",
       "player_name": "Andy Pages",
@@ -563,8 +563,8 @@
       "recommended_stake_units": 249.45
     },
     {
-      "id": 867,
-      "generated_at": "2026-05-31T14:39:53+00:00",
+      "id": 892,
+      "generated_at": "2026-05-31T17:13:15+00:00",
       "on_date": "2026-05-31",
       "sport": "MLB",
       "player_name": "Andy Pages",
@@ -598,8 +598,8 @@
       "recommended_stake_units": 246.21
     },
     {
-      "id": 868,
-      "generated_at": "2026-05-31T14:39:53+00:00",
+      "id": 893,
+      "generated_at": "2026-05-31T17:13:15+00:00",
       "on_date": "2026-05-31",
       "sport": "MLB",
       "player_name": "Angel Mart\u00ednez",
@@ -633,8 +633,8 @@
       "recommended_stake_units": 173.22
     },
     {
-      "id": 869,
-      "generated_at": "2026-05-31T14:39:53+00:00",
+      "id": 894,
+      "generated_at": "2026-05-31T17:13:15+00:00",
       "on_date": "2026-05-31",
       "sport": "MLB",
       "player_name": "Angel Mart\u00ednez",
@@ -668,8 +668,8 @@
       "recommended_stake_units": 249.45
     },
     {
-      "id": 870,
-      "generated_at": "2026-05-31T14:39:53+00:00",
+      "id": 895,
+      "generated_at": "2026-05-31T17:13:15+00:00",
       "on_date": "2026-05-31",
       "sport": "MLB",
       "player_name": "Austin Hedges",
@@ -703,8 +703,8 @@
       "recommended_stake_units": 157.11
     },
     {
-      "id": 871,
-      "generated_at": "2026-05-31T14:39:53+00:00",
+      "id": 896,
+      "generated_at": "2026-05-31T17:13:15+00:00",
       "on_date": "2026-05-31",
       "sport": "MLB",
       "player_name": "Austin Hedges",
@@ -738,8 +738,8 @@
       "recommended_stake_units": 249.45
     },
     {
-      "id": 872,
-      "generated_at": "2026-05-31T14:39:53+00:00",
+      "id": 897,
+      "generated_at": "2026-05-31T17:13:15+00:00",
       "on_date": "2026-05-31",
       "sport": "MLB",
       "player_name": "Austin Martin",
@@ -773,8 +773,8 @@
       "recommended_stake_units": 237.19
     },
     {
-      "id": 873,
-      "generated_at": "2026-05-31T14:39:53+00:00",
+      "id": 898,
+      "generated_at": "2026-05-31T17:13:15+00:00",
       "on_date": "2026-05-31",
       "sport": "MLB",
       "player_name": "Austin Martin",
@@ -808,8 +808,8 @@
       "recommended_stake_units": 188.56
     },
     {
-      "id": 874,
-      "generated_at": "2026-05-31T14:39:53+00:00",
+      "id": 899,
+      "generated_at": "2026-05-31T17:13:15+00:00",
       "on_date": "2026-05-31",
       "sport": "MLB",
       "player_name": "Braden Shewmake",
@@ -843,8 +843,8 @@
       "recommended_stake_units": 197.37
     },
     {
-      "id": 875,
-      "generated_at": "2026-05-31T14:39:53+00:00",
+      "id": 900,
+      "generated_at": "2026-05-31T17:13:15+00:00",
       "on_date": "2026-05-31",
       "sport": "MLB",
       "player_name": "Braden Shewmake",
