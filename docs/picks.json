@@ -1,261 +1,16 @@
 {
-  "generated_at": "2026-06-22T03:47:09+00:00",
-  "on_date": "2026-06-21",
+  "generated_at": "2026-06-22T13:47:03+00:00",
+  "on_date": "2026-06-22",
   "picks": [
     {
-      "id": 1651,
-      "generated_at": "2026-06-22T03:47:09+00:00",
-      "on_date": "2026-06-21",
-      "sport": "MLB",
-      "player_name": "A.J. Ewing",
-      "market": "batter_hits",
-      "side": "under",
-      "line": 1.5,
-      "price_american": -119,
-      "book": "prizepicks",
-      "model_prob": 0.9086495766976497,
-      "fair_prob": 0.5,
-      "edge_pct": 67.22206495528175,
-      "kelly_stake": 0.1999856432419632,
-      "rating": 90.0,
-      "rationale": {
-        "components": {
-          "edge": 1.0,
-          "confidence": 1.0,
-          "disagreement": 1.0,
-          "sample": 1.0,
-          "depth": 0.0
-        },
-        "books_count": 1,
-        "pred_mean": 0.6718150004251858,
-        "residual_std": 0.8910059350043688,
-        "book": "prizepicks"
-      },
-      "graded": 0,
-      "actual_value": null,
-      "won": null,
-      "payout_units": null,
-      "recommended_stake_units": 199.99
-    },
-    {
-      "id": 1652,
-      "generated_at": "2026-06-22T03:47:09+00:00",
-      "on_date": "2026-06-21",
+      "id": 1676,
+      "generated_at": "2026-06-22T13:47:03+00:00",
+      "on_date": "2026-06-22",
       "sport": "MLB",
       "player_name": "A.J. Ewing",
       "market": "batter_hits",
       "side": "over",
       "line": 0.5,
-      "price_american": -119,
-      "book": "prizepicks",
-      "model_prob": 0.9761904761904762,
-      "fair_prob": 0.5,
-      "edge_pct": 79.65186074429774,
-      "kelly_stake": 0.2369642857142857,
-      "rating": 90.0,
-      "rationale": {
-        "components": {
-          "edge": 1.0,
-          "confidence": 1.0,
-          "disagreement": 1.0,
-          "sample": 1.0,
-          "depth": 0.0
-        },
-        "books_count": 1,
-        "pred_mean": 0.6718150004251858,
-        "residual_std": 0.8910059350043688,
-        "book": "prizepicks"
-      },
-      "graded": 0,
-      "actual_value": null,
-      "won": null,
-      "payout_units": null,
-      "recommended_stake_units": 236.96
-    },
-    {
-      "id": 1653,
-      "generated_at": "2026-06-22T03:47:09+00:00",
-      "on_date": "2026-06-21",
-      "sport": "MLB",
-      "player_name": "Alec Bohm",
-      "market": "batter_hits",
-      "side": "under",
-      "line": 2.5,
-      "price_american": -119,
-      "book": "prizepicks",
-      "model_prob": 0.9878268710550046,
-      "fair_prob": 0.5,
-      "edge_pct": 81.79334853869413,
-      "kelly_stake": 0.24333521190261498,
-      "rating": 90.0,
-      "rationale": {
-        "components": {
-          "edge": 1.0,
-          "confidence": 1.0,
-          "disagreement": 1.0,
-          "sample": 1.0,
-          "depth": 0.0
-        },
-        "books_count": 1,
-        "pred_mean": 0.7998075329873963,
-        "residual_std": 0.8910059350043688,
-        "book": "prizepicks"
-      },
-      "graded": 0,
-      "actual_value": null,
-      "won": null,
-      "payout_units": null,
-      "recommended_stake_units": 243.34
-    },
-    {
-      "id": 1654,
-      "generated_at": "2026-06-22T03:47:09+00:00",
-      "on_date": "2026-06-21",
-      "sport": "MLB",
-      "player_name": "Alec Bohm",
-      "market": "batter_hits",
-      "side": "under",
-      "line": 1.5,
-      "price_american": -119,
-      "book": "prizepicks",
-      "model_prob": 0.8594009216589862,
-      "fair_prob": 0.5,
-      "edge_pct": 58.158657011191586,
-      "kelly_stake": 0.17302200460829495,
-      "rating": 90.0,
-      "rationale": {
-        "components": {
-          "edge": 1.0,
-          "confidence": 1.0,
-          "disagreement": 1.0,
-          "sample": 1.0,
-          "depth": 0.0
-        },
-        "books_count": 1,
-        "pred_mean": 0.7998075329873963,
-        "residual_std": 0.8910059350043688,
-        "book": "prizepicks"
-      },
-      "graded": 0,
-      "actual_value": null,
-      "won": null,
-      "payout_units": null,
-      "recommended_stake_units": 173.02
-    },
-    {
-      "id": 1655,
-      "generated_at": "2026-06-22T03:47:09+00:00",
-      "on_date": "2026-06-21",
-      "sport": "MLB",
-      "player_name": "Alec Bohm",
-      "market": "batter_hits",
-      "side": "over",
-      "line": 0.5,
-      "price_american": -119,
-      "book": "prizepicks",
-      "model_prob": 0.9928057553956835,
-      "fair_prob": 0.5,
-      "edge_pct": 82.70963061483589,
-      "kelly_stake": 0.2460611510791367,
-      "rating": 90.0,
-      "rationale": {
-        "components": {
-          "edge": 1.0,
-          "confidence": 1.0,
-          "disagreement": 1.0,
-          "sample": 1.0,
-          "depth": 0.0
-        },
-        "books_count": 1,
-        "pred_mean": 0.7998075329873963,
-        "residual_std": 0.8910059350043688,
-        "book": "prizepicks"
-      },
-      "graded": 0,
-      "actual_value": null,
-      "won": null,
-      "payout_units": null,
-      "recommended_stake_units": 246.06
-    },
-    {
-      "id": 1656,
-      "generated_at": "2026-06-22T03:47:09+00:00",
-      "on_date": "2026-06-21",
-      "sport": "MLB",
-      "player_name": "Bo Bichette",
-      "market": "batter_hits",
-      "side": "under",
-      "line": 1.5,
-      "price_american": -119,
-      "book": "prizepicks",
-      "model_prob": 0.9599230847080255,
-      "fair_prob": 0.5,
-      "edge_pct": 76.65811390845177,
-      "kelly_stake": 0.22805788887764394,
-      "rating": 90.0,
-      "rationale": {
-        "components": {
-          "edge": 1.0,
-          "confidence": 1.0,
-          "disagreement": 1.0,
-          "sample": 1.0,
-          "depth": 0.0
-        },
-        "books_count": 1,
-        "pred_mean": 0.49398308796601637,
-        "residual_std": 0.8910059350043688,
-        "book": "prizepicks"
-      },
-      "graded": 0,
-      "actual_value": null,
-      "won": null,
-      "payout_units": null,
-      "recommended_stake_units": 228.06
-    },
-    {
-      "id": 1657,
-      "generated_at": "2026-06-22T03:47:09+00:00",
-      "on_date": "2026-06-21",
-      "sport": "MLB",
-      "player_name": "Bo Bichette",
-      "market": "batter_hits",
-      "side": "over",
-      "line": 0.5,
-      "price_american": -119,
-      "book": "prizepicks",
-      "model_prob": 0.8849480968858131,
-      "fair_prob": 0.5,
-      "edge_pct": 62.860195981506784,
-      "kelly_stake": 0.18700908304498268,
-      "rating": 90.0,
-      "rationale": {
-        "components": {
-          "edge": 1.0,
-          "confidence": 1.0,
-          "disagreement": 1.0,
-          "sample": 1.0,
-          "depth": 0.0
-        },
-        "books_count": 1,
-        "pred_mean": 0.49398308796601637,
-        "residual_std": 0.8910059350043688,
-        "book": "prizepicks"
-      },
-      "graded": 0,
-      "actual_value": null,
-      "won": null,
-      "payout_units": null,
-      "recommended_stake_units": 187.01
-    },
-    {
-      "id": 1658,
-      "generated_at": "2026-06-22T03:47:09+00:00",
-      "on_date": "2026-06-21",
-      "sport": "MLB",
-      "player_name": "Brandon Marsh",
-      "market": "batter_hits",
-      "side": "over",
-      "line": 1.5,
       "price_american": -119,
       "book": "prizepicks",
       "model_prob": 0.999,
@@ -272,8 +27,8 @@
           "depth": 0.0
         },
         "books_count": 1,
-        "pred_mean": 1.9715035233569602,
-        "residual_std": 0.8910059350043688,
+        "pred_mean": 0.975744072094953,
+        "residual_std": 0.9403439448537102,
         "book": "prizepicks"
       },
       "graded": 0,
@@ -283,9 +38,184 @@
       "recommended_stake_units": 249.45
     },
     {
-      "id": 1659,
-      "generated_at": "2026-06-22T03:47:09+00:00",
-      "on_date": "2026-06-21",
+      "id": 1677,
+      "generated_at": "2026-06-22T13:47:03+00:00",
+      "on_date": "2026-06-22",
+      "sport": "MLB",
+      "player_name": "Alec Bohm",
+      "market": "batter_hits",
+      "side": "over",
+      "line": 1.5,
+      "price_american": -119,
+      "book": "prizepicks",
+      "model_prob": 0.9785407725321889,
+      "fair_prob": 0.5,
+      "edge_pct": 80.08439427273058,
+      "kelly_stake": 0.23825107296137338,
+      "rating": 90.0,
+      "rationale": {
+        "components": {
+          "edge": 1.0,
+          "confidence": 1.0,
+          "disagreement": 1.0,
+          "sample": 1.0,
+          "depth": 0.0
+        },
+        "books_count": 1,
+        "pred_mean": 1.8289027252505896,
+        "residual_std": 0.9403439448537102,
+        "book": "prizepicks"
+      },
+      "graded": 0,
+      "actual_value": null,
+      "won": null,
+      "payout_units": null,
+      "recommended_stake_units": 238.25
+    },
+    {
+      "id": 1678,
+      "generated_at": "2026-06-22T13:47:03+00:00",
+      "on_date": "2026-06-22",
+      "sport": "MLB",
+      "player_name": "Alec Bohm",
+      "market": "batter_hits",
+      "side": "over",
+      "line": 0.5,
+      "price_american": -119,
+      "book": "prizepicks",
+      "model_prob": 0.999,
+      "fair_prob": 0.5,
+      "edge_pct": 83.84957983193277,
+      "kelly_stake": 0.2494525,
+      "rating": 90.0,
+      "rationale": {
+        "components": {
+          "edge": 1.0,
+          "confidence": 1.0,
+          "disagreement": 1.0,
+          "sample": 1.0,
+          "depth": 0.0
+        },
+        "books_count": 1,
+        "pred_mean": 1.8289027252505896,
+        "residual_std": 0.9403439448537102,
+        "book": "prizepicks"
+      },
+      "graded": 0,
+      "actual_value": null,
+      "won": null,
+      "payout_units": null,
+      "recommended_stake_units": 249.45
+    },
+    {
+      "id": 1679,
+      "generated_at": "2026-06-22T13:47:03+00:00",
+      "on_date": "2026-06-22",
+      "sport": "MLB",
+      "player_name": "Bo Bichette",
+      "market": "batter_hits",
+      "side": "over",
+      "line": 1.5,
+      "price_american": -119,
+      "book": "prizepicks",
+      "model_prob": 0.9756915339480302,
+      "fair_prob": 0.5,
+      "edge_pct": 79.56003860051986,
+      "kelly_stake": 0.23669111483654653,
+      "rating": 90.0,
+      "rationale": {
+        "components": {
+          "edge": 1.0,
+          "confidence": 1.0,
+          "disagreement": 1.0,
+          "sample": 1.0,
+          "depth": 0.0
+        },
+        "books_count": 1,
+        "pred_mean": 1.7504089665712466,
+        "residual_std": 0.9403439448537102,
+        "book": "prizepicks"
+      },
+      "graded": 0,
+      "actual_value": null,
+      "won": null,
+      "payout_units": null,
+      "recommended_stake_units": 236.69
+    },
+    {
+      "id": 1680,
+      "generated_at": "2026-06-22T13:47:03+00:00",
+      "on_date": "2026-06-22",
+      "sport": "MLB",
+      "player_name": "Bo Bichette",
+      "market": "batter_hits",
+      "side": "over",
+      "line": 0.5,
+      "price_american": -119,
+      "book": "prizepicks",
+      "model_prob": 0.999,
+      "fair_prob": 0.5,
+      "edge_pct": 83.84957983193277,
+      "kelly_stake": 0.2494525,
+      "rating": 90.0,
+      "rationale": {
+        "components": {
+          "edge": 1.0,
+          "confidence": 1.0,
+          "disagreement": 1.0,
+          "sample": 1.0,
+          "depth": 0.0
+        },
+        "books_count": 1,
+        "pred_mean": 1.7504089665712466,
+        "residual_std": 0.9403439448537102,
+        "book": "prizepicks"
+      },
+      "graded": 0,
+      "actual_value": null,
+      "won": null,
+      "payout_units": null,
+      "recommended_stake_units": 249.45
+    },
+    {
+      "id": 1681,
+      "generated_at": "2026-06-22T13:47:03+00:00",
+      "on_date": "2026-06-22",
+      "sport": "MLB",
+      "player_name": "Brandon Marsh",
+      "market": "batter_hits",
+      "side": "over",
+      "line": 1.5,
+      "price_american": -119,
+      "book": "prizepicks",
+      "model_prob": 0.9756915339480302,
+      "fair_prob": 0.5,
+      "edge_pct": 79.56003860051986,
+      "kelly_stake": 0.23669111483654653,
+      "rating": 90.0,
+      "rationale": {
+        "components": {
+          "edge": 1.0,
+          "confidence": 1.0,
+          "disagreement": 1.0,
+          "sample": 1.0,
+          "depth": 0.0
+        },
+        "books_count": 1,
+        "pred_mean": 1.8075528167997386,
+        "residual_std": 0.9403439448537102,
+        "book": "prizepicks"
+      },
+      "graded": 0,
+      "actual_value": null,
+      "won": null,
+      "payout_units": null,
+      "recommended_stake_units": 236.69
+    },
+    {
+      "id": 1682,
+      "generated_at": "2026-06-22T13:47:03+00:00",
+      "on_date": "2026-06-22",
       "sport": "MLB",
       "player_name": "Brandon Marsh",
       "market": "batter_hits",
@@ -307,8 +237,8 @@
           "depth": 0.0
         },
         "books_count": 1,
-        "pred_mean": 1.9715035233569602,
-        "residual_std": 0.8910059350043688,
+        "pred_mean": 1.8075528167997386,
+        "residual_std": 0.9403439448537102,
         "book": "prizepicks"
       },
       "graded": 0,
@@ -318,9 +248,9 @@
       "recommended_stake_units": 249.45
     },
     {
-      "id": 1660,
-      "generated_at": "2026-06-22T03:47:09+00:00",
-      "on_date": "2026-06-21",
+      "id": 1683,
+      "generated_at": "2026-06-22T13:47:03+00:00",
+      "on_date": "2026-06-22",
       "sport": "MLB",
       "player_name": "Brett Baty",
       "market": "batter_hits",
@@ -328,10 +258,10 @@
       "line": 1.5,
       "price_american": -119,
       "book": "prizepicks",
-      "model_prob": 0.8594009216589862,
+      "model_prob": 0.8432760364004044,
       "fair_prob": 0.5,
-      "edge_pct": 58.158657011191586,
-      "kelly_stake": 0.17302200460829495,
+      "edge_pct": 55.19113611066266,
+      "kelly_stake": 0.1641936299292214,
       "rating": 90.0,
       "rationale": {
         "components": {
@@ -342,20 +272,20 @@
           "depth": 0.0
         },
         "books_count": 1,
-        "pred_mean": 0.8134029737432401,
-        "residual_std": 0.8910059350043688,
+        "pred_mean": 0.840167139580927,
+        "residual_std": 0.9403439448537102,
         "book": "prizepicks"
       },
       "graded": 0,
       "actual_value": null,
       "won": null,
       "payout_units": null,
-      "recommended_stake_units": 173.02
+      "recommended_stake_units": 164.19
     },
     {
-      "id": 1661,
-      "generated_at": "2026-06-22T03:47:09+00:00",
-      "on_date": "2026-06-21",
+      "id": 1684,
+      "generated_at": "2026-06-22T13:47:03+00:00",
+      "on_date": "2026-06-22",
       "sport": "MLB",
       "player_name": "Bryce Harper",
       "market": "batter_hits",
@@ -363,10 +293,10 @@
       "line": 1.5,
       "price_american": -119,
       "book": "prizepicks",
-      "model_prob": 0.999,
+      "model_prob": 0.9716902581182348,
       "fair_prob": 0.5,
-      "edge_pct": 83.84957983193277,
-      "kelly_stake": 0.2494525,
+      "edge_pct": 78.82366935117095,
+      "kelly_stake": 0.2345004163197336,
       "rating": 90.0,
       "rationale": {
         "components": {
@@ -377,20 +307,20 @@
           "depth": 0.0
         },
         "books_count": 1,
-        "pred_mean": 1.9264245670828786,
-        "residual_std": 0.8910059350043688,
+        "pred_mean": 1.5102335315578082,
+        "residual_std": 0.9403439448537102,
         "book": "prizepicks"
       },
       "graded": 0,
       "actual_value": null,
       "won": null,
       "payout_units": null,
-      "recommended_stake_units": 249.45
+      "recommended_stake_units": 234.5
     },
     {
-      "id": 1662,
-      "generated_at": "2026-06-22T03:47:09+00:00",
-      "on_date": "2026-06-21",
+      "id": 1685,
+      "generated_at": "2026-06-22T13:47:03+00:00",
+      "on_date": "2026-06-22",
       "sport": "MLB",
       "player_name": "Bryce Harper",
       "market": "batter_hits",
@@ -412,8 +342,8 @@
           "depth": 0.0
         },
         "books_count": 1,
-        "pred_mean": 1.9264245670828786,
-        "residual_std": 0.8910059350043688,
+        "pred_mean": 1.5102335315578082,
+        "residual_std": 0.9403439448537102,
         "book": "prizepicks"
       },
       "graded": 0,
@@ -423,44 +353,9 @@
       "recommended_stake_units": 249.45
     },
     {
-      "id": 1663,
-      "generated_at": "2026-06-22T03:47:09+00:00",
-      "on_date": "2026-06-21",
-      "sport": "MLB",
-      "player_name": "Bryson Stott",
-      "market": "batter_hits",
-      "side": "under",
-      "line": 1.5,
-      "price_american": -119,
-      "book": "prizepicks",
-      "model_prob": 0.9246840896036761,
-      "fair_prob": 0.5,
-      "edge_pct": 70.17295430521435,
-      "kelly_stake": 0.20876453905801268,
-      "rating": 90.0,
-      "rationale": {
-        "components": {
-          "edge": 1.0,
-          "confidence": 1.0,
-          "disagreement": 1.0,
-          "sample": 1.0,
-          "depth": 0.0
-        },
-        "books_count": 1,
-        "pred_mean": 0.6123757619736705,
-        "residual_std": 0.8910059350043688,
-        "book": "prizepicks"
-      },
-      "graded": 0,
-      "actual_value": null,
-      "won": null,
-      "payout_units": null,
-      "recommended_stake_units": 208.76
-    },
-    {
-      "id": 1664,
-      "generated_at": "2026-06-22T03:47:09+00:00",
-      "on_date": "2026-06-21",
+      "id": 1686,
+      "generated_at": "2026-06-22T13:47:03+00:00",
+      "on_date": "2026-06-22",
       "sport": "MLB",
       "player_name": "Bryson Stott",
       "market": "batter_hits",
@@ -468,10 +363,10 @@
       "line": 0.5,
       "price_american": -119,
       "book": "prizepicks",
-      "model_prob": 0.9761904761904762,
+      "model_prob": 0.999,
       "fair_prob": 0.5,
-      "edge_pct": 79.65186074429774,
-      "kelly_stake": 0.2369642857142857,
+      "edge_pct": 83.84957983193277,
+      "kelly_stake": 0.2494525,
       "rating": 90.0,
       "rationale": {
         "components": {
@@ -482,20 +377,20 @@
           "depth": 0.0
         },
         "books_count": 1,
-        "pred_mean": 0.6123757619736705,
-        "residual_std": 0.8910059350043688,
+        "pred_mean": 1.0294809478045348,
+        "residual_std": 0.9403439448537102,
         "book": "prizepicks"
       },
       "graded": 0,
       "actual_value": null,
       "won": null,
       "payout_units": null,
-      "recommended_stake_units": 236.96
+      "recommended_stake_units": 249.45
     },
     {
-      "id": 1665,
-      "generated_at": "2026-06-22T03:47:09+00:00",
-      "on_date": "2026-06-21",
+      "id": 1687,
+      "generated_at": "2026-06-22T13:47:03+00:00",
+      "on_date": "2026-06-22",
       "sport": "MLB",
       "player_name": "Carson Benge",
       "market": "batter_hits",
@@ -517,8 +412,8 @@
           "depth": 0.0
         },
         "books_count": 1,
-        "pred_mean": 2.019279169381213,
-        "residual_std": 0.8910059350043688,
+        "pred_mean": 2.2373212851015585,
+        "residual_std": 0.9403439448537102,
         "book": "prizepicks"
       },
       "graded": 0,
@@ -528,9 +423,9 @@
       "recommended_stake_units": 249.45
     },
     {
-      "id": 1666,
-      "generated_at": "2026-06-22T03:47:09+00:00",
-      "on_date": "2026-06-21",
+      "id": 1688,
+      "generated_at": "2026-06-22T13:47:03+00:00",
+      "on_date": "2026-06-22",
       "sport": "MLB",
       "player_name": "Carson Benge",
       "market": "batter_hits",
@@ -552,8 +447,8 @@
           "depth": 0.0
         },
         "books_count": 1,
-        "pred_mean": 2.019279169381213,
-        "residual_std": 0.8910059350043688,
+        "pred_mean": 2.2373212851015585,
+        "residual_std": 0.9403439448537102,
         "book": "prizepicks"
       },
       "graded": 0,
@@ -563,9 +458,9 @@
       "recommended_stake_units": 249.45
     },
     {
-      "id": 1667,
-      "generated_at": "2026-06-22T03:47:09+00:00",
-      "on_date": "2026-06-21",
+      "id": 1689,
+      "generated_at": "2026-06-22T13:47:03+00:00",
+      "on_date": "2026-06-22",
       "sport": "MLB",
       "player_name": "Derek Hill",
       "market": "batter_hits",
@@ -573,10 +468,10 @@
       "line": 1.5,
       "price_american": -119,
       "book": "prizepicks",
-      "model_prob": 0.8765899864682003,
+      "model_prob": 0.808588396528095,
       "fair_prob": 0.5,
-      "edge_pct": 61.32202271977805,
-      "kelly_stake": 0.18243301759133967,
+      "edge_pct": 48.80744440306959,
+      "kelly_stake": 0.145202147099132,
       "rating": 90.0,
       "rationale": {
         "components": {
@@ -587,20 +482,20 @@
           "depth": 0.0
         },
         "books_count": 1,
-        "pred_mean": 0.75078245274873,
-        "residual_std": 0.8910059350043688,
+        "pred_mean": 0.8914716747846398,
+        "residual_std": 0.9403439448537102,
         "book": "prizepicks"
       },
       "graded": 0,
       "actual_value": null,
       "won": null,
       "payout_units": null,
-      "recommended_stake_units": 182.43
+      "recommended_stake_units": 145.2
     },
     {
-      "id": 1668,
-      "generated_at": "2026-06-22T03:47:09+00:00",
-      "on_date": "2026-06-21",
+      "id": 1690,
+      "generated_at": "2026-06-22T13:47:03+00:00",
+      "on_date": "2026-06-22",
       "sport": "MLB",
       "player_name": "Derek Hill",
       "market": "batter_hits",
@@ -608,10 +503,10 @@
       "line": 0.5,
       "price_american": -119,
       "book": "prizepicks",
-      "model_prob": 0.9834862385321101,
+      "model_prob": 0.999,
       "fair_prob": 0.5,
-      "edge_pct": 80.99452625086734,
-      "kelly_stake": 0.2409587155963303,
+      "edge_pct": 83.84957983193277,
+      "kelly_stake": 0.2494525,
       "rating": 90.0,
       "rationale": {
         "components": {
@@ -622,20 +517,20 @@
           "depth": 0.0
         },
         "books_count": 1,
-        "pred_mean": 0.75078245274873,
-        "residual_std": 0.8910059350043688,
+        "pred_mean": 0.8914716747846398,
+        "residual_std": 0.9403439448537102,
         "book": "prizepicks"
       },
       "graded": 0,
       "actual_value": null,
       "won": null,
       "payout_units": null,
-      "recommended_stake_units": 240.96
+      "recommended_stake_units": 249.45
     },
     {
-      "id": 1669,
-      "generated_at": "2026-06-22T03:47:09+00:00",
-      "on_date": "2026-06-21",
+      "id": 1691,
+      "generated_at": "2026-06-22T13:47:03+00:00",
+      "on_date": "2026-06-22",
       "sport": "MLB",
       "player_name": "Edmundo Sosa",
       "market": "batter_hits",
@@ -643,10 +538,10 @@
       "line": 1.5,
       "price_american": -119,
       "book": "prizepicks",
-      "model_prob": 0.8765899864682003,
+      "model_prob": 0.886308455610683,
       "fair_prob": 0.5,
-      "edge_pct": 61.32202271977805,
-      "kelly_stake": 0.18243301759133967,
+      "edge_pct": 63.11054771322655,
+      "kelly_stake": 0.187753879446849,
       "rating": 90.0,
       "rationale": {
         "components": {
@@ -657,20 +552,20 @@
           "depth": 0.0
         },
         "books_count": 1,
-        "pred_mean": 0.7470741148105637,
-        "residual_std": 0.8910059350043688,
+        "pred_mean": 0.7226716861283179,
+        "residual_std": 0.9403439448537102,
         "book": "prizepicks"
       },
       "graded": 0,
       "actual_value": null,
       "won": null,
       "payout_units": null,
-      "recommended_stake_units": 182.43
+      "recommended_stake_units": 187.75
     },
     {
-      "id": 1670,
-      "generated_at": "2026-06-22T03:47:09+00:00",
-      "on_date": "2026-06-21",
+      "id": 1692,
+      "generated_at": "2026-06-22T13:47:03+00:00",
+      "on_date": "2026-06-22",
       "sport": "MLB",
       "player_name": "Edmundo Sosa",
       "market": "batter_hits",
@@ -678,10 +573,10 @@
       "line": 0.5,
       "price_american": -119,
       "book": "prizepicks",
-      "model_prob": 0.9834862385321101,
+      "model_prob": 0.9756915339480302,
       "fair_prob": 0.5,
-      "edge_pct": 80.99452625086734,
-      "kelly_stake": 0.2409587155963303,
+      "edge_pct": 79.56003860051986,
+      "kelly_stake": 0.23669111483654653,
       "rating": 90.0,
       "rationale": {
         "components": {
@@ -692,20 +587,20 @@
           "depth": 0.0
         },
         "books_count": 1,
-        "pred_mean": 0.7470741148105637,
-        "residual_std": 0.8910059350043688,
+        "pred_mean": 0.7226716861283179,
+        "residual_std": 0.9403439448537102,
         "book": "prizepicks"
       },
       "graded": 0,
       "actual_value": null,
       "won": null,
       "payout_units": null,
-      "recommended_stake_units": 240.96
+      "recommended_stake_units": 236.69
     },
     {
-      "id": 1671,
-      "generated_at": "2026-06-22T03:47:09+00:00",
-      "on_date": "2026-06-21",
+      "id": 1693,
+      "generated_at": "2026-06-22T13:47:03+00:00",
+      "on_date": "2026-06-22",
       "sport": "MLB",
       "player_name": "Francisco Alvarez",
       "market": "batter_hits",
@@ -713,10 +608,10 @@
       "line": 1.5,
       "price_american": -119,
       "book": "prizepicks",
-      "model_prob": 0.8594009216589862,
+      "model_prob": 0.8797405189620758,
       "fair_prob": 0.5,
-      "edge_pct": 58.158657011191586,
-      "kelly_stake": 0.17302200460829495,
+      "edge_pct": 61.90182659890304,
+      "kelly_stake": 0.18415793413173653,
       "rating": 90.0,
       "rationale": {
         "components": {
@@ -727,31 +622,31 @@
           "depth": 0.0
         },
         "books_count": 1,
-        "pred_mean": 0.802233004129857,
-        "residual_std": 0.8910059350043688,
+        "pred_mean": 0.7408581596926677,
+        "residual_std": 0.9403439448537102,
         "book": "prizepicks"
       },
       "graded": 0,
       "actual_value": null,
       "won": null,
       "payout_units": null,
-      "recommended_stake_units": 173.02
+      "recommended_stake_units": 184.16
     },
     {
-      "id": 1672,
-      "generated_at": "2026-06-22T03:47:09+00:00",
-      "on_date": "2026-06-21",
+      "id": 1694,
+      "generated_at": "2026-06-22T13:47:03+00:00",
+      "on_date": "2026-06-22",
       "sport": "MLB",
       "player_name": "J.T. Realmuto",
       "market": "batter_hits",
-      "side": "over",
+      "side": "under",
       "line": 1.5,
       "price_american": -119,
       "book": "prizepicks",
-      "model_prob": 0.8849480968858131,
+      "model_prob": 0.8393501805054151,
       "fair_prob": 0.5,
-      "edge_pct": 62.860195981506784,
-      "kelly_stake": 0.18700908304498268,
+      "edge_pct": 54.468646664441955,
+      "kelly_stake": 0.16204422382671477,
       "rating": 90.0,
       "rationale": {
         "components": {
@@ -762,20 +657,20 @@
           "depth": 0.0
         },
         "books_count": 1,
-        "pred_mean": 1.3161738033390726,
-        "residual_std": 0.8910059350043688,
+        "pred_mean": 0.848249106245751,
+        "residual_std": 0.9403439448537102,
         "book": "prizepicks"
       },
       "graded": 0,
       "actual_value": null,
       "won": null,
       "payout_units": null,
-      "recommended_stake_units": 187.01
+      "recommended_stake_units": 162.04
     },
     {
-      "id": 1673,
-      "generated_at": "2026-06-22T03:47:09+00:00",
-      "on_date": "2026-06-21",
+      "id": 1695,
+      "generated_at": "2026-06-22T13:47:03+00:00",
+      "on_date": "2026-06-22",
       "sport": "MLB",
       "player_name": "J.T. Realmuto",
       "market": "batter_hits",
@@ -797,8 +692,8 @@
           "depth": 0.0
         },
         "books_count": 1,
-        "pred_mean": 1.3161738033390726,
-        "residual_std": 0.8910059350043688,
+        "pred_mean": 0.848249106245751,
+        "residual_std": 0.9403439448537102,
         "book": "prizepicks"
       },
       "graded": 0,
@@ -808,9 +703,9 @@
       "recommended_stake_units": 249.45
     },
     {
-      "id": 1674,
-      "generated_at": "2026-06-22T03:47:09+00:00",
-      "on_date": "2026-06-21",
+      "id": 1696,
+      "generated_at": "2026-06-22T13:47:03+00:00",
+      "on_date": "2026-06-22",
       "sport": "MLB",
       "player_name": "Jared Young",
       "market": "batter_hits",
@@ -818,10 +713,10 @@
       "line": 1.5,
       "price_american": -119,
       "book": "prizepicks",
-      "model_prob": 0.8847392144236961,
+      "model_prob": 0.8880465261190155,
       "fair_prob": 0.5,
-      "edge_pct": 62.82175458721804,
-      "kelly_stake": 0.1868947198969736,
+      "edge_pct": 63.430411109297815,
+      "kelly_stake": 0.18870547305016097,
       "rating": 90.0,
       "rationale": {
         "components": {
@@ -832,31 +727,136 @@
           "depth": 0.0
         },
         "books_count": 1,
-        "pred_mean": 0.7369420899073595,
-        "residual_std": 0.8910059350043688,
+        "pred_mean": 0.7025194963943799,
+        "residual_std": 0.9403439448537102,
         "book": "prizepicks"
       },
       "graded": 0,
       "actual_value": null,
       "won": null,
       "payout_units": null,
-      "recommended_stake_units": 186.89
+      "recommended_stake_units": 188.71
     },
     {
-      "id": 1675,
-      "generated_at": "2026-06-22T03:47:09+00:00",
-      "on_date": "2026-06-21",
+      "id": 1697,
+      "generated_at": "2026-06-22T13:47:03+00:00",
+      "on_date": "2026-06-22",
       "sport": "MLB",
       "player_name": "Juan Soto",
+      "market": "batter_hits",
+      "side": "over",
+      "line": 0.5,
+      "price_american": -119,
+      "book": "prizepicks",
+      "model_prob": 0.999,
+      "fair_prob": 0.5,
+      "edge_pct": 83.84957983193277,
+      "kelly_stake": 0.2494525,
+      "rating": 90.0,
+      "rationale": {
+        "components": {
+          "edge": 1.0,
+          "confidence": 1.0,
+          "disagreement": 1.0,
+          "sample": 1.0,
+          "depth": 0.0
+        },
+        "books_count": 1,
+        "pred_mean": 1.0191420354369578,
+        "residual_std": 0.9403439448537102,
+        "book": "prizepicks"
+      },
+      "graded": 0,
+      "actual_value": null,
+      "won": null,
+      "payout_units": null,
+      "recommended_stake_units": 249.45
+    },
+    {
+      "id": 1698,
+      "generated_at": "2026-06-22T13:47:03+00:00",
+      "on_date": "2026-06-22",
+      "sport": "MLB",
+      "player_name": "Kyle Schwarber",
+      "market": "batter_hits",
+      "side": "over",
+      "line": 1.5,
+      "price_american": -119,
+      "book": "prizepicks",
+      "model_prob": 0.999,
+      "fair_prob": 0.5,
+      "edge_pct": 83.84957983193277,
+      "kelly_stake": 0.2494525,
+      "rating": 90.0,
+      "rationale": {
+        "components": {
+          "edge": 1.0,
+          "confidence": 1.0,
+          "disagreement": 1.0,
+          "sample": 1.0,
+          "depth": 0.0
+        },
+        "books_count": 1,
+        "pred_mean": 1.928139952046624,
+        "residual_std": 0.9403439448537102,
+        "book": "prizepicks"
+      },
+      "graded": 0,
+      "actual_value": null,
+      "won": null,
+      "payout_units": null,
+      "recommended_stake_units": 249.45
+    },
+    {
+      "id": 1699,
+      "generated_at": "2026-06-22T13:47:03+00:00",
+      "on_date": "2026-06-22",
+      "sport": "MLB",
+      "player_name": "Kyle Schwarber",
+      "market": "batter_hits",
+      "side": "over",
+      "line": 0.5,
+      "price_american": -119,
+      "book": "prizepicks",
+      "model_prob": 0.999,
+      "fair_prob": 0.5,
+      "edge_pct": 83.84957983193277,
+      "kelly_stake": 0.2494525,
+      "rating": 90.0,
+      "rationale": {
+        "components": {
+          "edge": 1.0,
+          "confidence": 1.0,
+          "disagreement": 1.0,
+          "sample": 1.0,
+          "depth": 0.0
+        },
+        "books_count": 1,
+        "pred_mean": 1.928139952046624,
+        "residual_std": 0.9403439448537102,
+        "book": "prizepicks"
+      },
+      "graded": 0,
+      "actual_value": null,
+      "won": null,
+      "payout_units": null,
+      "recommended_stake_units": 249.45
+    },
+    {
+      "id": 1700,
+      "generated_at": "2026-06-22T13:47:03+00:00",
+      "on_date": "2026-06-22",
+      "sport": "MLB",
+      "player_name": "Luis Torrens",
       "market": "batter_hits",
       "side": "under",
       "line": 1.5,
       "price_american": -119,
       "book": "prizepicks",
-      "model_prob": 0.8763397856342985,
+      "model_prob": 0.9236599891716297,
       "fair_prob": 0.5,
-      "edge_pct": 61.275977356228054,
-      "kelly_stake": 0.18229603263477842,
+      "edge_pct": 69.98448540217387,
+      "kelly_stake": 0.2082038440714673,
       "rating": 90.0,
       "rationale": {
         "components": {
@@ -867,15 +867,15 @@
           "depth": 0.0
         },
         "books_count": 1,
-        "pred_mean": 0.7729476557065589,
-        "residual_std": 0.8910059350043688,
+        "pred_mean": 0.6223545042541762,
+        "residual_std": 0.9403439448537102,
         "book": "prizepicks"
       },
       "graded": 0,
       "actual_value": null,
       "won": null,
       "payout_units": null,
-      "recommended_stake_units": 182.3
+      "recommended_stake_units": 208.2
     }
   ],
   "by_sport": {
@@ -889,12 +889,12 @@
       "legs": [
         {
           "sport": "MLB",
-          "player_name": "Alec Bohm",
+          "player_name": "A.J. Ewing",
           "market": "batter_hits",
-          "side": "under",
-          "line": 2.5,
+          "side": "over",
+          "line": 0.5,
           "price_american": -119,
-          "model_prob": 0.9878268710550046,
+          "model_prob": 0.999,
           "rating": 90.0
         },
         {
@@ -904,15 +904,15 @@
           "side": "over",
           "line": 0.5,
           "price_american": -119,
-          "model_prob": 0.9928057553956835,
+          "model_prob": 0.999,
           "rating": 90.0
         },
         {
           "sport": "MLB",
-          "player_name": "Brandon Marsh",
+          "player_name": "Bo Bichette",
           "market": "batter_hits",
           "side": "over",
-          "line": 1.5,
+          "line": 0.5,
           "price_american": -119,
           "model_prob": 0.999,
           "rating": 90.0
@@ -920,9 +920,9 @@
       ],
       "parlay_american": 523,
       "parlay_decimal": 6.233,
-      "naive_model_prob": 0.9797,
-      "correlated_model_prob": 0.9802,
-      "parlay_edge_pct": 510.92,
+      "naive_model_prob": 0.997,
+      "correlated_model_prob": 0.997,
+      "parlay_edge_pct": 521.42,
       "verdict": "Strong +EV"
     },
     {
@@ -934,7 +934,7 @@
           "side": "over",
           "line": 0.5,
           "price_american": -119,
-          "model_prob": 0.9761904761904762,
+          "model_prob": 0.999,
           "rating": 90.0
         },
         {
@@ -944,7 +944,7 @@
           "side": "over",
           "line": 0.5,
           "price_american": -119,
-          "model_prob": 0.9928057553956835,
+          "model_prob": 0.999,
           "rating": 90.0
         },
         {
@@ -952,7 +952,7 @@
           "player_name": "Brandon Marsh",
           "market": "batter_hits",
           "side": "over",
-          "line": 1.5,
+          "line": 0.5,
           "price_american": -119,
           "model_prob": 0.999,
           "rating": 90.0
@@ -960,9 +960,9 @@
       ],
       "parlay_american": 523,
       "parlay_decimal": 6.233,
-      "naive_model_prob": 0.9682,
-      "correlated_model_prob": 0.9682,
-      "parlay_edge_pct": 503.47,
+      "naive_model_prob": 0.997,
+      "correlated_model_prob": 0.997,
+      "parlay_edge_pct": 521.42,
       "verdict": "Strong +EV"
     },
     {
@@ -974,17 +974,17 @@
           "side": "over",
           "line": 0.5,
           "price_american": -119,
-          "model_prob": 0.9761904761904762,
+          "model_prob": 0.999,
           "rating": 90.0
         },
         {
           "sport": "MLB",
-          "player_name": "Alec Bohm",
+          "player_name": "Bo Bichette",
           "market": "batter_hits",
-          "side": "under",
-          "line": 2.5,
+          "side": "over",
+          "line": 0.5,
           "price_american": -119,
-          "model_prob": 0.9878268710550046,
+          "model_prob": 0.999,
           "rating": 90.0
         },
         {
@@ -992,7 +992,7 @@
           "player_name": "Brandon Marsh",
           "market": "batter_hits",
           "side": "over",
-          "line": 1.5,
+          "line": 0.5,
           "price_american": -119,
           "model_prob": 0.999,
           "rating": 90.0
@@ -1000,9 +1000,49 @@
       ],
       "parlay_american": 523,
       "parlay_decimal": 6.233,
-      "naive_model_prob": 0.9633,
-      "correlated_model_prob": 0.9633,
-      "parlay_edge_pct": 500.44,
+      "naive_model_prob": 0.997,
+      "correlated_model_prob": 0.997,
+      "parlay_edge_pct": 521.42,
+      "verdict": "Strong +EV"
+    },
+    {
+      "legs": [
+        {
+          "sport": "MLB",
+          "player_name": "Alec Bohm",
+          "market": "batter_hits",
+          "side": "over",
+          "line": 0.5,
+          "price_american": -119,
+          "model_prob": 0.999,
+          "rating": 90.0
+        },
+        {
+          "sport": "MLB",
+          "player_name": "Bo Bichette",
+          "market": "batter_hits",
+          "side": "over",
+          "line": 0.5,
+          "price_american": -119,
+          "model_prob": 0.999,
+          "rating": 90.0
+        },
+        {
+          "sport": "MLB",
+          "player_name": "Brandon Marsh",
+          "market": "batter_hits",
+          "side": "over",
+          "line": 0.5,
+          "price_american": -119,
+          "model_prob": 0.999,
+          "rating": 90.0
+        }
+      ],
+      "parlay_american": 523,
+      "parlay_decimal": 6.233,
+      "naive_model_prob": 0.997,
+      "correlated_model_prob": 0.997,
+      "parlay_edge_pct": 521.42,
       "verdict": "Strong +EV"
     },
     {
@@ -1014,17 +1054,17 @@
           "side": "over",
           "line": 0.5,
           "price_american": -119,
-          "model_prob": 0.9761904761904762,
+          "model_prob": 0.999,
           "rating": 90.0
         },
         {
           "sport": "MLB",
           "player_name": "Alec Bohm",
           "market": "batter_hits",
-          "side": "under",
-          "line": 2.5,
+          "side": "over",
+          "line": 1.5,
           "price_american": -119,
-          "model_prob": 0.9878268710550046,
+          "model_prob": 0.9785407725321889,
           "rating": 90.0
         },
         {
@@ -1033,46 +1073,6 @@
           "market": "batter_hits",
           "side": "over",
           "line": 0.5,
-          "price_american": -119,
-          "model_prob": 0.9928057553956835,
-          "rating": 90.0
-        }
-      ],
-      "parlay_american": 523,
-      "parlay_decimal": 6.233,
-      "naive_model_prob": 0.9574,
-      "correlated_model_prob": 0.9578,
-      "parlay_edge_pct": 496.97,
-      "verdict": "Strong +EV"
-    },
-    {
-      "legs": [
-        {
-          "sport": "MLB",
-          "player_name": "Alec Bohm",
-          "market": "batter_hits",
-          "side": "over",
-          "line": 0.5,
-          "price_american": -119,
-          "model_prob": 0.9928057553956835,
-          "rating": 90.0
-        },
-        {
-          "sport": "MLB",
-          "player_name": "Bo Bichette",
-          "market": "batter_hits",
-          "side": "under",
-          "line": 1.5,
-          "price_american": -119,
-          "model_prob": 0.9599230847080255,
-          "rating": 90.0
-        },
-        {
-          "sport": "MLB",
-          "player_name": "Brandon Marsh",
-          "market": "batter_hits",
-          "side": "over",
-          "line": 1.5,
           "price_american": -119,
           "model_prob": 0.999,
           "rating": 90.0
@@ -1080,9 +1080,9 @@
       ],
       "parlay_american": 523,
       "parlay_decimal": 6.233,
-      "naive_model_prob": 0.9521,
-      "correlated_model_prob": 0.9521,
-      "parlay_edge_pct": 493.41,
+      "naive_model_prob": 0.9766,
+      "correlated_model_prob": 0.9767,
+      "parlay_edge_pct": 508.77,
       "verdict": "Strong +EV"
     },
     {
@@ -1090,51 +1090,11 @@
         {
           "sport": "MLB",
           "player_name": "Alec Bohm",
-          "market": "batter_hits",
-          "side": "under",
-          "line": 2.5,
-          "price_american": -119,
-          "model_prob": 0.9878268710550046,
-          "rating": 90.0
-        },
-        {
-          "sport": "MLB",
-          "player_name": "Bo Bichette",
-          "market": "batter_hits",
-          "side": "under",
-          "line": 1.5,
-          "price_american": -119,
-          "model_prob": 0.9599230847080255,
-          "rating": 90.0
-        },
-        {
-          "sport": "MLB",
-          "player_name": "Brandon Marsh",
           "market": "batter_hits",
           "side": "over",
           "line": 1.5,
           "price_american": -119,
-          "model_prob": 0.999,
-          "rating": 90.0
-        }
-      ],
-      "parlay_american": 523,
-      "parlay_decimal": 6.233,
-      "naive_model_prob": 0.9473,
-      "correlated_model_prob": 0.9473,
-      "parlay_edge_pct": 490.44,
-      "verdict": "Strong +EV"
-    },
-    {
-      "legs": [
-        {
-          "sport": "MLB",
-          "player_name": "Alec Bohm",
-          "market": "batter_hits",
-          "side": "under",
-          "line": 2.5,
-          "price_american": -119,
-          "model_prob": 0.9878268710550046,
+          "model_prob": 0.9785407725321889,
           "rating": 90.0
         },
         {
@@ -1144,25 +1104,65 @@
           "side": "over",
           "line": 0.5,
           "price_american": -119,
-          "model_prob": 0.9928057553956835,
+          "model_prob": 0.999,
           "rating": 90.0
         },
         {
           "sport": "MLB",
           "player_name": "Bo Bichette",
           "market": "batter_hits",
-          "side": "under",
-          "line": 1.5,
+          "side": "over",
+          "line": 0.5,
           "price_american": -119,
-          "model_prob": 0.9599230847080255,
+          "model_prob": 0.999,
           "rating": 90.0
         }
       ],
       "parlay_american": 523,
       "parlay_decimal": 6.233,
-      "naive_model_prob": 0.9414,
-      "correlated_model_prob": 0.9418,
-      "parlay_edge_pct": 487.03,
+      "naive_model_prob": 0.9766,
+      "correlated_model_prob": 0.9767,
+      "parlay_edge_pct": 508.77,
+      "verdict": "Strong +EV"
+    },
+    {
+      "legs": [
+        {
+          "sport": "MLB",
+          "player_name": "Alec Bohm",
+          "market": "batter_hits",
+          "side": "over",
+          "line": 1.5,
+          "price_american": -119,
+          "model_prob": 0.9785407725321889,
+          "rating": 90.0
+        },
+        {
+          "sport": "MLB",
+          "player_name": "Alec Bohm",
+          "market": "batter_hits",
+          "side": "over",
+          "line": 0.5,
+          "price_american": -119,
+          "model_prob": 0.999,
+          "rating": 90.0
+        },
+        {
+          "sport": "MLB",
+          "player_name": "Brandon Marsh",
+          "market": "batter_hits",
+          "side": "over",
+          "line": 0.5,
+          "price_american": -119,
+          "model_prob": 0.999,
+          "rating": 90.0
+        }
+      ],
+      "parlay_american": 523,
+      "parlay_decimal": 6.233,
+      "naive_model_prob": 0.9766,
+      "correlated_model_prob": 0.9767,
+      "parlay_edge_pct": 508.77,
       "verdict": "Strong +EV"
     },
     {
@@ -1174,25 +1174,25 @@
           "side": "over",
           "line": 0.5,
           "price_american": -119,
-          "model_prob": 0.9761904761904762,
+          "model_prob": 0.999,
+          "rating": 90.0
+        },
+        {
+          "sport": "MLB",
+          "player_name": "Alec Bohm",
+          "market": "batter_hits",
+          "side": "over",
+          "line": 1.5,
+          "price_american": -119,
+          "model_prob": 0.9785407725321889,
           "rating": 90.0
         },
         {
           "sport": "MLB",
           "player_name": "Bo Bichette",
           "market": "batter_hits",
-          "side": "under",
-          "line": 1.5,
-          "price_american": -119,
-          "model_prob": 0.9599230847080255,
-          "rating": 90.0
-        },
-        {
-          "sport": "MLB",
-          "player_name": "Brandon Marsh",
-          "market": "batter_hits",
           "side": "over",
-          "line": 1.5,
+          "line": 0.5,
           "price_american": -119,
           "model_prob": 0.999,
           "rating": 90.0
@@ -1200,9 +1200,9 @@
       ],
       "parlay_american": 523,
       "parlay_decimal": 6.233,
-      "naive_model_prob": 0.9361,
-      "correlated_model_prob": 0.9361,
-      "parlay_edge_pct": 483.48,
+      "naive_model_prob": 0.9766,
+      "correlated_model_prob": 0.9766,
+      "parlay_edge_pct": 508.7,
       "verdict": "Strong +EV"
     },
     {
@@ -1214,7 +1214,7 @@
           "side": "over",
           "line": 0.5,
           "price_american": -119,
-          "model_prob": 0.9761904761904762,
+          "model_prob": 0.999,
           "rating": 90.0
         },
         {
@@ -1222,71 +1222,80 @@
           "player_name": "Alec Bohm",
           "market": "batter_hits",
           "side": "over",
-          "line": 0.5,
+          "line": 1.5,
           "price_american": -119,
-          "model_prob": 0.9928057553956835,
+          "model_prob": 0.9785407725321889,
           "rating": 90.0
         },
         {
           "sport": "MLB",
-          "player_name": "Bo Bichette",
+          "player_name": "Brandon Marsh",
           "market": "batter_hits",
-          "side": "under",
-          "line": 1.5,
+          "side": "over",
+          "line": 0.5,
           "price_american": -119,
-          "model_prob": 0.9599230847080255,
+          "model_prob": 0.999,
           "rating": 90.0
         }
       ],
       "parlay_american": 523,
       "parlay_decimal": 6.233,
-      "naive_model_prob": 0.9303,
-      "correlated_model_prob": 0.9303,
-      "parlay_edge_pct": 479.86,
+      "naive_model_prob": 0.9766,
+      "correlated_model_prob": 0.9766,
+      "parlay_edge_pct": 508.7,
       "verdict": "Strong +EV"
     },
     {
       "legs": [
         {
           "sport": "MLB",
-          "player_name": "A.J. Ewing",
-          "market": "batter_hits",
-          "side": "over",
-          "line": 0.5,
-          "price_american": -119,
-          "model_prob": 0.9761904761904762,
-          "rating": 90.0
-        },
-        {
-          "sport": "MLB",
           "player_name": "Alec Bohm",
           "market": "batter_hits",
-          "side": "under",
-          "line": 2.5,
+          "side": "over",
+          "line": 1.5,
           "price_american": -119,
-          "model_prob": 0.9878268710550046,
+          "model_prob": 0.9785407725321889,
           "rating": 90.0
         },
         {
           "sport": "MLB",
           "player_name": "Bo Bichette",
           "market": "batter_hits",
-          "side": "under",
-          "line": 1.5,
+          "side": "over",
+          "line": 0.5,
           "price_american": -119,
-          "model_prob": 0.9599230847080255,
+          "model_prob": 0.999,
+          "rating": 90.0
+        },
+        {
+          "sport": "MLB",
+          "player_name": "Brandon Marsh",
+          "market": "batter_hits",
+          "side": "over",
+          "line": 0.5,
+          "price_american": -119,
+          "model_prob": 0.999,
           "rating": 90.0
         }
       ],
       "parlay_american": 523,
       "parlay_decimal": 6.233,
-      "naive_model_prob": 0.9257,
-      "correlated_model_prob": 0.9257,
-      "parlay_edge_pct": 476.96,
+      "naive_model_prob": 0.9766,
+      "correlated_model_prob": 0.9766,
+      "parlay_edge_pct": 508.7,
       "verdict": "Strong +EV"
     }
   ],
   "history_30d": [
+    {
+      "on_date": "2026-06-21",
+      "sport": "MLB",
+      "n_picks": 25,
+      "n_wins": 18,
+      "n_losses": 7,
+      "n_push": 0,
+      "roi_units": 8.12605042016807
+    },
     {
       "on_date": "2026-06-18",
       "sport": "MLB",
@@ -1490,79 +1499,79 @@
     {
       "sport": "MLB",
       "market": "batter_hits",
-      "finished_at": "2026-06-21T11:15:38",
-      "rows": 226871,
-      "mae": 0.7139971976390845,
-      "brier": 0.11044441711854952,
-      "log_loss": 0.36629659872645143
+      "finished_at": "2026-06-22T13:34:46",
+      "rows": 230233,
+      "mae": 0.7892177555969299,
+      "brier": 0.11118656115969774,
+      "log_loss": 0.36821989143483824
     },
     {
       "sport": "MLB",
       "market": "batter_rbis",
-      "finished_at": "2026-06-21T11:16:05",
-      "rows": 226871,
-      "mae": 0.671840948976566,
-      "brier": 0.15071410454077508,
-      "log_loss": 0.46697647996843045
+      "finished_at": "2026-06-22T13:35:13",
+      "rows": 230233,
+      "mae": 0.6687594538661227,
+      "brier": 0.15055137834007304,
+      "log_loss": 0.46706874050279207
     },
     {
       "sport": "MLB",
       "market": "batter_runs",
-      "finished_at": "2026-06-21T11:15:52",
-      "rows": 226871,
-      "mae": 0.6099496110875838,
-      "brier": 0.17209502262427676,
-      "log_loss": 0.5161100877033835
+      "finished_at": "2026-06-22T13:34:59",
+      "rows": 230233,
+      "mae": 0.6106199577398856,
+      "brier": 0.17255472087619728,
+      "log_loss": 0.5174089359639756
     },
     {
       "sport": "MLB",
       "market": "batter_strikeouts",
-      "finished_at": "2026-06-21T11:16:18",
-      "rows": 226871,
-      "mae": 0.7357178590953831,
-      "brier": 0.1137147780713117,
-      "log_loss": 0.37104803738907566
+      "finished_at": "2026-06-22T13:35:27",
+      "rows": 230233,
+      "mae": 0.7140550469697576,
+      "brier": 0.11448805563562911,
+      "log_loss": 0.37296703988953783
     },
     {
       "sport": "MLB",
       "market": "batter_total_bases",
-      "finished_at": "2026-06-21T11:15:25",
-      "rows": 226871,
-      "mae": 1.4165114674019585,
-      "brier": 0.15937814782933488,
-      "log_loss": 0.4871202428151022
+      "finished_at": "2026-06-22T13:34:32",
+      "rows": 230233,
+      "mae": 1.4259385165538476,
+      "brier": 0.16013289966543004,
+      "log_loss": 0.4891344102312753
     },
     {
       "sport": "MLB",
       "market": "pitcher_earned_runs",
-      "finished_at": "2026-06-21T11:16:33",
-      "rows": 35081,
-      "mae": 0.9739956924873532,
-      "brier": 0.14692219742648444,
-      "log_loss": 0.45056912179455055
+      "finished_at": "2026-06-22T13:35:42",
+      "rows": 35620,
+      "mae": 1.0012750921897728,
+      "brier": 0.14745479688423768,
+      "log_loss": 0.4517664870046263
     },
     {
       "sport": "MLB",
       "market": "pitcher_outs",
-      "finished_at": "2026-06-21T11:16:28",
-      "rows": 35081,
-      "mae": 1.6246934745581822,
-      "brier": 0.10625253453062278,
-      "log_loss": 0.3381252318696371
+      "finished_at": "2026-06-22T13:35:37",
+      "rows": 35620,
+      "mae": 1.6167426579778699,
+      "brier": 0.10669414115946312,
+      "log_loss": 0.3405672116915376
     },
     {
       "sport": "MLB",
       "market": "pitcher_strikeouts",
-      "finished_at": "2026-06-21T11:16:23",
-      "rows": 35081,
-      "mae": 1.104162222117561,
-      "brier": 0.13420636985100115,
-      "log_loss": 0.41190420140834944
+      "finished_at": "2026-06-22T13:35:32",
+      "rows": 35620,
+      "mae": 1.08972386243658,
+      "brier": 0.1335197574545126,
+      "log_loss": 0.41030358400308115
     },
     {
       "sport": "NHL",
       "market": "goalie_saves",
-      "finished_at": "2026-06-21T11:17:05",
+      "finished_at": "2026-06-22T13:36:14",
       "rows": 1431,
       "mae": 10.415756191681066,
       "brier": 0.06369292090930936,
@@ -1571,7 +1580,7 @@
     {
       "sport": "NHL",
       "market": "player_assists",
-      "finished_at": "2026-06-21T11:17:04",
+      "finished_at": "2026-06-22T13:36:13",
       "rows": 115056,
       "mae": 0.4596579913465672,
       "brier": 0.1178905392312493,
@@ -1580,7 +1589,7 @@
     {
       "sport": "NHL",
       "market": "player_goals",
-      "finished_at": "2026-06-21T11:16:56",
+      "finished_at": "2026-06-22T13:36:05",
       "rows": 115056,
       "mae": 0.29078237271093527,
       "brier": 0.08285397487982565,
@@ -1589,7 +1598,7 @@
     {
       "sport": "NHL",
       "market": "player_points",
-      "finished_at": "2026-06-21T11:16:41",
+      "finished_at": "2026-06-22T13:35:50",
       "rows": 115056,
       "mae": 0.590786662995399,
       "brier": 0.14425305041802425,
@@ -1598,7 +1607,7 @@
     {
       "sport": "NHL",
       "market": "player_shots_on_goal",
-      "finished_at": "2026-06-21T11:16:49",
+      "finished_at": "2026-06-22T13:35:58",
       "rows": 115056,
       "mae": 1.186490151909616,
       "brier": 0.1509029064363444,
