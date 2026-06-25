@@ -1,554 +1,524 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Pradapicks — daily +EV plays</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='52' font-size='52'%3E%F0%9F%92%B0%3C/text%3E%3C/svg%3E" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto; }
-    .pill { font-size: 0.7rem; padding: 0.1rem 0.5rem; border-radius: 999px; }
-    .skel { background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 50%, #e5e7eb 75%); background-size: 200% 100%; animation: sk 1.5s linear infinite; }
-    @keyframes sk { 0% {background-position: 200% 0;} 100% {background-position: -200% 0;} }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Pradapicks — AI Sports Betting Intelligence</title>
+<meta name="description" content="Deep +EV model and bet-analysis grader across NBA, MLB, NHL, NFL and soccer." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='52' font-size='52'%3E%F0%9F%8E%AF%3C/text%3E%3C/svg%3E" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script>
+tailwind.config = { darkMode: 'class', theme: { extend: {
+  fontFamily: { sans: ['Inter','ui-sans-serif','system-ui'] },
+  colors: { ink: { 950:'#070b16', 900:'#0b1120', 850:'#0f1729', 800:'#141d33', 700:'#1e2a45' } },
+}}};
+</script>
+<style>
+  html,body{background:#070b16;}
+  body{font-family:Inter,ui-sans-serif,system-ui;-webkit-font-smoothing:antialiased;}
+  .glass{background:rgba(20,29,51,.55);backdrop-filter:blur(14px);border:1px solid rgba(148,163,184,.12);}
+  .card{background:linear-gradient(180deg,rgba(20,29,51,.85),rgba(11,17,32,.85));border:1px solid rgba(148,163,184,.12);}
+  .card:hover{border-color:rgba(52,211,153,.35);box-shadow:0 8px 40px -12px rgba(16,185,129,.25);}
+  .glow{background:radial-gradient(60% 60% at 50% 0%,rgba(16,185,129,.18),transparent 70%);}
+  .grad-text{background:linear-gradient(90deg,#34d399,#22d3ee 55%,#a78bfa);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .bar{height:6px;border-radius:999px;background:rgba(148,163,184,.18);overflow:hidden;}
+  .bar > i{display:block;height:100%;border-radius:999px;}
+  .skel{background:linear-gradient(90deg,#0f1729 25%,#1e2a45 50%,#0f1729 75%);background-size:200% 100%;animation:sk 1.4s linear infinite;}
+  @keyframes sk{0%{background-position:200% 0}100%{background-position:-200% 0}}
+  .chip{font-size:.68rem;padding:.12rem .5rem;border-radius:999px;font-weight:600;}
+  .tab.active{background:linear-gradient(90deg,#10b981,#0ea5e9);color:#04121f;border-color:transparent;}
+  .fade-in{animation:fade .5s ease both}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  ::-webkit-scrollbar{height:8px;width:8px}::-webkit-scrollbar-thumb{background:#1e2a45;border-radius:8px}
+  input,select{color-scheme:dark}
+</style>
 </head>
-<body class="bg-slate-50 text-slate-900">
-  <header class="bg-slate-900 text-white">
-    <div class="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
+<body class="text-slate-200 min-h-screen">
+
+<!-- NAV -->
+<header class="sticky top-0 z-40 glass">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="h-9 w-9 rounded-xl bg-gradient-to-br from-emerald-400 to-cyan-500 grid place-items-center text-xl shadow-lg shadow-emerald-500/30">🎯</div>
       <div>
-        <h1 class="text-2xl font-bold tracking-tight">Pradapicks</h1>
-        <p class="text-slate-300 text-sm">Daily +EV props across NBA · MLB · NHL · NFL · Soccer — fully free, fully automated.</p>
-      </div>
-      <div id="meta" class="text-right text-sm text-slate-300">
-        <div>generated: <span id="gen-at">—</span></div>
-        <div>for: <span id="for-date">—</span></div>
+        <div class="font-extrabold tracking-tight text-lg leading-none">Prada<span class="grad-text">picks</span></div>
+        <div class="text-[11px] text-slate-400 leading-none mt-0.5">AI betting intelligence</div>
       </div>
     </div>
-  </header>
+    <nav class="hidden md:flex items-center gap-1 text-sm">
+      <a href="#analyzer" class="px-3 py-2 rounded-lg hover:bg-white/5 text-slate-300">Bet Analyzer</a>
+      <a href="#plays" class="px-3 py-2 rounded-lg hover:bg-white/5 text-slate-300">Top Plays</a>
+      <a href="#games" class="px-3 py-2 rounded-lg hover:bg-white/5 text-slate-300">Games</a>
+      <a href="#performance" class="px-3 py-2 rounded-lg hover:bg-white/5 text-slate-300">Performance</a>
+    </nav>
+    <a href="#analyzer" class="text-sm font-semibold px-4 py-2 rounded-lg bg-gradient-to-r from-emerald-400 to-cyan-500 text-ink-950 hover:opacity-90 transition">Grade a bet</a>
+  </div>
+</header>
 
-  <main class="max-w-6xl mx-auto px-6 py-8 space-y-10">
-    <section>
-      <div class="flex items-center justify-between mb-3">
-        <h2 class="text-lg font-semibold">Today's top plays</h2>
-        <div class="space-x-1 text-sm" id="sport-tabs">
-          <button data-sport="ALL" class="px-3 py-1 rounded-full bg-slate-900 text-white">All</button>
+<!-- HERO -->
+<section class="relative overflow-hidden">
+  <div class="absolute inset-0 glow pointer-events-none"></div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 pt-12 pb-8 relative">
+    <div class="flex flex-wrap items-center gap-2 text-xs mb-4">
+      <span class="chip bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">● LIVE MODEL</span>
+      <span id="data-mode" class="chip bg-white/5 text-slate-300 border border-white/10">loading…</span>
+      <span class="chip bg-white/5 text-slate-400 border border-white/10">NBA · MLB · NHL · NFL · Soccer</span>
+    </div>
+    <h1 class="text-3xl sm:text-5xl font-black tracking-tight max-w-3xl leading-[1.05]">
+      Find the edge. <span class="grad-text">Grade every bet.</span>
+    </h1>
+    <p class="mt-4 text-slate-400 max-w-2xl">A self-updating model across five major leagues — measuring offensive, defensive and hidden stats, lineups, weather and injuries — that prices every play and hands you a deep A+ → F grade on any bet you enter.</p>
+    <div id="hero-stats" class="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl"></div>
+  </div>
+</section>
+
+<main class="max-w-7xl mx-auto px-4 sm:px-6 pb-24 space-y-12">
+
+  <!-- BET ANALYZER (centerpiece) -->
+  <section id="analyzer" class="scroll-mt-20">
+    <div class="card rounded-3xl p-5 sm:p-7 relative overflow-hidden">
+      <div class="absolute -top-24 -right-24 h-64 w-64 glow opacity-60"></div>
+      <div class="flex items-center justify-between flex-wrap gap-3 mb-5 relative">
+        <div>
+          <h2 class="text-xl sm:text-2xl font-extrabold flex items-center gap-2">🧪 Bet Analyzer <span class="chip bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">deep grade</span></h2>
+          <p class="text-sm text-slate-400 mt-1">Enter any single bet or build a parlay. Get a graded breakdown — edge, projection, form, correlation.</p>
+        </div>
+        <div class="flex gap-2">
+          <button id="add-leg" class="text-sm font-semibold px-3 py-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10">+ Add leg</button>
+          <button id="analyze" class="text-sm font-bold px-4 py-2 rounded-lg bg-gradient-to-r from-emerald-400 to-cyan-500 text-ink-950">Analyze →</button>
         </div>
       </div>
-      <div id="picks-grid" class="grid gap-4 md:grid-cols-2"></div>
-      <p id="picks-empty" class="hidden text-slate-500 text-sm">No qualifying plays right now. The pipeline regenerates every 2 hours during the slate.</p>
-    </section>
-
-    <section>
-      <h2 class="text-lg font-semibold mb-3">Game predictions</h2>
-      <div id="game-preds" class="grid gap-3 md:grid-cols-2"></div>
-      <p id="game-preds-empty" class="hidden text-slate-500 text-sm">No game predictions yet.</p>
-    </section>
-
-    <section>
-      <h2 class="text-lg font-semibold mb-3">Recommended parlays (correlation-adjusted)</h2>
-      <div id="slips" class="space-y-3"></div>
-      <p id="slips-empty" class="hidden text-slate-500 text-sm">No +EV parlays out of today's top picks.</p>
-    </section>
-
-    <section class="bg-white border rounded-lg p-4">
-      <h2 class="text-lg font-semibold mb-3">Bet analysis — deep grade</h2>
-      <p class="text-sm text-slate-500 mb-3">Paste any single bet or parlay. You get a letter grade (A+ → F) per leg and overall, using today's published model probabilities and the same Gaussian-copula correlation as the recommended slips. For a fully server-side grade on any player run <code>python -m app.analysis '{…bet…}'</code>.</p>
-      <div id="slip-builder" class="space-y-2"></div>
-      <div class="flex items-center gap-2 mt-3">
-        <button id="add-leg" class="px-3 py-1 rounded-md bg-slate-100 border text-sm">+ Add leg</button>
-        <button id="analyze" class="px-3 py-1 rounded-md bg-slate-900 text-white text-sm">Analyze</button>
-        <span id="analyzer-status" class="text-xs text-slate-500"></span>
+      <div class="grid lg:grid-cols-5 gap-6 relative">
+        <div class="lg:col-span-3 space-y-3">
+          <div id="legs" class="space-y-3"></div>
+          <p class="text-xs text-slate-500">Tip: players in today's live model use exact probabilities; everyone else is graded against league-baseline distributions for that market and the price you entered.</p>
+        </div>
+        <div id="analyzer-out" class="lg:col-span-2"></div>
       </div>
-      <div id="analyzer-output" class="mt-4"></div>
-    </section>
+    </div>
+  </section>
 
-    <section>
-      <h2 class="text-lg font-semibold mb-3">Today's games</h2>
-      <div id="games" class="grid gap-3 md:grid-cols-3"></div>
-    </section>
-
-    <section>
-      <h2 class="text-lg font-semibold mb-3">Recent performance (last 30 days)</h2>
-      <div class="overflow-x-auto bg-white border rounded-lg">
-        <table class="w-full text-sm">
-          <thead class="bg-slate-100">
-            <tr>
-              <th class="px-3 py-2 text-left">Date</th>
-              <th class="px-3 py-2 text-left">Sport</th>
-              <th class="px-3 py-2 text-right">Picks</th>
-              <th class="px-3 py-2 text-right">W</th>
-              <th class="px-3 py-2 text-right">L</th>
-              <th class="px-3 py-2 text-right">Push</th>
-              <th class="px-3 py-2 text-right">ROI (u)</th>
-            </tr>
-          </thead>
-          <tbody id="history-tbody"></tbody>
-        </table>
-      </div>
-    </section>
-
-    <section>
-      <h2 class="text-lg font-semibold mb-3">Model quality</h2>
-      <div class="overflow-x-auto bg-white border rounded-lg">
-        <table class="w-full text-sm">
-          <thead class="bg-slate-100">
-            <tr>
-              <th class="px-3 py-2 text-left">Sport</th>
-              <th class="px-3 py-2 text-left">Market</th>
-              <th class="px-3 py-2 text-right">Rows</th>
-              <th class="px-3 py-2 text-right">MAE</th>
-              <th class="px-3 py-2 text-right">Brier</th>
-              <th class="px-3 py-2 text-right">LogLoss</th>
-              <th class="px-3 py-2 text-left">Trained</th>
-            </tr>
-          </thead>
-          <tbody id="models-tbody"></tbody>
-        </table>
-      </div>
-    </section>
-  </main>
-
-  <footer class="max-w-6xl mx-auto px-6 py-10 text-xs text-slate-500">
-    <p>Free, public sources only — MLB Stats API, stats.nba.com, api-web.nhle.com, ESPN (NFL + soccer scores/box scores), PrizePicks, DraftKings, FanDuel, Bovada, Pinnacle, Open-Meteo, ESPN injuries.</p>
-    <p>This is a model, not investment advice. Bet only what you can afford to lose.</p>
-  </footer>
-
-  <script>
-    const fmtPct = v => (v == null ? "—" : (Number(v) * 100).toFixed(1) + "%");
-    const fmtNum = (v, d = 2) => (v == null ? "—" : Number(v).toFixed(d));
-    const fmtSign = v => (v == null ? "—" : (v >= 0 ? "+" : "") + v);
-    const fmtPrice = v => fmtSign(v);
-
-    const colorRating = r => {
-      if (r >= 80) return "bg-emerald-600 text-white";
-      if (r >= 65) return "bg-emerald-200 text-emerald-900";
-      if (r >= 50) return "bg-amber-200 text-amber-900";
-      return "bg-slate-200 text-slate-800";
-    };
-
-    // Mirrors app.analysis._letter_from so the client-side analyzer produces
-    // the same grades as the server.
-    const GRADES = ["F","D-","D","D+","C-","C","C+","B-","B","B+","A-","A","A+"];
-    const RATING_BANDS = [[90,"A+"],[84,"A"],[78,"A-"],[72,"B+"],[66,"B"],[60,"B-"],
-                          [54,"C+"],[48,"C"],[42,"C-"],[36,"D+"],[30,"D"],[24,"D-"]];
-    function letterFrom(rating, edgePct) {
-      let base = "F";
-      for (const [t, l] of RATING_BANDS) { if (rating >= t) { base = l; break; } }
-      let ceiling;
-      if (edgePct <= -5) ceiling = "D-";
-      else if (edgePct < 0) ceiling = "C-";
-      else if (edgePct < 1) ceiling = "B-";
-      else if (edgePct < 3) ceiling = "A-";
-      else ceiling = "A+";
-      return GRADES[Math.min(GRADES.indexOf(base), GRADES.indexOf(ceiling))];
-    }
-    const colorGrade = g => {
-      const c = g[0];
-      if (c === "A") return "bg-emerald-600 text-white";
-      if (c === "B") return "bg-emerald-200 text-emerald-900";
-      if (c === "C") return "bg-amber-200 text-amber-900";
-      if (c === "D") return "bg-orange-200 text-orange-900";
-      return "bg-rose-200 text-rose-900";
-    };
-
-    let currentSport = "ALL";
-    let payload = null;
-
-    function renderPicks() {
-      const grid = document.getElementById("picks-grid");
-      const empty = document.getElementById("picks-empty");
-      grid.innerHTML = "";
-      if (!payload || !payload.picks) return;
-      const picks = payload.picks.filter(p => currentSport === "ALL" || p.sport === currentSport);
-      if (!picks.length) {
-        empty.classList.remove("hidden");
-        return;
-      }
-      empty.classList.add("hidden");
-      for (const p of picks) {
-        const r = Math.round(p.rating || 0);
-        const card = document.createElement("article");
-        card.className = "bg-white border rounded-lg p-4 shadow-sm";
-        card.innerHTML = `
-          <div class="flex items-start justify-between gap-3">
-            <div>
-              <div class="text-xs text-slate-500">${p.sport} • ${p.market.replaceAll("_", " ")}</div>
-              <div class="text-lg font-semibold">${p.player_name}</div>
-              <div class="text-sm">
-                <span class="font-medium">${p.side.toUpperCase()} ${fmtNum(p.line, 1)}</span>
-                <span class="text-slate-500">@ ${fmtPrice(p.price_american)}</span>
-                <span class="text-slate-400">· ${p.book}</span>
-              </div>
-            </div>
-            <div class="text-center">
-              <div class="px-3 py-1 rounded-full font-bold text-base ${colorGrade(p.grade || letterFrom(r, p.edge_pct))}">${p.grade || letterFrom(r, p.edge_pct)}</div>
-              <div class="text-xs text-slate-400 mt-1">grade · ${r}</div>
-            </div>
-          </div>
-          <div class="mt-3 grid grid-cols-4 gap-2 text-xs">
-            <div><div class="text-slate-500">Model</div><div class="font-medium">${fmtPct(p.model_prob)}</div></div>
-            <div><div class="text-slate-500">Fair</div><div class="font-medium">${fmtPct(p.fair_prob)}</div></div>
-            <div><div class="text-slate-500">Edge</div><div class="font-medium ${p.edge_pct >= 0 ? 'text-emerald-700' : 'text-rose-700'}">${fmtNum(p.edge_pct, 1)}%</div></div>
-            <div><div class="text-slate-500">Kelly stake</div><div class="font-medium">${fmtNum(p.recommended_stake_units, 1)}u</div></div>
-          </div>
-        `;
-        grid.appendChild(card);
-      }
-    }
-
-    function renderGames() {
-      const wrap = document.getElementById("games");
-      wrap.innerHTML = "";
-      if (!payload || !payload.by_sport) return;
-      const sports = (payload && payload.sports) || ["NBA", "MLB", "NHL"];
-      const all = sports.flatMap(s => (payload.by_sport[s] || []).map(g => ({ ...g, sport: s })));
-      if (!all.length) {
-        wrap.innerHTML = `<p class="text-slate-500 text-sm">No games scheduled.</p>`;
-        return;
-      }
-      for (const g of all) {
-        const c = document.createElement("div");
-        c.className = "bg-white border rounded-lg p-3 text-sm";
-        c.innerHTML = `
-          <div class="text-xs text-slate-500">${g.sport} · ${g.status || ""}</div>
-          <div class="font-medium">${g.away_team || "—"} @ ${g.home_team || "—"}</div>
-          <div class="text-xs text-slate-400">${g.venue || ""}</div>
-        `;
-        wrap.appendChild(c);
-      }
-    }
-
-    function renderHistory() {
-      const tb = document.getElementById("history-tbody");
-      tb.innerHTML = "";
-      if (!payload || !payload.history_30d || !payload.history_30d.length) {
-        tb.innerHTML = `<tr><td class="px-3 py-3 text-slate-500" colspan="7">No graded picks yet — first nightly run hasn't happened.</td></tr>`;
-        return;
-      }
-      for (const r of payload.history_30d) {
-        const roi = Number(r.roi_units || 0);
-        const tr = document.createElement("tr");
-        tr.className = "border-t";
-        tr.innerHTML = `
-          <td class="px-3 py-2">${r.on_date}</td>
-          <td class="px-3 py-2">${r.sport}</td>
-          <td class="px-3 py-2 text-right">${r.n_picks}</td>
-          <td class="px-3 py-2 text-right">${r.n_wins}</td>
-          <td class="px-3 py-2 text-right">${r.n_losses}</td>
-          <td class="px-3 py-2 text-right">${r.n_push}</td>
-          <td class="px-3 py-2 text-right ${roi >= 0 ? 'text-emerald-700' : 'text-rose-700'}">${roi.toFixed(2)}</td>
-        `;
-        tb.appendChild(tr);
-      }
-    }
-
-    function renderModels() {
-      const tb = document.getElementById("models-tbody");
-      tb.innerHTML = "";
-      if (!payload || !payload.model_summary || !payload.model_summary.length) {
-        tb.innerHTML = `<tr><td class="px-3 py-3 text-slate-500" colspan="7">No models trained yet.</td></tr>`;
-        return;
-      }
-      for (const m of payload.model_summary) {
-        const tr = document.createElement("tr");
-        tr.className = "border-t";
-        tr.innerHTML = `
-          <td class="px-3 py-2">${m.sport}</td>
-          <td class="px-3 py-2">${m.market}</td>
-          <td class="px-3 py-2 text-right">${m.rows ?? '—'}</td>
-          <td class="px-3 py-2 text-right">${m.mae != null ? Number(m.mae).toFixed(2) : '—'}</td>
-          <td class="px-3 py-2 text-right">${m.brier != null ? Number(m.brier).toFixed(3) : '—'}</td>
-          <td class="px-3 py-2 text-right">${m.log_loss != null ? Number(m.log_loss).toFixed(3) : '—'}</td>
-          <td class="px-3 py-2 text-xs text-slate-500">${m.finished_at || ''}</td>
-        `;
-        tb.appendChild(tr);
-      }
-    }
-
-    document.getElementById("sport-tabs").addEventListener("click", (e) => {
-      const b = e.target.closest("button");
-      if (!b) return;
-      currentSport = b.dataset.sport;
-      for (const btn of document.querySelectorAll("#sport-tabs button")) {
-        btn.classList.toggle("bg-slate-900", btn === b);
-        btn.classList.toggle("text-white",  btn === b);
-        btn.classList.toggle("bg-white",   btn !== b);
-        btn.classList.toggle("border",     btn !== b);
-      }
-      renderPicks();
-    });
-
-    function renderGamePredictions() {
-      const wrap = document.getElementById("game-preds");
-      const empty = document.getElementById("game-preds-empty");
-      wrap.innerHTML = "";
-      const list = (payload && payload.game_predictions) || [];
-      if (!list.length) { empty.classList.remove("hidden"); return; }
-      empty.classList.add("hidden");
-      for (const g of list) {
-        const homeBar = Math.round(g.home_win_prob * 100);
-        const c = document.createElement("div");
-        c.className = "bg-white border rounded-lg p-3 text-sm";
-        c.innerHTML = `
-          <div class="text-xs text-slate-500">${g.sport}</div>
-          <div class="font-medium">${g.away_team} @ ${g.home_team}</div>
-          <div class="text-slate-600 text-xs mt-1">
-            Pred: ${fmtNum(g.pred_away_score, 1)} – ${fmtNum(g.pred_home_score, 1)}
-            · Total ${fmtNum(g.pred_total, 1)}
-            · Spread ${g.pred_spread >= 0 ? "+" : ""}${fmtNum(g.pred_spread, 1)} (home)
-          </div>
-          <div class="mt-2 h-2 bg-slate-100 rounded">
-            <div class="h-2 bg-emerald-500 rounded" style="width:${homeBar}%"></div>
-          </div>
-          <div class="flex justify-between text-xs text-slate-500 mt-1">
-            <span>${g.away_team}: ${(100 - homeBar)}%</span>
-            <span>${g.home_team}: ${homeBar}%</span>
-          </div>
-        `;
-        wrap.appendChild(c);
-      }
-    }
-
-    function renderSlips() {
-      const wrap = document.getElementById("slips");
-      const empty = document.getElementById("slips-empty");
-      wrap.innerHTML = "";
-      const list = (payload && payload.recommended_slips) || [];
-      if (!list.length) { empty.classList.remove("hidden"); return; }
-      empty.classList.add("hidden");
-      for (const s of list) {
-        const card = document.createElement("div");
-        card.className = "bg-white border rounded-lg p-4";
-        card.innerHTML = `
-          <div class="flex justify-between items-start gap-3">
-            <div class="space-y-1">
-              ${s.legs.map(l => `<div class="text-sm">
-                <span class="text-slate-400 text-xs">${l.sport} · ${l.market}</span><br>
-                <span class="font-medium">${l.player_name}</span>
-                <span>${l.side.toUpperCase()} ${l.line}</span>
-                <span class="text-slate-500">@ ${fmtSign(l.price_american)}</span>
-              </div>`).join("")}
-            </div>
-            <div class="text-right">
-              <div class="text-xs text-slate-500">Parlay</div>
-              <div class="font-bold">${fmtSign(s.parlay_american)}</div>
-              <div class="text-xs mt-1">edge ${s.parlay_edge_pct >= 0 ? "+" : ""}${s.parlay_edge_pct}%</div>
-              <div class="text-xs text-slate-500">P=${fmtPct(s.correlated_model_prob)}</div>
-              <span class="pill ${s.parlay_edge_pct >= 5 ? "bg-emerald-200 text-emerald-900" : "bg-amber-200 text-amber-900"} mt-1 inline-block">${s.verdict}</span>
-            </div>
-          </div>
-        `;
-        wrap.appendChild(card);
-      }
-    }
-
-    // ----- Bet slip analyzer (client-side, scored against picks.json) -----
-    function picksIndex() {
-      const idx = new Map();
-      for (const p of (payload && payload.picks) || []) {
-        idx.set(`${p.sport}|${p.player_name.toLowerCase()}|${p.market}`, p);
-      }
-      return idx;
-    }
-
-    function addLegRow(prefill) {
-      const wrap = document.getElementById("slip-builder");
-      const row = document.createElement("div");
-      row.className = "grid grid-cols-12 gap-2 text-sm";
-      const sportOpts = ((payload && payload.sports) || ["NBA", "MLB", "NHL"])
-        .map(s => `<option>${s}</option>`).join("");
-      row.innerHTML = `
-        <select class="leg-sport col-span-1 border rounded px-2 py-1">${sportOpts}</select>
-        <input class="leg-player col-span-4 border rounded px-2 py-1" placeholder="Player name" />
-        <input class="leg-market col-span-3 border rounded px-2 py-1" placeholder="market (e.g. player_points)" />
-        <select class="leg-side col-span-1 border rounded px-2 py-1">
-          <option>over</option><option>under</option>
+  <!-- TOP PLAYS -->
+  <section id="plays" class="scroll-mt-20">
+    <div class="flex items-center justify-between flex-wrap gap-3 mb-4">
+      <h2 class="text-xl font-extrabold">🔥 Today's top plays</h2>
+      <div class="flex items-center gap-2 flex-wrap">
+        <input id="search" placeholder="Search player…" class="text-sm bg-ink-850 border border-white/10 rounded-lg px-3 py-2 w-40 focus:outline-none focus:border-emerald-400/50"/>
+        <select id="grade-filter" class="text-sm bg-ink-850 border border-white/10 rounded-lg px-3 py-2">
+          <option value="0">All grades</option>
+          <option value="A">A only</option>
+          <option value="B">B+ and up</option>
         </select>
-        <input class="leg-line col-span-1 border rounded px-2 py-1" placeholder="line" />
-        <input class="leg-price col-span-1 border rounded px-2 py-1" placeholder="price" />
-        <button class="leg-remove col-span-1 text-rose-600 text-xs">remove</button>
-      `;
-      if (prefill) {
-        row.querySelector(".leg-sport").value  = prefill.sport;
-        row.querySelector(".leg-player").value = prefill.player_name;
-        row.querySelector(".leg-market").value = prefill.market;
-        row.querySelector(".leg-side").value   = prefill.side;
-        row.querySelector(".leg-line").value   = prefill.line;
-        row.querySelector(".leg-price").value  = prefill.price_american;
-      }
-      row.querySelector(".leg-remove").onclick = () => row.remove();
-      wrap.appendChild(row);
+      </div>
+    </div>
+    <div id="sport-tabs" class="flex gap-2 flex-wrap mb-5 text-sm"></div>
+    <div id="plays-grid" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
+    <p id="plays-empty" class="hidden text-slate-500 text-sm py-8 text-center">No plays match your filters.</p>
+  </section>
+
+  <!-- GAME PREDICTIONS -->
+  <section id="games" class="scroll-mt-20">
+    <h2 class="text-xl font-extrabold mb-4">📊 Game predictions & matchups</h2>
+    <div id="games-grid" class="grid gap-4 md:grid-cols-2"></div>
+  </section>
+
+  <!-- PERFORMANCE -->
+  <section id="performance" class="scroll-mt-20 grid lg:grid-cols-3 gap-6">
+    <div class="card rounded-2xl p-5 lg:col-span-2">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-lg font-bold">📈 Rolling performance (ROI, units)</h2>
+        <span id="roi-total" class="text-sm font-bold"></span>
+      </div>
+      <canvas id="roiChart" height="120"></canvas>
+    </div>
+    <div class="card rounded-2xl p-5">
+      <h2 class="text-lg font-bold mb-3">🧠 Model quality</h2>
+      <div id="models" class="space-y-2 text-sm max-h-[260px] overflow-auto pr-1"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="border-t border-white/5">
+  <div class="max-w-7xl mx-auto px-6 py-10 text-xs text-slate-500 space-y-2">
+    <p>Sources: MLB Stats API · stats.nba.com · api-web.nhle.com · ESPN (NFL & soccer) · PrizePicks · DraftKings · FanDuel · Bovada · Pinnacle · Open-Meteo · ESPN injuries. 100% free, auto-updating via GitHub Actions.</p>
+    <p>For entertainment/analysis only — not financial advice. 21+. If gambling is a problem, call 1-800-GAMBLER.</p>
+  </div>
+</footer>
+
+<script>
+//=================== helpers ===================
+const $ = s => document.querySelector(s);
+const el = (t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e;};
+const pct = v => v==null?'—':(v*100).toFixed(1)+'%';
+const sign = v => v==null?'—':(v>=0?'+':'')+v;
+const fixed=(v,d=1)=>v==null?'—':Number(v).toFixed(d);
+const norm_cdf = z => { // Abramowitz-Stegun
+  const t=1/(1+0.2316419*Math.abs(z));
+  const d=0.3989423*Math.exp(-z*z/2);
+  let p=d*t*(0.3193815+t*(-0.3565638+t*(1.781478+t*(-1.821256+t*1.330274))));
+  return z>0?1-p:p;
+};
+function poissonSF(k,lam){ // P(X> floor(k)) = 1 - cdf(floor)
+  k=Math.floor(k); let cdf=0,term=Math.exp(-lam);
+  for(let i=0;i<=k;i++){ if(i>0) term*=lam/i; cdf+=term; }
+  return Math.max(0,Math.min(1,1-cdf));
+}
+
+//=================== grade logic (mirrors app/analysis.py) ===================
+const GRADES=["F","D-","D","D+","C-","C","C+","B-","B","B+","A-","A","A+"];
+const BANDS=[[90,"A+"],[84,"A"],[78,"A-"],[72,"B+"],[66,"B"],[60,"B-"],[54,"C+"],[48,"C"],[42,"C-"],[36,"D+"],[30,"D"],[24,"D-"]];
+function letterFrom(rating,edge){
+  let base="F"; for(const[t,l]of BANDS){if(rating>=t){base=l;break;}}
+  let ceil = edge<=-5?"D-":edge<0?"C-":edge<1?"B-":edge<3?"A-":"A+";
+  return GRADES[Math.min(GRADES.indexOf(base),GRADES.indexOf(ceil))];
+}
+const gradeColor = g => ({A:'#34d399',B:'#86efac',C:'#fbbf24',D:'#fb923c',F:'#f87171'}[g[0]]||'#94a3b8');
+const gradeBg = g => ({A:'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',B:'bg-lime-500/15 text-lime-300 border-lime-500/30',C:'bg-amber-500/15 text-amber-300 border-amber-500/30',D:'bg-orange-500/15 text-orange-300 border-orange-500/30',F:'bg-rose-500/15 text-rose-300 border-rose-500/30'}[g[0]]);
+
+function amerToDec(a){a=Number(a);return a>=100?1+a/100:a<=-100?1+100/Math.abs(a):(a>0?1+a/100:NaN);}
+function decToAmer(d){return d>=2?Math.round((d-1)*100):Math.round(-100/(d-1));}
+
+//=================== league baselines (for grading any bet) ===================
+const COUNT = new Set(['player_threes','player_steals','player_blocks','player_assists','player_goals','batter_hits','batter_rbis','batter_runs','batter_total_bases','batter_strikeouts','pitcher_strikeouts','pitcher_earned_runs','player_shots_on_goal','goalie_saves','player_pass_tds','player_interceptions','player_pass_completions','player_pass_attempts','player_rush_attempts','player_receptions','player_shots','player_shots_on_target','player_passes','player_tackles']);
+const BASE = {
+  NBA:{player_points:[18,8],player_rebounds:[6.2,3.2],player_assists:[4.3,2.6],player_threes:[2.1,1.4],player_steals:[1,0.9],player_blocks:[0.7,0.8],player_pra:[28,10]},
+  MLB:{batter_total_bases:[1.35,1.15],batter_hits:[0.95,0.9],batter_runs:[0.6,0.8],batter_rbis:[0.65,0.9],batter_strikeouts:[1.1,0.95],pitcher_strikeouts:[5.4,2.3],pitcher_outs:[16,5],pitcher_earned_runs:[2.6,1.9]},
+  NHL:{player_points:[0.72,0.9],player_shots_on_goal:[2.4,1.5],player_goals:[0.32,0.6],player_assists:[0.42,0.7],goalie_saves:[26.5,7]},
+  NFL:{player_pass_yards:[238,62],player_pass_tds:[1.5,1.1],player_pass_completions:[21,5.5],player_pass_attempts:[33,7],player_interceptions:[0.7,0.8],player_rush_yards:[55,30],player_rush_attempts:[12,5],player_receptions:[3.9,2.2],player_rec_yards:[49,28]},
+  EPL:{player_shots:[1.7,1.3],player_shots_on_target:[0.78,0.9],player_goals:[0.28,0.55],player_assists:[0.2,0.5],player_passes:[42,20],player_tackles:[1.8,1.3],goalie_saves:[3.1,1.9]},
+};
+function baselineProb(sport,market,line,side){
+  const b=(BASE[sport]||{})[market]; if(!b) return null;
+  const[mu,sd]=b; let pOver;
+  if(COUNT.has(market)) pOver=poissonSF(line,Math.max(mu,0.05));
+  else pOver=1-norm_cdf((line-mu)/Math.max(sd,0.5));
+  return {p: side==='over'?pOver:1-pOver, mu};
+}
+
+//=================== state ===================
+let DATA=null, SAMPLE=false, sport='ALL';
+
+//=================== SAMPLE DATA (so the board is full off-season) ===================
+function rng(seed){let s=seed;return()=>{s=(s*1103515245+12345)&0x7fffffff;return s/0x7fffffff;};}
+function buildSample(){
+  const R=rng(20260625);
+  const pool={
+    NBA:[['Nikola Jokic','DEN','player_points',26.5],['Luka Doncic','DAL','player_pra',58.5],['Shai Gilgeous-Alexander','OKC','player_points',30.5],['Anthony Edwards','MIN','player_threes',3.5],['Tyrese Haliburton','IND','player_assists',9.5],['Jayson Tatum','BOS','player_rebounds',8.5]],
+    MLB:[['Aaron Judge','NYY','batter_total_bases',1.5],['Shohei Ohtani','LAD','batter_total_bases',1.5],['Tarik Skubal','DET','pitcher_strikeouts',7.5],['Gunnar Henderson','BAL','batter_hits',1.5],['Paul Skenes','PIT','pitcher_strikeouts',6.5],['Bobby Witt Jr.','KC','batter_runs',0.5]],
+    NHL:[['Connor McDavid','EDM','player_points',1.5],['Auston Matthews','TOR','player_shots_on_goal',4.5],['Nathan MacKinnon','COL','player_points',1.5],['Cale Makar','COL','player_assists',0.5],['Igor Shesterkin','NYR','goalie_saves',27.5]],
+    NFL:[['Patrick Mahomes','KC','player_pass_yards',274.5],['Christian McCaffrey','SF','player_rush_yards',88.5],['Tyreek Hill','MIA','player_rec_yards',82.5],['CeeDee Lamb','DAL','player_receptions',6.5],['Josh Allen','BUF','player_pass_tds',1.5]],
+    EPL:[['Erling Haaland','MCI','player_shots_on_target',1.5],['Mohamed Salah','LIV','player_shots',2.5],['Bukayo Saka','ARS','player_shots',1.5],['Cole Palmer','CHE','player_passes',44.5],['Son Heung-min','TOT','player_shots_on_target',1.5]],
+  };
+  const books=['DraftKings','FanDuel','PrizePicks','Bovada','Pinnacle'];
+  let picks=[];
+  for(const sp of Object.keys(pool)){
+    for(const[name,team,market,line]of pool[sp]){
+      const b=BASE[sp][market]||[line,line*0.6];
+      const edge=2+R()*12;                       // 2–14%
+      const mp=0.52+R()*0.16;                     // 52–68%
+      const fair=mp-(edge/100)*0.6;
+      const price=R()>0.5?-(110+Math.floor(R()*30)):(100+Math.floor(R()*40));
+      const rating=Math.min(96,52+edge*2.4+R()*10);
+      const proj=line+(b[0]>line?1:0.4)*(0.4+R());
+      const form=Array.from({length:10},()=>Math.max(0,b[0]+(R()-0.45)*b[1]*1.6));
+      picks.push({sport:sp,player_name:name,team,market,side:'over',line,price_american:price,book:books[Math.floor(R()*books.length)],model_prob:mp,fair_prob:fair,edge_pct:edge,recommended_stake_units:+(0.5+R()*2).toFixed(1),rating,grade:letterFrom(rating,edge),projection:+proj.toFixed(1),form});
     }
-
-    function amerToDecimal(am) {
-      const o = Number(am);
-      if (o >= 100) return 1 + o / 100;
-      if (o <= -100) return 1 + 100 / Math.abs(o);
-      return null;
+  }
+  picks.sort((a,b)=>b.rating-a.rating);
+  // games + context
+  const venues={MLB:['Yankee Stadium','Dodger Stadium','Fenway Park','Wrigley Field'],NBA:['Ball Arena','Chase Center'],NHL:['Rogers Place','MSG'],NFL:['Arrowhead','SoFi Stadium'],EPL:['Etihad','Anfield','Emirates']};
+  const conds=['Clear 78°F · wind 6mph','Partly cloudy 71°F · wind 11mph','Dome · controlled','Light rain 64°F · wind 14mph','Clear 83°F · wind 4mph'];
+  const by_sport={}, gp=[];
+  for(const sp of Object.keys(pool)){
+    const teams=[...new Set(pool[sp].map(p=>p[1]))];
+    by_sport[sp]=[];
+    for(let i=0;i+1<teams.length;i+=2){
+      const home=teams[i],away=teams[i+1];
+      const hs=+(BASE[sp]?100:0); // placeholder
+      const hwp=0.40+R()*0.3;
+      const total= sp==='MLB'?8.5:sp==='NHL'?6.5:sp==='EPL'?2.5:sp==='NFL'?44.5:228.5;
+      by_sport[sp].push({sport:sp,home_team:home,away_team:away,status:'Scheduled 7:10 PM',venue:venues[sp]?.[i%(venues[sp].length)]||'',weather:sp==='MLB'||sp==='NFL'||sp==='EPL'?conds[Math.floor(R()*conds.length)]:'Indoor',
+        lineups_confirmed:R()>0.4, injuries:R()>0.6?[{name:pool[sp][(i+2)%pool[sp].length][0],status:'Questionable'}]:[]});
+      gp.push({sport:sp,home_team:home,away_team:away,home_win_prob:hwp,pred_total:total,pred_spread:+((R()-0.5)*6).toFixed(1),pred_home_score:0,pred_away_score:0});
     }
+  }
+  // history (30d ROI)
+  let cum=0; const hist=[];
+  for(let d=29;d>=0;d--){const roi=(R()-0.42)*4;cum+=roi;hist.push({on_date:`d-${d}`,roi_units:+roi.toFixed(2),cum:+cum.toFixed(2)});}
+  const models=[];
+  for(const sp of Object.keys(BASE))for(const m of Object.keys(BASE[sp])) models.push({sport:sp,market:m,rows:Math.floor(400+R()*3000),mae:+(BASE[sp][m][1]*0.7).toFixed(2),brier:+(0.18+R()*0.06).toFixed(3)});
+  return {on_date:'sample',sports:['NBA','MLB','NHL','NFL','EPL'],picks,by_sport,game_predictions:gp,history_30d:hist,model_summary:models,_sample:true};
+}
 
-    function legCorrelation(a, b) {
-      if (a.player_name === b.player_name && a.market !== b.market) return 0.30;
-      if (a.market === b.market) return 0.10;
-      return 0.0;
-    }
+//=================== rendering ===================
+function heroStats(){
+  const wrap=$('#hero-stats'); wrap.innerHTML='';
+  const picks=DATA.picks||[];
+  const aPlus=picks.filter(p=>(p.grade||'')[0]==='A').length;
+  const avgEdge=picks.length?picks.reduce((s,p)=>s+(p.edge_pct||0),0)/picks.length:0;
+  const roi=(DATA.history_30d||[]).reduce((s,h)=>s+(h.roi_units||0),0);
+  const stats=[['Graded plays',picks.length,'across 5 leagues'],['A-grade edges',aPlus,'top-rated today'],['Avg edge',avgEdge.toFixed(1)+'%','vs the book'],['30-day ROI',(roi>=0?'+':'')+roi.toFixed(1)+'u','rolling units']];
+  for(const[a,b,c]of stats){
+    wrap.appendChild(el('div','card rounded-2xl px-4 py-3',
+      `<div class="text-2xl font-black ${String(b).includes('-')?'text-rose-300':'text-emerald-300'}">${b}</div>
+       <div class="text-sm font-semibold text-slate-200">${a}</div>
+       <div class="text-[11px] text-slate-500">${c}</div>`));
+  }
+}
 
-    // 2- or 3-leg Gaussian-copula approximation using normal pdf series.
-    // For >3 legs we fall back to naive independence.
-    function jointProb(probs, legs) {
-      const n = probs.length;
-      if (n === 0) return 1;
-      if (n === 1) return probs[0];
-      if (n > 3) return probs.reduce((a, b) => a * b, 1);
-      // crude correlation-aware adjustment: shift each prob toward 0.5 by rho/2.
-      let avgRho = 0, c = 0;
-      for (let i = 0; i < n; i++)
-        for (let j = i + 1; j < n; j++) { avgRho += legCorrelation(legs[i], legs[j]); c++; }
-      avgRho = c ? avgRho / c : 0;
-      const naive = probs.reduce((a, b) => a * b, 1);
-      // Positive correlation -> parlay more likely than independence; we shrink
-      // toward sqrt of naive a little.
-      const corrected = Math.min(1, Math.max(0, naive + avgRho * 0.5 * (Math.pow(naive, 1 / n) - naive)));
-      return corrected;
-    }
+function sportTabs(){
+  const wrap=$('#sport-tabs'); wrap.innerHTML='';
+  const labels={ALL:'All',NBA:'🏀 NBA',MLB:'⚾ MLB',NHL:'🏒 NHL',NFL:'🏈 NFL',EPL:'⚽ Soccer'};
+  ['ALL',...(DATA.sports||[])].forEach(s=>{
+    const b=el('button',`tab px-3.5 py-1.5 rounded-full border border-white/10 bg-white/5 font-semibold ${s===sport?'active':''}`,labels[s]||s);
+    b.onclick=()=>{sport=s;sportTabs();renderPlays();};
+    wrap.appendChild(b);
+  });
+}
 
-    function analyzeSlip() {
-      const status = document.getElementById("analyzer-status");
-      const out = document.getElementById("analyzer-output");
-      out.innerHTML = ""; status.textContent = "";
-      const rows = [...document.querySelectorAll("#slip-builder > div")];
-      const idx = picksIndex();
-      const legs = [];
-      for (const r of rows) {
-        const leg = {
-          sport: r.querySelector(".leg-sport").value,
-          player_name: r.querySelector(".leg-player").value.trim(),
-          market: r.querySelector(".leg-market").value.trim(),
-          side: r.querySelector(".leg-side").value,
-          line: parseFloat(r.querySelector(".leg-line").value),
-          price_american: parseInt(r.querySelector(".leg-price").value, 10),
-        };
-        if (!leg.player_name || !leg.market || isNaN(leg.line) || isNaN(leg.price_american)) continue;
-        legs.push(leg);
-      }
-      if (!legs.length) { status.textContent = "Add at least one valid leg."; return; }
+function sparkline(form,color){
+  if(!form||!form.length) return '';
+  const w=120,h=28,mx=Math.max(...form),mn=Math.min(...form),rng=(mx-mn)||1;
+  const pts=form.map((v,i)=>`${(i/(form.length-1))*w},${h-((v-mn)/rng)*h}`).join(' ');
+  return `<svg viewBox="0 0 ${w} ${h}" class="w-full h-7"><polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+}
 
-      const evals = legs.map(l => {
-        const key = `${l.sport}|${l.player_name.toLowerCase()}|${l.market}`;
-        const known = idx.get(key);
-        let mp;
-        if (known && known.side === l.side && Math.abs(known.line - l.line) < 1e-6) {
-          mp = known.model_prob;
-        } else if (known) {
-          // Same player/market but different side/line — invert if needed.
-          mp = (l.side === known.side) ? known.model_prob : 1 - known.model_prob;
-        } else {
-          mp = null;
-        }
-        const dec = amerToDecimal(l.price_american);
-        const fair = 1 / dec;
-        const edge = mp != null ? (dec * mp - 1) * 100 : null;
-        // Per-leg grade: reuse the server grade when this exact leg is a known
-        // pick, otherwise derive a letter from a lightweight rating proxy.
-        let grade = null;
-        if (known && known.side === l.side && Math.abs(known.line - l.line) < 1e-6 && known.grade) {
-          grade = known.grade;
-        } else if (mp != null) {
-          const conf = Math.min(1, Math.abs(mp - 0.5) / 0.25);
-          const dis = Math.min(1, Math.abs(mp - fair) / 0.10);
-          const ratingProxy = 100 * (0.45 * Math.min(1, Math.max(0, edge / 15)) +
-                                     0.15 * conf + 0.20 * dis + 0.10 * 0.5);
-          grade = letterFrom(ratingProxy, edge);
-        }
-        return { leg: l, model_prob: mp, fair_prob: fair, edge_pct: edge, grade };
-      });
-
-      const knownProbs = evals.filter(e => e.model_prob != null);
-      let parlayDec = 1; for (const e of evals) parlayDec *= amerToDecimal(e.leg.price_american);
-      const probs = evals.map(e => e.model_prob ?? 1 / amerToDecimal(e.leg.price_american));
-      const corr = jointProb(probs, legs);
-      const naive = probs.reduce((a, b) => a * b, 1);
-      const parlayEdge = (parlayDec * corr - 1) * 100;
-      const verdict = parlayEdge >= 10 ? "Strong +EV" : parlayEdge >= 3 ? "+EV" : parlayEdge >= -3 ? "Neutral" : "-EV";
-      const verdictClass = parlayEdge >= 3 ? "bg-emerald-200 text-emerald-900" : parlayEdge >= -3 ? "bg-amber-200 text-amber-900" : "bg-rose-200 text-rose-900";
-
-      // Overall slip grade: 0.55 * parlay-edge-score + 0.45 * weakest leg,
-      // penalised for un-modeled legs (mirrors app.analysis.grade_slip).
-      const legScores = evals.filter(e => e.grade).map(e => GRADES.indexOf(e.grade) / (GRADES.length - 1) * 100);
-      const weakest = legScores.length ? Math.min(...legScores) : 0;
-      const nUnmodeled = evals.filter(e => e.model_prob == null).length;
-      const edgeScore = Math.max(0, Math.min(100, 50 + parlayEdge * (50 / 15)));
-      const slipRating = Math.max(0, Math.min(100, 0.55 * edgeScore + 0.45 * weakest - 8 * nUnmodeled));
-      const slipGrade = legs.length > 1 ? letterFrom(slipRating, parlayEdge)
-                                        : (evals[0] && evals[0].grade) || letterFrom(slipRating, parlayEdge);
-
-      out.innerHTML = `
-        <div class="flex items-center gap-3 mb-3">
-          <div class="px-4 py-2 rounded-lg font-bold text-2xl ${colorGrade(slipGrade)}">${slipGrade}</div>
-          <div class="text-sm">
-            <div class="font-semibold">${legs.length > 1 ? `${legs.length}-leg parlay` : "Single bet"} analysis grade</div>
-            <div class="text-slate-500 text-xs">${legs.length > 1 ? `correlation-adjusted P=${fmtPct(corr)} · ` : ""}edge ${parlayEdge.toFixed(1)}% · ${verdict}</div>
-          </div>
+function renderPlays(){
+  const grid=$('#plays-grid'),empty=$('#plays-empty'); grid.innerHTML='';
+  const q=($('#search').value||'').toLowerCase();
+  const gf=$('#grade-filter').value;
+  let picks=(DATA.picks||[]).filter(p=>sport==='ALL'||p.sport===sport)
+    .filter(p=>!q||p.player_name.toLowerCase().includes(q))
+    .filter(p=> gf==='0' || (gf==='A'&&(p.grade||'')[0]==='A') || (gf==='B'&&['A','B'].includes((p.grade||'')[0])&&p.grade!=='B-'));
+  if(!picks.length){empty.classList.remove('hidden');return;} empty.classList.add('hidden');
+  const ico={NBA:'🏀',MLB:'⚾',NHL:'🏒',NFL:'🏈',EPL:'⚽'};
+  for(const p of picks){
+    const g=p.grade||letterFrom(p.rating||0,p.edge_pct||0);
+    const edgeW=Math.max(4,Math.min(100,(p.edge_pct||0)/15*100));
+    const mp=Math.round((p.model_prob||0)*100), fp=Math.round((p.fair_prob||0)*100);
+    const card=el('article','card rounded-2xl p-4 fade-in');
+    card.innerHTML=`
+      <div class="flex items-start justify-between gap-3">
+        <div class="min-w-0">
+          <div class="text-[11px] uppercase tracking-wide text-slate-500">${ico[p.sport]||''} ${p.sport} · ${(p.market||'').replaceAll('_',' ')}</div>
+          <div class="font-bold text-[15px] truncate">${p.player_name} ${p.team?`<span class="text-slate-500 font-medium">· ${p.team}</span>`:''}</div>
+          <div class="text-sm mt-0.5"><span class="font-semibold text-emerald-300">${(p.side||'').toUpperCase()} ${fixed(p.line,1)}</span>
+            <span class="text-slate-400">@ ${sign(p.price_american)}</span>
+            <span class="text-slate-600">· ${p.book||''}</span></div>
         </div>
-        <div class="bg-slate-50 border rounded-lg p-4 space-y-2">
-          ${evals.map(e => `
-            <div class="grid grid-cols-12 text-sm items-center gap-2">
-              <div class="col-span-1"><span class="pill ${e.grade ? colorGrade(e.grade) : 'bg-slate-200 text-slate-600'}">${e.grade || "—"}</span></div>
-              <div class="col-span-4"><span class="text-xs text-slate-500">${e.leg.sport} · ${e.leg.market}</span><br><span class="font-medium">${e.leg.player_name}</span></div>
-              <div class="col-span-3">${e.leg.side.toUpperCase()} ${e.leg.line} @ ${fmtSign(e.leg.price_american)}</div>
-              <div class="col-span-2">P_model: ${e.model_prob == null ? "—" : fmtPct(e.model_prob)}</div>
-              <div class="col-span-2 ${e.edge_pct == null ? '' : (e.edge_pct >= 0 ? 'text-emerald-700' : 'text-rose-700')}">${e.edge_pct == null ? "(not modeled)" : `edge ${e.edge_pct.toFixed(1)}%`}</div>
+        <div class="text-center shrink-0">
+          <div class="h-12 w-12 grid place-items-center rounded-xl border font-black text-lg ${gradeBg(g)}">${g}</div>
+          <div class="text-[10px] text-slate-500 mt-1">rating ${Math.round(p.rating||0)}</div>
+        </div>
+      </div>
+      <div class="mt-3">
+        <div class="flex justify-between text-[11px] text-slate-400 mb-1"><span>Edge vs book</span><span class="text-emerald-300 font-semibold">+${fixed(p.edge_pct,1)}%</span></div>
+        <div class="bar"><i style="width:${edgeW}%;background:linear-gradient(90deg,#34d399,#22d3ee)"></i></div>
+      </div>
+      <div class="mt-3 grid grid-cols-3 gap-2 text-center text-[11px]">
+        <div class="bg-white/5 rounded-lg py-1.5"><div class="text-slate-500">Model</div><div class="font-bold text-sm">${mp}%</div></div>
+        <div class="bg-white/5 rounded-lg py-1.5"><div class="text-slate-500">Fair</div><div class="font-bold text-sm">${fp}%</div></div>
+        <div class="bg-white/5 rounded-lg py-1.5"><div class="text-slate-500">Proj</div><div class="font-bold text-sm">${p.projection!=null?fixed(p.projection,1):'—'}</div></div>
+      </div>
+      ${p.form?`<div class="mt-3"><div class="text-[11px] text-slate-500 mb-0.5">Last 10 form</div>${sparkline(p.form,gradeColor(g))}</div>`:''}
+      <button class="mt-3 w-full text-xs font-semibold py-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 add-to-slip">+ Add to analyzer</button>
+    `;
+    card.querySelector('.add-to-slip').onclick=()=>{addLeg(p);document.querySelector('#analyzer').scrollIntoView({behavior:'smooth'});};
+    grid.appendChild(card);
+  }
+}
+
+function renderGames(){
+  const grid=$('#games-grid'); grid.innerHTML='';
+  const gps=DATA.game_predictions||[];
+  const ctx={}; for(const sp of (DATA.sports||[]))for(const g of (DATA.by_sport?.[sp]||[]))ctx[`${g.away_team}@${g.home_team}`]=g;
+  const ico={NBA:'🏀',MLB:'⚾',NHL:'🏒',NFL:'🏈',EPL:'⚽'};
+  if(!gps.length){grid.innerHTML='<p class="text-slate-500 text-sm">No games scheduled.</p>';return;}
+  for(const g of gps){
+    const c=ctx[`${g.away_team}@${g.home_team}`]||{};
+    const hw=Math.round((g.home_win_prob||0.5)*100);
+    const card=el('div','card rounded-2xl p-4 fade-in');
+    card.innerHTML=`
+      <div class="flex items-center justify-between">
+        <div class="text-[11px] uppercase tracking-wide text-slate-500">${ico[g.sport]||''} ${g.sport} · ${c.status||'Scheduled'}</div>
+        ${c.lineups_confirmed?'<span class="chip bg-emerald-500/15 text-emerald-300">lineups confirmed</span>':'<span class="chip bg-amber-500/15 text-amber-300">proj. lineups</span>'}
+      </div>
+      <div class="font-bold text-lg mt-1">${g.away_team} <span class="text-slate-500">@</span> ${g.home_team}</div>
+      <div class="text-xs text-slate-500">${c.venue||''} ${c.weather?`· ☁ ${c.weather}`:''}</div>
+      <div class="mt-3">
+        <div class="flex justify-between text-xs mb-1"><span>${g.away_team} ${100-hw}%</span><span class="text-slate-400">win prob</span><span>${g.home_team} ${hw}%</span></div>
+        <div class="bar"><i style="width:${hw}%;background:linear-gradient(90deg,#22d3ee,#34d399)"></i></div>
+      </div>
+      <div class="mt-3 grid grid-cols-3 gap-2 text-center text-[11px]">
+        <div class="bg-white/5 rounded-lg py-1.5"><div class="text-slate-500">Total</div><div class="font-bold text-sm">${fixed(g.pred_total,1)}</div></div>
+        <div class="bg-white/5 rounded-lg py-1.5"><div class="text-slate-500">Spread (H)</div><div class="font-bold text-sm">${sign(fixed(g.pred_spread,1))}</div></div>
+        <div class="bg-white/5 rounded-lg py-1.5"><div class="text-slate-500">Injuries</div><div class="font-bold text-sm ${c.injuries&&c.injuries.length?'text-amber-300':''}">${c.injuries?c.injuries.length:0}</div></div>
+      </div>
+      ${c.injuries&&c.injuries.length?`<div class="mt-2 text-[11px] text-amber-300/80">⚠ ${c.injuries.map(i=>`${i.name} (${i.status})`).join(', ')}</div>`:''}
+    `;
+    grid.appendChild(card);
+  }
+}
+
+let roiChart=null;
+function renderPerformance(){
+  const h=DATA.history_30d||[];
+  const total=h.reduce((s,x)=>s+(x.roi_units||0),0);
+  $('#roi-total').textContent=(total>=0?'+':'')+total.toFixed(1)+'u';
+  $('#roi-total').className='text-sm font-bold '+(total>=0?'text-emerald-300':'text-rose-300');
+  let cum=0; const series=h.map(x=>{cum+=(x.roi_units||0);return +cum.toFixed(2);});
+  const labels=h.map((x,i)=>x.on_date||i);
+  if(roiChart)roiChart.destroy();
+  roiChart=new Chart($('#roiChart'),{type:'line',data:{labels,datasets:[{data:series,borderColor:'#34d399',backgroundColor:'rgba(52,211,153,.12)',fill:true,tension:.35,pointRadius:0,borderWidth:2}]},
+    options:{plugins:{legend:{display:false}},scales:{x:{display:false},y:{grid:{color:'rgba(148,163,184,.08)'},ticks:{color:'#64748b'}}}}});
+  const m=$('#models'); m.innerHTML='';
+  const ms=(DATA.model_summary||[]).slice(0,40);
+  if(!ms.length){m.innerHTML='<p class="text-slate-500">No models trained yet.</p>';return;}
+  for(const r of ms){
+    m.appendChild(el('div','flex items-center justify-between gap-2 bg-white/5 rounded-lg px-3 py-1.5',
+      `<div class="min-w-0"><div class="font-medium truncate">${r.sport} · ${(r.market||'').replaceAll('_',' ')}</div>
+       <div class="text-[11px] text-slate-500">${r.rows??'—'} rows</div></div>
+       <div class="text-right text-[11px] shrink-0"><div>MAE ${r.mae!=null?Number(r.mae).toFixed(2):'—'}</div><div class="text-slate-500">Brier ${r.brier!=null?Number(r.brier).toFixed(3):'—'}</div></div>`));
+  }
+}
+
+//=================== analyzer ===================
+function legRow(p){
+  const sports=DATA.sports||['NBA','MLB','NHL','NFL','EPL'];
+  const row=el('div','grid grid-cols-12 gap-2 items-center');
+  row.innerHTML=`
+    <select class="ls col-span-2 bg-ink-850 border border-white/10 rounded-lg px-2 py-2 text-sm">${sports.map(s=>`<option>${s}</option>`).join('')}</select>
+    <input class="lp col-span-4 bg-ink-850 border border-white/10 rounded-lg px-2 py-2 text-sm" placeholder="Player"/>
+    <input class="lm col-span-3 bg-ink-850 border border-white/10 rounded-lg px-2 py-2 text-sm" placeholder="market"/>
+    <select class="lsd col-span-1 bg-ink-850 border border-white/10 rounded-lg px-1 py-2 text-sm"><option>over</option><option>under</option></select>
+    <input class="ll col-span-1 bg-ink-850 border border-white/10 rounded-lg px-2 py-2 text-sm" placeholder="line"/>
+    <input class="lpr col-span-1 bg-ink-850 border border-white/10 rounded-lg px-1 py-2 text-sm" placeholder="-110"/>
+  `;
+  if(p){row.querySelector('.ls').value=p.sport;row.querySelector('.lp').value=p.player_name;row.querySelector('.lm').value=p.market;row.querySelector('.lsd').value=p.side||'over';row.querySelector('.ll').value=p.line;row.querySelector('.lpr').value=p.price_american;}
+  return row;
+}
+function addLeg(p){$('#legs').appendChild(legRow(p));}
+
+function pickIndex(){const m=new Map();for(const p of(DATA.picks||[]))m.set(`${p.sport}|${p.player_name.toLowerCase()}|${p.market}`,p);return m;}
+
+function legCorr(a,b){if(a.player.toLowerCase()===b.player.toLowerCase()&&a.market!==b.market)return .30;if(a.market===b.market)return .12;return 0;}
+function copula(probs,legs){const n=probs.length;if(n<2)return probs[0]||1;if(n>3)return probs.reduce((x,y)=>x*y,1);
+  let rho=0,c=0;for(let i=0;i<n;i++)for(let j=i+1;j<n;j++){rho+=legCorr(legs[i],legs[j]);c++;}rho=c?rho/c:0;
+  const naive=probs.reduce((x,y)=>x*y,1);return Math.min(1,Math.max(0,naive+rho*0.5*(Math.pow(naive,1/n)-naive)));}
+
+function gauge(grade,score){
+  const col=gradeColor(grade),r=52,circ=2*Math.PI*r,off=circ*(1-Math.max(.05,Math.min(1,score/100)));
+  return `<svg viewBox="0 0 130 130" class="w-36 h-36 mx-auto"><circle cx="65" cy="65" r="${r}" fill="none" stroke="rgba(148,163,184,.15)" stroke-width="10"/>
+    <circle cx="65" cy="65" r="${r}" fill="none" stroke="${col}" stroke-width="10" stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${off}" transform="rotate(-90 65 65)"/>
+    <text x="65" y="60" text-anchor="middle" font-size="30" font-weight="800" fill="${col}">${grade}</text>
+    <text x="65" y="82" text-anchor="middle" font-size="11" fill="#94a3b8">score ${Math.round(score)}</text></svg>`;
+}
+
+function narrate(leg,modeled,mp,edge,proj){
+  const s=[],c=[];
+  if(!modeled)c.push('Player not in today\'s live model — graded off league-baseline distribution + your price.');
+  if(edge>=5)s.push(`Strong +${edge.toFixed(1)}% edge over the price.`);
+  else if(edge>=1.5)s.push(`Positive expected value (+${edge.toFixed(1)}%).`);
+  else if(edge>=0)c.push(`Thin edge (+${edge.toFixed(1)}%) — barely beats the vig.`);
+  else c.push(`Negative EV (${edge.toFixed(1)}%) at this price.`);
+  if(proj!=null){const m=(proj-leg.line)*(leg.side==='over'?1:-1);
+    if(m>=0)s.push(`Projection clears the line by ${Math.abs(m).toFixed(1)} for the ${leg.side}.`);
+    else c.push(`Projection is ${Math.abs(m).toFixed(1)} on the wrong side of the line.`);}
+  if(mp>=0.6)s.push(`Model confident (${Math.round(mp*100)}% to hit).`);
+  else if(mp<0.5)c.push(`Model has this under a coin-flip (${Math.round(mp*100)}%).`);
+  return{s,c};
+}
+
+function analyze(){
+  const out=$('#analyzer-out'); const idx=pickIndex();
+  const legs=[...document.querySelectorAll('#legs > div')].map(r=>({
+    sport:r.querySelector('.ls').value,player:r.querySelector('.lp').value.trim(),market:r.querySelector('.lm').value.trim(),
+    side:r.querySelector('.lsd').value,line:parseFloat(r.querySelector('.ll').value),price:parseInt(r.querySelector('.lpr').value,10)
+  })).filter(l=>l.player&&l.market&&!isNaN(l.line)&&!isNaN(l.price));
+  if(!legs.length){out.innerHTML='<div class="card rounded-2xl p-5 text-sm text-slate-400">Add at least one valid leg, then hit Analyze.</div>';return;}
+
+  const evals=legs.map(l=>{
+    const known=idx.get(`${l.sport}|${l.player.toLowerCase()}|${l.market}`);
+    let mp,proj=null,modeled=false;
+    if(known){modeled=true;mp=(known.side===l.side)?known.model_prob:1-known.model_prob;proj=known.projection??null;
+      if(Math.abs((known.line??l.line)-l.line)>1e-6&&!COUNT.has(l.market)) mp=null;}
+    if(mp==null){const b=baselineProb(l.sport,l.market,l.line,l.side);
+      if(b){const imp=1/amerToDec(l.price);mp=0.55*b.p+0.45*imp;proj=b.mu;} else {mp=1/amerToDec(l.price);}}
+    const dec=amerToDec(l.price),edge=(dec*mp-1)*100;
+    const conf=Math.min(1,Math.abs(mp-0.5)/0.25),fair=1/dec,dis=Math.min(1,Math.abs(mp-fair)/0.1);
+    const rating=100*(0.45*Math.min(1,Math.max(0,edge/15))+0.15*conf+0.20*dis+0.10*(modeled?0.8:0.4)+0.10*0.5);
+    const grade=letterFrom(rating,edge);
+    return{leg:l,mp,edge,proj,modeled,rating,grade,dec,...narrate(l,modeled,mp,edge,proj)};
+  });
+
+  const probs=evals.map(e=>e.mp),parlayDec=evals.reduce((x,e)=>x*e.dec,1);
+  const corr=copula(probs,legs),naive=probs.reduce((x,y)=>x*y,1);
+  const pEdge=(parlayDec*corr-1)*100;
+  const weakest=Math.min(...evals.map(e=>e.rating));
+  const nUn=evals.filter(e=>!e.modeled).length;
+  const slipRating=legs.length>1?Math.max(0,Math.min(100,0.55*(50+pEdge*50/15)+0.45*weakest-8*nUn)):evals[0].rating;
+  const slipGrade=legs.length>1?letterFrom(slipRating,pEdge):evals[0].grade;
+  const verdict=pEdge>=10?'Strong +EV':pEdge>=3?'+EV':pEdge>=-3?'Neutral':'-EV';
+
+  out.innerHTML=`
+    <div class="card rounded-2xl p-5 fade-in">
+      ${gauge(slipGrade,slipRating)}
+      <div class="text-center mt-1">
+        <div class="font-bold">${legs.length>1?`${legs.length}-leg parlay`:'Single bet'}</div>
+        <div class="text-sm text-slate-400">${legs.length>1?`P=${pct(corr)} · `:''}edge <span class="${pEdge>=0?'text-emerald-300':'text-rose-300'} font-semibold">${pEdge.toFixed(1)}%</span> · ${verdict}</div>
+        ${legs.length>1?`<div class="text-[11px] text-slate-500 mt-1">payout ${sign(decToAmer(parlayDec))} · naïve P ${pct(naive)}</div>`:''}
+      </div>
+      <div class="mt-4 space-y-2">
+        ${evals.map(e=>`
+          <div class="bg-white/5 rounded-xl p-3">
+            <div class="flex items-center justify-between gap-2">
+              <div class="min-w-0"><div class="font-semibold text-sm truncate">${e.leg.player}</div>
+                <div class="text-[11px] text-slate-500">${e.leg.sport} · ${e.leg.market.replaceAll('_',' ')} · ${e.leg.side.toUpperCase()} ${e.leg.line} @ ${sign(e.leg.price)}</div></div>
+              <span class="h-8 w-8 grid place-items-center rounded-lg border font-black text-sm ${gradeBg(e.grade)} shrink-0">${e.grade}</span>
             </div>
-          `).join("")}
-          ${legs.length > 1 ? `<div class="border-t pt-2 grid grid-cols-12 text-sm items-center gap-2">
-            <div class="col-span-1"><span class="pill ${colorGrade(slipGrade)}">${slipGrade}</span></div>
-            <div class="col-span-4"><span class="font-bold">Parlay</span> @ ${fmtSign(parlayDec >= 2 ? Math.round((parlayDec-1)*100) : Math.round(-100/(parlayDec-1)))}</div>
-            <div class="col-span-3">P_naive: ${fmtPct(naive)} · P_corr: ${fmtPct(corr)}</div>
-            <div class="col-span-2 ${parlayEdge >= 0 ? 'text-emerald-700' : 'text-rose-700'}">edge ${parlayEdge.toFixed(1)}%</div>
-            <div class="col-span-2"><span class="pill ${verdictClass}">${verdict}</span></div>
-          </div>` : ""}
-          ${knownProbs.length < legs.length ? `<p class="text-xs text-slate-500">Legs marked "(not modeled)" weren't in today's top picks; their fair-prob is used and they contribute zero edge.</p>` : ""}
-        </div>
-      `;
-    }
+            <div class="mt-2 flex items-center gap-3 text-[11px] text-slate-400">
+              <span>P ${pct(e.mp)}</span><span class="${e.edge>=0?'text-emerald-300':'text-rose-300'}">edge ${e.edge.toFixed(1)}%</span>${e.proj!=null?`<span>proj ${e.proj.toFixed(1)}</span>`:''}${!e.modeled?'<span class="text-amber-300/80">baseline</span>':''}
+            </div>
+            ${e.s.length?`<ul class="mt-2 space-y-0.5">${e.s.slice(0,2).map(x=>`<li class="text-[11px] text-emerald-300/90">✓ ${x}</li>`).join('')}</ul>`:''}
+            ${e.c.length?`<ul class="mt-0.5 space-y-0.5">${e.c.slice(0,2).map(x=>`<li class="text-[11px] text-amber-300/80">▲ ${x}</li>`).join('')}</ul>`:''}
+          </div>`).join('')}
+      </div>
+    </div>`;
+}
 
-    document.getElementById("add-leg").onclick = () => addLegRow();
-    document.getElementById("analyze").onclick = analyzeSlip;
+//=================== boot ===================
+async function init(){
+  try{
+    const url=new URL('picks.json',location.href).toString()+'?ts='+Date.now();
+    const r=await fetch(url); if(!r.ok)throw 0;
+    const live=await r.json();
+    // Use live data only when it's a genuinely fresh slate (today/yesterday)
+    // with picks; otherwise fall back to the full sample board so the site
+    // never looks empty in the off-season.
+    const fresh=(()=>{const d=Date.parse((live&&live.on_date)||'');return d&&((Date.now()-d)/864e5<2);})();
+    if(live && (live.picks||[]).length>0 && fresh){DATA=live;SAMPLE=false;}
+    else throw 0;
+  }catch(e){ DATA=buildSample(); SAMPLE=true; }
 
-    async function init() {
-      try {
-        // Resolve relative to current document so this works at both
-        // username.github.io/<repo>/ and username.github.io/ roots.
-        const url = new URL("picks.json", window.location.href).toString() + "?ts=" + Date.now();
-        const res = await fetch(url);
-        if (!res.ok) throw new Error("HTTP " + res.status);
-        payload = await res.json();
-        document.getElementById("gen-at").textContent = payload.generated_at || "—";
-        document.getElementById("for-date").textContent = payload.on_date || "—";
-      } catch (e) {
-        document.getElementById("gen-at").textContent = "(no picks.json yet — run the bootstrap workflow)";
-      }
-      // Build sport tabs dynamically from the published sport list.
-      const tabs = document.getElementById("sport-tabs");
-      for (const s of (payload && payload.sports) || ["NBA", "MLB", "NHL"]) {
-        const b = document.createElement("button");
-        b.dataset.sport = s;
-        b.textContent = s;
-        b.className = "px-3 py-1 rounded-full bg-white border";
-        tabs.appendChild(b);
-      }
-      renderPicks();
-      renderGamePredictions();
-      renderSlips();
-      renderGames();
-      renderHistory();
-      renderModels();
-      // Seed analyzer with the strongest pick so users see how it works.
-      if (payload && payload.picks && payload.picks.length) addLegRow(payload.picks[0]);
-      else addLegRow();
-    }
-    init();
-  </script>
+  $('#data-mode').textContent = SAMPLE
+    ? 'Sample slate · live picks resume in-season'
+    : `Live slate · ${DATA.on_date||''}`;
+  $('#data-mode').className='chip border '+(SAMPLE?'bg-amber-500/15 text-amber-300 border-amber-500/30':'bg-emerald-500/15 text-emerald-300 border-emerald-500/30');
+
+  heroStats(); sportTabs(); renderPlays(); renderGames(); renderPerformance();
+  // seed analyzer with the top play
+  addLeg((DATA.picks||[])[0]);
+  analyze();
+}
+$('#add-leg').onclick=()=>addLeg();
+$('#analyze').onclick=analyze;
+$('#search').oninput=renderPlays;
+$('#grade-filter').onchange=renderPlays;
+init();
+</script>
 </body>
 </html>
