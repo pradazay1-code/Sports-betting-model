@@ -10,6 +10,16 @@ on:
     paths:
       - "docs/**"
       - ".github/workflows/pages.yml"
+  # The data pipelines commit fresh docs/ with GITHUB_TOKEN, which by design
+  # cannot trigger the push event above. Re-deploy whenever they finish so the
+  # live site always reflects the latest picks/odds/grades.
+  workflow_run:
+    workflows:
+      - "daily-picks"
+      - "refresh-odds"
+      - "nightly-grade-and-retrain"
+    types:
+      - completed
   workflow_dispatch:
 
 permissions:
