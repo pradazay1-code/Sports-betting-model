@@ -90,6 +90,10 @@ def _pick_dict(p: dict) -> dict:
             out["projection"] = round(float(pm), 1)
         except (TypeError, ValueError):
             pass
+    # "Hidden gem": a strong edge on a thinly-priced market (few books carry it),
+    # i.e. a prop the books likely haven't sharpened yet.
+    books = rat.get("books_count", 0) or 0
+    out["hidden_gem"] = bool(out.get("edge_pct", 0.0) >= 5.0 and books <= 2)
     return out
 
 

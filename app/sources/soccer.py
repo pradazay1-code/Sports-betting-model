@@ -24,8 +24,18 @@ LOG = get_logger("soccer")
 
 BASE = "https://site.api.espn.com/apis/site/v2/sports/soccer"
 
-# Leagues we sweep. Order is priority for de-duping a player across comps.
-LEAGUES = ("eng.1", "esp.1", "ger.1", "ita.1", "fra.1", "uefa.champions", "usa.1")
+# Leagues/competitions we sweep. World Cup first so its matches take priority
+# while the tournament is live. Order is also the de-dup priority for a player
+# appearing in multiple comps.
+LEAGUES = (
+    "fifa.world",            # FIFA World Cup (live Jun–Jul 2026)
+    "fifa.friendly",         # international friendlies / warmups
+    "uefa.euro",             # Euros
+    "conmebol.america",      # Copa America
+    "eng.1", "esp.1", "ger.1", "ita.1", "fra.1",
+    "uefa.champions", "uefa.europa",
+    "usa.1", "mex.1",
+)
 
 # ESPN soccer stat label/abbreviation -> canonical market.
 _STAT_MAP = {
