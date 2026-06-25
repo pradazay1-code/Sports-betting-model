@@ -49,6 +49,7 @@ tailwind.config = { darkMode: 'class', theme: { extend: {
       </div>
     </div>
     <nav class="hidden md:flex items-center gap-1 text-sm">
+      <a href="#live" class="px-3 py-2 rounded-lg hover:bg-white/5 text-slate-300">Live</a>
       <a href="#analyzer" class="px-3 py-2 rounded-lg hover:bg-white/5 text-slate-300">Bet Analyzer</a>
       <a href="#plays" class="px-3 py-2 rounded-lg hover:bg-white/5 text-slate-300">Top Plays</a>
       <a href="#games" class="px-3 py-2 rounded-lg hover:bg-white/5 text-slate-300">Games</a>
@@ -99,6 +100,15 @@ tailwind.config = { darkMode: 'class', theme: { extend: {
         <div id="analyzer-out" class="lg:col-span-2"></div>
       </div>
     </div>
+  </section>
+
+  <!-- LIVE & UPCOMING (real data, fetched in-browser from TheSportsDB) -->
+  <section id="live" class="scroll-mt-20">
+    <div class="flex items-center justify-between flex-wrap gap-3 mb-4">
+      <h2 class="text-xl font-extrabold flex items-center gap-2"><span class="relative flex h-2.5 w-2.5"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-500"></span></span> Live & upcoming today</h2>
+      <span id="live-status" class="text-xs text-slate-500">loading real schedules…</span>
+    </div>
+    <div id="live-grid" class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3"></div>
   </section>
 
   <!-- TOP PLAYS -->
@@ -492,6 +502,48 @@ function analyze(){
     </div>`;
 }
 
+//=================== LIVE scores (real data, fetched in the browser) ===================
+// TheSportsDB free endpoint is CORS-enabled, so the visitor's browser pulls
+// real schedules directly — no API key, and not subject to the CI IP blocks
+// that starve the server-side scrapers. World Cup matches surface here first.
+async function loadLive(){
+  const grid=$('#live-grid'), status=$('#live-status');
+  const d=new Date(); const ds=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  const sports={Soccer:'⚽',Baseball:'⚾',Basketball:'🏀','Ice Hockey':'🏒','American Football':'🏈'};
+  const key='3'; let all=[];
+  try{
+    const results=await Promise.all(Object.keys(sports).map(async s=>{
+      try{const r=await fetch(`https://www.thesportsdb.com/api/v1/json/${key}/eventsday.php?d=${ds}&s=${encodeURIComponent(s)}`);
+        if(!r.ok)return[]; const j=await r.json(); return (j.events||[]).map(e=>({...e,_sport:s}));}catch(_){return[];}
+    }));
+    all=results.flat();
+  }catch(e){ all=[]; }
+  if(!all.length){ status.textContent='No live feed right now — showing model board below.'; $('#live').classList.add('opacity-90'); grid.innerHTML=`<div class="card rounded-2xl p-4 text-sm text-slate-400 sm:col-span-2 lg:col-span-3">No matches returned for today, or the free feed is rate-limited. The model board and analyzer below are unaffected.</div>`; return; }
+  // World Cup / international first, then by sport.
+  const isWC=e=>/world cup|fifa|copa|euro|nations/i.test(e.strLeague||'');
+  all.sort((a,b)=>(isWC(b)-isWC(a)));
+  const wc=all.filter(isWC).length;
+  status.textContent=`${all.length} matches today${wc?` · ${wc} international/World Cup`:''} · live from TheSportsDB`;
+  grid.innerHTML='';
+  for(const e of all.slice(0,15)){
+    const live=(e.strStatus&&!['NS','Not Started','FT','Match Finished','','TBD'].includes(e.strStatus));
+    const hs=e.intHomeScore, as=e.intAwayScore, hasScore=hs!=null&&hs!=='';
+    const t=e.strTimeLocal||e.strTime||''; const wcTag=isWC(e);
+    grid.appendChild(el('div','card rounded-2xl p-4 fade-in',
+      `<div class="flex items-center justify-between">
+         <div class="text-[11px] uppercase tracking-wide text-slate-500 truncate">${sports[e._sport]||''} ${e.strLeague||e._sport}</div>
+         ${wcTag?'<span class="chip bg-fuchsia-500/15 text-fuchsia-300 border border-fuchsia-500/30">🌍 World Cup</span>':live?'<span class="chip bg-rose-500/15 text-rose-300 border border-rose-500/30">● LIVE</span>':'<span class="chip bg-white/5 text-slate-400 border border-white/10">'+(t?t.slice(0,5):'today')+'</span>'}
+       </div>
+       <div class="mt-2 font-bold text-[15px] flex items-center justify-between gap-2">
+         <span class="truncate">${e.strHomeTeam||'?'}</span>${hasScore?`<span class="text-emerald-300 tabular-nums">${hs}</span>`:''}
+       </div>
+       <div class="font-bold text-[15px] flex items-center justify-between gap-2">
+         <span class="truncate">${e.strAwayTeam||'?'}</span>${hasScore?`<span class="text-emerald-300 tabular-nums">${as}</span>`:''}
+       </div>
+       <div class="text-[11px] text-slate-500 mt-2 truncate">${e.strVenue?'📍 '+e.strVenue:''}${e.strStatus&&live?' · '+e.strStatus:''}</div>`));
+  }
+}
+
 //=================== boot ===================
 async function init(){
   try{
@@ -512,6 +564,7 @@ async function init(){
   $('#data-mode').className='chip border '+(SAMPLE?'bg-amber-500/15 text-amber-300 border-amber-500/30':'bg-emerald-500/15 text-emerald-300 border-emerald-500/30');
 
   heroStats(); sportTabs(); renderPlays(); renderGames(); renderPerformance();
+  loadLive();   // real schedules, fetched in the browser
   // seed analyzer with the top play
   addLeg((DATA.picks||[])[0]);
   analyze();
