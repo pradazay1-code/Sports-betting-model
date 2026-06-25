@@ -1,12 +1,12 @@
 # Pradapicks
 
-A 100% free, self-updating sports-betting model + dashboard for **NBA / MLB / NHL** player props. No paid APIs, no servers to rent — everything runs on **GitHub Actions** and the dashboard is served by **GitHub Pages**.
+A 100% free, self-updating sports-betting model + dashboard for **NBA / MLB / NHL / NFL / Soccer (EPL + top leagues)** player props. No paid APIs, no servers to rent — everything runs on **GitHub Actions** and the dashboard is served by **GitHub Pages**.
 
 ## What it does
 
 Every day, automatically, with no input from you:
 
-1. **Pulls schedules + box scores** from MLB Stats API, stats.nba.com and api-web.nhle.com.
+1. **Pulls schedules + box scores** from MLB Stats API, stats.nba.com, api-web.nhle.com, and ESPN's public site API (NFL + soccer for the major leagues: Premier League, La Liga, Bundesliga, Serie A, Ligue 1, Champions League, MLS).
 2. **Pulls live prop lines** from PrizePicks, DraftKings, FanDuel, Bovada, and Pinnacle — five free books for line-shopping and a sharp anchor.
 3. **Pulls context**: ESPN injuries for every league, Open-Meteo weather for outdoor MLB parks, MLB confirmed lineups, MLB park factors.
 4. **Trains a LightGBM regressor** per `(sport, market)` over rolling-window features (last 5/10/25 game means, opponent-allowed averages, days rest, home/away, season-to-date averages).
@@ -15,7 +15,8 @@ Every day, automatically, with no input from you:
 7. **Predicts every game's score, total, spread, and home-win probability** from rolling team form, with park-factor adjustment for MLB.
 8. **Builds recommended parlays** from today's top picks with a Gaussian-copula same-game-correlation adjustment.
 9. **Grades yesterday's picks** against the actual box scores at 04:00 ET, records ROI in units, and **retrains every model** so the system gets better every day.
-10. **Writes `docs/picks.json`** which the static dashboard reads. GitHub Pages serves the dashboard, complete with a client-side bet-slip analyzer that uses today's published model probabilities.
+10. **Grades any bet you type in** — a single bet or a full parlay — and hands back a **letter grade (A+ → F)** with a deep breakdown: model probability, no-vig fair probability, EV edge, projected stat value vs. the line, recent form (last 5/10/25), Kelly stake, and an itemised list of strengths and concerns. Available both as a client-side analyzer on the dashboard and as a server-side CLI (`python -m app.analysis`).
+11. **Writes `docs/picks.json`** which the static dashboard reads. GitHub Pages serves the dashboard, complete with the bet-analysis grader and letter-graded picks.
 
 Everything lives in this repo — code, training data (`data/pradapicks.db`), trained model artifacts (`models/*.joblib`), and rendered dashboard (`docs/`). The GitHub Actions bot commits updates back so the whole history is versioned in git.
 
@@ -53,6 +54,7 @@ app/
   ev.py                 de-vig, kelly, edge, 0-100 rating
   ingest.py             pulls schedules/box scores into the DB
   picks.py              picks generator
+  analysis.py           deep bet-analysis grader (letter grade A+..F + breakdown)
   tracker.py            grading + ROI/Brier accumulation
   backtest.py           walk-forward backtest harness
   pipeline.py           CLI entry points used by the workflows
@@ -60,7 +62,7 @@ app/
     prop_model.py       LightGBM regressor + isotonic + Poisson/Normal tail
     trainer.py          train every (sport, market) model
   sources/
-    mlb.py nba.py nhl.py        schedule + box score scrapers
+    mlb.py nba.py nhl.py nfl.py soccer.py   schedule + box score scrapers
     prizepicks.py draftkings.py bovada.py   odds scrapers
     markets.py                  market-name normalisation
     odds.py                     parallel multi-book aggregator
@@ -83,7 +85,30 @@ python -m app.pipeline daily          # today's picks
 python -m app.pipeline odds           # refresh just odds + regen picks
 python -m app.pipeline nightly        # grade yesterday + retrain
 python -m app.backtest                # walk-forward eval per (sport, market)
+
+# Deep bet-analysis grade for a single bet:
+python -m app.analysis '{"sport":"NBA","player_name":"Nikola Jokic","market":"player_points","side":"over","line":24.5,"price_american":-115}'
+
+# ...or a parlay (pass a JSON array of legs):
+python -m app.analysis '[{"sport":"NBA","player_name":"Nikola Jokic","market":"player_points","side":"over","line":24.5,"price_american":-115}, {"sport":"NBA","player_name":"Jamal Murray","market":"player_assists","side":"over","line":5.5,"price_american":-120}]'
 ```
+
+## Bet-analysis grade
+
+The grader (`app/analysis.py`) reuses the exact same modelling stack as the
+picks generator, so the grade you get for a hand-entered bet is consistent
+with the auto-generated picks. For each leg it returns:
+
+- a **letter grade** (A+ … F) — a bet can never grade above a ceiling set by
+  its EV edge, so a -EV play never gets an A no matter how confident the model;
+- model probability, no-vig fair probability, EV edge%, Kelly stake;
+- the model's **projected stat value** and its margin vs. the posted line;
+- **recent form** (last 5/10/25 averages, volatility, days rest, opponent
+  allowed) and a plain-English list of **strengths** and **concerns**.
+
+For parlays it grades every leg, then assigns an overall grade that blends the
+correlation-adjusted parlay edge with the weakest leg (a chain is only as
+trustworthy as its shakiest link).
 
 ## How the model gets better every day
 

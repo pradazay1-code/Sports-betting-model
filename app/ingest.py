@@ -12,7 +12,7 @@ from datetime import date, timedelta
 from app.config import CFG
 from app.sources import injuries as injuries_src
 from app.sources import lineups as lineups_src
-from app.sources import mlb, nba, nhl
+from app.sources import mlb, nba, nfl, nhl, soccer
 from app.sources import weather as weather_src
 from app.store import (
     upsert_games,
@@ -26,7 +26,7 @@ from app.utils import get_logger
 
 LOG = get_logger("ingest")
 
-SPORT_MODULES = {"NBA": nba, "MLB": mlb, "NHL": nhl}
+SPORT_MODULES = {"NBA": nba, "MLB": mlb, "NHL": nhl, "NFL": nfl, "EPL": soccer}
 
 
 def ingest_date(on: date) -> dict:
@@ -82,7 +82,7 @@ def ingest_today_context(on: date) -> dict:
 
 def backfill(days: int = None) -> dict[str, int]:
     days = days or CFG.backfill_days
-    total: dict[str, int] = {"NBA": 0, "MLB": 0, "NHL": 0}
+    total: dict[str, int] = {s: 0 for s in SPORT_MODULES}
     end = date.today()
     start = end - timedelta(days=days)
     d = start

@@ -55,7 +55,16 @@ def ensure_dirs() -> None:
     CFG.docs_dir.mkdir(parents=True, exist_ok=True)
 
 
-SPORTS = ("NBA", "MLB", "NHL")
+SPORTS = ("NBA", "MLB", "NHL", "NFL", "EPL")
+
+# Human-readable league labels for the dashboard.
+SPORT_LABELS = {
+    "NBA": "NBA Basketball",
+    "MLB": "MLB Baseball",
+    "NHL": "NHL Hockey",
+    "NFL": "NFL Football",
+    "EPL": "Soccer (EPL + top leagues)",
+}
 
 # Markets we train + price models for. Keep this list explicit — the daily
 # pipeline iterates these.
@@ -84,6 +93,26 @@ MARKETS = {
         "player_shots_on_goal",
         "player_goals",
         "player_assists",
+        "goalie_saves",
+    ),
+    "NFL": (
+        "player_pass_yards",
+        "player_pass_tds",
+        "player_pass_completions",
+        "player_pass_attempts",
+        "player_interceptions",
+        "player_rush_yards",
+        "player_rush_attempts",
+        "player_receptions",
+        "player_rec_yards",
+    ),
+    "EPL": (
+        "player_shots",
+        "player_shots_on_target",
+        "player_goals",
+        "player_assists",
+        "player_passes",
+        "player_tackles",
         "goalie_saves",
     ),
 }

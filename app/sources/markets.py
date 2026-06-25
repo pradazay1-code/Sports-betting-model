@@ -42,7 +42,44 @@ NHL_PATTERNS: list[tuple[str, str]] = [
     ("assists", "player_assists"),
 ]
 
-PATTERNS = {"NBA": NBA_PATTERNS, "MLB": MLB_PATTERNS, "NHL": NHL_PATTERNS}
+NFL_PATTERNS: list[tuple[str, str]] = [
+    ("pass completions", "player_pass_completions"),
+    ("completions", "player_pass_completions"),
+    ("pass attempts", "player_pass_attempts"),
+    ("passing yards", "player_pass_yards"),
+    ("pass yards", "player_pass_yards"),
+    ("passing tds", "player_pass_tds"),
+    ("passing touchdowns", "player_pass_tds"),
+    ("interceptions thrown", "player_interceptions"),
+    ("interceptions", "player_interceptions"),
+    ("rushing yards", "player_rush_yards"),
+    ("rush yards", "player_rush_yards"),
+    ("rushing attempts", "player_rush_attempts"),
+    ("carries", "player_rush_attempts"),
+    ("receiving yards", "player_rec_yards"),
+    ("rec yards", "player_rec_yards"),
+    ("receptions", "player_receptions"),
+]
+
+SOCCER_PATTERNS: list[tuple[str, str]] = [
+    ("shots on target", "player_shots_on_target"),
+    ("shots on goal", "player_shots_on_target"),
+    ("total shots", "player_shots"),
+    ("shots", "player_shots"),
+    ("goals", "player_goals"),
+    ("assists", "player_assists"),
+    ("passes", "player_passes"),
+    ("tackles", "player_tackles"),
+    ("saves", "goalie_saves"),
+]
+
+PATTERNS = {
+    "NBA": NBA_PATTERNS,
+    "MLB": MLB_PATTERNS,
+    "NHL": NHL_PATTERNS,
+    "NFL": NFL_PATTERNS,
+    "EPL": SOCCER_PATTERNS,
+}
 
 
 def map_market(sport: str, label: str | None) -> str | None:
