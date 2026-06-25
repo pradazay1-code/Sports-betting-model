@@ -83,6 +83,13 @@ def _pick_dict(p: dict) -> dict:
         pass
     out["recommended_stake_units"] = round(out.get("kelly_stake", 0.0) * CFG.bankroll, 2)
     out["grade"] = _letter_from(out.get("rating", 0.0), out.get("edge_pct", 0.0))
+    rat = out.get("rationale") if isinstance(out.get("rationale"), dict) else {}
+    pm = rat.get("pred_mean")
+    if pm is not None:
+        try:
+            out["projection"] = round(float(pm), 1)
+        except (TypeError, ValueError):
+            pass
     return out
 
 
