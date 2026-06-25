@@ -10,7 +10,8 @@ from __future__ import annotations
 import json
 from datetime import timedelta
 
-from app.config import CFG, SPORTS
+from app.analysis import _letter_from
+from app.config import CFG, SPORTS, SPORT_LABELS
 from app.ingest import backfill, ingest_date, ingest_today_context
 from app.models.game_model import predict_for_games
 from app.models.trainer import train_all
@@ -63,6 +64,8 @@ def _summary_payload(on_date: str) -> dict:
     return {
         "generated_at": now_iso(),
         "on_date": on_date,
+        "sports": list(SPORTS),
+        "sport_labels": SPORT_LABELS,
         "picks": [_pick_dict(p) for p in picks],
         "by_sport": {s: [_game_dict(g) for g in games] for s, games in games_by_sport.items()},
         "game_predictions": [_gp_dict(g) for g in game_preds],
@@ -79,6 +82,7 @@ def _pick_dict(p: dict) -> dict:
     except Exception:
         pass
     out["recommended_stake_units"] = round(out.get("kelly_stake", 0.0) * CFG.bankroll, 2)
+    out["grade"] = _letter_from(out.get("rating", 0.0), out.get("edge_pct", 0.0))
     return out
 
 

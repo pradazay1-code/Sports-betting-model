@@ -12,7 +12,7 @@ from collections import defaultdict
 from datetime import datetime, timedelta
 from typing import Iterable
 
-from app.config import CFG
+from app.config import CFG, SPORTS
 from app.ev import devig_two_way, kelly_fraction, price, rating
 from app.features import build_inference_features
 from app.models import prop_model
@@ -60,7 +60,7 @@ def generate(on_date: str | None = None, *, top_n: int = 25,
     since = (datetime.utcnow() - timedelta(hours=36)).isoformat(timespec="seconds")
 
     candidates: list[dict] = []
-    for sport in ("NBA", "MLB", "NHL"):
+    for sport in SPORTS:
         offers = _offers_today(sport, since)
         if not offers:
             continue

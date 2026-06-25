@@ -18,7 +18,7 @@
     <div class="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
       <div>
         <h1 class="text-2xl font-bold tracking-tight">Pradapicks</h1>
-        <p class="text-slate-300 text-sm">Daily +EV NBA / MLB / NHL props — fully free, fully automated.</p>
+        <p class="text-slate-300 text-sm">Daily +EV props across NBA · MLB · NHL · NFL · Soccer — fully free, fully automated.</p>
       </div>
       <div id="meta" class="text-right text-sm text-slate-300">
         <div>generated: <span id="gen-at">—</span></div>
@@ -33,9 +33,6 @@
         <h2 class="text-lg font-semibold">Today's top plays</h2>
         <div class="space-x-1 text-sm" id="sport-tabs">
           <button data-sport="ALL" class="px-3 py-1 rounded-full bg-slate-900 text-white">All</button>
-          <button data-sport="NBA" class="px-3 py-1 rounded-full bg-white border">NBA</button>
-          <button data-sport="MLB" class="px-3 py-1 rounded-full bg-white border">MLB</button>
-          <button data-sport="NHL" class="px-3 py-1 rounded-full bg-white border">NHL</button>
         </div>
       </div>
       <div id="picks-grid" class="grid gap-4 md:grid-cols-2"></div>
@@ -55,8 +52,8 @@
     </section>
 
     <section class="bg-white border rounded-lg p-4">
-      <h2 class="text-lg font-semibold mb-3">Bet slip analyzer</h2>
-      <p class="text-sm text-slate-500 mb-3">Paste legs from any book. The analyzer uses today's published model probabilities (limited to players in <code>picks.json</code>) and the same Gaussian-copula correlation as the recommended slips.</p>
+      <h2 class="text-lg font-semibold mb-3">Bet analysis — deep grade</h2>
+      <p class="text-sm text-slate-500 mb-3">Paste any single bet or parlay. You get a letter grade (A+ → F) per leg and overall, using today's published model probabilities and the same Gaussian-copula correlation as the recommended slips. For a fully server-side grade on any player run <code>python -m app.analysis '{…bet…}'</code>.</p>
       <div id="slip-builder" class="space-y-2"></div>
       <div class="flex items-center gap-2 mt-3">
         <button id="add-leg" class="px-3 py-1 rounded-md bg-slate-100 border text-sm">+ Add leg</button>
@@ -113,7 +110,7 @@
   </main>
 
   <footer class="max-w-6xl mx-auto px-6 py-10 text-xs text-slate-500">
-    <p>Free, public sources only — MLB Stats API, stats.nba.com, api-web.nhle.com, PrizePicks, DraftKings, Bovada, Open-Meteo, ESPN injuries.</p>
+    <p>Free, public sources only — MLB Stats API, stats.nba.com, api-web.nhle.com, ESPN (NFL + soccer scores/box scores), PrizePicks, DraftKings, FanDuel, Bovada, Pinnacle, Open-Meteo, ESPN injuries.</p>
     <p>This is a model, not investment advice. Bet only what you can afford to lose.</p>
   </footer>
 
@@ -128,6 +125,31 @@
       if (r >= 65) return "bg-emerald-200 text-emerald-900";
       if (r >= 50) return "bg-amber-200 text-amber-900";
       return "bg-slate-200 text-slate-800";
+    };
+
+    // Mirrors app.analysis._letter_from so the client-side analyzer produces
+    // the same grades as the server.
+    const GRADES = ["F","D-","D","D+","C-","C","C+","B-","B","B+","A-","A","A+"];
+    const RATING_BANDS = [[90,"A+"],[84,"A"],[78,"A-"],[72,"B+"],[66,"B"],[60,"B-"],
+                          [54,"C+"],[48,"C"],[42,"C-"],[36,"D+"],[30,"D"],[24,"D-"]];
+    function letterFrom(rating, edgePct) {
+      let base = "F";
+      for (const [t, l] of RATING_BANDS) { if (rating >= t) { base = l; break; } }
+      let ceiling;
+      if (edgePct <= -5) ceiling = "D-";
+      else if (edgePct < 0) ceiling = "C-";
+      else if (edgePct < 1) ceiling = "B-";
+      else if (edgePct < 3) ceiling = "A-";
+      else ceiling = "A+";
+      return GRADES[Math.min(GRADES.indexOf(base), GRADES.indexOf(ceiling))];
+    }
+    const colorGrade = g => {
+      const c = g[0];
+      if (c === "A") return "bg-emerald-600 text-white";
+      if (c === "B") return "bg-emerald-200 text-emerald-900";
+      if (c === "C") return "bg-amber-200 text-amber-900";
+      if (c === "D") return "bg-orange-200 text-orange-900";
+      return "bg-rose-200 text-rose-900";
     };
 
     let currentSport = "ALL";
@@ -160,8 +182,8 @@
               </div>
             </div>
             <div class="text-center">
-              <div class="px-3 py-1 rounded-full font-bold text-sm ${colorRating(r)}">${r}</div>
-              <div class="text-xs text-slate-400 mt-1">rating</div>
+              <div class="px-3 py-1 rounded-full font-bold text-base ${colorGrade(p.grade || letterFrom(r, p.edge_pct))}">${p.grade || letterFrom(r, p.edge_pct)}</div>
+              <div class="text-xs text-slate-400 mt-1">grade · ${r}</div>
             </div>
           </div>
           <div class="mt-3 grid grid-cols-4 gap-2 text-xs">
@@ -179,7 +201,8 @@
       const wrap = document.getElementById("games");
       wrap.innerHTML = "";
       if (!payload || !payload.by_sport) return;
-      const all = ["NBA", "MLB", "NHL"].flatMap(s => (payload.by_sport[s] || []).map(g => ({ ...g, sport: s })));
+      const sports = (payload && payload.sports) || ["NBA", "MLB", "NHL"];
+      const all = sports.flatMap(s => (payload.by_sport[s] || []).map(g => ({ ...g, sport: s })));
       if (!all.length) {
         wrap.innerHTML = `<p class="text-slate-500 text-sm">No games scheduled.</p>`;
         return;
@@ -333,10 +356,10 @@
       const wrap = document.getElementById("slip-builder");
       const row = document.createElement("div");
       row.className = "grid grid-cols-12 gap-2 text-sm";
+      const sportOpts = ((payload && payload.sports) || ["NBA", "MLB", "NHL"])
+        .map(s => `<option>${s}</option>`).join("");
       row.innerHTML = `
-        <select class="leg-sport col-span-1 border rounded px-2 py-1">
-          <option>NBA</option><option>MLB</option><option>NHL</option>
-        </select>
+        <select class="leg-sport col-span-1 border rounded px-2 py-1">${sportOpts}</select>
         <input class="leg-player col-span-4 border rounded px-2 py-1" placeholder="Player name" />
         <input class="leg-market col-span-3 border rounded px-2 py-1" placeholder="market (e.g. player_points)" />
         <select class="leg-side col-span-1 border rounded px-2 py-1">
@@ -426,7 +449,19 @@
         const dec = amerToDecimal(l.price_american);
         const fair = 1 / dec;
         const edge = mp != null ? (dec * mp - 1) * 100 : null;
-        return { leg: l, model_prob: mp, fair_prob: fair, edge_pct: edge };
+        // Per-leg grade: reuse the server grade when this exact leg is a known
+        // pick, otherwise derive a letter from a lightweight rating proxy.
+        let grade = null;
+        if (known && known.side === l.side && Math.abs(known.line - l.line) < 1e-6 && known.grade) {
+          grade = known.grade;
+        } else if (mp != null) {
+          const conf = Math.min(1, Math.abs(mp - 0.5) / 0.25);
+          const dis = Math.min(1, Math.abs(mp - fair) / 0.10);
+          const ratingProxy = 100 * (0.45 * Math.min(1, Math.max(0, edge / 15)) +
+                                     0.15 * conf + 0.20 * dis + 0.10 * 0.5);
+          grade = letterFrom(ratingProxy, edge);
+        }
+        return { leg: l, model_prob: mp, fair_prob: fair, edge_pct: edge, grade };
       });
 
       const knownProbs = evals.filter(e => e.model_prob != null);
@@ -438,22 +473,41 @@
       const verdict = parlayEdge >= 10 ? "Strong +EV" : parlayEdge >= 3 ? "+EV" : parlayEdge >= -3 ? "Neutral" : "-EV";
       const verdictClass = parlayEdge >= 3 ? "bg-emerald-200 text-emerald-900" : parlayEdge >= -3 ? "bg-amber-200 text-amber-900" : "bg-rose-200 text-rose-900";
 
+      // Overall slip grade: 0.55 * parlay-edge-score + 0.45 * weakest leg,
+      // penalised for un-modeled legs (mirrors app.analysis.grade_slip).
+      const legScores = evals.filter(e => e.grade).map(e => GRADES.indexOf(e.grade) / (GRADES.length - 1) * 100);
+      const weakest = legScores.length ? Math.min(...legScores) : 0;
+      const nUnmodeled = evals.filter(e => e.model_prob == null).length;
+      const edgeScore = Math.max(0, Math.min(100, 50 + parlayEdge * (50 / 15)));
+      const slipRating = Math.max(0, Math.min(100, 0.55 * edgeScore + 0.45 * weakest - 8 * nUnmodeled));
+      const slipGrade = legs.length > 1 ? letterFrom(slipRating, parlayEdge)
+                                        : (evals[0] && evals[0].grade) || letterFrom(slipRating, parlayEdge);
+
       out.innerHTML = `
+        <div class="flex items-center gap-3 mb-3">
+          <div class="px-4 py-2 rounded-lg font-bold text-2xl ${colorGrade(slipGrade)}">${slipGrade}</div>
+          <div class="text-sm">
+            <div class="font-semibold">${legs.length > 1 ? `${legs.length}-leg parlay` : "Single bet"} analysis grade</div>
+            <div class="text-slate-500 text-xs">${legs.length > 1 ? `correlation-adjusted P=${fmtPct(corr)} · ` : ""}edge ${parlayEdge.toFixed(1)}% · ${verdict}</div>
+          </div>
+        </div>
         <div class="bg-slate-50 border rounded-lg p-4 space-y-2">
           ${evals.map(e => `
             <div class="grid grid-cols-12 text-sm items-center gap-2">
-              <div class="col-span-5"><span class="text-xs text-slate-500">${e.leg.sport} · ${e.leg.market}</span><br><span class="font-medium">${e.leg.player_name}</span></div>
+              <div class="col-span-1"><span class="pill ${e.grade ? colorGrade(e.grade) : 'bg-slate-200 text-slate-600'}">${e.grade || "—"}</span></div>
+              <div class="col-span-4"><span class="text-xs text-slate-500">${e.leg.sport} · ${e.leg.market}</span><br><span class="font-medium">${e.leg.player_name}</span></div>
               <div class="col-span-3">${e.leg.side.toUpperCase()} ${e.leg.line} @ ${fmtSign(e.leg.price_american)}</div>
               <div class="col-span-2">P_model: ${e.model_prob == null ? "—" : fmtPct(e.model_prob)}</div>
               <div class="col-span-2 ${e.edge_pct == null ? '' : (e.edge_pct >= 0 ? 'text-emerald-700' : 'text-rose-700')}">${e.edge_pct == null ? "(not modeled)" : `edge ${e.edge_pct.toFixed(1)}%`}</div>
             </div>
           `).join("")}
-          <div class="border-t pt-2 grid grid-cols-12 text-sm items-center gap-2">
-            <div class="col-span-5"><span class="font-bold">Parlay</span> @ ${fmtSign(parlayDec >= 2 ? Math.round((parlayDec-1)*100) : Math.round(-100/(parlayDec-1)))}</div>
+          ${legs.length > 1 ? `<div class="border-t pt-2 grid grid-cols-12 text-sm items-center gap-2">
+            <div class="col-span-1"><span class="pill ${colorGrade(slipGrade)}">${slipGrade}</span></div>
+            <div class="col-span-4"><span class="font-bold">Parlay</span> @ ${fmtSign(parlayDec >= 2 ? Math.round((parlayDec-1)*100) : Math.round(-100/(parlayDec-1)))}</div>
             <div class="col-span-3">P_naive: ${fmtPct(naive)} · P_corr: ${fmtPct(corr)}</div>
             <div class="col-span-2 ${parlayEdge >= 0 ? 'text-emerald-700' : 'text-rose-700'}">edge ${parlayEdge.toFixed(1)}%</div>
             <div class="col-span-2"><span class="pill ${verdictClass}">${verdict}</span></div>
-          </div>
+          </div>` : ""}
           ${knownProbs.length < legs.length ? `<p class="text-xs text-slate-500">Legs marked "(not modeled)" weren't in today's top picks; their fair-prob is used and they contribute zero edge.</p>` : ""}
         </div>
       `;
@@ -474,6 +528,15 @@
         document.getElementById("for-date").textContent = payload.on_date || "—";
       } catch (e) {
         document.getElementById("gen-at").textContent = "(no picks.json yet — run the bootstrap workflow)";
+      }
+      // Build sport tabs dynamically from the published sport list.
+      const tabs = document.getElementById("sport-tabs");
+      for (const s of (payload && payload.sports) || ["NBA", "MLB", "NHL"]) {
+        const b = document.createElement("button");
+        b.dataset.sport = s;
+        b.textContent = s;
+        b.className = "px-3 py-1 rounded-full bg-white border";
+        tabs.appendChild(b);
       }
       renderPicks();
       renderGamePredictions();

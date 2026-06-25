@@ -11,7 +11,7 @@ import re
 from app.sources.markets import map_market
 from app.utils import http_get_json, now_iso, safe_get
 
-EVENT_GROUPS = {"MLB": 84240, "NBA": 42648, "NHL": 42133}
+EVENT_GROUPS = {"MLB": 84240, "NBA": 42648, "NHL": 42133, "NFL": 88808}
 
 BASE = "https://sportsbook-nash.draftkings.com"
 HEADERS = {

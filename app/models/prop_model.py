@@ -45,6 +45,11 @@ COUNT_MARKETS = {
     "batter_hits", "batter_home_runs", "batter_rbis", "batter_runs",
     "batter_strikeouts", "pitcher_strikeouts", "pitcher_earned_runs",
     "player_shots_on_goal", "goalie_saves",
+    # NFL
+    "player_pass_tds", "player_interceptions", "player_pass_completions",
+    "player_pass_attempts", "player_rush_attempts", "player_receptions",
+    # Soccer
+    "player_shots", "player_shots_on_target", "player_passes", "player_tackles",
 }
 
 
