@@ -117,6 +117,26 @@ trustworthy as its shakiest link).
 - The trainer retrains every `(sport, market)` model on the full updated history — including a fresh isotonic calibration, so calibration drift gets corrected daily.
 - Per-model metrics (rows, MAE, Brier, log-loss) get inserted into `model_runs` and surfaced on the dashboard, so you can watch quality move over time.
 
+## Live odds (recommended): The Odds API
+
+Directly scraping DraftKings/FanDuel/etc. is fragile — those endpoints block
+cloud/CI IPs, so the free scrapers often return nothing when run from GitHub
+Actions. For reliable, all-sports live data — including the **FIFA World Cup**
+and every major league — plug in [The Odds API](https://the-odds-api.com):
+
+1. Grab a **free** API key (500 requests/month).
+2. Add it as a repo secret: *Settings → Secrets and variables → Actions →
+   New repository secret*, named `ODDS_API_KEY`.
+3. That's it — the next pipeline run pulls live player props from The Odds API
+   across NBA/MLB/NHL/NFL and soccer (World Cup, Euros, Copa América, EPL, La
+   Liga, Bundesliga, Serie A, Ligue 1, Champions League, MLS). With no key the
+   system silently falls back to the free scrapers.
+
+`ODDS_API_MAX_EVENTS` (default 8) caps per-sport event lookups to stretch the
+free monthly budget. The dashboard flags **💎 hidden gems** — strong-edge props
+that only one or two books are pricing, i.e. lines that likely aren't sharpened
+yet.
+
 ## Honest reporting
 
 The dashboard shows **calibrated probability, fair probability, edge%, Kelly stake, rating, and rolling ROI in units** — not made-up hit-rate marketing claims. Brier and log-loss are tracked per model so you can see calibration quality at a glance.

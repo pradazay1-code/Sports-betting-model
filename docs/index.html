@@ -109,6 +109,7 @@ tailwind.config = { darkMode: 'class', theme: { extend: {
         <input id="search" placeholder="Search player…" class="text-sm bg-ink-850 border border-white/10 rounded-lg px-3 py-2 w-40 focus:outline-none focus:border-emerald-400/50"/>
         <select id="grade-filter" class="text-sm bg-ink-850 border border-white/10 rounded-lg px-3 py-2">
           <option value="0">All grades</option>
+          <option value="gem">💎 Hidden gems</option>
           <option value="A">A only</option>
           <option value="B">B+ and up</option>
         </select>
@@ -211,7 +212,7 @@ function buildSample(){
     MLB:[['Aaron Judge','NYY','batter_total_bases',1.5],['Shohei Ohtani','LAD','batter_total_bases',1.5],['Tarik Skubal','DET','pitcher_strikeouts',7.5],['Gunnar Henderson','BAL','batter_hits',1.5],['Paul Skenes','PIT','pitcher_strikeouts',6.5],['Bobby Witt Jr.','KC','batter_runs',0.5]],
     NHL:[['Connor McDavid','EDM','player_points',1.5],['Auston Matthews','TOR','player_shots_on_goal',4.5],['Nathan MacKinnon','COL','player_points',1.5],['Cale Makar','COL','player_assists',0.5],['Igor Shesterkin','NYR','goalie_saves',27.5]],
     NFL:[['Patrick Mahomes','KC','player_pass_yards',274.5],['Christian McCaffrey','SF','player_rush_yards',88.5],['Tyreek Hill','MIA','player_rec_yards',82.5],['CeeDee Lamb','DAL','player_receptions',6.5],['Josh Allen','BUF','player_pass_tds',1.5]],
-    EPL:[['Erling Haaland','MCI','player_shots_on_target',1.5],['Mohamed Salah','LIV','player_shots',2.5],['Bukayo Saka','ARS','player_shots',1.5],['Cole Palmer','CHE','player_passes',44.5],['Son Heung-min','TOT','player_shots_on_target',1.5]],
+    EPL:[['Kylian Mbappé','🇫🇷 FRA','player_shots_on_target',1.5],['Lionel Messi','🇦🇷 ARG','player_shots',2.5],['Vinícius Júnior','🇧🇷 BRA','player_shots',2.5],['Christian Pulisic','🇺🇸 USA','player_shots_on_target',0.5],['Harry Kane','🏴 ENG','player_shots',2.5],['Erling Haaland','MCI','player_shots_on_target',1.5],['Mohamed Salah','LIV','player_shots',2.5]],
   };
   const books=['DraftKings','FanDuel','PrizePicks','Bovada','Pinnacle'];
   let picks=[];
@@ -225,7 +226,8 @@ function buildSample(){
       const rating=Math.min(96,52+edge*2.4+R()*10);
       const proj=line+(b[0]>line?1:0.4)*(0.4+R());
       const form=Array.from({length:10},()=>Math.max(0,b[0]+(R()-0.45)*b[1]*1.6));
-      picks.push({sport:sp,player_name:name,team,market,side:'over',line,price_american:price,book:books[Math.floor(R()*books.length)],model_prob:mp,fair_prob:fair,edge_pct:edge,recommended_stake_units:+(0.5+R()*2).toFixed(1),rating,grade:letterFrom(rating,edge),projection:+proj.toFixed(1),form});
+      const hidden=edge>=7&&R()>0.45;
+      picks.push({sport:sp,player_name:name,team,market,side:'over',line,price_american:price,book:books[Math.floor(R()*books.length)],model_prob:mp,fair_prob:fair,edge_pct:edge,recommended_stake_units:+(0.5+R()*2).toFixed(1),rating,grade:letterFrom(rating,edge),projection:+proj.toFixed(1),form,hidden_gem:hidden});
     }
   }
   picks.sort((a,b)=>b.rating-a.rating);
@@ -272,7 +274,7 @@ function heroStats(){
 
 function sportTabs(){
   const wrap=$('#sport-tabs'); wrap.innerHTML='';
-  const labels={ALL:'All',NBA:'🏀 NBA',MLB:'⚾ MLB',NHL:'🏒 NHL',NFL:'🏈 NFL',EPL:'⚽ Soccer'};
+  const labels={ALL:'All',NBA:'🏀 NBA',MLB:'⚾ MLB',NHL:'🏒 NHL',NFL:'🏈 NFL',EPL:'⚽ Soccer / 🌍 World Cup'};
   ['ALL',...(DATA.sports||[])].forEach(s=>{
     const b=el('button',`tab px-3.5 py-1.5 rounded-full border border-white/10 bg-white/5 font-semibold ${s===sport?'active':''}`,labels[s]||s);
     b.onclick=()=>{sport=s;sportTabs();renderPlays();};
@@ -293,7 +295,7 @@ function renderPlays(){
   const gf=$('#grade-filter').value;
   let picks=(DATA.picks||[]).filter(p=>sport==='ALL'||p.sport===sport)
     .filter(p=>!q||p.player_name.toLowerCase().includes(q))
-    .filter(p=> gf==='0' || (gf==='A'&&(p.grade||'')[0]==='A') || (gf==='B'&&['A','B'].includes((p.grade||'')[0])&&p.grade!=='B-'));
+    .filter(p=> gf==='0' || (gf==='gem'&&p.hidden_gem) || (gf==='A'&&(p.grade||'')[0]==='A') || (gf==='B'&&['A','B'].includes((p.grade||'')[0])&&p.grade!=='B-'));
   if(!picks.length){empty.classList.remove('hidden');return;} empty.classList.add('hidden');
   const ico={NBA:'🏀',MLB:'⚾',NHL:'🏒',NFL:'🏈',EPL:'⚽'};
   for(const p of picks){
@@ -304,7 +306,7 @@ function renderPlays(){
     card.innerHTML=`
       <div class="flex items-start justify-between gap-3">
         <div class="min-w-0">
-          <div class="text-[11px] uppercase tracking-wide text-slate-500">${ico[p.sport]||''} ${p.sport} · ${(p.market||'').replaceAll('_',' ')}</div>
+          <div class="text-[11px] uppercase tracking-wide text-slate-500 flex items-center gap-1.5">${ico[p.sport]||''} ${p.sport} · ${(p.market||'').replaceAll('_',' ')} ${p.hidden_gem?'<span class="chip bg-fuchsia-500/15 text-fuchsia-300 border border-fuchsia-500/30">💎 hidden</span>':''}</div>
           <div class="font-bold text-[15px] truncate">${p.player_name} ${p.team?`<span class="text-slate-500 font-medium">· ${p.team}</span>`:''}</div>
           <div class="text-sm mt-0.5"><span class="font-semibold text-emerald-300">${(p.side||'').toUpperCase()} ${fixed(p.line,1)}</span>
             <span class="text-slate-400">@ ${sign(p.price_american)}</span>

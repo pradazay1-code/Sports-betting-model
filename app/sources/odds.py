@@ -5,7 +5,7 @@ from __future__ import annotations
 import concurrent.futures as cf
 from typing import Callable
 
-from app.sources import bovada, draftkings, fanduel, pinnacle, prizepicks
+from app.sources import bovada, draftkings, fanduel, oddsapi, pinnacle, prizepicks
 from app.store import insert_prop_offers
 from app.utils import get_logger
 
@@ -13,6 +13,9 @@ LOG = get_logger("odds")
 
 
 PROVIDERS: dict[str, Callable[[], list[dict]]] = {
+    # The Odds API first — the reliable, all-sports (incl. World Cup) feed when
+    # ODDS_API_KEY is set; it no-ops without a key.
+    "theoddsapi": oddsapi.fetch_offers,
     "prizepicks": prizepicks.fetch_offers,
     "draftkings": draftkings.fetch_offers,
     "fanduel":    fanduel.fetch_offers,

@@ -43,6 +43,11 @@ class Config:
     backfill_days: int = field(default_factory=lambda: _env_int("BACKFILL_DAYS", 45))
     bankroll: float = field(default_factory=lambda: _env_float("BANKROLL", 1000.0))
     kelly_fraction: float = field(default_factory=lambda: _env_float("KELLY_FRACTION", 0.25))
+    # Live odds feed (the-odds-api.com). Set ODDS_API_KEY as a repo secret to
+    # enable reliable, all-sports live props. odds_api_max_events caps per-sport
+    # event lookups to conserve the free-tier monthly request budget.
+    odds_api_key: str = field(default_factory=lambda: _env("ODDS_API_KEY", ""))
+    odds_api_max_events: int = field(default_factory=lambda: _env_int("ODDS_API_MAX_EVENTS", 8))
     user_agent: str = "pradapicks/0.1 (+https://github.com)"
 
 
