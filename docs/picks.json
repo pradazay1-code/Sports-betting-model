@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T12:41:47+00:00",
+  "generated_at": "2026-06-29T16:47:48+00:00",
   "on_date": "2026-06-29",
   "sports": [
     "NBA",
@@ -17,8 +17,8 @@
   },
   "picks": [
     {
-      "id": 1876,
-      "generated_at": "2026-06-29T12:41:47+00:00",
+      "id": 1901,
+      "generated_at": "2026-06-29T16:47:48+00:00",
       "on_date": "2026-06-29",
       "sport": "MLB",
       "player_name": "Amed Rosario",
@@ -55,8 +55,8 @@
       "hidden_gem": true
     },
     {
-      "id": 1877,
-      "generated_at": "2026-06-29T12:41:47+00:00",
+      "id": 1902,
+      "generated_at": "2026-06-29T16:47:48+00:00",
       "on_date": "2026-06-29",
       "sport": "MLB",
       "player_name": "Amed Rosario",
@@ -93,8 +93,8 @@
       "hidden_gem": true
     },
     {
-      "id": 1878,
-      "generated_at": "2026-06-29T12:41:47+00:00",
+      "id": 1903,
+      "generated_at": "2026-06-29T16:47:48+00:00",
       "on_date": "2026-06-29",
       "sport": "MLB",
       "player_name": "Amed Rosario",
@@ -131,8 +131,8 @@
       "hidden_gem": true
     },
     {
-      "id": 1879,
-      "generated_at": "2026-06-29T12:41:47+00:00",
+      "id": 1904,
+      "generated_at": "2026-06-29T16:47:48+00:00",
       "on_date": "2026-06-29",
       "sport": "MLB",
       "player_name": "Anthony Seigler",
@@ -169,8 +169,8 @@
       "hidden_gem": true
     },
     {
-      "id": 1880,
-      "generated_at": "2026-06-29T12:41:47+00:00",
+      "id": 1905,
+      "generated_at": "2026-06-29T16:47:48+00:00",
       "on_date": "2026-06-29",
       "sport": "MLB",
       "player_name": "Anthony Seigler",
@@ -207,8 +207,8 @@
       "hidden_gem": true
     },
     {
-      "id": 1881,
-      "generated_at": "2026-06-29T12:41:47+00:00",
+      "id": 1906,
+      "generated_at": "2026-06-29T16:47:48+00:00",
       "on_date": "2026-06-29",
       "sport": "MLB",
       "player_name": "Austin Wells",
@@ -245,8 +245,8 @@
       "hidden_gem": true
     },
     {
-      "id": 1882,
-      "generated_at": "2026-06-29T12:41:47+00:00",
+      "id": 1907,
+      "generated_at": "2026-06-29T16:47:48+00:00",
       "on_date": "2026-06-29",
       "sport": "MLB",
       "player_name": "Ben Rice",
@@ -283,8 +283,8 @@
       "hidden_gem": true
     },
     {
-      "id": 1883,
-      "generated_at": "2026-06-29T12:41:47+00:00",
+      "id": 1908,
+      "generated_at": "2026-06-29T16:47:48+00:00",
       "on_date": "2026-06-29",
       "sport": "MLB",
       "player_name": "Ben Rice",
@@ -321,8 +321,8 @@
       "hidden_gem": true
     },
     {
-      "id": 1884,
-      "generated_at": "2026-06-29T12:41:47+00:00",
+      "id": 1909,
+      "generated_at": "2026-06-29T16:47:48+00:00",
       "on_date": "2026-06-29",
       "sport": "MLB",
       "player_name": "Caleb Durbin",
@@ -359,8 +359,8 @@
       "hidden_gem": true
     },
     {
-      "id": 1885,
-      "generated_at": "2026-06-29T12:41:47+00:00",
+      "id": 1910,
+      "generated_at": "2026-06-29T16:47:48+00:00",
       "on_date": "2026-06-29",
       "sport": "MLB",
       "player_name": "Caleb Durbin",
@@ -397,8 +397,8 @@
       "hidden_gem": true
     },
     {
-      "id": 1886,
-      "generated_at": "2026-06-29T12:41:47+00:00",
+      "id": 1911,
+      "generated_at": "2026-06-29T16:47:48+00:00",
       "on_date": "2026-06-29",
       "sport": "MLB",
       "player_name": "Caleb Durbin",
@@ -435,8 +435,8 @@
       "hidden_gem": true
     },
     {
-      "id": 1887,
-      "generated_at": "2026-06-29T12:41:47+00:00",
+      "id": 1912,
+      "generated_at": "2026-06-29T16:47:48+00:00",
       "on_date": "2026-06-29",
       "sport": "MLB",
       "player_name": "Ceddanne Rafaela",
@@ -473,8 +473,8 @@
       "hidden_gem": true
     },
     {
-      "id": 1888,
-      "generated_at": "2026-06-29T12:41:47+00:00",
+      "id": 1913,
+      "generated_at": "2026-06-29T16:47:48+00:00",
       "on_date": "2026-06-29",
       "sport": "MLB",
       "player_name": "Ceddanne Rafaela",
@@ -511,8 +511,8 @@
       "hidden_gem": true
     },
     {
-      "id": 1889,
-      "generated_at": "2026-06-29T12:41:47+00:00",
+      "id": 1914,
+      "generated_at": "2026-06-29T16:47:48+00:00",
       "on_date": "2026-06-29",
       "sport": "MLB",
       "player_name": "Ceddanne Rafaela",
@@ -549,8 +549,8 @@
       "hidden_gem": true
     },
     {
-      "id": 1890,
-      "generated_at": "2026-06-29T12:41:47+00:00",
+      "id": 1915,
+      "generated_at": "2026-06-29T16:47:48+00:00",
       "on_date": "2026-06-29",
       "sport": "MLB",
       "player_name": "Cody Bellinger",
@@ -587,8 +587,8 @@
       "hidden_gem": true
     },
     {
-      "id": 1891,
-      "generated_at": "2026-06-29T12:41:47+00:00",
+      "id": 1916,
+      "generated_at": "2026-06-29T16:47:48+00:00",
       "on_date": "2026-06-29",
       "sport": "MLB",
       "player_name": "Cody Bellinger",
@@ -625,8 +625,8 @@
       "hidden_gem": true
     },
     {
-      "id": 1892,
-      "generated_at": "2026-06-29T12:41:47+00:00",
+      "id": 1917,
+      "generated_at": "2026-06-29T16:47:48+00:00",
       "on_date": "2026-06-29",
       "sport": "MLB",
       "player_name": "Cody Bellinger",
@@ -663,8 +663,8 @@
       "hidden_gem": true
     },
     {
-      "id": 1893,
-      "generated_at": "2026-06-29T12:41:47+00:00",
+      "id": 1918,
+      "generated_at": "2026-06-29T16:47:48+00:00",
       "on_date": "2026-06-29",
       "sport": "MLB",
       "player_name": "Connor Wong",
@@ -701,8 +701,8 @@
       "hidden_gem": true
     },
     {
-      "id": 1894,
-      "generated_at": "2026-06-29T12:41:47+00:00",
+      "id": 1919,
+      "generated_at": "2026-06-29T16:47:48+00:00",
       "on_date": "2026-06-29",
       "sport": "MLB",
       "player_name": "Connor Wong",
@@ -739,8 +739,8 @@
       "hidden_gem": true
     },
     {
-      "id": 1895,
-      "generated_at": "2026-06-29T12:41:47+00:00",
+      "id": 1920,
+      "generated_at": "2026-06-29T16:47:48+00:00",
       "on_date": "2026-06-29",
       "sport": "MLB",
       "player_name": "Jasson Dom\u00ednguez",
@@ -777,8 +777,8 @@
       "hidden_gem": true
     },
     {
-      "id": 1896,
-      "generated_at": "2026-06-29T12:41:47+00:00",
+      "id": 1921,
+      "generated_at": "2026-06-29T16:47:48+00:00",
       "on_date": "2026-06-29",
       "sport": "MLB",
       "player_name": "Jasson Dom\u00ednguez",
@@ -815,8 +815,8 @@
       "hidden_gem": true
     },
     {
-      "id": 1897,
-      "generated_at": "2026-06-29T12:41:47+00:00",
+      "id": 1922,
+      "generated_at": "2026-06-29T16:47:48+00:00",
       "on_date": "2026-06-29",
       "sport": "MLB",
       "player_name": "Jasson Dom\u00ednguez",
@@ -853,8 +853,8 @@
       "hidden_gem": true
     },
     {
-      "id": 1898,
-      "generated_at": "2026-06-29T12:41:47+00:00",
+      "id": 1923,
+      "generated_at": "2026-06-29T16:47:48+00:00",
       "on_date": "2026-06-29",
       "sport": "MLB",
       "player_name": "Jazz Chisholm Jr.",
@@ -891,8 +891,8 @@
       "hidden_gem": true
     },
     {
-      "id": 1899,
-      "generated_at": "2026-06-29T12:41:47+00:00",
+      "id": 1924,
+      "generated_at": "2026-06-29T16:47:48+00:00",
       "on_date": "2026-06-29",
       "sport": "MLB",
       "player_name": "Jazz Chisholm Jr.",
@@ -929,8 +929,8 @@
       "hidden_gem": true
     },
     {
-      "id": 1900,
-      "generated_at": "2026-06-29T12:41:47+00:00",
+      "id": 1925,
+      "generated_at": "2026-06-29T16:47:48+00:00",
       "on_date": "2026-06-29",
       "sport": "MLB",
       "player_name": "Jos\u00e9 Caballero",
