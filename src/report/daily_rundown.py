@@ -149,10 +149,28 @@ def write_report(conn, day: str | None = None, no_plays: list[dict] | None = Non
 
 
 def deliver(md: str) -> None:
-    """Optional delivery (Phase 5): Discord webhook if configured."""
+    """Optional delivery (spec §6): Discord webhook and/or SMTP email."""
     hook = os.environ.get("DISCORD_WEBHOOK_URL")
     if hook and requests is not None:
         try:  # Discord caps content at 2000 chars
             requests.post(hook, json={"content": md[:1900]}, timeout=10)
+        except Exception:
+            pass
+    host, to = os.environ.get("SMTP_HOST"), os.environ.get("EMAIL_TO")
+    if host and to:
+        try:
+            import smtplib
+            from email.message import EmailMessage
+            msg = EmailMessage()
+            msg["Subject"] = md.splitlines()[0].lstrip("# ")
+            msg["From"] = os.environ.get("SMTP_USER", "edge-engine")
+            msg["To"] = to
+            msg.set_content(md)
+            with smtplib.SMTP(host, int(os.environ.get("SMTP_PORT", "587"))) as s:
+                s.starttls()
+                user, pw = os.environ.get("SMTP_USER"), os.environ.get("SMTP_PASS")
+                if user and pw:
+                    s.login(user, pw)
+                s.send_message(msg)
         except Exception:
             pass

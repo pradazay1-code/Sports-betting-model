@@ -1,0 +1,22 @@
+{
+  "pick_id": 1,
+  "pick": "Gerrit Cole over 6.5 pitcher_strikeouts @ -115 (fanduel)",
+  "model_prob": 0.5715,
+  "market_fair_prob": 0.5108,
+  "ev_pct": 0.0685,
+  "model_inputs": "model inputs: {\"recent_k_rate\": 0.2866, \"season_k_rate\": 0.2867, \"regressed_k_rate\": 0.2497, \"opp_k_rate\": 0.26787, \"opp_adjustment\": 1.1405, \"expected_batters_faced\": 25.09, \"total_bf_sample\": 150}",
+  "search_queries": [
+    "Gerrit Cole news last 48 hours",
+    "Gerrit Cole injury status lineup",
+    "Gerrit Cole coach quotes role minutes"
+  ],
+  "key_assumption": "The market prices this at 51.1% fair; the model says 57.1%. The market is usually right \u2014 find the reason the market disagrees, or the story the market missed. If you cannot find why, assume the model is missing something.",
+  "kill_switch_questions": [
+    "Is there a lineup change the model missed?",
+    "Is there a pitch-count or innings limit today?",
+    "Is there a minutes restriction or planned rest?",
+    "Is there a new starting goalkeeper / backup catcher situation?",
+    "Is this a locked-qualification rotation spot (soccer game 3 trap)?"
+  ],
+  "required_output": "3-5 sentence memo with sources and timestamps, then verdict: VALIDATED or KILL."
+}

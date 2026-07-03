@@ -176,6 +176,42 @@ CREATE TABLE IF NOT EXISTS nfl_player_weekly (
     UNIQUE (player_id, season, week)
 );
 
+-- Soccer / World Cup ingest (Phase 5, spec §2.2)
+CREATE TABLE IF NOT EXISTS soccer_player_rates (
+    player     TEXT NOT NULL,
+    team       TEXT,
+    context    TEXT NOT NULL,      -- club / intl / tournament (WC 60/30/10 blend)
+    season     TEXT NOT NULL,
+    minutes    INTEGER,
+    shots_p90  REAL, sot_p90 REAL, xg_p90 REAL, xa_p90 REAL, fouls_p90 REAL,
+    penalty_duty INTEGER DEFAULT 0,
+    fetched_at TEXT NOT NULL,
+    PRIMARY KEY (player, context, season)
+);
+
+CREATE TABLE IF NOT EXISTS soccer_matches (
+    match_id    TEXT PRIMARY KEY,
+    utc_date    TEXT,
+    competition TEXT,
+    stage       TEXT,
+    home_team   TEXT, away_team TEXT,
+    status      TEXT,
+    referee     TEXT,
+    fetched_at  TEXT NOT NULL
+);
+
+-- Injuries / lineups (spec §2.3)
+CREATE TABLE IF NOT EXISTS injuries (
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    sport      TEXT NOT NULL,
+    player     TEXT NOT NULL,
+    team       TEXT,
+    status     TEXT,               -- Out / Doubtful / Questionable / Probable
+    detail     TEXT,
+    fetched_at TEXT NOT NULL,
+    UNIQUE (sport, player, fetched_at)
+);
+
 -- The Odds API usage headers, logged per request (500/mo free-tier budget).
 CREATE TABLE IF NOT EXISTS api_usage (
     id                 INTEGER PRIMARY KEY AUTOINCREMENT,

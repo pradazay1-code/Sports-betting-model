@@ -126,6 +126,16 @@ def run(day: str, live: bool, include_props: bool, demo: bool) -> None:
         print("staking: Phase 3 module not built — picks logged track-only")
     write_picks(conn, edges, staked)
 
+    # 5b. injuries + lineup gate, research briefs for flagged edges
+    from src.ingest import injuries
+    from src.research import deep_dive
+    if live and not demo:
+        injuries.pull_all(conn)
+    injuries.hold_ungated_picks(conn)
+    research = deep_dive.run_research(conn, day)
+    if research["briefs"]:
+        print(f"research: {research}")
+
     # 6. DFS slips (Phase 4) + rundown
     from src.engine import correlation
     slips = correlation.build_slips(surfaced)
