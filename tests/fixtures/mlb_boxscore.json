@@ -1,0 +1,24 @@
+{
+  "teams": {
+    "home": {
+      "players": {
+        "ID543037": {
+          "person": {"id": 543037, "fullName": "Gerrit Cole"},
+          "stats": {"pitching": {"strikeOuts": 8, "outs": 20, "battersFaced": 26}}
+        },
+        "ID660271": {
+          "person": {"id": 660271, "fullName": "Some Batter"},
+          "stats": {"batting": {"hits": 2}}
+        }
+      }
+    },
+    "away": {
+      "players": {
+        "ID678394": {
+          "person": {"id": 678394, "fullName": "Brayan Bello"},
+          "stats": {"pitching": {"strikeOuts": 4, "outs": 15, "battersFaced": 22}}
+        }
+      }
+    }
+  }
+}

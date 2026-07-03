@@ -1,0 +1,47 @@
+# Edge Engine cloud automation (spec §7). The ledger (data/db.sqlite) is
+# force-committed back so history persists between runs. ODDS_API_KEY goes
+# in repo secrets — never committed.
+name: edge-daily
+on:
+  schedule:
+    - cron: "0 13 * * *"    # 9:00 ET  — overnight pull, first scan, rundown
+    - cron: "30 15 * * *"   # 11:30 ET — MLB lineups drop, rerun
+    - cron: "0 22 * * *"    # 18:00 ET — pre-first-pitch final pass
+    - cron: "0 7 * * *"     # 3:00 ET  — grade yesterday, closing lines, CLV
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: edge-daily
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt
+      - name: nightly grade (3 AM slot only)
+        if: github.event.schedule == '0 7 * * *'
+        run: python -m src.engine.clv_tracker --nightly
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+      - name: daily run
+        if: github.event.schedule != '0 7 * * *'
+        run: python -m src.run_daily --props
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+      - name: persist ledger + reports
+        run: |
+          git config user.name "edge-engine-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -f data/db.sqlite reports/ || true
+          git add data/raw || true
+          git diff --cached --quiet || git commit -m "auto: edge engine run $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push

@@ -16,8 +16,8 @@ CRON_TZ=America/New_York
 30 11 * * * cd $REPO_DIR && $PY -m src.ingest.odds --pull >> logs/odds.log 2>&1
 # 4:30 PM — NBA early lineup confirmations -> rerun             (Phase 4+)
 30 16 * * * cd $REPO_DIR && $PY -m src.ingest.odds --pull >> logs/odds.log 2>&1
-# 3:00 AM — grade yesterday, log closing lines, update CLV      (Phase 3+)
-0 3 * * *  cd $REPO_DIR && $PY -m src.ingest.odds --pull >> logs/odds.log 2>&1
+# 3:00 AM — grade yesterday, log closing lines, update CLV
+0 3 * * *  cd $REPO_DIR && $PY -m src.engine.clv_tracker --nightly >> logs/nightly.log 2>&1
 EOF
 
 mkdir -p "$REPO_DIR/logs"
