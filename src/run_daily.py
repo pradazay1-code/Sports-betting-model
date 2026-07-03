@@ -126,12 +126,14 @@ def run(day: str, live: bool, include_props: bool, demo: bool) -> None:
         print("staking: Phase 3 module not built — picks logged track-only")
     write_picks(conn, edges, staked)
 
-    # 6. rundown
+    # 6. DFS slips (Phase 4) + rundown
+    from src.engine import correlation
+    slips = correlation.build_slips(surfaced)
     no_plays = [{"player": e.player, "side": e.side, "line": e.line,
                  "market": e.market, "ev": e.ev,
                  "reason": f"EV below {config.settings()['edges']['min_ev_props']:.0%} threshold"}
                 for e in edges if not e.surface and e.ev > 0.015]
-    path = daily_rundown.write_report(conn, day, no_plays)
+    path = daily_rundown.write_report(conn, day, no_plays, slips)
     print(f"rundown: {path}")
     print()
     print(Path(path).read_text())

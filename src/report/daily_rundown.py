@@ -79,7 +79,8 @@ def _yesterday_section(conn, today: str) -> list[str]:
     return out
 
 
-def render(conn, day: str | None = None, no_plays: list[dict] | None = None) -> str:
+def render(conn, day: str | None = None, no_plays: list[dict] | None = None,
+           slips: list[dict] | None = None) -> str:
     day = day or date_cls.today().isoformat()
     hs = _header_stats(conn)
     picks = [dict(r) for r in conn.execute(
@@ -109,7 +110,15 @@ def render(conn, day: str | None = None, no_plays: list[dict] | None = None) -> 
             md.append("")
 
     md.append("## === SLIP OF THE DAY (PrizePicks/Underdog) ===")
-    md.append("(correlation engine arrives in Phase 4)")
+    if slips:
+        for s in slips:
+            legs = " + ".join(f"{l.player} {l.side} {l.line} ({l.market})" for l in s["legs"])
+            note = f" | {'; '.join(s['notes'])}" if s["notes"] else ""
+            md.append(f"- {len(s['legs'])}-leg: {legs}")
+            md.append(f"  Combined model prob {s['combined_prob']:.1%} vs "
+                      f"{s['breakeven']:.1%} breakeven | EV {s['ev']:+.1%}{note}")
+    else:
+        md.append("(no slip cleared the breakeven-with-margin bar today)")
     md.append("")
 
     md.append("## === NO-PLAYS THAT LOOKED TEMPTING (and why we passed) ===")
@@ -127,9 +136,10 @@ def render(conn, day: str | None = None, no_plays: list[dict] | None = None) -> 
     return "\n".join(md)
 
 
-def write_report(conn, day: str | None = None, no_plays: list[dict] | None = None) -> str:
+def write_report(conn, day: str | None = None, no_plays: list[dict] | None = None,
+                 slips: list[dict] | None = None) -> str:
     day = day or date_cls.today().isoformat()
-    md = render(conn, day, no_plays)
+    md = render(conn, day, no_plays, slips)
     reports_dir = config.REPO_ROOT / config.settings()["paths"]["reports"]
     reports_dir.mkdir(parents=True, exist_ok=True)
     path = reports_dir / f"{day}.md"

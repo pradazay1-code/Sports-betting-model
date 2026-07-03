@@ -137,6 +137,45 @@ CREATE TABLE IF NOT EXISTS mlb_team_batting (
     PRIMARY KEY (team_id, season, vs_hand)
 );
 
+-- NBA ingest (Phase 4, spec §2.2)
+CREATE TABLE IF NOT EXISTS nba_player_logs (
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    player_id   INTEGER NOT NULL,
+    player_name TEXT,
+    team        TEXT,
+    game_date   TEXT NOT NULL,
+    opponent    TEXT,
+    minutes     REAL,
+    pts INTEGER, reb INTEGER, ast INTEGER, fg3m INTEGER,
+    fga INTEGER, fta INTEGER, tov INTEGER,
+    fetched_at  TEXT NOT NULL,
+    UNIQUE (player_id, game_date)
+);
+
+-- opponent allowed per stat vs league average (simplified DvP)
+CREATE TABLE IF NOT EXISTS nba_team_defense (
+    team TEXT NOT NULL, season INTEGER NOT NULL, stat TEXT NOT NULL,
+    allowed_per_game REAL NOT NULL, league_avg REAL NOT NULL,
+    fetched_at TEXT NOT NULL,
+    PRIMARY KEY (team, season, stat)
+);
+
+-- NFL ingest (Phase 4, spec §2.2) — nflverse weekly player stats
+CREATE TABLE IF NOT EXISTS nfl_player_weekly (
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    player_id   TEXT NOT NULL,
+    player_name TEXT,
+    position    TEXT,
+    team        TEXT,
+    season      INTEGER NOT NULL,
+    week        INTEGER NOT NULL,
+    targets INTEGER, receptions INTEGER, receiving_yards REAL, receiving_tds INTEGER,
+    carries INTEGER, rushing_yards REAL, rushing_tds INTEGER,
+    attempts INTEGER, passing_yards REAL, passing_tds INTEGER,
+    fetched_at  TEXT NOT NULL,
+    UNIQUE (player_id, season, week)
+);
+
 -- The Odds API usage headers, logged per request (500/mo free-tier budget).
 CREATE TABLE IF NOT EXISTS api_usage (
     id                 INTEGER PRIMARY KEY AUTOINCREMENT,
