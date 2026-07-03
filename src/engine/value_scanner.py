@@ -102,6 +102,18 @@ def _shift_tier(tier: str, up: bool) -> str:
     return order[min(i + 1, 2)] if up else order[max(i - 1, 0)]
 
 
+def _calibration_factor(conn, sport: str, market: str) -> float:
+    row = conn.execute("SELECT factor FROM calibration WHERE sport=? AND market=?",
+                       (sport, market)).fetchone()
+    return row["factor"] if row else 1.0
+
+
+def _category_suspended(conn, sport: str, market: str) -> bool:
+    row = conn.execute("SELECT status FROM category_status WHERE sport=? AND market=?",
+                       (sport, market)).fetchone()
+    return bool(row and row["status"] == "suspended")
+
+
 def evaluate(conn, sport: str, event_id: str, market: str, player: str | None,
              side: str, model_prob: float, sample_games: int = 0,
              is_prop: bool = True) -> Edge | None:
@@ -110,6 +122,11 @@ def evaluate(conn, sport: str, event_id: str, market: str, player: str | None,
     prices = [p for p in odds.best_prices(conn, event_id, market, player=player, side=side)]
     if not prices:
         return None
+
+    # Phase 6 feedback loop: shrink by realized calibration (spec §3, §8)
+    from src.models.common import shrink_probability
+    factor = _calibration_factor(conn, sport, market)
+    model_prob = shrink_probability(model_prob, factor)
     best = prices[0]  # best decimal first
     fair, sharp_fair = market_fair_prob(conn, event_id, market, player, side)
     if fair is None:
@@ -122,6 +139,11 @@ def evaluate(conn, sport: str, event_id: str, market: str, player: str | None,
 
     min_ev = settings["edges"]["min_ev_props" if is_prop else "min_ev_main_markets"]
     surface = ev >= min_ev and tier is not None
+
+    # negative-CLV categories are suspended pending model review (spec §8.1)
+    if surface and _category_suspended(conn, sport, market):
+        surface, tier = False, None
+        notes.append("category suspended by weekly CLV audit")
 
     # sharp/soft comparison (spec §5.4)
     if tier and sharp_fair is not None:

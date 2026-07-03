@@ -15,12 +15,25 @@ Autonomous sports betting research & prop analysis system for **Soccer (World Cu
 
 | Phase | Scope | Status |
 |---|---|---|
-| **1** | Scaffold, config system, SQLite ledger, odds ingestion + line-movement logging | ✅ **built** |
-| 2 | MLB end-to-end (ingest → K-prop model → value scanner → rundown) | ⬜ |
-| 3 | Staking, CLV tracker, daily rundown, cron automation, paper period starts | ⬜ |
-| 4 | NBA + NFL modules, correlation engine, PrizePicks/Underdog slips | ⬜ |
-| 5 | Soccer/World Cup module, deep research pipeline, Discord/email | ⬜ |
-| 6 | Weekly review loop, calibration shrinkage, category suspend/promote | ⬜ |
+| **1** | Scaffold, config system, SQLite ledger, odds ingestion + line-movement logging | ✅ built |
+| **2** | MLB end-to-end (ingest → K-prop model → value scanner → rundown) | ✅ built |
+| **3** | Staking, CLV tracker, daily rundown, cron automation, paper period starts | ✅ built |
+| **4** | NBA + NFL modules, correlation engine, PrizePicks/Underdog slips | ✅ built |
+| **5** | Soccer/World Cup module, deep research pipeline, Discord/email | ✅ built |
+| **6** | Weekly review loop, calibration shrinkage, category suspend/promote | ✅ built (runs Mondays) |
+
+The system is now in its **mandatory paper period**: every stake displays as
+"units (paper)" until 200 tracked picks with positive CLV clear the gate.
+
+Key entry points beyond the quick start:
+
+```bash
+python -m src.run_daily --props                  # full daily pipeline
+python -m src.engine.clv_tracker --nightly       # grade yesterday + closing lines
+python -m src.report.weekly_review --run         # Monday audit
+python -m src.research.deep_dive --generate      # research briefs for EV>6% picks
+python -m src.research.deep_dive --validate 12 --memo "..." [--kill]
+```
 
 ## Quick start (Phase 1)
 

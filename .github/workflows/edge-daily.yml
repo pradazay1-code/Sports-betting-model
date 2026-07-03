@@ -8,6 +8,7 @@ on:
     - cron: "30 15 * * *"   # 11:30 ET — MLB lineups drop, rerun
     - cron: "0 22 * * *"    # 18:00 ET — pre-first-pitch final pass
     - cron: "0 7 * * *"     # 3:00 ET  — grade yesterday, closing lines, CLV
+    - cron: "0 12 * * 1"    # Monday   — weekly review: CLV audit, calibration
   workflow_dispatch:
 
 permissions:
@@ -31,8 +32,11 @@ jobs:
         run: python -m src.engine.clv_tracker --nightly
         env:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+      - name: weekly review (Monday slot only)
+        if: github.event.schedule == '0 12 * * 1'
+        run: python -m src.report.weekly_review --run
       - name: daily run
-        if: github.event.schedule != '0 7 * * *'
+        if: github.event.schedule != '0 7 * * *' && github.event.schedule != '0 12 * * 1'
         run: python -m src.run_daily --props
         env:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}

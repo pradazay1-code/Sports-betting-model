@@ -212,6 +212,24 @@ CREATE TABLE IF NOT EXISTS injuries (
     UNIQUE (sport, player, fetched_at)
 );
 
+-- Weekly review outputs (Phase 6, spec §8): categories live or suspended
+CREATE TABLE IF NOT EXISTS category_status (
+    sport TEXT NOT NULL, market TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'live',      -- live / suspended
+    reason TEXT,
+    updated_at TEXT NOT NULL,
+    PRIMARY KEY (sport, market)
+);
+
+-- calibration shrinkage factors derived from realized hit rates
+CREATE TABLE IF NOT EXISTS calibration (
+    sport TEXT NOT NULL, market TEXT NOT NULL,
+    factor REAL NOT NULL,                     -- 1.0 = trust model fully
+    n INTEGER NOT NULL,
+    updated_at TEXT NOT NULL,
+    PRIMARY KEY (sport, market)
+);
+
 -- The Odds API usage headers, logged per request (500/mo free-tier budget).
 CREATE TABLE IF NOT EXISTS api_usage (
     id                 INTEGER PRIMARY KEY AUTOINCREMENT,
