@@ -1,0 +1,25 @@
+{
+  "dates": [
+    {
+      "date": "2026-07-03",
+      "games": [
+        {
+          "gamePk": 776543,
+          "gameDate": "2026-07-03T23:05:00Z",
+          "status": {"abstractGameState": "Preview"},
+          "venue": {"name": "Yankee Stadium"},
+          "teams": {
+            "away": {
+              "team": {"id": 111, "name": "Boston Red Sox"},
+              "probablePitcher": {"id": 678394, "fullName": "Brayan Bello"}
+            },
+            "home": {
+              "team": {"id": 147, "name": "New York Yankees"},
+              "probablePitcher": {"id": 543037, "fullName": "Gerrit Cole"}
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

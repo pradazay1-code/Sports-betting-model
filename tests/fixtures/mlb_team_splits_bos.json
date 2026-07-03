@@ -1,0 +1,11 @@
+{
+  "stats": [
+    {
+      "type": {"displayName": "statSplits"},
+      "splits": [
+        {"split": {"code": "vl", "description": "vs Left"}, "team": {"id": 111, "name": "Boston Red Sox"}, "stat": {"plateAppearances": 980, "strikeOuts": 240}},
+        {"split": {"code": "vr", "description": "vs Right"}, "team": {"id": 111, "name": "Boston Red Sox"}, "stat": {"plateAppearances": 2210, "strikeOuts": 592}}
+      ]
+    }
+  ]
+}

@@ -63,9 +63,10 @@ CREATE TABLE IF NOT EXISTS picks (
     model_prob       REAL NOT NULL,
     market_fair_prob REAL NOT NULL,          -- de-vigged implied prob
     ev_pct           REAL NOT NULL,          -- model_prob * decimal - 1
-    tier             TEXT NOT NULL,          -- A / B / C
-    stake_units      REAL NOT NULL,
+    tier             TEXT,                   -- A / B / C; NULL = logged no-play
+    stake_units      REAL NOT NULL DEFAULT 0,
     is_paper         INTEGER NOT NULL DEFAULT 1,  -- paper until 200-pick +CLV gate (spec §9)
+    needs_research   INTEGER NOT NULL DEFAULT 0,  -- EV > 6% gate (spec §4)
     status           TEXT NOT NULL DEFAULT 'pending',
                      -- pending / hold_lineup / won / lost / push / void / no_play
     result_value     REAL,                   -- actual stat value once graded
@@ -93,6 +94,47 @@ CREATE TABLE IF NOT EXISTS bankroll_history (
     bankroll    REAL NOT NULL,
     change      REAL NOT NULL DEFAULT 0,
     reason      TEXT NOT NULL                -- seed / settle / adjustment
+);
+
+-- MLB StatsAPI ingest (Phase 2, spec §2.2)
+CREATE TABLE IF NOT EXISTS mlb_games (
+    game_pk           INTEGER PRIMARY KEY,
+    game_date         TEXT NOT NULL,            -- ISO date
+    commence_time     TEXT,
+    home_team_id      INTEGER, home_team TEXT,
+    away_team_id      INTEGER, away_team TEXT,
+    home_probable_id  INTEGER, home_probable TEXT,
+    away_probable_id  INTEGER, away_probable TEXT,
+    venue             TEXT,
+    state             TEXT,                     -- Preview / Live / Final
+    fetched_at        TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS mlb_pitcher_logs (
+    id            INTEGER PRIMARY KEY AUTOINCREMENT,
+    player_id     INTEGER NOT NULL,
+    player_name   TEXT,
+    game_date     TEXT NOT NULL,
+    opponent      TEXT,
+    innings_outs  INTEGER,                      -- innings pitched in outs (6.2 IP = 20)
+    batters_faced INTEGER,
+    strikeouts    INTEGER,
+    pitches       INTEGER,
+    hand          TEXT,                         -- L / R
+    fetched_at    TEXT NOT NULL,
+    UNIQUE (player_id, game_date)
+);
+
+CREATE TABLE IF NOT EXISTS mlb_team_batting (
+    team_id    INTEGER NOT NULL,
+    team_name  TEXT,
+    season     INTEGER NOT NULL,
+    vs_hand    TEXT NOT NULL,                   -- 'L' / 'R' / 'all'
+    pa         INTEGER NOT NULL,
+    so         INTEGER NOT NULL,
+    k_rate     REAL NOT NULL,
+    fetched_at TEXT NOT NULL,
+    PRIMARY KEY (team_id, season, vs_hand)
 );
 
 -- The Odds API usage headers, logged per request (500/mo free-tier budget).

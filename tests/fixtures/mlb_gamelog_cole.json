@@ -1,0 +1,15 @@
+{
+  "stats": [
+    {
+      "type": {"displayName": "gameLog"},
+      "splits": [
+        {"date": "2026-05-29", "player": {"id": 543037, "fullName": "Gerrit Cole", "pitchHand": {"code": "R"}}, "opponent": {"id": 141, "name": "Toronto Blue Jays"}, "stat": {"inningsPitched": "6.0", "battersFaced": 24, "strikeOuts": 6, "numberOfPitches": 92}},
+        {"date": "2026-06-03", "player": {"id": 543037, "fullName": "Gerrit Cole", "pitchHand": {"code": "R"}}, "opponent": {"id": 116, "name": "Detroit Tigers"}, "stat": {"inningsPitched": "7.0", "battersFaced": 26, "strikeOuts": 9, "numberOfPitches": 101}},
+        {"date": "2026-06-09", "player": {"id": 543037, "fullName": "Gerrit Cole", "pitchHand": {"code": "R"}}, "opponent": {"id": 118, "name": "Kansas City Royals"}, "stat": {"inningsPitched": "6.1", "battersFaced": 25, "strikeOuts": 7, "numberOfPitches": 97}},
+        {"date": "2026-06-15", "player": {"id": 543037, "fullName": "Gerrit Cole", "pitchHand": {"code": "R"}}, "opponent": {"id": 110, "name": "Baltimore Orioles"}, "stat": {"inningsPitched": "5.2", "battersFaced": 24, "strikeOuts": 6, "numberOfPitches": 95}},
+        {"date": "2026-06-21", "player": {"id": 543037, "fullName": "Gerrit Cole", "pitchHand": {"code": "R"}}, "opponent": {"id": 139, "name": "Tampa Bay Rays"}, "stat": {"inningsPitched": "6.2", "battersFaced": 25, "strikeOuts": 7, "numberOfPitches": 99}},
+        {"date": "2026-06-27", "player": {"id": 543037, "fullName": "Gerrit Cole", "pitchHand": {"code": "R"}}, "opponent": {"id": 133, "name": "Athletics"}, "stat": {"inningsPitched": "7.0", "battersFaced": 26, "strikeOuts": 8, "numberOfPitches": 98}}
+      ]
+    }
+  ]
+}
