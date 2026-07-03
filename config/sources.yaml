@@ -1,0 +1,27 @@
+# Edge Engine — data sources, endpoints, rate limits (spec §2)
+
+odds_api:                       # The Odds API — primary market source (spec §2.1)
+  base_url: https://api.the-odds-api.com/v4
+  api_key_env: ODDS_API_KEY     # never commit the key; set in .env or repo secrets
+  regions: [us, us_dfs, eu]     # eu -> pinnacle (sharp anchor); us_dfs -> prizepicks/underdog
+  odds_format: american
+  monthly_request_budget: 500   # free tier — usage headers logged to api_usage table
+  max_prop_events_per_pull: 8   # props cost 1 request per event; keep within budget
+  featured_markets: [h2h, spreads, totals]
+  prop_markets:
+    baseball_mlb: [pitcher_strikeouts, batter_hits, batter_total_bases, batter_home_runs]
+    basketball_nba: [player_points, player_rebounds, player_assists, player_threes, player_points_rebounds_assists]
+    americanfootball_nfl: [player_pass_yds, player_rush_yds, player_reception_yds, player_receptions, player_anytime_td]
+    soccer_fifa_world_cup: [player_shots, player_shots_on_target, player_goal_scorer_anytime]
+
+stats:                          # per-sport truth sources (Phase 2+, spec §2.2)
+  mlb:    {base_url: https://statsapi.mlb.com/api/v1, auth: none}
+  nba:    {provider: nba_api, fallback: balldontlie}
+  nfl:    {provider: nfl_data_py}
+  soccer: {base_url: https://api.football-data.org/v4, api_key_env: FOOTBALL_DATA_API_KEY, scrape: [fbref, understat]}
+  weather: {base_url: https://api.open-meteo.com/v1, auth: none}
+
+http:
+  timeout_seconds: 20
+  max_retries: 3
+  backoff_base_seconds: 2

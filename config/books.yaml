@@ -1,0 +1,15 @@
+# Edge Engine — sportsbooks / DFS apps tracked (spec §2.1)
+# role: sharp  -> de-vig anchor for fair prob (model disagreement w/ sharp cuts confidence)
+#       soft   -> retail books we line-shop and bet into
+#       dfs    -> pick'em apps; projections lag sharp books — that lag IS the edge
+
+books:
+  pinnacle:       {key: pinnacle,       role: sharp, region: eu}
+  draftkings:     {key: draftkings,     role: soft,  region: us}
+  fanduel:        {key: fanduel,        role: soft,  region: us}
+  betmgm:         {key: betmgm,         role: soft,  region: us}
+  caesars:        {key: williamhill_us, role: soft,  region: us}
+  prizepicks:     {key: prizepicks,     role: dfs,   region: us_dfs, payout_model: pick_em}
+  underdog:       {key: underdog,       role: dfs,   region: us_dfs, payout_model: pick_em}
+
+closing_line_book: pinnacle   # CLV graded against sharp close (fallback: de-vigged consensus)

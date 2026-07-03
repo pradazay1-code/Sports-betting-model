@@ -1,0 +1,23 @@
+# Edge Engine — cloud automation template (spec §7).
+# BUILD PHASE 3 — copy into .github/workflows/ when the daily pipeline exists.
+# Secrets (ODDS_API_KEY, DISCORD_WEBHOOK_URL) go in repo secrets, never committed.
+name: edge-engine-daily
+on:
+  schedule:
+    - cron: "0 13 * * *"   # 9:00 ET — overnight pull + first scan
+    - cron: "30 15 * * *"  # 11:30 ET — MLB lineups rerun
+    - cron: "0 7 * * *"    # 3:00 ET — grade yesterday, closing lines, CLV
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt
+      - run: python -m src.run_daily
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}

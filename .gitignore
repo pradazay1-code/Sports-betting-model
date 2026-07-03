@@ -8,9 +8,14 @@ venv/
 .DS_Store
 .idea/
 .vscode/
-.ipynb_checkpoints/
-# Keep data/ and models/ tracked so GH Actions can commit updates.
-# Ignore only transient files inside them:
-data/*.tmp
-data/*.lock
-models/*.tmp
+
+# runtime data — the ledger and raw pulls stay local
+data/db.sqlite
+data/db.sqlite-wal
+data/db.sqlite-shm
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+reports/
+logs/

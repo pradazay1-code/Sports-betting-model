@@ -1,0 +1,40 @@
+# Edge Engine — global settings (spec §0, §5, §9)
+
+bankroll:
+  starting: 1000.0          # USD
+  kelly_fraction: 0.25      # quarter Kelly (spec §0.5, §5)
+  max_pct_per_play: 0.02    # hard cap: 2% of bankroll per play
+  max_pct_per_day: 0.06     # hard cap: 6% daily exposure
+  drawdown_stop_pct: 0.15   # -15% drawdown -> track-only mode 7 days + calibration audit
+
+edges:
+  min_ev_props: 0.04        # 4% EV minimum to surface a prop pick
+  min_ev_main_markets: 0.03 # 3% EV minimum for spreads/totals/moneylines
+  research_gate_ev: 0.06    # EV > 6% requires deep-research pass before MAX confidence
+
+tiers:                      # confidence tiers (spec §5)
+  A: {min_ev: 0.07, stake_multiplier: 1.0, requires_research: true, requires_confirmed_lineup: true, min_sample_games: 15}
+  B: {min_ev: 0.05, stake_multiplier: 0.6, requires_research: true}
+  C: {min_ev: 0.04, stake_multiplier: 0.3, track_only_ok: true}
+
+paper_mode:
+  enabled: true             # mandatory gate (spec §9)
+  min_tracked_picks: 200    # picks with positive CLV required before real-money sizing displays
+  stake_display_suffix: "units (paper)"
+
+staleness_max:              # data-freshness assertions (spec §10) — seconds
+  odds: 1800                # 30 min
+  injuries: 10800           # 3 hr
+  stats: 86400              # 24 hr
+
+sports:
+  mlb:    {enabled: true,  odds_key: baseball_mlb}
+  nba:    {enabled: true,  odds_key: basketball_nba}
+  nfl:    {enabled: true,  odds_key: americanfootball_nfl}
+  soccer: {enabled: true,  odds_key: soccer_fifa_world_cup, extra_keys: [soccer_epl, soccer_uefa_champs_league]}
+
+paths:
+  db: data/db.sqlite
+  raw: data/raw
+  processed: data/processed
+  reports: reports

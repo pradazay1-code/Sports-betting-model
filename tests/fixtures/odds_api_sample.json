@@ -1,0 +1,99 @@
+[
+  {
+    "id": "e912f18a2c3b4d5e6f708192a3b4c5d6",
+    "sport_key": "baseball_mlb",
+    "sport_title": "MLB",
+    "commence_time": "2026-07-03T23:05:00Z",
+    "home_team": "New York Yankees",
+    "away_team": "Boston Red Sox",
+    "bookmakers": [
+      {
+        "key": "draftkings",
+        "title": "DraftKings",
+        "last_update": "2026-07-03T14:00:11Z",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2026-07-03T14:00:11Z",
+            "outcomes": [
+              {"name": "New York Yankees", "price": -150},
+              {"name": "Boston Red Sox", "price": 130}
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2026-07-03T14:00:11Z",
+            "outcomes": [
+              {"name": "Over", "price": -110, "point": 8.5},
+              {"name": "Under", "price": -110, "point": 8.5}
+            ]
+          }
+        ]
+      },
+      {
+        "key": "fanduel",
+        "title": "FanDuel",
+        "last_update": "2026-07-03T14:00:08Z",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2026-07-03T14:00:08Z",
+            "outcomes": [
+              {"name": "New York Yankees", "price": -148},
+              {"name": "Boston Red Sox", "price": 126}
+            ]
+          },
+          {
+            "key": "pitcher_strikeouts",
+            "last_update": "2026-07-03T14:00:08Z",
+            "outcomes": [
+              {"name": "Over", "description": "Gerrit Cole", "price": -115, "point": 6.5},
+              {"name": "Under", "description": "Gerrit Cole", "price": -105, "point": 6.5}
+            ]
+          }
+        ]
+      },
+      {
+        "key": "pinnacle",
+        "title": "Pinnacle",
+        "last_update": "2026-07-03T14:00:02Z",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2026-07-03T14:00:02Z",
+            "outcomes": [
+              {"name": "New York Yankees", "price": -155},
+              {"name": "Boston Red Sox", "price": 138}
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "f00dcafe11223344556677889900aabb",
+    "sport_key": "soccer_fifa_world_cup",
+    "sport_title": "FIFA World Cup",
+    "commence_time": "2026-07-04T19:00:00Z",
+    "home_team": "France",
+    "away_team": "Brazil",
+    "bookmakers": [
+      {
+        "key": "draftkings",
+        "title": "DraftKings",
+        "last_update": "2026-07-03T14:00:10Z",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2026-07-03T14:00:10Z",
+            "outcomes": [
+              {"name": "France", "price": 165},
+              {"name": "Brazil", "price": 175},
+              {"name": "Draw", "price": 220}
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
