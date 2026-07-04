@@ -72,6 +72,8 @@ def validate_slip(legs: list[Leg]) -> tuple[bool, list[str]]:
             return False, [f"{n} legs from game {event_id[:8]} (max {MAX_LEGS_PER_GAME})"]
     for i, a in enumerate(legs):
         for b in legs[i + 1:]:
+            if a.player and a.player == b.player and a.market == b.market:
+                return False, [f"duplicate leg: {a.player} {a.market} twice in one slip"]
             rho = leg_correlation(a, b)
             if rho <= NEGATIVE_BLOCK:
                 return False, [f"negatively correlated: {a.player or a.market} x "
@@ -127,9 +129,16 @@ def build_slips(edges: list, max_slips: int = 3) -> list[dict]:
     Slip EV = combined prob x payout - 1; only slips beating the breakeven
     (1/payout) with margin are returned, best first.
     """
-    legs = [Leg(event_id=e.event_id, market=e.market, player=e.player,
-                side=e.side, line=e.line, model_prob=e.model_prob)
-            for e in edges if e.surface and e.player]
+    legs, taken = [], set()
+    for e in edges:
+        if not (e.surface and e.player):
+            continue
+        key = (e.event_id, e.market, e.player, e.side)
+        if key in taken:
+            continue
+        taken.add(key)
+        legs.append(Leg(event_id=e.event_id, market=e.market, player=e.player,
+                        side=e.side, line=e.line, model_prob=e.model_prob))
     slips = []
     payout = PAYOUTS[2]
     for i, a in enumerate(legs):

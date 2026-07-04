@@ -176,11 +176,24 @@ def evaluate(conn, sport: str, event_id: str, market: str, player: str | None,
 
 
 def scan(conn, candidates: list[dict]) -> list[Edge]:
-    """Evaluate candidates (dicts with evaluate() kwargs); best EV first."""
-    edges = []
+    """Evaluate candidates (dicts with evaluate() kwargs); best EV first.
+
+    Keys starting with '_' are carried onto the Edge as metadata (e.g.
+    '_inputs' for the honesty layer) — attached HERE, per candidate, so
+    re-sorting can never misattribute one pitcher's inputs to another.
+    Duplicate candidates (doubleheaders, repeated pulls) collapse to the
+    best-EV instance of each (event, market, player, side, line).
+    """
+    best: dict[tuple, Edge] = {}
     for cand in candidates:
-        edge = evaluate(conn, **cand)
-        if edge:
-            edges.append(edge)
-    edges.sort(key=lambda e: e.ev, reverse=True)
+        meta = {k: v for k, v in cand.items() if k.startswith("_")}
+        edge = evaluate(conn, **{k: v for k, v in cand.items() if not k.startswith("_")})
+        if edge is None:
+            continue
+        if meta.get("_inputs"):
+            edge.inputs["_inputs"] = meta["_inputs"]
+        key = (edge.event_id, edge.market, edge.player, edge.side, edge.line)
+        if key not in best or edge.ev > best[key].ev:
+            best[key] = edge
+    edges = sorted(best.values(), key=lambda e: e.ev, reverse=True)
     return edges

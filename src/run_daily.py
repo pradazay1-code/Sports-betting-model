@@ -31,11 +31,15 @@ def mlb_candidates(conn, day: str) -> list[dict]:
     """K-prop candidates: every projected starter x every K line side."""
     season = int(day[:4])
     candidates = []
+    seen: set[tuple] = set()   # doubleheaders map two games to one odds event
     for game in mlb.todays_games(conn, day):
         event_id = match_odds_event(conn, game["home_team"], game["away_team"])
         if not event_id:
             continue
         for proj in mlb_model.project_game_strikeouts(conn, game, season):
+            if (event_id, proj.player_name) in seen:
+                continue
+            seen.add((event_id, proj.player_name))
             lines = conn.execute(
                 """SELECT DISTINCT line FROM line_snapshots
                    WHERE event_id = ? AND market = 'pitcher_strikeouts' AND player = ?""",
@@ -108,12 +112,9 @@ def run(day: str, live: bool, include_props: bool, demo: bool) -> None:
         stats = mlb.pull_day(conn, day)
         print(f"mlb: {stats}")
 
-    # 3+4. model -> value scan
+    # 3+4. model -> value scan (scan attaches _inputs and dedupes)
     candidates = mlb_candidates(conn, day)
-    edges = value_scanner.scan(conn, [
-        {k: v for k, v in c.items() if not k.startswith("_")} for c in candidates])
-    for e, c in zip(edges, candidates):
-        e.inputs["_inputs"] = c.get("_inputs")
+    edges = value_scanner.scan(conn, candidates)
     surfaced = [e for e in edges if e.surface]
     print(f"model: {len(candidates)} candidates -> {len(surfaced)} surfaced edges")
 
