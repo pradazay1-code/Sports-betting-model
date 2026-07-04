@@ -53,7 +53,7 @@ def mlb_candidates(conn, day: str) -> list[dict]:
                     candidates.append({
                         "sport": "baseball_mlb", "event_id": event_id,
                         "market": "pitcher_strikeouts", "player": proj.player_name,
-                        "side": side, "model_prob": prob,
+                        "side": side, "line": line, "model_prob": prob,
                         "sample_games": proj.sample_games,
                         "_inputs": proj.inputs,
                     })
@@ -61,7 +61,15 @@ def mlb_candidates(conn, day: str) -> list[dict]:
 
 
 def write_picks(conn, edges: list, staked: dict[int, tuple[float, bool]] | None = None) -> int:
-    """Persist surfaced edges as pending picks; below-threshold as no_play rows."""
+    """Persist surfaced edges as pending picks; below-threshold as no_play rows.
+
+    Reruns replace the day's ungraded picks instead of stacking duplicates;
+    anything already graded or with a captured closing line is untouched.
+    """
+    conn.execute(
+        """DELETE FROM picks WHERE date(created_at) = date('now')
+           AND status IN ('pending', 'hold_lineup', 'no_play')
+           AND pick_id NOT IN (SELECT pick_id FROM clv_log)""")
     n = 0
     for i, e in enumerate(edges):
         stake, is_paper = (staked or {}).get(i, (0.0, True))

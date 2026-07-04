@@ -263,9 +263,13 @@ def line_movement(conn, hours: float = 24.0, sport: str | None = None,
 
 
 def best_prices(conn, event_id: str, market: str, player: str | None = None,
-                side: str | None = None) -> list[dict]:
-    """Line shopping: latest price per book for a market, best decimal first
-    (spec §2.1 line-shopping module)."""
+                side: str | None = None, line: float | None = None) -> list[dict]:
+    """Line shopping: latest price per book, best decimal first (spec §2.1).
+
+    Pass `line` when the caller's probability was computed for a specific
+    line — a P(under 5.5) must never be priced against an under 4.5 quote.
+    Books quoting a different line for the same market are excluded.
+    """
     params: list = [event_id, market]
     extra = ""
     if player:
@@ -274,13 +278,16 @@ def best_prices(conn, event_id: str, market: str, player: str | None = None,
     if side:
         extra += " AND side = ?"
         params.append(side)
+    if line is not None:
+        extra += " AND line = ?"
+        params.append(line)
     rows = conn.execute(
         f"""
         SELECT book, player, side, line, odds_american, odds_decimal, implied_prob,
                MAX(pulled_at) AS pulled_at
         FROM line_snapshots
         WHERE event_id = ? AND market = ? {extra}
-        GROUP BY book, player, side
+        GROUP BY book, player, side, line
         ORDER BY odds_decimal DESC
         """,
         params,

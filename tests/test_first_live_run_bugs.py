@@ -97,3 +97,33 @@ def test_unsupported_market_401_does_not_crash(conn, monkeypatch):
 
     client.session = FakeSession()
     assert client._get(conn, "/sports/soccer/events/e1/odds") is None  # no raise
+
+
+def test_probability_never_priced_against_wrong_line(conn):
+    """Run #3: P(under 5.5) was priced at the under 4.5 quote (better odds,
+    different line) — manufacturing fake +41% EV on alternate-line props."""
+    import json as _json
+    alt = _json.loads(FIXTURE.read_text())[0]
+    # add an alternate K line (7.5) at juicy odds alongside the 6.5 market
+    alt["bookmakers"][1]["markets"].append({
+        "key": "pitcher_strikeouts",
+        "outcomes": [
+            {"name": "Under", "description": "Gerrit Cole", "price": 150, "point": 7.5},
+            {"name": "Over", "description": "Gerrit Cole", "price": -190, "point": 7.5},
+        ]})
+    odds.ingest_payload(conn, [alt], pulled_at="2026-07-03T15:00:00Z")
+
+    # probability computed FOR the 6.5 line must only see 6.5 prices
+    edge = vs.evaluate(conn, "baseball_mlb", EVENT, "pitcher_strikeouts",
+                       "Gerrit Cole", "under", model_prob=0.55, sample_games=6,
+                       line=6.5)
+    assert edge.line == 6.5
+    assert edge.odds_american == -105          # the 6.5 quote, not the +150 at 7.5
+
+    edge75 = vs.evaluate(conn, "baseball_mlb", EVENT, "pitcher_strikeouts",
+                         "Gerrit Cole", "under", model_prob=0.70, sample_games=6,
+                         line=7.5)
+    assert edge75.line == 7.5
+    assert edge75.odds_american == 150
+    # fair prob de-vigged from the 7.5 pair only: 1/2.5 vs 1/1.5263 -> ~0.379
+    assert edge75.fair_prob == pytest.approx(0.379, abs=0.01)

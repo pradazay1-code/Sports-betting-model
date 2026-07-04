@@ -50,31 +50,32 @@ class Edge:
     all_prices: list[dict] = field(default_factory=list)
 
 
-def _latest_two_way(conn, event_id: str, market: str, player: str | None):
-    """Latest over/under pair per book at each book's current line."""
-    rows = odds.best_prices(conn, event_id, market, player=player)
-    by_book: dict[str, dict[str, dict]] = {}
+def _latest_two_way(conn, event_id: str, market: str, player: str | None,
+                    line: float | None = None):
+    """Latest over/under pair per (book, line) — de-vig only same-line pairs."""
+    rows = odds.best_prices(conn, event_id, market, player=player, line=line)
+    by_key: dict[tuple, dict[str, dict]] = {}
     for r in rows:
         if r["side"] in ("over", "under"):
-            by_book.setdefault(r["book"], {})[r["side"]] = r
-    return {b: s for b, s in by_book.items() if {"over", "under"} <= set(s)}
+            by_key.setdefault((r["book"], r["line"]), {})[r["side"]] = r
+    return {k: s for k, s in by_key.items() if {"over", "under"} <= set(s)}
 
 
 def market_fair_prob(conn, event_id: str, market: str, player: str | None,
-                     side: str) -> tuple[float | None, float | None]:
-    """(consensus fair prob, sharp-book fair prob) for one side.
+                     side: str, line: float | None = None) -> tuple[float | None, float | None]:
+    """(consensus fair prob, sharp-book fair prob) for one side at one line.
 
     Sharp book (books.yaml role) gets double weight in the consensus.
     """
     book_cfg = config.books()["books"]
     roles = {v["key"]: v["role"] for v in book_cfg.values()}
-    pairs = _latest_two_way(conn, event_id, market, player)
+    pairs = _latest_two_way(conn, event_id, market, player, line)
     if not pairs:
         return None, None
     total_w = 0.0
     acc = 0.0
     sharp_fair = None
-    for book, sides in pairs.items():
+    for (book, _line), sides in pairs.items():
         p_over, p_under = devig_two_way(sides["over"]["odds_decimal"],
                                         sides["under"]["odds_decimal"])
         fair = p_over if side == "over" else p_under
@@ -116,10 +117,15 @@ def _category_suspended(conn, sport: str, market: str) -> bool:
 
 def evaluate(conn, sport: str, event_id: str, market: str, player: str | None,
              side: str, model_prob: float, sample_games: int = 0,
-             is_prop: bool = True) -> Edge | None:
-    """Score one model probability against the market. None = no line found."""
+             is_prop: bool = True, line: float | None = None) -> Edge | None:
+    """Score one model probability against the market. None = no line found.
+
+    `line` MUST be passed for any probability computed at a specific line —
+    otherwise alternate lines would be priced against the wrong probability.
+    """
     settings = config.settings()
-    prices = [p for p in odds.best_prices(conn, event_id, market, player=player, side=side)]
+    prices = [p for p in odds.best_prices(conn, event_id, market, player=player,
+                                          side=side, line=line)]
     if not prices:
         return None
 
@@ -128,7 +134,7 @@ def evaluate(conn, sport: str, event_id: str, market: str, player: str | None,
     factor = _calibration_factor(conn, sport, market)
     model_prob = shrink_probability(model_prob, factor)
     best = prices[0]  # best decimal first
-    fair, sharp_fair = market_fair_prob(conn, event_id, market, player, side)
+    fair, sharp_fair = market_fair_prob(conn, event_id, market, player, side, line)
     if fair is None:
         fair = best["implied_prob"]  # one-sided market: fall back to implied
 
