@@ -72,3 +72,28 @@ def test_build_slips_dedupes_edge_list():
     for s in slips:
         players = [(l.player, l.market) for l in s["legs"]]
         assert len(players) == len(set(players)), "same player+market paired with itself"
+
+
+def test_unsupported_market_401_does_not_crash(conn, monkeypatch):
+    """Run #2 died on a 401 for WC player props (not in the free plan)."""
+    monkeypatch.setenv("ODDS_API_KEY", "test-key")
+
+    class FakeResp:
+        status_code = 401
+        headers = {}
+
+        def json(self):
+            return {}
+
+    from src.ingest.odds import OddsAPIClient
+    client = OddsAPIClient.__new__(OddsAPIClient)
+    client.base_url, client.timeout = "https://x", 1
+    client.max_retries, client.backoff = 1, 0
+    client.api_key = "test-key"
+
+    class FakeSession:
+        def get(self, *a, **k):
+            return FakeResp()
+
+    client.session = FakeSession()
+    assert client._get(conn, "/sports/soccer/events/e1/odds") is None  # no raise

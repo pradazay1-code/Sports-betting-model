@@ -156,7 +156,10 @@ class OddsAPIClient:
             if resp.status_code in (429, 500, 502, 503):
                 time.sleep(self.backoff * 2 ** attempt)
                 continue
-            resp.raise_for_status()
+            # 401/402/404/422: plan doesn't cover this market/endpoint —
+            # skip it, never kill the whole run over one market
+            print(f"  odds api {resp.status_code} for {path} — skipped")
+            return None
         return None
 
     def _cache_raw(self, payload, sport_key: str, label: str, pulled_at: str) -> str:
