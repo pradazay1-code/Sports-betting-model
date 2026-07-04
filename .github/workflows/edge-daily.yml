@@ -10,6 +10,8 @@ on:
     - cron: "0 7 * * *"     # 3:00 ET  — grade yesterday, closing lines, CLV
     - cron: "0 12 * * 1"    # Monday   — weekly review: CLV audit, calibration
   workflow_dispatch:
+  push:                      # on-demand runs: any push to the engine branch
+    branches: [claude/system-build-phase-1-vq7ogi]
 
 permissions:
   contents: write
@@ -20,6 +22,8 @@ concurrency:
 
 jobs:
   run:
+    # the persist step commits back with an 'auto:' message — never re-trigger on it
+    if: github.event_name != 'push' || !contains(github.event.head_commit.message, 'auto:')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
