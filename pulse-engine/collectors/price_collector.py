@@ -58,7 +58,6 @@ class PriceCollector:
     def __init__(self, cache: LatestCache | None = None):
         self.cache = cache or LatestCache()
         self._stop = asyncio.Event()
-        self._last_msg = 0.0
 
     # ------------------------------------------------------------ binance --
 
@@ -74,13 +73,21 @@ class PriceCollector:
                 return a
         return None
 
+    async def _recv(self, ws) -> str | bytes:
+        """Receive with a staleness timeout so a silent-but-open socket is
+        treated as dead and the reconnect loop takes over."""
+        try:
+            return await asyncio.wait_for(ws.recv(), timeout=_STALE_AFTER)
+        except asyncio.TimeoutError:
+            raise RuntimeError(f"no ws messages for {_STALE_AFTER}s") from None
+
     async def _run_binance(self, host_key: str) -> None:
         url = self._binance_url(host_key)
         async with websockets.connect(url, ping_interval=20, ping_timeout=20) as ws:
             self.cache.source, self.cache.connected = host_key, True
             log.info("connected to %s kline stream", host_key)
-            async for raw in ws:
-                self._last_msg = time.time()
+            while not self._stop.is_set():
+                raw = await self._recv(ws)
                 msg = json.loads(raw)
                 k = msg.get("data", {}).get("k")
                 if not k:
@@ -96,8 +103,6 @@ class PriceCollector:
                         "low": float(k["l"]), "close": float(k["c"]),
                         "volume": float(k["v"]), "source": host_key,
                     }])
-                if self._stop.is_set():
-                    return
 
     # ----------------------------------------------------------- coinbase --
 
@@ -121,30 +126,30 @@ class PriceCollector:
             await ws.send(json.dumps(sub))
             self.cache.source, self.cache.connected = "coinbase", True
             log.info("connected to coinbase matches feed")
-            async for raw in ws:
-                self._last_msg = time.time()
-                msg = json.loads(raw)
-                if msg.get("type") != "match":
-                    continue
-                asset = asset_by_product.get(msg.get("product_id", ""))
-                if not asset:
-                    continue
-                price, size = float(msg["price"]), float(msg["size"])
-                self.cache.update(asset, price)
-                minute = int(time.time()) // 60 * 60
-                b = building.get(asset)
-                if b is None or b[0] != minute:
-                    flush(asset)
-                    building[asset] = [minute, price, price, price, price, size]
-                else:
-                    b[2] = max(b[2], price)
-                    b[3] = min(b[3], price)
-                    b[4] = price
-                    b[5] += size
-                if self._stop.is_set():
-                    for a in list(building):
-                        flush(a)
-                    return
+            try:
+                while not self._stop.is_set():
+                    raw = await self._recv(ws)
+                    msg = json.loads(raw)
+                    if msg.get("type") != "match":
+                        continue
+                    asset = asset_by_product.get(msg.get("product_id", ""))
+                    if not asset:
+                        continue
+                    price, size = float(msg["price"]), float(msg["size"])
+                    self.cache.update(asset, price)
+                    minute = int(time.time()) // 60 * 60
+                    b = building.get(asset)
+                    if b is None or b[0] != minute:
+                        flush(asset)
+                        building[asset] = [minute, price, price, price, price, size]
+                    else:
+                        b[2] = max(b[2], price)
+                        b[3] = min(b[3], price)
+                        b[4] = price
+                        b[5] += size
+            finally:
+                for a in list(building):
+                    flush(a)
 
     # ---------------------------------------------------------- gap fill ---
 
@@ -177,14 +182,10 @@ class PriceCollector:
                     return
                 try:
                     await asyncio.to_thread(self._gap_fill)
-                    self._last_msg = time.time()
-                    runner = (self._run_coinbase() if src == "coinbase"
-                              else self._run_binance(src))
-                    watchdog = asyncio.create_task(self._watchdog())
-                    try:
-                        await runner
-                    finally:
-                        watchdog.cancel()
+                    if src == "coinbase":
+                        await self._run_coinbase()
+                    else:
+                        await self._run_binance(src)
                     backoff = 1.0
                 except asyncio.CancelledError:
                     raise
@@ -193,13 +194,6 @@ class PriceCollector:
                     log.warning("%s stream dropped (%s); retry in %.0fs", src, e, backoff)
                     await asyncio.sleep(backoff)
                     backoff = min(backoff * 2, 60)
-
-    async def _watchdog(self) -> None:
-        while True:
-            await asyncio.sleep(10)
-            if self._last_msg and time.time() - self._last_msg > _STALE_AFTER:
-                log.warning("no ws messages for %ds — forcing reconnect", _STALE_AFTER)
-                raise RuntimeError("stale websocket")
 
     def stop(self) -> None:
         self._stop.set()

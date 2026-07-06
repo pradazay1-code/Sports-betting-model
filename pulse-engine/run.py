@@ -63,24 +63,26 @@ async def main(serve_web: bool = True) -> None:
     ]
 
     # Scheduler: all times UTC; window boundaries align to quarter hours in
-    # UTC and ET alike, so minute marks are exact year-round.
+    # UTC and ET alike, so minute marks are exact year-round. Jobs are plain
+    # sync callables — AsyncIOScheduler runs them in its thread executor, so
+    # the event loop (collectors, dashboard) is never blocked.
     sched = AsyncIOScheduler(timezone="UTC")
     pred_min = ",".join(str((m + config.PREDICTION_DELAY_SECONDS // 60) % 60)
                         for m in (0, 15, 30, 45))
     pred_sec = config.PREDICTION_DELAY_SECONDS % 60
-    sched.add_job(lambda: asyncio.to_thread(predictor.run_window),
+    sched.add_job(predictor.run_window,
                   CronTrigger(minute=pred_min, second=pred_sec),
                   name="predict", misfire_grace_time=120)
-    sched.add_job(lambda: asyncio.to_thread(grade_pending),
+    sched.add_job(grade_pending,
                   CronTrigger(minute="0,15,30,45", second=config.GRADE_DELAY_SECONDS),
                   name="grade", misfire_grace_time=300)
-    sched.add_job(lambda: asyncio.to_thread(adapt_threshold),
+    sched.add_job(adapt_threshold,
                   CronTrigger(minute="7,22,37,52"), name="adapt-threshold",
                   misfire_grace_time=300)
-    sched.add_job(lambda: asyncio.to_thread(error_analysis),
+    sched.add_job(error_analysis,
                   CronTrigger(hour=10, minute=5), name="error-analysis",  # ~6am ET
                   misfire_grace_time=3600)
-    sched.add_job(lambda: asyncio.to_thread(maybe_retrain),
+    sched.add_job(maybe_retrain,
                   CronTrigger(minute=11), name="retrain-check",
                   misfire_grace_time=600)
     sched.start()
