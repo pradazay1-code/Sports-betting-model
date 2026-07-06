@@ -161,6 +161,11 @@ async function refreshState(){
     const p=d.prediction, chg=d.open_to_now;
     const pk=p&&p.pick?p.pick:"—";
     const pkCls=pk==="UP"?"UP":pk==="DOWN"?"DOWN":"NOPLAY";
+    let lean="";
+    if(p&&p.prob_up!=null&&pk==="NO PLAY")
+      lean=p.prob_up>=0.5
+        ?`model leans <b class="pos">UP</b> ${pct(p.prob_up)} — no edge after fees`
+        :`model leans <b class="neg">DOWN</b> ${pct(1-p.prob_up)} — no edge after fees`;
     const staleBadge=d.stale?`<span class="badge stale">STALE DATA</span>`:"";
     const noMkt=d.kalshi.no_market?`<span class="badge">no Kalshi market</span>`:"";
     card.innerHTML=`
@@ -170,7 +175,7 @@ async function refreshState(){
         &nbsp; open→now ${chg==null?"—":(chg>=0?"+":"")+(100*chg).toFixed(3)+"%"}</div>
       <canvas class="spark"></canvas>
       <div class="call"><span class="pick ${pkCls}">${pk==="NO PLAY"?"NO PLAY":pk}</span>
-        <span class="mini">${p&&p.status&&p.status!=="ok"?p.status:(p&&p.reasons&&p.reasons[0])||""}</span></div>
+        <span class="mini">${lean||(p&&p.status&&p.status!=="ok"?p.status:(p&&p.reasons&&p.reasons[0])||"")}</span></div>
       <div class="kv">
         <span>model P(up)</span><b>${p?pct(p.prob_up):"—"}</b>
         <span>Kalshi implied</span><b>${d.kalshi.implied_up!=null?pct(d.kalshi.implied_up):"—"}

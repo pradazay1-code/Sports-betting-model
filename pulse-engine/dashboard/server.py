@@ -76,6 +76,12 @@ def create_app(runtime: Runtime | None = None) -> FastAPI:
             pred = (rt.predictor.last_run.get(asset) if rt.predictor else None) or {}
             if pred.get("window_start") != wstart:
                 pred = {}
+            if not pred:  # e.g. dashboard restarted mid-window — recover from DB
+                row = storage.prediction_for(asset, wstart)
+                if row:
+                    pred = {"pick": row["pick"], "prob_up": row["prob_up"],
+                            "implied_up": None, "edge": row["edge"],
+                            "status": "ok", "reasons": []}
             assets[asset] = {
                 "price": price,
                 "tick_age_s": round(now - tick.ts, 1) if tick else None,

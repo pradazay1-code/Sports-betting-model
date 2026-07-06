@@ -258,6 +258,13 @@ def insert_prediction(row: dict[str, Any]) -> int | None:
         return res.inserted_primary_key[0] if res.rowcount else None
 
 
+def prediction_for(asset: str, window_start: int) -> dict | None:
+    q = "SELECT * FROM predictions WHERE asset=:a AND window_start=:w"
+    with get_engine().connect() as conn:
+        row = conn.execute(text(q), {"a": asset, "w": int(window_start)}).mappings().first()
+    return dict(row) if row else None
+
+
 def unresolved_predictions(before_close_ts: int) -> list[dict]:
     q = ("SELECT p.* FROM predictions p LEFT JOIN outcomes o ON o.prediction_id=p.id "
          "WHERE o.prediction_id IS NULL AND p.window_close<=:t ORDER BY p.window_close")
