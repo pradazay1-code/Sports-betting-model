@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pulse Engine — Kalshi 15-min Crypto</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text y='13' font-size='13'>⚡</text></svg>">
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2129; --line:#2d333b;
+    --text:#e6edf3; --dim:#8b949e; --up:#3fb950; --down:#f85149;
+    --noplay:#8b949e; --accent:#58a6ff; --warn:#d29922;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font:14px/1.45 -apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;padding:16px;max-width:1400px;margin:0 auto}
+  h1{font-size:18px;letter-spacing:.5px}
+  h2{font-size:13px;text-transform:uppercase;letter-spacing:1px;color:var(--dim);margin-bottom:10px}
+  header{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin-bottom:12px}
+  .lights{display:flex;gap:14px;font-size:12px;color:var(--dim)}
+  .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;background:#555}
+  .dot.ok{background:var(--up)} .dot.warn{background:var(--warn)} .dot.down{background:var(--down)}
+  .clock{font-variant-numeric:tabular-nums;font-size:13px;color:var(--dim)}
+  .countdown{font-size:20px;font-weight:700;font-variant-numeric:tabular-nums}
+  .note{background:#1c2129;border:1px solid var(--line);border-left:3px solid var(--warn);border-radius:8px;padding:8px 12px;font-size:12px;color:var(--dim);margin-bottom:12px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;margin-bottom:12px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px}
+  .card .top{display:flex;justify-content:space-between;align-items:baseline}
+  .sym{font-size:16px;font-weight:700}
+  .px{font-size:20px;font-weight:700;font-variant-numeric:tabular-nums}
+  .chg{font-size:12px;font-variant-numeric:tabular-nums}
+  .pos{color:var(--up)} .neg{color:var(--down)}
+  canvas.spark{width:100%;height:44px;margin:8px 0}
+  .call{display:flex;align-items:center;gap:10px;margin:6px 0}
+  .pick{font-weight:800;font-size:15px;padding:3px 10px;border-radius:6px}
+  .pick.UP{background:rgba(63,185,80,.15);color:var(--up)}
+  .pick.DOWN{background:rgba(248,81,73,.15);color:var(--down)}
+  .pick.NOPLAY{background:rgba(139,148,158,.12);color:var(--noplay)}
+  .kv{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;font-size:12px;color:var(--dim)}
+  .kv b{color:var(--text);font-weight:600;font-variant-numeric:tabular-nums}
+  .badge{font-size:10px;padding:2px 6px;border-radius:4px;background:var(--panel2);color:var(--dim);border:1px solid var(--line)}
+  .badge.stale{color:var(--warn);border-color:var(--warn)}
+  .cols{display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-bottom:12px}
+  @media(max-width:900px){.cols{grid-template-columns:1fr}}
+  table{width:100%;border-collapse:collapse;font-size:12px}
+  th{color:var(--dim);text-align:left;font-weight:600;padding:5px 8px;border-bottom:1px solid var(--line)}
+  td{padding:5px 8px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+  tr:last-child td{border-bottom:none}
+  canvas.big{width:100%;height:150px}
+  .mini{font-size:11px;color:var(--dim)}
+  select{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:6px;padding:3px 8px;font-size:12px}
+  .newsline{padding:6px 0;border-bottom:1px solid var(--line);font-size:12px}
+  .newsline:last-child{border-bottom:none}
+  .sent{display:inline-block;min-width:36px;text-align:center;border-radius:4px;font-size:10px;padding:1px 5px;margin-right:6px}
+  .sent.p{background:rgba(63,185,80,.15);color:var(--up)}
+  .sent.n{background:rgba(248,81,73,.15);color:var(--down)}
+  .sent.z{background:var(--panel2);color:var(--dim)}
+  ul.findings{list-style:none;font-size:12px}
+  ul.findings li{padding:4px 0;border-bottom:1px solid var(--line);color:var(--dim)}
+  a{color:var(--accent);text-decoration:none}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>⚡ Pulse Engine <span class="mini">Kalshi 15-min crypto — research &amp; paper trading only</span></h1>
+    <div class="lights" id="lights"></div>
+  </div>
+  <div style="text-align:right">
+    <div class="clock" id="etclock">—</div>
+    <div>window <b id="wlabel">—</b> closes in <span class="countdown" id="countdown">—</span></div>
+  </div>
+</header>
+
+<div class="note" id="realitynote">Loading…</div>
+
+<div class="grid" id="assets"></div>
+
+<div class="cols">
+  <div class="card">
+    <h2>Performance</h2>
+    <table id="perftable"></table>
+    <div style="margin-top:10px"><span class="mini">Paper P&amp;L (fees included, <span id="lots">100</span>-contract lots)</span>
+    <canvas class="big" id="pnlchart"></canvas></div>
+    <div style="margin-top:6px"><span class="mini">Calibration — predicted vs realized UP rate (30d)</span>
+    <canvas class="big" id="calchart" style="height:110px"></canvas></div>
+  </div>
+  <div>
+    <div class="card" style="margin-bottom:12px">
+      <h2>Learning</h2>
+      <div class="kv" id="learnkv"></div>
+      <ul class="findings" id="findings"></ul>
+    </div>
+    <div class="card">
+      <h2>News</h2>
+      <div id="news"></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>History — last 50 predictions
+    <select id="assetfilter" style="float:right">
+      <option value="">all assets</option>
+      <option>BTC</option><option>ETH</option><option>XRP</option><option>SOL</option>
+    </select>
+  </h2>
+  <div style="overflow-x:auto"><table id="histtable"></table></div>
+</div>
+
+<script>
+"use strict";
+const $=id=>document.getElementById(id);
+const fmt=(v,d=2)=>v==null?"—":Number(v).toFixed(d);
+const pct=(v,d=1)=>v==null?"—":(100*v).toFixed(d)+"%";
+let closeAt=null;
+
+/* ---------- tiny canvas charts (self-contained, no CDN) ---------- */
+function prep(cv){const r=cv.getBoundingClientRect(),s=devicePixelRatio||1;
+  cv.width=r.width*s;cv.height=r.height*s;const g=cv.getContext("2d");
+  g.setTransform(s,0,0,s,0,0);g.clearRect(0,0,r.width,r.height);return[g,r.width,r.height];}
+function sparkline(cv,data,up){const[g,w,h]=prep(cv);if(!data||data.length<2)return;
+  const mn=Math.min(...data),mx=Math.max(...data),rg=(mx-mn)||1;
+  g.beginPath();data.forEach((v,i)=>{const x=i/(data.length-1)*w,y=h-4-((v-mn)/rg)*(h-8);
+    i?g.lineTo(x,y):g.moveTo(x,y);});
+  g.strokeStyle=up?"#3fb950":"#f85149";g.lineWidth=1.5;g.stroke();}
+function linechart(cv,pts){const[g,w,h]=prep(cv);if(!pts||pts.length<2){
+    g.fillStyle="#8b949e";g.font="12px sans-serif";g.fillText("no resolved picks yet",8,h/2);return;}
+  const ys=pts.map(p=>p.pnl),mn=Math.min(0,...ys),mx=Math.max(0,...ys),rg=(mx-mn)||1;
+  const y0=h-6-((0-mn)/rg)*(h-12);
+  g.strokeStyle="#2d333b";g.beginPath();g.moveTo(0,y0);g.lineTo(w,y0);g.stroke();
+  g.beginPath();pts.forEach((p,i)=>{const x=i/(pts.length-1)*w,y=h-6-((p.pnl-mn)/rg)*(h-12);
+    i?g.lineTo(x,y):g.moveTo(x,y);});
+  const last=ys[ys.length-1];g.strokeStyle=last>=0?"#3fb950":"#f85149";g.lineWidth=1.6;g.stroke();
+  g.fillStyle=g.strokeStyle;g.font="11px sans-serif";
+  g.fillText("$"+last.toFixed(2),w-58,Math.max(12,h-10-((last-mn)/rg)*(h-12)));}
+function barchart(cv,buckets){const[g,w,h]=prep(cv);
+  if(!buckets||!buckets.length){g.fillStyle="#8b949e";g.font="12px sans-serif";
+    g.fillText("needs ≥10 graded windows per bucket",8,h/2);return;}
+  const bw=w/buckets.length;
+  buckets.forEach((b,i)=>{const x=i*bw+6;
+    g.fillStyle="#58a6ff55";g.fillRect(x,h-18-(h-30)*b.predicted,(bw-16)/2,(h-30)*b.predicted);
+    g.fillStyle="#3fb950aa";g.fillRect(x+(bw-16)/2+4,h-18-(h-30)*b.actual,(bw-16)/2,(h-30)*b.actual);
+    g.fillStyle="#8b949e";g.font="10px sans-serif";
+    g.fillText(b.range,x,h-6);g.fillText("n="+b.n,x,12);});}
+
+/* ------------------------------ state ------------------------------ */
+function light(name,status){const cls=status==="ok"?"ok":(status==="degraded"?"warn":"down");
+  return `<span><span class="dot ${cls}"></span>${name}: ${status}</span>`;}
+
+async function refreshState(){
+  const s=await (await fetch("/api/state")).json();
+  closeAt=s.window.close; $("etclock").textContent=s.et_time;
+  $("wlabel").textContent=s.window.label;
+  $("realitynote").textContent=s.reality_note;
+  $("lights").innerHTML=[light("prices",s.feeds.prices.status+(s.feeds.prices.source?" ("+s.feeds.prices.source+")":"")),
+    light("kalshi",s.feeds.kalshi.status),light("news",s.feeds.news.status),
+    `<span class="mini">paper only — execution off</span>`].join("");
+  const cont=$("assets");cont.innerHTML="";
+  for(const[a,d]of Object.entries(s.assets)){
+    const card=document.createElement("div");card.className="card";
+    const p=d.prediction, chg=d.open_to_now;
+    const pk=p&&p.pick?p.pick:"—";
+    const pkCls=pk==="UP"?"UP":pk==="DOWN"?"DOWN":"NOPLAY";
+    const staleBadge=d.stale?`<span class="badge stale">STALE DATA</span>`:"";
+    const noMkt=d.kalshi.no_market?`<span class="badge">no Kalshi market</span>`:"";
+    card.innerHTML=`
+      <div class="top"><span class="sym">${a} ${staleBadge} ${noMkt}</span>
+        <span class="px">${d.price?Number(d.price).toLocaleString(undefined,{maximumFractionDigits:d.price>100?2:4}):"—"}</span></div>
+      <div class="chg ${chg>0?"pos":chg<0?"neg":""}">window open ${d.window_open?Number(d.window_open).toLocaleString(undefined,{maximumFractionDigits:d.window_open>100?2:4}):"—"}
+        &nbsp; open→now ${chg==null?"—":(chg>=0?"+":"")+(100*chg).toFixed(3)+"%"}</div>
+      <canvas class="spark"></canvas>
+      <div class="call"><span class="pick ${pkCls}">${pk==="NO PLAY"?"NO PLAY":pk}</span>
+        <span class="mini">${p&&p.status&&p.status!=="ok"?p.status:(p&&p.reasons&&p.reasons[0])||""}</span></div>
+      <div class="kv">
+        <span>model P(up)</span><b>${p?pct(p.prob_up):"—"}</b>
+        <span>Kalshi implied</span><b>${d.kalshi.implied_up!=null?pct(d.kalshi.implied_up):"—"}
+          ${d.kalshi.yes_bid!=null?`<span class="mini">(${d.kalshi.yes_bid}/${d.kalshi.yes_ask}c)</span>`:""}</b>
+        <span>edge</span><b>${p&&p.edge!=null?((p.edge>=0?"+":"")+(100*p.edge).toFixed(1)+" pts"):"—"}</b>
+        <span>ticker</span><b>${d.kalshi.ticker?`<a href="${d.kalshi.url||"#"}" target="_blank">${d.kalshi.ticker}</a>`:"—"}</b>
+      </div>`;
+    cont.appendChild(card);
+    sparkline(card.querySelector("canvas"),d.sparkline,(chg??0)>=0);
+  }
+  const l=s.learning;
+  $("learnkv").innerHTML=`
+    <span>edge buffer</span><b>${(100*l.edge_buffer).toFixed(0)} pts + fee</b>
+    <span>last retrain</span><b>${l.last_retrain?new Date(l.last_retrain*1000).toLocaleString():"never"}</b>
+    ${Object.entries(l.model_versions).map(([a,v])=>`<span>${a} model</span><b>${v}</b>`).join("")}`;
+  $("findings").innerHTML=(l.findings||[]).map(f=>`<li>${f}</li>`).join("")||"<li>no findings yet</li>";
+}
+
+async function refreshPerf(){
+  const p=await (await fetch("/api/performance")).json();
+  $("lots").textContent=p.paper_contracts;
+  const rows=[["","7-day","all-time"],
+    ["windows",p.seven_day.overall.windows,p.all_time.overall.windows],
+    ["picks",p.seven_day.overall.picks,p.all_time.overall.picks],
+    ["NO PLAY rate",pct(p.seven_day.overall.no_play_rate),pct(p.all_time.overall.no_play_rate)],
+    ["pick accuracy",pct(p.seven_day.overall.pick_accuracy),pct(p.all_time.overall.pick_accuracy)],
+    ["Brier",fmt(p.seven_day.overall.brier,4),fmt(p.all_time.overall.brier,4)],
+    ["paper P&L",`$${fmt(p.seven_day.overall.paper_pnl)}`,`$${fmt(p.all_time.overall.paper_pnl)}`]];
+  let html=rows.map((r,i)=>`<tr>${r.map(c=>i?`<td>${c}</td>`:`<th>${c}</th>`).join("")}</tr>`).join("");
+  html+=`<tr><th>by asset</th><th colspan="2">picks · acc · P&L (all-time)</th></tr>`;
+  for(const[a,m]of Object.entries(p.all_time.by_asset))
+    html+=`<tr><td>${a}</td><td colspan="2">${m.picks} · ${pct(m.pick_accuracy)} · $${fmt(m.paper_pnl)}</td></tr>`;
+  $("perftable").innerHTML=html;
+  linechart($("pnlchart"),p.pnl_curve);
+  barchart($("calchart"),p.calibration);
+}
+
+async function refreshNews(){
+  const items=await (await fetch("/api/news")).json();
+  $("news").innerHTML=items.map(n=>{
+    const c=n.sentiment>0.15?"p":n.sentiment<-0.15?"n":"z";
+    const t=new Date(n.ts*1000).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});
+    return `<div class="newsline"><span class="sent ${c}">${n.sentiment>0?"+":""}${fmt(n.sentiment,2)}</span>
+      <span class="mini">${t} · ${n.source} · ${n.assets||"-"}</span><br>
+      ${n.url?`<a href="${n.url}" target="_blank">${n.title}</a>`:n.title}</div>`;
+  }).join("")||"<span class='mini'>no news stored yet</span>";
+}
+
+async function refreshHistory(){
+  const a=$("assetfilter").value;
+  const rows=await (await fetch("/api/history?limit=50"+(a?"&asset="+a:""))).json();
+  let html=`<tr><th>date</th><th>window</th><th>asset</th><th>pick</th><th>P(up)</th>
+    <th>entry</th><th>edge</th><th>actual</th><th>✓/✗</th><th>P&L</th></tr>`;
+  html+=rows.map(r=>`<tr><td>${r.date}</td><td>${r.window}</td><td>${r.asset}</td>
+    <td class="${r.pick==="UP"?"pos":r.pick==="DOWN"?"neg":""}">${r.pick}</td>
+    <td>${pct(r.prob_up)}</td><td>${r.entry!=null?(100*r.entry).toFixed(0)+"c":"—"}</td>
+    <td>${r.edge!=null?(100*r.edge).toFixed(1):"—"}</td><td>${r.actual||"—"}</td>
+    <td>${r.correct==null?"—":r.correct?"✓":"✗"}</td>
+    <td class="${(r.paper_pnl||0)>0?"pos":(r.paper_pnl||0)<0?"neg":""}">${r.paper_pnl!=null?"$"+fmt(r.paper_pnl):"—"}</td></tr>`).join("");
+  $("histtable").innerHTML=html;
+}
+
+function tick(){if(closeAt==null)return;
+  const s=Math.max(0,closeAt-Date.now()/1000);
+  $("countdown").textContent=`${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,"0")}`;}
+
+async function safe(fn){try{await fn();}catch(e){console.warn(fn.name,e);}}
+$("assetfilter").addEventListener("change",()=>safe(refreshHistory));
+safe(refreshState);safe(refreshPerf);safe(refreshNews);safe(refreshHistory);
+setInterval(()=>safe(refreshState),5000);
+setInterval(()=>{safe(refreshPerf);safe(refreshNews);safe(refreshHistory);},20000);
+setInterval(tick,500);
+</script>
+</body>
+</html>

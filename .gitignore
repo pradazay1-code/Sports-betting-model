@@ -14,3 +14,10 @@ venv/
 data/*.tmp
 data/*.lock
 models/*.tmp
+
+# Pulse Engine (pulse-engine/) local artifacts
+pulse-engine/data/*.db
+pulse-engine/data/*.db-*
+pulse-engine/logs/*.log*
+pulse-engine/logs/error_analysis.md
+pulse-engine/models/*.joblib
