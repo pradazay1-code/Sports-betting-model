@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-07-15T01:52:33+00:00",
-  "on_date": "2026-07-14",
+  "generated_at": "2026-07-15T04:47:01+00:00",
+  "on_date": "2026-07-15",
   "sports": [
     "NBA",
     "MLB",
@@ -88,15 +88,6 @@
       "n_losses": 10,
       "n_push": 0,
       "roi_units": 0.9243697478991613
-    },
-    {
-      "on_date": "2026-06-14",
-      "sport": "MLB",
-      "n_picks": 25,
-      "n_wins": 16,
-      "n_losses": 9,
-      "n_push": 0,
-      "roi_units": 4.445378151260506
     }
   ],
   "model_summary": [
