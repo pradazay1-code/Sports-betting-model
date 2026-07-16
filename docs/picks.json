@@ -1,19 +1,21 @@
 {
-  "generated_at": "2026-06-25T16:48:11+00:00",
+  "generated_at": "2026-07-16T13:04:06+00:00",
   "on_date": "2026-06-22",
   "sports": [
     "NBA",
     "MLB",
     "NHL",
     "NFL",
-    "EPL"
+    "EPL",
+    "TEN"
   ],
   "sport_labels": {
     "NBA": "NBA Basketball",
     "MLB": "MLB Baseball",
     "NHL": "NHL Hockey",
     "NFL": "NFL Football",
-    "EPL": "Soccer (EPL + top leagues)"
+    "EPL": "Soccer (EPL + top leagues)",
+    "TEN": "Tennis (ATP / WTA)"
   },
   "picks": [
     {
@@ -51,7 +53,8 @@
       "payout_units": null,
       "recommended_stake_units": 249.45,
       "grade": "A+",
-      "projection": 1.0
+      "projection": 1.0,
+      "hidden_gem": true
     },
     {
       "id": 1777,
@@ -88,7 +91,8 @@
       "payout_units": -1.0,
       "recommended_stake_units": 238.25,
       "grade": "A+",
-      "projection": 1.8
+      "projection": 1.8,
+      "hidden_gem": true
     },
     {
       "id": 1778,
@@ -125,7 +129,8 @@
       "payout_units": -1.0,
       "recommended_stake_units": 249.45,
       "grade": "A+",
-      "projection": 1.8
+      "projection": 1.8,
+      "hidden_gem": true
     },
     {
       "id": 1779,
@@ -162,7 +167,8 @@
       "payout_units": null,
       "recommended_stake_units": 236.69,
       "grade": "A+",
-      "projection": 1.8
+      "projection": 1.8,
+      "hidden_gem": true
     },
     {
       "id": 1780,
@@ -199,7 +205,8 @@
       "payout_units": null,
       "recommended_stake_units": 249.45,
       "grade": "A+",
-      "projection": 1.8
+      "projection": 1.8,
+      "hidden_gem": true
     },
     {
       "id": 1781,
@@ -236,7 +243,8 @@
       "payout_units": -1.0,
       "recommended_stake_units": 236.69,
       "grade": "A+",
-      "projection": 1.8
+      "projection": 1.8,
+      "hidden_gem": true
     },
     {
       "id": 1782,
@@ -273,7 +281,8 @@
       "payout_units": 0.8403361344537816,
       "recommended_stake_units": 249.45,
       "grade": "A+",
-      "projection": 1.8
+      "projection": 1.8,
+      "hidden_gem": true
     },
     {
       "id": 1783,
@@ -310,7 +319,8 @@
       "payout_units": null,
       "recommended_stake_units": 164.19,
       "grade": "A+",
-      "projection": 0.8
+      "projection": 0.8,
+      "hidden_gem": true
     },
     {
       "id": 1784,
@@ -347,7 +357,8 @@
       "payout_units": 0.8403361344537816,
       "recommended_stake_units": 234.5,
       "grade": "A+",
-      "projection": 1.5
+      "projection": 1.5,
+      "hidden_gem": true
     },
     {
       "id": 1785,
@@ -384,7 +395,8 @@
       "payout_units": 0.8403361344537816,
       "recommended_stake_units": 249.45,
       "grade": "A+",
-      "projection": 1.5
+      "projection": 1.5,
+      "hidden_gem": true
     },
     {
       "id": 1786,
@@ -421,7 +433,8 @@
       "payout_units": -1.0,
       "recommended_stake_units": 249.45,
       "grade": "A+",
-      "projection": 1.0
+      "projection": 1.0,
+      "hidden_gem": true
     },
     {
       "id": 1787,
@@ -458,7 +471,8 @@
       "payout_units": null,
       "recommended_stake_units": 249.45,
       "grade": "A+",
-      "projection": 2.2
+      "projection": 2.2,
+      "hidden_gem": true
     },
     {
       "id": 1788,
@@ -495,7 +509,8 @@
       "payout_units": null,
       "recommended_stake_units": 249.45,
       "grade": "A+",
-      "projection": 2.2
+      "projection": 2.2,
+      "hidden_gem": true
     },
     {
       "id": 1789,
@@ -532,7 +547,8 @@
       "payout_units": 0.8403361344537816,
       "recommended_stake_units": 145.2,
       "grade": "A+",
-      "projection": 0.9
+      "projection": 0.9,
+      "hidden_gem": true
     },
     {
       "id": 1790,
@@ -569,7 +585,8 @@
       "payout_units": 0.8403361344537816,
       "recommended_stake_units": 249.45,
       "grade": "A+",
-      "projection": 0.9
+      "projection": 0.9,
+      "hidden_gem": true
     },
     {
       "id": 1791,
@@ -606,7 +623,8 @@
       "payout_units": 0.8403361344537816,
       "recommended_stake_units": 187.75,
       "grade": "A+",
-      "projection": 0.7
+      "projection": 0.7,
+      "hidden_gem": true
     },
     {
       "id": 1792,
@@ -643,7 +661,8 @@
       "payout_units": -1.0,
       "recommended_stake_units": 236.69,
       "grade": "A+",
-      "projection": 0.7
+      "projection": 0.7,
+      "hidden_gem": true
     },
     {
       "id": 1793,
@@ -680,7 +699,8 @@
       "payout_units": null,
       "recommended_stake_units": 184.16,
       "grade": "A+",
-      "projection": 0.7
+      "projection": 0.7,
+      "hidden_gem": true
     },
     {
       "id": 1794,
@@ -717,7 +737,8 @@
       "payout_units": null,
       "recommended_stake_units": 162.04,
       "grade": "A+",
-      "projection": 0.8
+      "projection": 0.8,
+      "hidden_gem": true
     },
     {
       "id": 1795,
@@ -754,7 +775,8 @@
       "payout_units": null,
       "recommended_stake_units": 249.45,
       "grade": "A+",
-      "projection": 0.8
+      "projection": 0.8,
+      "hidden_gem": true
     },
     {
       "id": 1796,
@@ -791,7 +813,8 @@
       "payout_units": null,
       "recommended_stake_units": 188.71,
       "grade": "A+",
-      "projection": 0.7
+      "projection": 0.7,
+      "hidden_gem": true
     },
     {
       "id": 1797,
@@ -828,7 +851,8 @@
       "payout_units": null,
       "recommended_stake_units": 249.45,
       "grade": "A+",
-      "projection": 1.0
+      "projection": 1.0,
+      "hidden_gem": true
     },
     {
       "id": 1798,
@@ -865,7 +889,8 @@
       "payout_units": -1.0,
       "recommended_stake_units": 249.45,
       "grade": "A+",
-      "projection": 1.9
+      "projection": 1.9,
+      "hidden_gem": true
     },
     {
       "id": 1799,
@@ -902,7 +927,8 @@
       "payout_units": -1.0,
       "recommended_stake_units": 249.45,
       "grade": "A+",
-      "projection": 1.9
+      "projection": 1.9,
+      "hidden_gem": true
     },
     {
       "id": 1800,
@@ -939,7 +965,8 @@
       "payout_units": null,
       "recommended_stake_units": 208.2,
       "grade": "A+",
-      "projection": 0.6
+      "projection": 0.6,
+      "hidden_gem": true
     }
   ],
   "by_sport": {
@@ -1247,7 +1274,8 @@
     ],
     "NHL": [],
     "NFL": [],
-    "EPL": []
+    "EPL": [],
+    "TEN": []
   },
   "game_predictions": [],
   "recommended_slips": [
@@ -1697,159 +1725,6 @@
       "n_losses": 6,
       "n_push": 0,
       "roi_units": 8.285714285714288
-    },
-    {
-      "on_date": "2026-06-15",
-      "sport": "MLB",
-      "n_picks": 23,
-      "n_wins": 13,
-      "n_losses": 10,
-      "n_push": 0,
-      "roi_units": 0.9243697478991613
-    },
-    {
-      "on_date": "2026-06-14",
-      "sport": "MLB",
-      "n_picks": 25,
-      "n_wins": 16,
-      "n_losses": 9,
-      "n_push": 0,
-      "roi_units": 4.445378151260506
-    },
-    {
-      "on_date": "2026-06-13",
-      "sport": "MLB",
-      "n_picks": 21,
-      "n_wins": 11,
-      "n_losses": 10,
-      "n_push": 0,
-      "roi_units": -0.756302521008402
-    },
-    {
-      "on_date": "2026-06-12",
-      "sport": "MLB",
-      "n_picks": 22,
-      "n_wins": 12,
-      "n_losses": 10,
-      "n_push": 0,
-      "roi_units": 0.08403361344537963
-    },
-    {
-      "on_date": "2026-06-11",
-      "sport": "MLB",
-      "n_picks": 20,
-      "n_wins": 16,
-      "n_losses": 4,
-      "n_push": 0,
-      "roi_units": 9.445378151260506
-    },
-    {
-      "on_date": "2026-06-09",
-      "sport": "MLB",
-      "n_picks": 23,
-      "n_wins": 13,
-      "n_losses": 10,
-      "n_push": 0,
-      "roi_units": 0.9243697478991613
-    },
-    {
-      "on_date": "2026-06-06",
-      "sport": "MLB",
-      "n_picks": 19,
-      "n_wins": 11,
-      "n_losses": 8,
-      "n_push": 0,
-      "roi_units": 1.243697478991598
-    },
-    {
-      "on_date": "2026-06-05",
-      "sport": "MLB",
-      "n_picks": 25,
-      "n_wins": 19,
-      "n_losses": 6,
-      "n_push": 0,
-      "roi_units": 9.96638655462185
-    },
-    {
-      "on_date": "2026-06-04",
-      "sport": "MLB",
-      "n_picks": 15,
-      "n_wins": 9,
-      "n_losses": 6,
-      "n_push": 0,
-      "roi_units": 1.5630252100840347
-    },
-    {
-      "on_date": "2026-06-03",
-      "sport": "MLB",
-      "n_picks": 24,
-      "n_wins": 18,
-      "n_losses": 6,
-      "n_push": 0,
-      "roi_units": 9.12605042016807
-    },
-    {
-      "on_date": "2026-06-02",
-      "sport": "MLB",
-      "n_picks": 23,
-      "n_wins": 14,
-      "n_losses": 9,
-      "n_push": 0,
-      "roi_units": 2.764705882352943
-    },
-    {
-      "on_date": "2026-06-01",
-      "sport": "MLB",
-      "n_picks": 19,
-      "n_wins": 11,
-      "n_losses": 8,
-      "n_push": 0,
-      "roi_units": 1.243697478991598
-    },
-    {
-      "on_date": "2026-05-31",
-      "sport": "MLB",
-      "n_picks": 22,
-      "n_wins": 12,
-      "n_losses": 10,
-      "n_push": 0,
-      "roi_units": 0.08403361344537963
-    },
-    {
-      "on_date": "2026-05-30",
-      "sport": "MLB",
-      "n_picks": 23,
-      "n_wins": 15,
-      "n_losses": 8,
-      "n_push": 0,
-      "roi_units": 4.605042016806724
-    },
-    {
-      "on_date": "2026-05-29",
-      "sport": "MLB",
-      "n_picks": 24,
-      "n_wins": 7,
-      "n_losses": 17,
-      "n_push": 0,
-      "roi_units": -11.117647058823529
-    },
-    {
-      "on_date": "2026-05-28",
-      "sport": "MLB",
-      "n_picks": 22,
-      "n_wins": 9,
-      "n_losses": 13,
-      "n_push": 0,
-      "roi_units": -5.436974789915965
-    },
-    {
-      "on_date": "2026-05-27",
-      "sport": "MLB",
-      "n_picks": 20,
-      "n_wins": 13,
-      "n_losses": 7,
-      "n_push": 0,
-      "roi_units": 3.9243697478991613
     }
   ],
   "model_summary": [

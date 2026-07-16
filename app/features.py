@@ -57,6 +57,20 @@ def _attach_features(df: pd.DataFrame, market: str) -> pd.DataFrame:
     df["days_rest"]  = g["game_date"].apply(lambda s: s.diff().dt.days)
     df["home"]       = df["home"].astype("Int64").fillna(0).astype(int)
 
+    # --- advanced / derived features (all leakage-safe: shift(1) already applied) ---
+    # Exponentially-weighted mean weights recent games more heavily than a flat
+    # rolling average — better at catching hot/cold runs.
+    df["ewm8"]   = g[market].apply(lambda s: s.shift(1).ewm(span=8, min_periods=2).mean())
+    # Floor/ceiling of the recent window: how bad a bad night is, how high the upside.
+    df["floor10"]   = g[market].apply(lambda s: s.shift(1).rolling(10, min_periods=2).min())
+    df["ceiling10"] = g[market].apply(lambda s: s.shift(1).rolling(10, min_periods=2).max())
+    # Momentum: recent 5 vs longer 25 baseline (positive = trending up).
+    df["trend_5_25"] = df["r5_mean"] - df["r25_mean"]
+    # Consistency: mean / volatility — high means a dependable producer.
+    df["consistency"] = df["r10_mean"] / (df["r10_std"].abs() + 1e-6)
+    # Back-to-back flag (fatigue signal).
+    df["back_to_back"] = (df["days_rest"].fillna(3) <= 1).astype(int)
+
     opp = df[["game_date", "opp_team", market]].dropna(subset=["opp_team"]).copy()
     opp.sort_values(["opp_team", "game_date"], inplace=True)
     opp["opp_allowed"] = (
@@ -66,6 +80,8 @@ def _attach_features(df: pd.DataFrame, market: str) -> pd.DataFrame:
     )
     df = df.merge(opp[["game_date", "opp_team", "opp_allowed"]],
                   on=["game_date", "opp_team"], how="left")
+    # Matchup edge: player's recent level vs. what the opponent typically allows.
+    df["vs_opp"] = df["r10_mean"] - df["opp_allowed"]
     return df
 
 
@@ -75,6 +91,9 @@ FEATURE_COLS = [
     "r25_mean", "r25_std", "r25_max",
     "season_avg", "season_std", "n_games",
     "days_rest", "home", "opp_allowed",
+    # advanced
+    "ewm8", "floor10", "ceiling10", "trend_5_25",
+    "consistency", "back_to_back", "vs_opp",
 ]
 
 

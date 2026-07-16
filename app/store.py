@@ -190,6 +190,11 @@ CREATE TABLE IF NOT EXISTS game_predictions (
     rationale       TEXT
 );
 CREATE INDEX IF NOT EXISTS idx_gp_date ON game_predictions(on_date, sport);
+
+CREATE TABLE IF NOT EXISTS alerts_sent (
+    alert_key   TEXT PRIMARY KEY,
+    sent_at     TEXT NOT NULL
+);
 """
 
 

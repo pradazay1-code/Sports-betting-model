@@ -12,7 +12,7 @@ from datetime import date, timedelta
 from app.config import CFG
 from app.sources import injuries as injuries_src
 from app.sources import lineups as lineups_src
-from app.sources import mlb, nba, nfl, nhl, soccer
+from app.sources import mlb, nba, nfl, nhl, soccer, tennis
 from app.sources import weather as weather_src
 from app.store import (
     upsert_games,
@@ -26,7 +26,7 @@ from app.utils import get_logger
 
 LOG = get_logger("ingest")
 
-SPORT_MODULES = {"NBA": nba, "MLB": mlb, "NHL": nhl, "NFL": nfl, "EPL": soccer}
+SPORT_MODULES = {"NBA": nba, "MLB": mlb, "NHL": nhl, "NFL": nfl, "EPL": soccer, "TEN": tennis}
 
 
 def ingest_date(on: date) -> dict:

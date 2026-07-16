@@ -143,6 +143,18 @@ def write_dashboard_json(on_date: str) -> None:
 # ---- entry points used by workflows ------------------------------------
 
 
+def _alert(on_date: str) -> None:
+    """Push/email alerts for today's strong picks (no-op if unconfigured)."""
+    try:
+        from app.notify import alert_for_picks
+        picks = [_pick_dict(p) for p in fetch_picks_on(on_date)]
+        n = alert_for_picks(picks, on_date)
+        if n:
+            LOG.info("alerts: sent %d", n)
+    except Exception as e:  # noqa: BLE001
+        LOG.warning("alerts failed: %s", e)
+
+
 def run_daily_picks() -> None:
     init_db()
     on = today_local()
@@ -152,6 +164,7 @@ def run_daily_picks() -> None:
     generate(on.isoformat())
     generate_game_predictions(on.isoformat())
     write_dashboard_json(on.isoformat())
+    _alert(on.isoformat())
 
 
 def run_odds_refresh() -> None:
@@ -162,6 +175,7 @@ def run_odds_refresh() -> None:
     generate(on.isoformat())
     generate_game_predictions(on.isoformat())
     write_dashboard_json(on.isoformat())
+    _alert(on.isoformat())
 
 
 def run_nightly() -> None:
@@ -201,4 +215,6 @@ if __name__ == "__main__":
     elif cmd == "odds":      run_odds_refresh()
     elif cmd == "nightly":   run_nightly()
     elif cmd == "bootstrap": run_bootstrap(int(arg) if arg else None)
+    elif cmd == "alert":
+        init_db(); _alert(today_local().isoformat())
     else: raise SystemExit(f"unknown command: {cmd}")

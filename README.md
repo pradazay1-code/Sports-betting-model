@@ -137,6 +137,35 @@ free monthly budget. The dashboard flags **💎 hidden gems** — strong-edge pr
 that only one or two books are pricing, i.e. lines that likely aren't sharpened
 yet.
 
+## On-the-spot alerts (phone + email)
+
+Get pinged the moment a strong pick lands — both channels are optional and free:
+
+**Phone push (ntfy — no account, no key):**
+1. Install the **ntfy** app (iOS/Android) or open https://ntfy.sh.
+2. Subscribe to a hard-to-guess topic, e.g. `pradapicks-9f3k2`.
+3. Add a repo secret `NOTIFY_NTFY_TOPIC` = that topic.
+
+**Email (Gmail):**
+1. Turn on 2-Step Verification, then create a Google **App Password**
+   (Google Account → Security → App passwords).
+2. Add repo secrets: `NOTIFY_EMAIL_FROM` (your gmail), `NOTIFY_EMAIL_APP_PASSWORD`
+   (the app password), `NOTIFY_EMAIL_TO` (where to send).
+
+Alerts fire for any pick graded at or above `NOTIFY_MIN_GRADE` (default `A-`,
+set it as a repo *variable* to change), and each pick is sent once. The
+odds-refresh workflow runs hourly across the slate, so alerts arrive close to
+real time. Test locally with `python -m app.pipeline alert`.
+
+## Sports & tennis
+
+Beyond NBA/MLB/NHL/NFL and soccer (incl. the **FIFA World Cup**), the model
+covers **tennis** at the match level — a total-games (Over/Under) projection per
+ATP/WTA match, format-aware (best-of-3 vs best-of-5). Player-prop models use
+advanced, leakage-safe features: EWM form, floor/ceiling, momentum (5-vs-25
+trend), consistency (mean/volatility), back-to-back fatigue, and a matchup edge
+(recent level vs. opponent-allowed).
+
 ## Honest reporting
 
 The dashboard shows **calibrated probability, fair probability, edge%, Kelly stake, rating, and rolling ROI in units** — not made-up hit-rate marketing claims. Brier and log-loss are tracked per model so you can see calibration quality at a glance.

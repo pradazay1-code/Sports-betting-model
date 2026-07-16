@@ -22,6 +22,11 @@ jobs:
     env:
       TZ: America/New_York
       ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+      NOTIFY_NTFY_TOPIC: ${{ secrets.NOTIFY_NTFY_TOPIC }}
+      NOTIFY_EMAIL_FROM: ${{ secrets.NOTIFY_EMAIL_FROM }}
+      NOTIFY_EMAIL_APP_PASSWORD: ${{ secrets.NOTIFY_EMAIL_APP_PASSWORD }}
+      NOTIFY_EMAIL_TO: ${{ secrets.NOTIFY_EMAIL_TO }}
+      NOTIFY_MIN_GRADE: ${{ vars.NOTIFY_MIN_GRADE || 'A-' }}
     steps:
       - uses: actions/checkout@v4
         with:
