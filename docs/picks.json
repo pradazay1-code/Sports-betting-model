@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-16T19:08:44+00:00",
+  "generated_at": "2026-07-16T20:57:51+00:00",
   "on_date": "2026-07-16",
   "sports": [
     "NBA",
@@ -19,8 +19,8 @@
   },
   "picks": [
     {
-      "id": 2076,
-      "generated_at": "2026-07-16T19:08:44+00:00",
+      "id": 2101,
+      "generated_at": "2026-07-16T20:57:51+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "A.J. Ewing",
@@ -57,8 +57,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2077,
-      "generated_at": "2026-07-16T19:08:44+00:00",
+      "id": 2102,
+      "generated_at": "2026-07-16T20:57:51+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Brandon Marsh",
@@ -95,8 +95,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2078,
-      "generated_at": "2026-07-16T19:08:44+00:00",
+      "id": 2103,
+      "generated_at": "2026-07-16T20:57:51+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Bryce Harper",
@@ -106,7 +106,7 @@
       "price_american": 107,
       "book": "betrivers",
       "model_prob": 0.9774859287054409,
-      "fair_prob": 0.4567985226941393,
+      "fair_prob": 0.46082949308755755,
       "edge_pct": 102.3395872420263,
       "kelly_stake": 0.2391111851449212,
       "rating": 100.0,
@@ -133,8 +133,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2079,
-      "generated_at": "2026-07-16T19:08:44+00:00",
+      "id": 2104,
+      "generated_at": "2026-07-16T20:57:51+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Carson Benge",
@@ -171,8 +171,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2080,
-      "generated_at": "2026-07-16T19:08:44+00:00",
+      "id": 2105,
+      "generated_at": "2026-07-16T20:57:51+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Francisco Lindor",
@@ -209,8 +209,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2081,
-      "generated_at": "2026-07-16T19:08:44+00:00",
+      "id": 2106,
+      "generated_at": "2026-07-16T20:57:51+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Juan Soto",
@@ -247,8 +247,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2082,
-      "generated_at": "2026-07-16T19:08:44+00:00",
+      "id": 2107,
+      "generated_at": "2026-07-16T20:57:51+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Kyle Schwarber",
@@ -285,8 +285,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2083,
-      "generated_at": "2026-07-16T19:08:44+00:00",
+      "id": 2108,
+      "generated_at": "2026-07-16T20:57:51+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Aaron Nola",
@@ -323,8 +323,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2084,
-      "generated_at": "2026-07-16T19:08:44+00:00",
+      "id": 2109,
+      "generated_at": "2026-07-16T20:57:51+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Christian Scott",
@@ -346,7 +346,7 @@
           "sample": 1.0,
           "depth": 1.0
         },
-        "books_count": 4,
+        "books_count": 5,
         "pred_mean": 13.865354828488998,
         "residual_std": 2.879091183883971,
         "book": "bovada"
@@ -361,8 +361,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2085,
-      "generated_at": "2026-07-16T19:08:44+00:00",
+      "id": 2110,
+      "generated_at": "2026-07-16T20:57:51+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Trea Turner",
@@ -399,8 +399,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2086,
-      "generated_at": "2026-07-16T19:08:44+00:00",
+      "id": 2111,
+      "generated_at": "2026-07-16T20:57:51+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "A.J. Ewing",
@@ -410,7 +410,7 @@
       "price_american": -217,
       "book": "draftkings",
       "model_prob": 0.999,
-      "fair_prob": 0.6571490374215877,
+      "fair_prob": 0.6611256614463628,
       "edge_pct": 45.936866359447,
       "kelly_stake": 0.2492075,
       "rating": 96.7,
@@ -437,8 +437,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2087,
-      "generated_at": "2026-07-16T19:08:44+00:00",
+      "id": 2112,
+      "generated_at": "2026-07-16T20:57:51+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Alec Bohm",
@@ -475,8 +475,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2088,
-      "generated_at": "2026-07-16T19:08:44+00:00",
+      "id": 2113,
+      "generated_at": "2026-07-16T20:57:51+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Brandon Marsh",
@@ -513,8 +513,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2089,
-      "generated_at": "2026-07-16T19:08:44+00:00",
+      "id": 2114,
+      "generated_at": "2026-07-16T20:57:51+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Brett Baty",
@@ -524,7 +524,7 @@
       "price_american": -138,
       "book": "draftkings",
       "model_prob": 0.999,
-      "fair_prob": 0.5490716180371353,
+      "fair_prob": 0.554890592855807,
       "edge_pct": 72.29130434782608,
       "kelly_stake": 0.24940500000000002,
       "rating": 96.7,
@@ -551,8 +551,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2090,
-      "generated_at": "2026-07-16T19:08:44+00:00",
+      "id": 2115,
+      "generated_at": "2026-07-16T20:57:51+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Bryce Harper",
@@ -589,8 +589,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2091,
-      "generated_at": "2026-07-16T19:08:44+00:00",
+      "id": 2116,
+      "generated_at": "2026-07-16T20:57:51+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Bryson Stott",
@@ -627,8 +627,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2092,
-      "generated_at": "2026-07-16T19:08:44+00:00",
+      "id": 2117,
+      "generated_at": "2026-07-16T20:57:51+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Carson Benge",
@@ -665,8 +665,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2093,
-      "generated_at": "2026-07-16T19:08:44+00:00",
+      "id": 2118,
+      "generated_at": "2026-07-16T20:57:51+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Francisco Alvarez",
@@ -703,8 +703,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2094,
-      "generated_at": "2026-07-16T19:08:44+00:00",
+      "id": 2119,
+      "generated_at": "2026-07-16T20:57:51+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Francisco Lindor",
@@ -741,8 +741,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2095,
-      "generated_at": "2026-07-16T19:08:44+00:00",
+      "id": 2120,
+      "generated_at": "2026-07-16T20:57:51+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Gabriel Rincones Jr.",
@@ -779,8 +779,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2096,
-      "generated_at": "2026-07-16T19:08:44+00:00",
+      "id": 2121,
+      "generated_at": "2026-07-16T20:57:51+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "J.T. Realmuto",
@@ -817,8 +817,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2097,
-      "generated_at": "2026-07-16T19:08:44+00:00",
+      "id": 2122,
+      "generated_at": "2026-07-16T20:57:51+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Jared Young",
@@ -855,8 +855,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2098,
-      "generated_at": "2026-07-16T19:08:44+00:00",
+      "id": 2123,
+      "generated_at": "2026-07-16T20:57:51+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Jorge Polanco",
@@ -893,8 +893,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2099,
-      "generated_at": "2026-07-16T19:08:44+00:00",
+      "id": 2124,
+      "generated_at": "2026-07-16T20:57:51+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Juan Soto",
@@ -931,8 +931,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2100,
-      "generated_at": "2026-07-16T19:08:44+00:00",
+      "id": 2125,
+      "generated_at": "2026-07-16T20:57:51+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Justin Crawford",
@@ -942,7 +942,7 @@
       "price_american": -177,
       "book": "betrivers",
       "model_prob": 0.999,
-      "fair_prob": 0.6131068774791887,
+      "fair_prob": 0.6140609978682792,
       "edge_pct": 56.340677966101715,
       "kelly_stake": 0.2493075,
       "rating": 96.7,
