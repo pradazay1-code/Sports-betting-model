@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-16T15:39:10+00:00",
+  "generated_at": "2026-07-16T17:15:30+00:00",
   "on_date": "2026-07-16",
   "sports": [
     "NBA",
@@ -19,8 +19,8 @@
   },
   "picks": [
     {
-      "id": 2026,
-      "generated_at": "2026-07-16T15:39:10+00:00",
+      "id": 2051,
+      "generated_at": "2026-07-16T17:15:30+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "A.J. Ewing",
@@ -57,20 +57,20 @@
       "hidden_gem": false
     },
     {
-      "id": 2027,
-      "generated_at": "2026-07-16T15:39:10+00:00",
+      "id": 2052,
+      "generated_at": "2026-07-16T17:15:30+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Brandon Marsh",
       "market": "batter_total_bases",
       "side": "over",
       "line": 1.5,
-      "price_american": 116,
-      "book": "draftkings",
+      "price_american": 120,
+      "book": "bovada",
       "model_prob": 0.999,
-      "fair_prob": 0.44247787610619466,
-      "edge_pct": 115.78400000000002,
-      "kelly_stake": 0.2495344827586207,
+      "fair_prob": 0.43795620437956206,
+      "edge_pct": 119.78,
+      "kelly_stake": 0.24954166666666663,
       "rating": 100.0,
       "rationale": {
         "components": {
@@ -83,20 +83,20 @@
         "books_count": 4,
         "pred_mean": 4.2441001254302435,
         "residual_std": 1.8140473383618099,
-        "book": "draftkings"
+        "book": "bovada"
       },
       "graded": 0,
       "actual_value": null,
       "won": null,
       "payout_units": null,
-      "recommended_stake_units": 249.53,
+      "recommended_stake_units": 249.54,
       "grade": "A+",
       "projection": 4.2,
       "hidden_gem": false
     },
     {
-      "id": 2028,
-      "generated_at": "2026-07-16T15:39:10+00:00",
+      "id": 2053,
+      "generated_at": "2026-07-16T17:15:30+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Bryce Harper",
@@ -133,8 +133,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2029,
-      "generated_at": "2026-07-16T15:39:10+00:00",
+      "id": 2054,
+      "generated_at": "2026-07-16T17:15:30+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Carson Benge",
@@ -171,8 +171,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2030,
-      "generated_at": "2026-07-16T15:39:10+00:00",
+      "id": 2055,
+      "generated_at": "2026-07-16T17:15:30+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Francisco Lindor",
@@ -209,8 +209,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2031,
-      "generated_at": "2026-07-16T15:39:10+00:00",
+      "id": 2056,
+      "generated_at": "2026-07-16T17:15:30+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Juan Soto",
@@ -247,8 +247,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2032,
-      "generated_at": "2026-07-16T15:39:10+00:00",
+      "id": 2057,
+      "generated_at": "2026-07-16T17:15:30+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Kyle Schwarber",
@@ -285,20 +285,58 @@
       "hidden_gem": false
     },
     {
-      "id": 2033,
-      "generated_at": "2026-07-16T15:39:10+00:00",
+      "id": 2058,
+      "generated_at": "2026-07-16T17:15:30+00:00",
+      "on_date": "2026-07-16",
+      "sport": "MLB",
+      "player_name": "Aaron Nola",
+      "market": "pitcher_outs",
+      "side": "under",
+      "line": 15.5,
+      "price_american": -154,
+      "book": "fanduel",
+      "model_prob": 0.98125,
+      "fair_prob": 0.5875953888618283,
+      "edge_pct": 61.842532467532465,
+      "kelly_stake": 0.23809375,
+      "rating": 100.0,
+      "rationale": {
+        "components": {
+          "edge": 1.0,
+          "confidence": 1.0,
+          "disagreement": 1.0,
+          "sample": 1.0,
+          "depth": 1.0
+        },
+        "books_count": 4,
+        "pred_mean": 13.503436193691533,
+        "residual_std": 2.879091183883971,
+        "book": "fanduel"
+      },
+      "graded": 0,
+      "actual_value": null,
+      "won": null,
+      "payout_units": null,
+      "recommended_stake_units": 238.09,
+      "grade": "A+",
+      "projection": 13.5,
+      "hidden_gem": false
+    },
+    {
+      "id": 2059,
+      "generated_at": "2026-07-16T17:15:30+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Christian Scott",
       "market": "pitcher_outs",
       "side": "under",
       "line": 14.5,
-      "price_american": 120,
-      "book": "betmgm",
+      "price_american": 121,
+      "book": "draftkings",
       "model_prob": 0.7722836694860117,
-      "fair_prob": 0.42785234899328856,
-      "edge_pct": 69.90240728692258,
-      "kelly_stake": 0.1456300151810887,
+      "fair_prob": 0.4267425320056899,
+      "edge_pct": 70.67469095640857,
+      "kelly_stake": 0.14602208875291028,
       "rating": 100.0,
       "rationale": {
         "components": {
@@ -311,20 +349,20 @@
         "books_count": 4,
         "pred_mean": 13.865354828488998,
         "residual_std": 2.879091183883971,
-        "book": "betmgm"
+        "book": "draftkings"
       },
       "graded": 0,
       "actual_value": null,
       "won": null,
       "payout_units": null,
-      "recommended_stake_units": 145.63,
+      "recommended_stake_units": 146.02,
       "grade": "A+",
       "projection": 13.9,
       "hidden_gem": false
     },
     {
-      "id": 2034,
-      "generated_at": "2026-07-16T15:39:10+00:00",
+      "id": 2060,
+      "generated_at": "2026-07-16T17:15:30+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Trea Turner",
@@ -361,8 +399,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2035,
-      "generated_at": "2026-07-16T15:39:10+00:00",
+      "id": 2061,
+      "generated_at": "2026-07-16T17:15:30+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "A.J. Ewing",
@@ -399,8 +437,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2036,
-      "generated_at": "2026-07-16T15:39:10+00:00",
+      "id": 2062,
+      "generated_at": "2026-07-16T17:15:30+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Alec Bohm",
@@ -437,8 +475,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2037,
-      "generated_at": "2026-07-16T15:39:10+00:00",
+      "id": 2063,
+      "generated_at": "2026-07-16T17:15:30+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Brandon Marsh",
@@ -475,8 +513,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2038,
-      "generated_at": "2026-07-16T15:39:10+00:00",
+      "id": 2064,
+      "generated_at": "2026-07-16T17:15:30+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Brett Baty",
@@ -513,8 +551,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2039,
-      "generated_at": "2026-07-16T15:39:10+00:00",
+      "id": 2065,
+      "generated_at": "2026-07-16T17:15:30+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Bryce Harper",
@@ -551,8 +589,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2040,
-      "generated_at": "2026-07-16T15:39:10+00:00",
+      "id": 2066,
+      "generated_at": "2026-07-16T17:15:30+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Bryson Stott",
@@ -589,20 +627,20 @@
       "hidden_gem": false
     },
     {
-      "id": 2041,
-      "generated_at": "2026-07-16T15:39:10+00:00",
+      "id": 2067,
+      "generated_at": "2026-07-16T17:15:30+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Carson Benge",
       "market": "batter_hits",
       "side": "over",
       "line": 0.5,
-      "price_american": -200,
+      "price_american": -190,
       "book": "betmgm",
       "model_prob": 0.999,
-      "fair_prob": 0.6394230769230769,
-      "edge_pct": 49.849999999999994,
-      "kelly_stake": 0.24925,
+      "fair_prob": 0.6354035705305507,
+      "edge_pct": 52.478947368421046,
+      "kelly_stake": 0.249275,
       "rating": 96.7,
       "rationale": {
         "components": {
@@ -621,14 +659,14 @@
       "actual_value": null,
       "won": null,
       "payout_units": null,
-      "recommended_stake_units": 249.25,
+      "recommended_stake_units": 249.28,
       "grade": "A+",
       "projection": 1.1,
       "hidden_gem": false
     },
     {
-      "id": 2042,
-      "generated_at": "2026-07-16T15:39:10+00:00",
+      "id": 2068,
+      "generated_at": "2026-07-16T17:15:30+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Francisco Alvarez",
@@ -665,8 +703,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2043,
-      "generated_at": "2026-07-16T15:39:10+00:00",
+      "id": 2069,
+      "generated_at": "2026-07-16T17:15:30+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Francisco Lindor",
@@ -703,8 +741,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2044,
-      "generated_at": "2026-07-16T15:39:10+00:00",
+      "id": 2070,
+      "generated_at": "2026-07-16T17:15:30+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Gabriel Rincones Jr.",
@@ -741,20 +779,20 @@
       "hidden_gem": false
     },
     {
-      "id": 2045,
-      "generated_at": "2026-07-16T15:39:10+00:00",
+      "id": 2071,
+      "generated_at": "2026-07-16T17:15:30+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "J.T. Realmuto",
       "market": "batter_hits",
       "side": "over",
       "line": 0.5,
-      "price_american": -165,
+      "price_american": -160,
       "book": "betmgm",
       "model_prob": 0.999,
-      "fair_prob": 0.5980890270721165,
-      "edge_pct": 60.44545454545454,
-      "kelly_stake": 0.2493375,
+      "fair_prob": 0.5952677459526775,
+      "edge_pct": 62.3375,
+      "kelly_stake": 0.24935000000000002,
       "rating": 96.7,
       "rationale": {
         "components": {
@@ -773,14 +811,14 @@
       "actual_value": null,
       "won": null,
       "payout_units": null,
-      "recommended_stake_units": 249.34,
+      "recommended_stake_units": 249.35,
       "grade": "A+",
       "projection": 1.2,
       "hidden_gem": false
     },
     {
-      "id": 2046,
-      "generated_at": "2026-07-16T15:39:10+00:00",
+      "id": 2072,
+      "generated_at": "2026-07-16T17:15:30+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Jared Young",
@@ -790,7 +828,7 @@
       "price_american": -139,
       "book": "draftkings",
       "model_prob": 0.9751184834123223,
-      "fair_prob": 0.5556381890861765,
+      "fair_prob": 0.5567836213930718,
       "edge_pct": 67.66425721981658,
       "kelly_stake": 0.23513329383886258,
       "rating": 96.7,
@@ -817,8 +855,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2047,
-      "generated_at": "2026-07-16T15:39:10+00:00",
+      "id": 2073,
+      "generated_at": "2026-07-16T17:15:30+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Jorge Polanco",
@@ -855,8 +893,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2048,
-      "generated_at": "2026-07-16T15:39:10+00:00",
+      "id": 2074,
+      "generated_at": "2026-07-16T17:15:30+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Juan Soto",
@@ -893,8 +931,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2049,
-      "generated_at": "2026-07-16T15:39:10+00:00",
+      "id": 2075,
+      "generated_at": "2026-07-16T17:15:30+00:00",
       "on_date": "2026-07-16",
       "sport": "MLB",
       "player_name": "Justin Crawford",
@@ -929,44 +967,6 @@
       "grade": "A+",
       "projection": 1.8,
       "hidden_gem": false
-    },
-    {
-      "id": 2050,
-      "generated_at": "2026-07-16T15:39:10+00:00",
-      "on_date": "2026-07-16",
-      "sport": "MLB",
-      "player_name": "Kyle Schwarber",
-      "market": "batter_hits",
-      "side": "over",
-      "line": 0.5,
-      "price_american": -165,
-      "book": "betmgm",
-      "model_prob": 0.999,
-      "fair_prob": 0.6154125244902402,
-      "edge_pct": 60.44545454545454,
-      "kelly_stake": 0.2493375,
-      "rating": 96.7,
-      "rationale": {
-        "components": {
-          "edge": 1.0,
-          "confidence": 1.0,
-          "disagreement": 1.0,
-          "sample": 1.0,
-          "depth": 0.6666666666666666
-        },
-        "books_count": 3,
-        "pred_mean": 1.1893768625160375,
-        "residual_std": 0.8749048020680207,
-        "book": "betmgm"
-      },
-      "graded": 0,
-      "actual_value": null,
-      "won": null,
-      "payout_units": null,
-      "recommended_stake_units": 249.34,
-      "grade": "A+",
-      "projection": 1.2,
-      "hidden_gem": false
     }
   ],
   "by_sport": {
@@ -987,7 +987,7 @@
           "market": "batter_total_bases",
           "side": "over",
           "line": 1.5,
-          "price_american": 116,
+          "price_american": 120,
           "model_prob": 0.999,
           "rating": 90.0
         },
@@ -1012,11 +1012,11 @@
           "rating": 90.0
         }
       ],
-      "parlay_american": 1015,
-      "parlay_decimal": 11.146,
+      "parlay_american": 1035,
+      "parlay_decimal": 11.352,
       "naive_model_prob": 0.9901,
       "correlated_model_prob": 0.9901,
-      "parlay_edge_pct": 1003.51,
+      "parlay_edge_pct": 1023.94,
       "verdict": "Strong +EV"
     },
     {
@@ -1037,7 +1037,7 @@
           "market": "batter_total_bases",
           "side": "over",
           "line": 1.5,
-          "price_american": 116,
+          "price_american": 120,
           "model_prob": 0.999,
           "rating": 90.0
         },
@@ -1052,11 +1052,51 @@
           "rating": 90.0
         }
       ],
-      "parlay_american": 1092,
-      "parlay_decimal": 11.923,
+      "parlay_american": 1114,
+      "parlay_decimal": 12.144,
       "naive_model_prob": 0.8786,
       "correlated_model_prob": 0.8786,
-      "parlay_edge_pct": 947.62,
+      "parlay_edge_pct": 967.02,
+      "verdict": "Strong +EV"
+    },
+    {
+      "legs": [
+        {
+          "sport": "MLB",
+          "player_name": "Brandon Marsh",
+          "market": "batter_total_bases",
+          "side": "over",
+          "line": 1.5,
+          "price_american": 120,
+          "model_prob": 0.999,
+          "rating": 90.0
+        },
+        {
+          "sport": "MLB",
+          "player_name": "Bryce Harper",
+          "market": "batter_total_bases",
+          "side": "over",
+          "line": 1.5,
+          "price_american": 107,
+          "model_prob": 0.9774859287054409,
+          "rating": 90.0
+        },
+        {
+          "sport": "MLB",
+          "player_name": "Carson Benge",
+          "market": "batter_total_bases",
+          "side": "over",
+          "line": 1.5,
+          "price_american": 140,
+          "model_prob": 0.9927797833935018,
+          "rating": 90.0
+        }
+      ],
+      "parlay_american": 993,
+      "parlay_decimal": 10.93,
+      "naive_model_prob": 0.9695,
+      "correlated_model_prob": 0.9695,
+      "parlay_edge_pct": 959.58,
       "verdict": "Strong +EV"
     },
     {
@@ -1097,46 +1137,6 @@
       "naive_model_prob": 0.878,
       "correlated_model_prob": 0.878,
       "parlay_edge_pct": 942.02,
-      "verdict": "Strong +EV"
-    },
-    {
-      "legs": [
-        {
-          "sport": "MLB",
-          "player_name": "Brandon Marsh",
-          "market": "batter_total_bases",
-          "side": "over",
-          "line": 1.5,
-          "price_american": 116,
-          "model_prob": 0.999,
-          "rating": 90.0
-        },
-        {
-          "sport": "MLB",
-          "player_name": "Bryce Harper",
-          "market": "batter_total_bases",
-          "side": "over",
-          "line": 1.5,
-          "price_american": 107,
-          "model_prob": 0.9774859287054409,
-          "rating": 90.0
-        },
-        {
-          "sport": "MLB",
-          "player_name": "Carson Benge",
-          "market": "batter_total_bases",
-          "side": "over",
-          "line": 1.5,
-          "price_american": 140,
-          "model_prob": 0.9927797833935018,
-          "rating": 90.0
-        }
-      ],
-      "parlay_american": 973,
-      "parlay_decimal": 10.731,
-      "naive_model_prob": 0.9695,
-      "correlated_model_prob": 0.9695,
-      "parlay_edge_pct": 940.31,
       "verdict": "Strong +EV"
     },
     {
@@ -1237,7 +1237,7 @@
           "market": "batter_total_bases",
           "side": "over",
           "line": 1.5,
-          "price_american": 116,
+          "price_american": 120,
           "model_prob": 0.999,
           "rating": 90.0
         },
@@ -1252,11 +1252,11 @@
           "rating": 90.0
         }
       ],
-      "parlay_american": 968,
-      "parlay_decimal": 10.681,
+      "parlay_american": 988,
+      "parlay_decimal": 10.879,
       "naive_model_prob": 0.8835,
       "correlated_model_prob": 0.8835,
-      "parlay_edge_pct": 843.7,
+      "parlay_edge_pct": 861.17,
       "verdict": "Strong +EV"
     },
     {
@@ -1267,7 +1267,7 @@
           "market": "batter_total_bases",
           "side": "over",
           "line": 1.5,
-          "price_american": 116,
+          "price_american": 120,
           "model_prob": 0.999,
           "rating": 90.0
         },
@@ -1292,11 +1292,11 @@
           "rating": 90.0
         }
       ],
-      "parlay_american": 861,
-      "parlay_decimal": 9.613,
+      "parlay_american": 879,
+      "parlay_decimal": 9.791,
       "naive_model_prob": 0.9748,
       "correlated_model_prob": 0.9748,
-      "parlay_edge_pct": 837.11,
+      "parlay_edge_pct": 854.47,
       "verdict": "Strong +EV"
     },
     {
@@ -1307,7 +1307,7 @@
           "market": "batter_total_bases",
           "side": "over",
           "line": 1.5,
-          "price_american": 116,
+          "price_american": 120,
           "model_prob": 0.999,
           "rating": 90.0
         },
@@ -1332,51 +1332,51 @@
           "rating": 90.0
         }
       ],
-      "parlay_american": 937,
-      "parlay_decimal": 10.368,
+      "parlay_american": 956,
+      "parlay_decimal": 10.56,
       "naive_model_prob": 0.8786,
       "correlated_model_prob": 0.8786,
-      "parlay_edge_pct": 810.98,
+      "parlay_edge_pct": 827.85,
       "verdict": "Strong +EV"
     },
     {
       "legs": [
         {
           "sport": "MLB",
-          "player_name": "Carson Benge",
+          "player_name": "A.J. Ewing",
           "market": "batter_total_bases",
           "side": "over",
           "line": 1.5,
-          "price_american": 140,
-          "model_prob": 0.9927797833935018,
-          "rating": 90.0
-        },
-        {
-          "sport": "MLB",
-          "player_name": "Juan Soto",
-          "market": "batter_total_bases",
-          "side": "over",
-          "line": 1.5,
-          "price_american": 100,
+          "price_american": 130,
           "model_prob": 0.8859180035650623,
           "rating": 90.0
         },
         {
           "sport": "MLB",
-          "player_name": "Kyle Schwarber",
+          "player_name": "Brandon Marsh",
           "market": "batter_total_bases",
           "side": "over",
           "line": 1.5,
-          "price_american": 115,
-          "model_prob": 0.9982835564709921,
+          "price_american": 120,
+          "model_prob": 0.999,
+          "rating": 90.0
+        },
+        {
+          "sport": "MLB",
+          "player_name": "Bryce Harper",
+          "market": "batter_total_bases",
+          "side": "over",
+          "line": 1.5,
+          "price_american": 107,
+          "model_prob": 0.9774859287054409,
           "rating": 90.0
         }
       ],
-      "parlay_american": 932,
-      "parlay_decimal": 10.32,
-      "naive_model_prob": 0.878,
-      "correlated_model_prob": 0.878,
-      "parlay_edge_pct": 806.11,
+      "parlay_american": 947,
+      "parlay_decimal": 10.474,
+      "naive_model_prob": 0.8651,
+      "correlated_model_prob": 0.8651,
+      "parlay_edge_pct": 806.13,
       "verdict": "Strong +EV"
     }
   ],
