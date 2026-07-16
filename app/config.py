@@ -60,7 +60,7 @@ def ensure_dirs() -> None:
     CFG.docs_dir.mkdir(parents=True, exist_ok=True)
 
 
-SPORTS = ("NBA", "MLB", "NHL", "NFL", "EPL")
+SPORTS = ("NBA", "MLB", "NHL", "NFL", "EPL", "TEN")
 
 # Human-readable league labels for the dashboard.
 SPORT_LABELS = {
@@ -69,6 +69,7 @@ SPORT_LABELS = {
     "NHL": "NHL Hockey",
     "NFL": "NFL Football",
     "EPL": "Soccer (EPL + top leagues)",
+    "TEN": "Tennis (ATP / WTA)",
 }
 
 # Markets we train + price models for. Keep this list explicit — the daily

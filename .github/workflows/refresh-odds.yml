@@ -3,7 +3,10 @@ name: refresh-odds
 on:
   # Every 2 hours between 14:00 and 02:00 UTC (covers the US slate).
   schedule:
-    - cron: "0 14,16,18,20,22,0,2 * * *"
+    # Hourly across the active US/EU sports window (14:00–04:00 UTC) so picks
+    # and alerts fire close to real time. Widen/narrow to taste; each run uses
+    # a few Odds-API credits, so hourly keeps the free tier (500/mo) viable.
+    - cron: "0 14-23,0-4 * * *"
   workflow_dispatch:
 
 permissions:
@@ -20,6 +23,11 @@ jobs:
     env:
       TZ: America/New_York
       ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+      NOTIFY_NTFY_TOPIC: ${{ secrets.NOTIFY_NTFY_TOPIC }}
+      NOTIFY_EMAIL_FROM: ${{ secrets.NOTIFY_EMAIL_FROM }}
+      NOTIFY_EMAIL_APP_PASSWORD: ${{ secrets.NOTIFY_EMAIL_APP_PASSWORD }}
+      NOTIFY_EMAIL_TO: ${{ secrets.NOTIFY_EMAIL_TO }}
+      NOTIFY_MIN_GRADE: ${{ vars.NOTIFY_MIN_GRADE || 'A-' }}
     steps:
       - uses: actions/checkout@v4
         with:

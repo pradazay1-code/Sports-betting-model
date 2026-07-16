@@ -89,7 +89,41 @@ def _team_form(df: pd.DataFrame) -> dict[str, dict]:
     return out
 
 
+def predict_tennis(games: list[dict]) -> list[GamePrediction]:
+    """Match-level total-games projection.
+
+    Baseline expected total games by match format (best-of-3 ≈ 22, best-of-5 ≈
+    37), nudged by how lopsided the matchup looks. When the book's total is
+    later attached (via The Odds API) this projection is what we price against.
+    """
+    out: list[GamePrediction] = []
+    for g in games:
+        home, away = g.get("home_team"), g.get("away_team")
+        if not home or not away:
+            continue
+        try:
+            extra = json.loads(g.get("extra") or "{}")
+        except Exception:
+            extra = {}
+        best_of = int(extra.get("best_of", 3))
+        base = 37.5 if best_of == 5 else 22.5
+        # Competitiveness prior: default even. If live/partial scores exist we
+        # keep it simple and leave the base; hooks for ranking gaps go here.
+        total = base
+        per_side = total / 2.0
+        out.append(GamePrediction(
+            sport="TEN", game_id=g["game_id"], home_team=home, away_team=away,
+            pred_home_score=round(per_side, 1), pred_away_score=round(per_side, 1),
+            pred_total=round(total, 1), pred_spread=0.0, home_win_prob=0.5,
+            rationale={"best_of": best_of, "basis": "format baseline",
+                       "note": "total games projection (v1)"},
+        ))
+    return out
+
+
 def predict_for_games(sport: str, games: list[dict]) -> list[GamePrediction]:
+    if sport == "TEN":
+        return predict_tennis(games)
     df = _team_history(sport)
     form = _team_form(df)
     if not form:

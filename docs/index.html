@@ -66,7 +66,7 @@ tailwind.config = { darkMode: 'class', theme: { extend: {
     <div class="flex flex-wrap items-center gap-2 text-xs mb-4">
       <span class="chip bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">● LIVE MODEL</span>
       <span id="data-mode" class="chip bg-white/5 text-slate-300 border border-white/10">loading…</span>
-      <span class="chip bg-white/5 text-slate-400 border border-white/10">NBA · MLB · NHL · NFL · Soccer</span>
+      <span class="chip bg-white/5 text-slate-400 border border-white/10">NBA · MLB · NHL · NFL · Soccer/World Cup · Tennis</span>
     </div>
     <h1 class="text-3xl sm:text-5xl font-black tracking-tight max-w-3xl leading-[1.05]">
       Find the edge. <span class="grad-text">Grade every bet.</span>
@@ -240,6 +240,13 @@ function buildSample(){
       picks.push({sport:sp,player_name:name,team,market,side:'over',line,price_american:price,book:books[Math.floor(R()*books.length)],model_prob:mp,fair_prob:fair,edge_pct:edge,recommended_stake_units:+(0.5+R()*2).toFixed(1),rating,grade:letterFrom(rating,edge),projection:+proj.toFixed(1),form,hidden_gem:hidden});
     }
   }
+  // Tennis: match total-games projections (Over/Under total games).
+  const tmatches=[['Carlos Alcaraz','Jannik Sinner',22.5,3],['Novak Djokovic','Alexander Zverev',37.5,5],['Iga Swiatek','Aryna Sabalenka',21.5,3],['Coco Gauff','Elena Rybakina',22.5,3]];
+  for(const[p1,p2,line,bo]of tmatches){
+    const edge=2+R()*9, mp=0.53+R()*0.13, rating=Math.min(94,54+edge*2.3+R()*8);
+    const proj=line+(R()-0.4)*3;
+    picks.push({sport:'TEN',player_name:`${p1} vs ${p2}`,team:`Best of ${bo}`,market:'match_total_games',side:R()>0.5?'over':'under',line,price_american:R()>0.5?-112:-108,book:books[Math.floor(R()*books.length)],model_prob:mp,fair_prob:mp-edge/100*0.6,edge_pct:edge,recommended_stake_units:+(0.5+R()*1.5).toFixed(1),rating,grade:letterFrom(rating,edge),projection:+proj.toFixed(1),hidden_gem:edge>=7});
+  }
   picks.sort((a,b)=>b.rating-a.rating);
   // games + context
   const venues={MLB:['Yankee Stadium','Dodger Stadium','Fenway Park','Wrigley Field'],NBA:['Ball Arena','Chase Center'],NHL:['Rogers Place','MSG'],NFL:['Arrowhead','SoFi Stadium'],EPL:['Etihad','Anfield','Emirates']};
@@ -263,7 +270,7 @@ function buildSample(){
   for(let d=29;d>=0;d--){const roi=(R()-0.42)*4;cum+=roi;hist.push({on_date:`d-${d}`,roi_units:+roi.toFixed(2),cum:+cum.toFixed(2)});}
   const models=[];
   for(const sp of Object.keys(BASE))for(const m of Object.keys(BASE[sp])) models.push({sport:sp,market:m,rows:Math.floor(400+R()*3000),mae:+(BASE[sp][m][1]*0.7).toFixed(2),brier:+(0.18+R()*0.06).toFixed(3)});
-  return {on_date:'sample',sports:['NBA','MLB','NHL','NFL','EPL'],picks,by_sport,game_predictions:gp,history_30d:hist,model_summary:models,_sample:true};
+  return {on_date:'sample',sports:['NBA','MLB','NHL','NFL','EPL','TEN'],picks,by_sport,game_predictions:gp,history_30d:hist,model_summary:models,_sample:true};
 }
 
 //=================== rendering ===================
@@ -284,7 +291,7 @@ function heroStats(){
 
 function sportTabs(){
   const wrap=$('#sport-tabs'); wrap.innerHTML='';
-  const labels={ALL:'All',NBA:'🏀 NBA',MLB:'⚾ MLB',NHL:'🏒 NHL',NFL:'🏈 NFL',EPL:'⚽ Soccer / 🌍 World Cup'};
+  const labels={ALL:'All',NBA:'🏀 NBA',MLB:'⚾ MLB',NHL:'🏒 NHL',NFL:'🏈 NFL',EPL:'⚽ Soccer / 🌍 World Cup',TEN:'🎾 Tennis'};
   ['ALL',...(DATA.sports||[])].forEach(s=>{
     const b=el('button',`tab px-3.5 py-1.5 rounded-full border border-white/10 bg-white/5 font-semibold ${s===sport?'active':''}`,labels[s]||s);
     b.onclick=()=>{sport=s;sportTabs();renderPlays();};
@@ -307,7 +314,7 @@ function renderPlays(){
     .filter(p=>!q||p.player_name.toLowerCase().includes(q))
     .filter(p=> gf==='0' || (gf==='gem'&&p.hidden_gem) || (gf==='A'&&(p.grade||'')[0]==='A') || (gf==='B'&&['A','B'].includes((p.grade||'')[0])&&p.grade!=='B-'));
   if(!picks.length){empty.classList.remove('hidden');return;} empty.classList.add('hidden');
-  const ico={NBA:'🏀',MLB:'⚾',NHL:'🏒',NFL:'🏈',EPL:'⚽'};
+  const ico={NBA:'🏀',MLB:'⚾',NHL:'🏒',NFL:'🏈',EPL:'⚽',TEN:'🎾'};
   for(const p of picks){
     const g=p.grade||letterFrom(p.rating||0,p.edge_pct||0);
     const edgeW=Math.max(4,Math.min(100,(p.edge_pct||0)/15*100));
@@ -348,7 +355,7 @@ function renderGames(){
   const grid=$('#games-grid'); grid.innerHTML='';
   const gps=DATA.game_predictions||[];
   const ctx={}; for(const sp of (DATA.sports||[]))for(const g of (DATA.by_sport?.[sp]||[]))ctx[`${g.away_team}@${g.home_team}`]=g;
-  const ico={NBA:'🏀',MLB:'⚾',NHL:'🏒',NFL:'🏈',EPL:'⚽'};
+  const ico={NBA:'🏀',MLB:'⚾',NHL:'🏒',NFL:'🏈',EPL:'⚽',TEN:'🎾'};
   if(!gps.length){grid.innerHTML='<p class="text-slate-500 text-sm">No games scheduled.</p>';return;}
   for(const g of gps){
     const c=ctx[`${g.away_team}@${g.home_team}`]||{};
