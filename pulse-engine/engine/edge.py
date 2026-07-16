@@ -20,11 +20,12 @@ DOWN = "DOWN"
 @dataclass
 class Decision:
     pick: str                     # UP | DOWN | NO PLAY
-    prob_up: float
+    prob_up: float                # decision prob (model shrunk toward market)
     implied_up: float | None     # None when Kalshi has no market
     edge: float | None           # signed, for the side picked (or best side)
     fee: float | None            # per-contract fee at the entry price
     entry_price: float | None    # price paid per contract for the picked side
+    raw_prob_up: float | None = None   # model prob before market shrinkage
     reasons: list[str] = field(default_factory=list)
 
 
@@ -53,11 +54,18 @@ def decide(
     buffer = config.MIN_EDGE_BUFFER if buffer is None else buffer
     implied = implied_from_quotes(yes_bid, yes_ask)
     d = Decision(pick=NO_PLAY, prob_up=prob_up, implied_up=implied,
-                 edge=None, fee=None, entry_price=None)
+                 edge=None, fee=None, entry_price=None, raw_prob_up=prob_up)
 
     if implied is None:
         d.reasons.append("no Kalshi market/quotes for this window")
         return d
+
+    # Winner's-curse correction: shrink the model toward the market's price.
+    # Large model-vs-market gaps are where the model is most often the one
+    # that's wrong; requiring the shrunk probability to still clear the
+    # threshold keeps only the fattest, most defensible disagreements.
+    prob_up = implied + config.MODEL_MARKET_SHRINK * (prob_up - implied)
+    d.prob_up = round(prob_up, 4)
 
     in_band = band[0] <= prob_up <= band[1]
 
@@ -94,6 +102,30 @@ def decide(
     d.pick, d.edge, d.fee, d.entry_price = side, round(edge_v, 4), fee_v, price
     d.reasons.append(f"{side}: edge {edge_v:.3f} > fee {fee_v:.4f} + buffer {buffer:.2f}")
     return d
+
+
+def kelly_suggestion(p: float, price: float) -> dict:
+    """Fractional-Kelly stake suggestion for buying a binary at `price` with
+    win probability `p`. Display guidance only — nothing sizes real money.
+    """
+    if not (0 < price < 1) or p <= price:
+        return {"fraction": 0.0, "contracts": 0}
+    b = (1.0 - price) / price               # net odds
+    f_star = (b * p - (1.0 - p)) / b        # full Kelly
+    frac = max(f_star, 0.0) * config.KELLY_FRACTION
+    dollars = frac * config.PAPER_BANKROLL
+    return {"fraction": round(frac, 4), "contracts": int(dollars / price)}
+
+
+def dual_side_arb(yes_ask: float | None, no_ask: float | None) -> float | None:
+    """Guaranteed gross profit in cents per pair when YES ask + NO ask < 100
+    (one side always settles at $1). Returns None when there is no arb.
+    Caller must still net out the two entry fees before acting on it.
+    """
+    if yes_ask is None or no_ask is None or yes_ask <= 0 or no_ask <= 0:
+        return None
+    total = yes_ask + no_ask
+    return round(100.0 - total, 2) if total < 100.0 else None
 
 
 def paper_pnl(pick: str, entry_price: float, won: bool,

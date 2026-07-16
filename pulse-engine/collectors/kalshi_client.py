@@ -59,9 +59,11 @@ class MarketQuote:
     window_close: int | None
     yes_bid: float | None   # cents
     yes_ask: float | None   # cents
-    last_price: float | None
-    strike_type: str | None
-    fetched_at: float
+    no_bid: float | None = None
+    no_ask: float | None = None
+    last_price: float | None = None
+    strike_type: str | None = None
+    fetched_at: float = 0.0
 
     @property
     def implied_up(self) -> float | None:
@@ -218,6 +220,7 @@ class KalshiClient:
                 asset=asset, ticker=m.get("ticker", ""),
                 window_start=o, window_close=c,
                 yes_bid=m.get("yes_bid"), yes_ask=m.get("yes_ask"),
+                no_bid=m.get("no_bid"), no_ask=m.get("no_ask"),
                 last_price=m.get("last_price"),
                 strike_type=m.get("strike_type") or m.get("market_type"),
                 fetched_at=time.time(),

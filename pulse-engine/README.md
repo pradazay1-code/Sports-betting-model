@@ -37,19 +37,34 @@ pytest tests/                        # window/fee/edge/no-lookahead tests
 
 ## How a pick happens
 
-Every window (:00/:15/:30/:45 ET), 75 seconds after open:
+The engine **scans continuously** through every window (every 20s, from 60s
+after open until 45s before close) — the way the practitioner ecosystem
+trades these markets, where edge appears mid-window when Kalshi quotes lag
+spot moves:
 
-1. Features are built from 1-minute candles (returns, EMA/RSI/MACD, realized
-   vol, VWAP distance, candle anatomy, volume z-score, BTC lead/correlation,
-   time-of-day, Fear & Greed, news sentiment, Kalshi microstructure) with a
-   strict no-lookahead gate.
-2. A calibrated LightGBM model per asset produces `P(up)`.
-3. Kalshi's yes/no quotes give the implied probability; the fill price for
-   each side is the ask.
-4. A pick is flagged only if `edge > fee + buffer` (buffer starts at 3 points
-   and auto-raises if the last 50 picks lose on paper) **and** the model
-   probability is outside 45–55%. Otherwise: **NO PLAY**.
-5. 30 seconds after the window closes, the outcome is graded (correctness,
+1. Features are built from 1-minute candles + the live tick (returns,
+   EMA/RSI/MACD, realized vol, VWAP distance, candle anatomy, volume
+   z-score, BTC lead/correlation, time-of-day, Fear & Greed, news
+   sentiment, Kalshi microstructure) with a strict no-lookahead gate.
+2. The **Brownian fair value** is computed:
+   `P(up) = Φ(move ÷ (σ√seconds_remaining))` — the standard pricing model
+   for these binaries. It is both a feature and the fallback predictor.
+3. A calibrated LightGBM model per asset (trained at five elapsed-time
+   offsets per window so it learns the move/time-remaining interaction)
+   refines that into the final `P(up)`.
+4. The decision probability **shrinks the model toward the market**
+   (`p = implied + 0.5 × (model − implied)`, `MODEL_MARKET_SHRINK`) — a
+   winner's-curse correction, because large model-vs-market gaps are where
+   the model is most often the one that's wrong. A pick is committed once
+   `edge > fee + buffer` (buffer starts at 3 points and auto-raises if the
+   last 50 picks lose on paper) **and** the shrunk probability is outside
+   45–55% **and** the signal survives two consecutive scans
+   (`SCAN_CONFIRMATIONS`) — at most one pick per asset per window. If the
+   window ends without a trigger: **NO PLAY**.
+5. Each pick carries a **quarter-Kelly stake suggestion** (display only),
+   and the scanner flags **dual-side arbitrage** whenever YES + NO asks sum
+   below $1.
+6. 30 seconds after the window closes, the outcome is graded (correctness,
    Brier score, fee-inclusive paper P&L). Daily error analysis groups losses
    by regime into `logs/error_analysis.md`; retrains trigger weekly, on
    Brier degradation, or every 200 resolved windows — and a new model is

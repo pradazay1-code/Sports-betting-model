@@ -24,7 +24,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import config
 import storage
 from engine import edge as edge_mod
-from engine import window as win
 from engine.features import build_features
 
 log = logging.getLogger("pulse.backtest")
@@ -67,35 +66,54 @@ def backtest_asset(asset: str, days: int = 30, seed: int = 7) -> dict | None:
     model, calibrator = trained
     candles = storage.get_candles(asset, start - 40 * 86400)
     btc = candles if asset == "BTC" else storage.get_candles("BTC", start - 40 * 86400)
-    wins = resample_15m(asset, start).dropna(subset=["direction"])
+    wins = resample_15m(asset, start)
     if wins.empty:
         return None
+    wins = wins.dropna(subset=["direction"])
 
+    # Scanner replay: evaluate every 60s through each window; the first
+    # offset where edge clears fee + buffer becomes the (single) pick, same
+    # as live. Simulated quotes track the Brownian fair value +/- noise —
+    # an efficient market — so picks here come only from ML disagreement
+    # with GBM. The real-world latency edge (Kalshi repricing seconds
+    # behind spot) cannot be simulated from candles and is NOT included.
+    offsets = range(60, config.WINDOW_SECONDS - 45, 60)
     n = picks = correct_picks = 0
     briers: list[float] = []
     pnl = 0.0
     for wstart, w in wins.iterrows():
-        at_ts = win.prediction_time(int(wstart))
-        feats = build_features(asset, at_ts, candles, btc)
-        if feats is None:
-            continue
-        x = pd.DataFrame([[feats[c] for c in FEATURE_COLUMNS]],
-                         columns=FEATURE_COLUMNS, dtype=float)
-        raw = float(model.predict_proba(x)[0, 1])
-        prob_up = float(np.clip(calibrator.predict([raw])[0], 0.02, 0.98))
         y = int(w["direction"])
-        briers.append((prob_up - y) ** 2)
-        n += 1
-
-        # Simulated Kalshi quotes: efficient 50% mid +/- noise, 2c spread.
-        mid = float(np.clip(50.0 + rng.normal(0, 2.0), 35.0, 65.0))
-        yes_bid, yes_ask = mid - 1.0, mid + 1.0
-        d = edge_mod.decide(prob_up, yes_bid, yes_ask)
-        if d.pick in (edge_mod.UP, edge_mod.DOWN):
-            picks += 1
-            won = (d.pick == "UP") == (y == 1)
-            correct_picks += int(won)
-            pnl += edge_mod.paper_pnl(d.pick, d.entry_price, won)
+        window_counted = decided = False
+        streak_side, streak_n = "", 0
+        for off in offsets:
+            feats = build_features(asset, int(wstart) + off, candles, btc)
+            if feats is None:
+                continue
+            x = pd.DataFrame([[feats[c] for c in FEATURE_COLUMNS]],
+                             columns=FEATURE_COLUMNS, dtype=float)
+            raw = float(model.predict_proba(x)[0, 1])
+            prob_up = float(np.clip(calibrator.predict([raw])[0], 0.02, 0.98))
+            briers.append((prob_up - y) ** 2)
+            if not window_counted:
+                n += 1
+                window_counted = True
+            if decided:
+                continue
+            mid = float(np.clip(feats["gbm_prob"] * 100 + rng.normal(0, 2.0),
+                                3.0, 97.0))
+            yes_bid, yes_ask = mid - 1.0, mid + 1.0
+            d = edge_mod.decide(prob_up, yes_bid, yes_ask)
+            if d.pick in (edge_mod.UP, edge_mod.DOWN):
+                streak_n = streak_n + 1 if d.pick == streak_side else 1
+                streak_side = d.pick
+                if streak_n >= config.SCAN_CONFIRMATIONS:  # same debounce as live
+                    decided = True
+                    picks += 1
+                    won = (d.pick == "UP") == (y == 1)
+                    correct_picks += int(won)
+                    pnl += edge_mod.paper_pnl(d.pick, d.entry_price, won)
+            else:
+                streak_side, streak_n = "", 0
 
     if n == 0:
         return None
@@ -111,8 +129,10 @@ def backtest_asset(asset: str, days: int = 30, seed: int = 7) -> dict | None:
 
 def run(days: int = 30, asset: str | None = None) -> None:
     assets = [asset.upper()] if asset else config.ASSETS
-    print(f"Backtest — last {days} days, implied prob SIMULATED as 50%±2 "
-          f"(P&L is approximate)\n")
+    print(f"Backtest — last {days} days, scanner replay @60s steps.\n"
+          "Quotes SIMULATED as GBM fair value ±2c (efficient market): picks "
+          "come only from\nML-vs-GBM disagreement; the live latency edge is "
+          "not simulated. P&L is approximate.\n")
     print(f"{'asset':<6} {'windows':>8} {'brier':>7} {'acc':>7} {'picks':>6} "
           f"{'pick%':>6} {'pick_acc':>9} {'~P&L($)':>9}")
     for a in assets:

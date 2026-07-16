@@ -39,6 +39,7 @@ def setup_logging() -> None:
 async def main(serve_web: bool = True) -> None:
     from apscheduler.schedulers.asyncio import AsyncIOScheduler
     from apscheduler.triggers.cron import CronTrigger
+    from apscheduler.triggers.interval import IntervalTrigger
 
     from collectors.kalshi_client import KalshiPoller
     from collectors.news_collector import NewsCollector
@@ -67,12 +68,10 @@ async def main(serve_web: bool = True) -> None:
     # sync callables — AsyncIOScheduler runs them in its thread executor, so
     # the event loop (collectors, dashboard) is never blocked.
     sched = AsyncIOScheduler(timezone="UTC")
-    pred_min = ",".join(str((m + config.PREDICTION_DELAY_SECONDS // 60) % 60)
-                        for m in (0, 15, 30, 45))
-    pred_sec = config.PREDICTION_DELAY_SECONDS % 60
-    sched.add_job(predictor.run_window,
-                  CronTrigger(minute=pred_min, second=pred_sec),
-                  name="predict", misfire_grace_time=120)
+    sched.add_job(predictor.scan,
+                  IntervalTrigger(seconds=config.SCAN_INTERVAL_SECONDS),
+                  name="scan", misfire_grace_time=config.SCAN_INTERVAL_SECONDS,
+                  max_instances=1, coalesce=True)
     sched.add_job(grade_pending,
                   CronTrigger(minute="0,15,30,45", second=config.GRADE_DELAY_SECONDS),
                   name="grade", misfire_grace_time=300)
@@ -86,8 +85,10 @@ async def main(serve_web: bool = True) -> None:
                   CronTrigger(minute=11), name="retrain-check",
                   misfire_grace_time=600)
     sched.start()
-    log.info("scheduler started: predict @ :%s+%02ds, grade @ +%02ds",
-             pred_min, pred_sec, config.GRADE_DELAY_SECONDS)
+    log.info("scheduler started: scan every %ds (entries %ds..close-%ds), "
+             "grade @ +%02ds", config.SCAN_INTERVAL_SECONDS,
+             config.SCAN_START_SECONDS, config.SCAN_STOP_SECONDS,
+             config.GRADE_DELAY_SECONDS)
 
     server = None
     if serve_web:

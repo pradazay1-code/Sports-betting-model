@@ -16,11 +16,12 @@ import numpy as np
 import pandas as pd
 
 import config
+from engine import gbm
 
 # Canonical feature order — models are trained and served against this list.
 FEATURE_COLUMNS: list[str] = [
     "ret_1m", "ret_3m", "ret_5m", "ret_15m", "ret_30m", "ret_60m",
-    "win_open_to_now",
+    "win_open_to_now", "gbm_prob", "elapsed_frac",
     "ema_spread", "rsi_14", "macd_hist",
     "rvol_30m", "vol_regime",
     "vwap_dist", "dist_4h_high", "dist_4h_low",
@@ -129,6 +130,12 @@ def build_features(
                     (15, "ret_15m"), (30, "ret_30m"), (60, "ret_60m")):
         f[name] = _ret(closes, k)
     f["win_open_to_now"] = now_price / win_open - 1.0 if win_open else 0.0
+
+    # Brownian fair value: the move so far vs the vol left in the window.
+    wclose = wstart + config.WINDOW_SECONDS
+    sigma_s = gbm.sigma_per_sqrt_second(closes)
+    f["gbm_prob"] = gbm.prob_up(win_open, now_price, sigma_s, wclose - at_ts)
+    f["elapsed_frac"] = (at_ts - wstart) / config.WINDOW_SECONDS
 
     ema5, ema20 = _ema(closes[-60:], 5), _ema(closes[-60:], 20)
     f["ema_spread"] = (ema5 - ema20) / ema20 if ema20 else 0.0

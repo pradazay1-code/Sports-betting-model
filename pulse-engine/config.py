@@ -64,6 +64,19 @@ WINDOW_SECONDS: int = 15 * 60          # Kalshi window length
 PREDICTION_DELAY_SECONDS: int = _env_int("PREDICTION_DELAY_SECONDS", 75)
 GRADE_DELAY_SECONDS: int = 30          # grade this long after window close
 
+# In-window scanning (how practitioners actually trade these markets:
+# evaluate continuously and act whenever quotes lag spot, instead of one
+# prediction per window).
+SCAN_INTERVAL_SECONDS: int = _env_int("SCAN_INTERVAL_SECONDS", 20)
+SCAN_START_SECONDS: int = _env_int("SCAN_START_SECONDS", 60)    # no entries before
+SCAN_STOP_SECONDS: int = _env_int("SCAN_STOP_SECONDS", 45)      # no entries after close-N
+# A pick must clear the edge threshold on this many CONSECUTIVE scans before
+# it is committed — debounces quote noise and single-tick model blips.
+SCAN_CONFIRMATIONS: int = _env_int("SCAN_CONFIRMATIONS", 2)
+# Elapsed-time offsets (s) at which training rows are sampled per window, so
+# the model learns the move/time-remaining interaction the scanner sees live.
+TRAIN_SAMPLE_OFFSETS: list[int] = [75, 240, 480, 720, 840]
+
 # --------------------------------------------------------------- storage ----
 DATA_DIR = BASE_DIR / "data"
 DB_PATH = Path(_env("DB_PATH", str(DATA_DIR / "pulse.db")))
@@ -120,8 +133,20 @@ def kalshi_fee_per_contract(price: float, contracts: int | None = None) -> float
     return kalshi_fee_dollars(n, price) / n
 
 
+# ---------------------------------------------------------------- sizing ----
+# Fractional Kelly stake suggestion shown with each pick (display only —
+# paper P&L stays at PAPER_CONTRACTS flat lots for comparability).
+PAPER_BANKROLL: float = _env_float("PAPER_BANKROLL", 1000.0)
+KELLY_FRACTION: float = _env_float("KELLY_FRACTION", 0.25)
+
 # --------------------------------------------------------------- signals ----
-# A pick is flagged only when |model_prob - implied_prob| > fee + buffer.
+# Winner's-curse correction: the market is usually right, so the decision
+# probability shrinks the model's estimate toward the Kalshi implied prob:
+#   p_decision = implied + SHRINK * (model_prob - implied)
+# 1.0 trusts the model fully; 0.0 never disagrees with the market.
+MODEL_MARKET_SHRINK: float = _env_float("MODEL_MARKET_SHRINK", 0.5)
+
+# A pick is flagged only when |decision_prob - price_paid| > fee + buffer.
 MIN_EDGE_BUFFER: float = _env_float("MIN_EDGE_BUFFER", 0.03)
 MAX_EDGE_BUFFER: float = 0.08          # adaptive-threshold ceiling
 # Model probability must sit outside this band for a pick (else NO PLAY).

@@ -80,11 +80,26 @@ pulse-engine/
 
 ## Scheduling (run.py, apscheduler, UTC)
 
-- Predict: minutes 1,16,31,46 at :15s (= 75s into each window,
-  `PREDICTION_DELAY_SECONDS`).
+- Scan: every `SCAN_INTERVAL_SECONDS` (20s). The scanner only acts between
+  `SCAN_START_SECONDS` (60s) after open and `SCAN_STOP_SECONDS` (45s)
+  before close; the last pass finalizes undecided assets as NO PLAY.
 - Grade: minutes 0,15,30,45 at :30s (`GRADE_DELAY_SECONDS` after close).
 - Adaptive buffer check: minutes 7,22,37,52. Error analysis: 10:05 UTC
   daily. Retrain check: hourly at :11.
+
+## Scanner design (mirrors the practitioner pattern for these markets)
+
+Research findings baked into the design (open-source Kalshi 15-min bots
+converge on this): Brownian fair value `Φ(move/(σ√τ_remaining))` as the
+core probability (engine/gbm.py — also a feature and the no-model
+fallback); continuous in-window scanning because Kalshi reprices seconds
+behind Binance spot and edge appears mid-window; fee-aware thresholds;
+fractional Kelly sizing (display-only here, `edge.kelly_suggestion`);
+dual-side arb detection when YES+NO asks < $1 (`edge.dual_side_arb`).
+Training samples each window at `TRAIN_SAMPLE_OFFSETS` elapsed times so
+the ML learns the move/time-remaining interaction. At most one pick per
+(asset, window) — enforced by the predictions UNIQUE constraint; first
+edge trigger wins, matching live execution semantics.
 
 ## Things to Verify With Network Access
 

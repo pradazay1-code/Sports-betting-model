@@ -35,10 +35,13 @@ log = logging.getLogger("pulse.model")
 # ------------------------------------------------------- training matrix ----
 
 def build_training_frame(asset: str, days: int | None = None) -> pd.DataFrame:
-    """One row per historical 15-min window: features at prediction time + label.
+    """Training rows for historical 15-min windows: features + label.
 
-    Live-only inputs (Kalshi quotes, news, F&G) are neutral constants here,
-    exactly as build_features defaults them — same code path as live.
+    Each window is sampled at several elapsed-time offsets
+    (config.TRAIN_SAMPLE_OFFSETS) because the live scanner evaluates all
+    window long — the model must learn how the same move means more as time
+    runs out. Live-only inputs (Kalshi quotes, news, F&G) are neutral
+    constants here, exactly as build_features defaults them.
     """
     from collectors.history_backfill import resample_15m
 
@@ -52,16 +55,16 @@ def build_training_frame(asset: str, days: int | None = None) -> pd.DataFrame:
 
     rows = []
     for wstart, w in wins.dropna(subset=["direction"]).iterrows():
-        at_ts = win.prediction_time(int(wstart))
-        feats = build_features(asset, at_ts, candles, btc)
-        if feats is None:
-            continue
-        feats["_window_start"] = int(wstart)
-        feats["_label"] = int(w["direction"])
-        rows.append(feats)
+        for offset in config.TRAIN_SAMPLE_OFFSETS:
+            feats = build_features(asset, int(wstart) + offset, candles, btc)
+            if feats is None:
+                continue
+            feats["_window_start"] = int(wstart)
+            feats["_label"] = int(w["direction"])
+            rows.append(feats)
     df = pd.DataFrame(rows)
-    log.info("%s: training frame %d rows x %d features", asset, len(df),
-             len(FEATURE_COLUMNS))
+    log.info("%s: training frame %d rows (%d offsets/window) x %d features",
+             asset, len(df), len(config.TRAIN_SAMPLE_OFFSETS), len(FEATURE_COLUMNS))
     return df
 
 

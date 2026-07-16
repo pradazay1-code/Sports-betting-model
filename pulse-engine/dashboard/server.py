@@ -106,6 +106,10 @@ def create_app(runtime: Runtime | None = None) -> FastAPI:
                     "implied_up": pred.get("implied_up"), "edge": pred.get("edge"),
                     "status": pred.get("status"),
                     "reasons": pred.get("reasons", []),
+                    "decided": pred.get("decided", True),
+                    "kelly": pred.get("kelly"),
+                    "arb_cents": pred.get("arb_cents"),
+                    "scanned_at": pred.get("scanned_at"),
                 } if pred else None,
             }
         versions = {r["asset"]: r["version"] for r in reversed(storage.registry_rows())}
