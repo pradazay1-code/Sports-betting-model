@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-17T19:06:10+00:00",
+  "generated_at": "2026-07-17T20:54:42+00:00",
   "on_date": "2026-07-17",
   "sports": [
     "NBA",
@@ -19,8 +19,8 @@
   },
   "picks": [
     {
-      "id": 2326,
-      "generated_at": "2026-07-17T19:06:10+00:00",
+      "id": 2351,
+      "generated_at": "2026-07-17T20:54:42+00:00",
       "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "A.J. Ewing",
@@ -57,8 +57,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2327,
-      "generated_at": "2026-07-17T19:06:10+00:00",
+      "id": 2352,
+      "generated_at": "2026-07-17T20:54:42+00:00",
       "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Alec Bohm",
@@ -95,8 +95,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2328,
-      "generated_at": "2026-07-17T19:06:10+00:00",
+      "id": 2353,
+      "generated_at": "2026-07-17T20:54:42+00:00",
       "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Brandon Marsh",
@@ -133,8 +133,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2329,
-      "generated_at": "2026-07-17T19:06:10+00:00",
+      "id": 2354,
+      "generated_at": "2026-07-17T20:54:42+00:00",
       "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Bryce Harper",
@@ -171,8 +171,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2330,
-      "generated_at": "2026-07-17T19:06:10+00:00",
+      "id": 2355,
+      "generated_at": "2026-07-17T20:54:42+00:00",
       "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Francisco Lindor",
@@ -209,8 +209,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2331,
-      "generated_at": "2026-07-17T19:06:10+00:00",
+      "id": 2356,
+      "generated_at": "2026-07-17T20:54:42+00:00",
       "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Juan Soto",
@@ -247,8 +247,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2332,
-      "generated_at": "2026-07-17T19:06:10+00:00",
+      "id": 2357,
+      "generated_at": "2026-07-17T20:54:42+00:00",
       "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Kyle Schwarber",
@@ -285,8 +285,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2333,
-      "generated_at": "2026-07-17T19:06:10+00:00",
+      "id": 2358,
+      "generated_at": "2026-07-17T20:54:42+00:00",
       "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Trea Turner",
@@ -323,8 +323,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2334,
-      "generated_at": "2026-07-17T19:06:10+00:00",
+      "id": 2359,
+      "generated_at": "2026-07-17T20:54:42+00:00",
       "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "A.J. Ewing",
@@ -361,8 +361,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2335,
-      "generated_at": "2026-07-17T19:06:10+00:00",
+      "id": 2360,
+      "generated_at": "2026-07-17T20:54:42+00:00",
       "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Alec Bohm",
@@ -399,8 +399,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2336,
-      "generated_at": "2026-07-17T19:06:10+00:00",
+      "id": 2361,
+      "generated_at": "2026-07-17T20:54:42+00:00",
       "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Brandon Marsh",
@@ -437,8 +437,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2337,
-      "generated_at": "2026-07-17T19:06:10+00:00",
+      "id": 2362,
+      "generated_at": "2026-07-17T20:54:42+00:00",
       "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Brett Baty",
@@ -475,8 +475,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2338,
-      "generated_at": "2026-07-17T19:06:10+00:00",
+      "id": 2363,
+      "generated_at": "2026-07-17T20:54:42+00:00",
       "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Bryce Harper",
@@ -513,8 +513,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2339,
-      "generated_at": "2026-07-17T19:06:10+00:00",
+      "id": 2364,
+      "generated_at": "2026-07-17T20:54:42+00:00",
       "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Bryson Stott",
@@ -551,8 +551,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2340,
-      "generated_at": "2026-07-17T19:06:10+00:00",
+      "id": 2365,
+      "generated_at": "2026-07-17T20:54:42+00:00",
       "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Carson Benge",
@@ -589,8 +589,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2341,
-      "generated_at": "2026-07-17T19:06:10+00:00",
+      "id": 2366,
+      "generated_at": "2026-07-17T20:54:42+00:00",
       "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Francisco Alvarez",
@@ -627,8 +627,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2342,
-      "generated_at": "2026-07-17T19:06:10+00:00",
+      "id": 2367,
+      "generated_at": "2026-07-17T20:54:42+00:00",
       "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Francisco Lindor",
@@ -665,8 +665,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2343,
-      "generated_at": "2026-07-17T19:06:10+00:00",
+      "id": 2368,
+      "generated_at": "2026-07-17T20:54:42+00:00",
       "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Gabriel Rincones Jr.",
@@ -703,8 +703,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2344,
-      "generated_at": "2026-07-17T19:06:10+00:00",
+      "id": 2369,
+      "generated_at": "2026-07-17T20:54:42+00:00",
       "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "J.T. Realmuto",
@@ -741,8 +741,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2345,
-      "generated_at": "2026-07-17T19:06:10+00:00",
+      "id": 2370,
+      "generated_at": "2026-07-17T20:54:42+00:00",
       "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Jared Young",
@@ -779,8 +779,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2346,
-      "generated_at": "2026-07-17T19:06:10+00:00",
+      "id": 2371,
+      "generated_at": "2026-07-17T20:54:42+00:00",
       "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Jorge Polanco",
@@ -817,8 +817,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2347,
-      "generated_at": "2026-07-17T19:06:10+00:00",
+      "id": 2372,
+      "generated_at": "2026-07-17T20:54:42+00:00",
       "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Juan Soto",
@@ -855,8 +855,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2348,
-      "generated_at": "2026-07-17T19:06:10+00:00",
+      "id": 2373,
+      "generated_at": "2026-07-17T20:54:42+00:00",
       "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Justin Crawford",
@@ -893,8 +893,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2349,
-      "generated_at": "2026-07-17T19:06:10+00:00",
+      "id": 2374,
+      "generated_at": "2026-07-17T20:54:42+00:00",
       "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Kyle Schwarber",
@@ -931,8 +931,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2350,
-      "generated_at": "2026-07-17T19:06:10+00:00",
+      "id": 2375,
+      "generated_at": "2026-07-17T20:54:42+00:00",
       "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Trea Turner",
