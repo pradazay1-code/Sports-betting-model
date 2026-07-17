@@ -14,6 +14,8 @@ import time
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from collections import deque
+
 import websockets
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -34,16 +36,40 @@ class Tick:
 
 @dataclass
 class LatestCache:
-    """In-memory latest-tick cache the dashboard and predictor read."""
+    """In-memory latest-tick cache the dashboard and predictor read.
+
+    v2: also keeps a rolling per-asset tick history (TICK_BUFFER_SECONDS)
+    so the scanner can measure spot moves on a seconds timescale — the
+    resolution where Kalshi quote slips live.
+    """
     ticks: dict[str, Tick] = field(default_factory=dict)
+    history: dict[str, deque] = field(default_factory=dict)  # deque[(ts, price)]
     source: str = ""
     connected: bool = False
 
     def update(self, asset: str, price: float, ts: float | None = None) -> None:
-        self.ticks[asset] = Tick(price=price, ts=ts or time.time())
+        t = ts or time.time()
+        self.ticks[asset] = Tick(price=price, ts=t)
+        h = self.history.setdefault(asset, deque())
+        h.append((t, price))
+        cutoff = t - config.TICK_BUFFER_SECONDS
+        while h and h[0][0] < cutoff:
+            h.popleft()
 
     def get(self, asset: str) -> Tick | None:
         return self.ticks.get(asset)
+
+    def price_at(self, asset: str, ts: float) -> float | None:
+        """Most recent tick price at/before `ts` from the rolling buffer."""
+        h = self.history.get(asset)
+        if not h:
+            return None
+        best = None
+        for t, p in reversed(h):
+            if t <= ts:
+                best = p
+                break
+        return best
 
     def stale_seconds(self) -> float:
         if not self.ticks:

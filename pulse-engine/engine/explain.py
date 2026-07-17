@@ -145,6 +145,11 @@ def build_breakdown(asset: str, summary: dict, feats: dict | None,
             f"Kalshi prices it {implied * 100:.1f}% — edge "
             f"{'%+.1f' % (edge_v * 100) if edge_v is not None else 'n/a'}pts vs "
             f"a ~{hurdle:.1f}pt fee+buffer hurdle")
+        spread = feats.get("kalshi_spread")
+        if spread:
+            fair_chain.append(
+                f"Spread cost: {spread * 100:.0f}c wide book — crossing it is "
+                f"~{spread * 50:.1f}pts of the edge")
     else:
         fair_chain.append("No live Kalshi quotes this window — read is "
                           "informational, no playable market")
@@ -154,9 +159,25 @@ def build_breakdown(asset: str, summary: dict, feats: dict | None,
         verdict["line"] = (f"{pick}: the decision probability beats the price "
                            f"paid by more than fees + buffer, confirmed on "
                            f"{config.SCAN_CONFIRMATIONS} consecutive scans.")
+        entry = summary.get("entry_price")
+        if entry and prob is not None:
+            p_side = prob if pick == edge_mod.UP else 1 - prob
+            fee = config.kalshi_fee_per_contract(entry)
+            ev = p_side * 1.0 - entry - fee
+            breakeven = entry + fee
+            verdict["value_line"] = (
+                f"Value per contract at {entry * 100:.0f}c: EV "
+                f"{ev * 100:+.1f}c (win prob {p_side:.1%} vs breakeven "
+                f"{breakeven:.1%} incl. fee).")
     else:
         verdict["line"] = ("NO PLAY: after fees there is no exploitable gap "
                            "between the model and the market on this window.")
+    if summary.get("slip", {}).get("flagged"):
+        s = summary["slip"]
+        verdict["slip_line"] = (
+            f"SLIP detected: quote is {s['quote_age_s']}s old while spot moved "
+            f"{s['spot_move_pct']:+.3f}% — fair value has shifted "
+            f"{s['expected_repricing_pts']:+.1f}pts vs the posted quote.")
 
     self_lines = []
     if self_stats:

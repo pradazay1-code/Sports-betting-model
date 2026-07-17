@@ -29,6 +29,8 @@ import storage
 from collectors.news_collector import news_features
 from engine import edge as edge_mod
 from engine import explain
+from engine import gbm
+from engine import slips
 from engine import window as win
 from engine.features import build_features
 from engine.model import ModelStore
@@ -171,6 +173,35 @@ class Predictor:
                 yes_bid = quote.yes_bid if quote else None
                 yes_ask = quote.yes_ask if quote else None
                 decision = edge_mod.decide(prob_up, yes_bid, yes_ask, buffer=buffer)
+
+                # v2 slip check: has spot moved while the quote sat still?
+                if quote is not None and self.price_cache is not None:
+                    # Window open, with the same fallback build_features uses
+                    # (first minute of a window: last close before the bell).
+                    win_open_px = None
+                    if not candles.empty:
+                        pos = candles.index.searchsorted(wstart, side="left")
+                        if pos < len(candles) and \
+                                candles.index[pos] < wstart + config.WINDOW_SECONDS:
+                            win_open_px = float(candles.iloc[pos]["open"])
+                        else:
+                            win_open_px = float(candles.iloc[-1]["close"])
+                    sigma_s = gbm.sigma_per_sqrt_second(
+                        candles["close"].to_numpy()) if not candles.empty \
+                        else gbm.DEFAULT_SIGMA_PER_SQRT_S
+                    spot_then = self.price_cache.price_at(asset, quote.fetched_at)
+                    spot_now = live_price
+                    slip = slips.assess(
+                        win_open_px, spot_then, spot_now, sigma_s,
+                        seconds_remaining=wclose - now_ts,
+                        quote_age_s=now_ts - quote.fetched_at)
+                    if slip is not None:
+                        summary["slip"] = slip.as_dict()
+                        if slip.flagged:
+                            summary["reasons"].append(
+                                f"SLIP: quotes {slip.quote_age_s:.0f}s stale, fair "
+                                f"value moved {slip.expected_repricing_pts * 100:+.1f}pts")
+                            log.info("%s slip: %s", asset, summary["slip"])
 
                 arb = edge_mod.dual_side_arb(yes_ask, quote.no_ask if quote else None)
                 if arb is not None:

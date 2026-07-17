@@ -70,6 +70,16 @@ spot moves:
    Brier degradation, or every 200 resolved windows — and a new model is
    promoted only if its validation Brier improves.
 
+**v2 — real-time slip hunting.** The engine keeps a rolling in-memory tick
+buffer (every websocket trade, ~20 min) and scans every 10 seconds. Each
+pass it measures quote *slips*: how old Kalshi's posted quote is, how far
+spot moved since it was posted, and how many probability points fair value
+says the quote should have repriced (`engine/slips.py`). The **LIVE PLAYS**
+panel at the top ranks all four assets every scan — play taken (with
+quarter-Kelly stake), SLIP alert, or how many points short of a play the
+margin currently is — so you watch the finding happen instead of a silent
+NO PLAY.
+
 Each asset card also shows:
 
 - **NEXT WINDOW** — an early UP/DOWN lean on the upcoming market (computed

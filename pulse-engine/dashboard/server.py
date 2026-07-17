@@ -113,13 +113,47 @@ def create_app(runtime: Runtime | None = None) -> FastAPI:
                     "raw_prob_up": pred.get("raw_prob_up"),
                     "breakdown": pred.get("breakdown"),
                     "next_window": pred.get("next_window"),
+                    "slip": pred.get("slip"),
                 } if pred else None,
             }
+        # v2: live plays feed — every asset ranked by net margin right now.
+        plays = []
+        if rt.predictor:
+            base_hurdle = config.kalshi_fee_per_contract(0.5) + storage.current_edge_buffer()
+            for asset, r in rt.predictor.last_run.items():
+                if r.get("window_start") != wstart:
+                    continue
+                pick = r.get("pick")
+                edge_v = r.get("edge")
+                slip = r.get("slip") or {}
+                is_play = pick in ("UP", "DOWN") and r.get("decided")
+                if is_play:
+                    status, rank = f"PLAY {pick} — edge {edge_v * 100:+.1f} pts", 0
+                elif slip.get("flagged"):
+                    status = (f"SLIP {slip['expected_repricing_pts']:+.1f} pts — "
+                              f"quote {slip['quote_age_s']}s stale")
+                    rank = 1
+                elif edge_v is not None:
+                    short = (edge_v - base_hurdle) * 100
+                    status, rank = f"{abs(short):.1f} pts short of a play", 2
+                elif r.get("status") and r["status"] != "ok":
+                    status, rank = r["status"], 4
+                else:
+                    status, rank = "no Kalshi quotes", 3
+                plays.append({
+                    "asset": asset, "pick": pick, "prob_up": r.get("prob_up"),
+                    "edge": edge_v, "status": status, "is_play": is_play,
+                    "slip_flagged": bool(slip.get("flagged")),
+                    "kelly": r.get("kelly"),
+                    "_rank": (rank, -(edge_v or -1))})
+            plays.sort(key=lambda x: x.pop("_rank"))
+
         versions = {r["asset"]: r["version"] for r in reversed(storage.registry_rows())}
         last_retrain = max((r["trained_at"] for r in storage.registry_rows()), default=None)
         return {
             "now": now,
             "assets": assets,
+            "plays": plays,
             "et_time": win.et_datetime(int(now)).strftime("%a %b %-d, %-I:%M:%S %p ET"),
             "window": {"start": wstart, "close": wclose,
                        "label": f"{win.et_label(wstart)}–{win.et_label(wclose)}",

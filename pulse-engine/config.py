@@ -67,12 +67,21 @@ GRADE_DELAY_SECONDS: int = 30          # grade this long after window close
 # In-window scanning (how practitioners actually trade these markets:
 # evaluate continuously and act whenever quotes lag spot, instead of one
 # prediction per window).
-SCAN_INTERVAL_SECONDS: int = _env_int("SCAN_INTERVAL_SECONDS", 20)
+SCAN_INTERVAL_SECONDS: int = _env_int("SCAN_INTERVAL_SECONDS", 10)
 SCAN_START_SECONDS: int = _env_int("SCAN_START_SECONDS", 60)    # no entries before
 SCAN_STOP_SECONDS: int = _env_int("SCAN_STOP_SECONDS", 45)      # no entries after close-N
 # A pick must clear the edge threshold on this many CONSECUTIVE scans before
 # it is committed — debounces quote noise and single-tick model blips.
 SCAN_CONFIRMATIONS: int = _env_int("SCAN_CONFIRMATIONS", 2)
+
+# ------------------------------------------------------------ v2: ticks ----
+# Rolling in-memory tick buffer per asset (websocket trades/klines), powering
+# real-time slip detection between spot moves and stale Kalshi quotes.
+TICK_BUFFER_SECONDS: int = _env_int("TICK_BUFFER_SECONDS", 1200)
+# Flag a SLIP when quotes should have repriced by at least this many prob
+# points given the spot move since the quote was fetched.
+SLIP_ALERT_POINTS: float = _env_float("SLIP_ALERT_POINTS", 0.04)
+SLIP_MIN_QUOTE_AGE: float = _env_float("SLIP_MIN_QUOTE_AGE", 3.0)
 # Elapsed-time offsets (s) at which training rows are sampled per window, so
 # the model learns the move/time-remaining interaction the scanner sees live.
 # Offset 0 = at-the-open rows, powering the next-window early projection.

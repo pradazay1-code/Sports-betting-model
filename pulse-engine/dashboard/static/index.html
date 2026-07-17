@@ -90,6 +90,11 @@
 
 <div class="note" id="realitynote">Loading…</div>
 
+<div class="card" style="margin-bottom:12px">
+  <h2>Live plays — real-time margin scan (every 10s)</h2>
+  <table id="playstable"></table>
+</div>
+
 <div class="grid" id="assets"></div>
 
 <div class="cols">
@@ -174,6 +179,16 @@ async function refreshState(){
   $("lights").innerHTML=[light("prices",s.feeds.prices.status+(s.feeds.prices.source?" ("+s.feeds.prices.source+")":"")),
     light("kalshi",s.feeds.kalshi.status),light("news",s.feeds.news.status),
     `<span class="mini">paper only — execution off</span>`].join("");
+  const plays=s.plays||[];
+  $("playstable").innerHTML=plays.length?(
+    `<tr><th>asset</th><th>read</th><th>status</th><th>stake hint</th></tr>`+
+    plays.map(pl=>{
+      const cls=pl.is_play?(pl.pick==="UP"?"pos":"neg"):(pl.slip_flagged?"pos":"");
+      const read=pl.prob_up!=null?`${pl.prob_up>=0.5?"UP":"DOWN"} ${pct(pl.prob_up>=0.5?pl.prob_up:1-pl.prob_up)}`:"—";
+      const stake=pl.kelly&&pl.kelly.contracts>0?`${pl.kelly.contracts} contracts`:"—";
+      return `<tr><td><b>${pl.asset}</b></td><td>${read}</td><td class="${cls}">${pl.status}</td><td>${stake}</td></tr>`;
+    }).join(""))
+    :`<tr><td class="mini">waiting for first scan of this window…</td></tr>`;
   const cont=$("assets");cont.innerHTML="";
   for(const[a,d]of Object.entries(s.assets)){
     const card=document.createElement("div");card.className="card";
@@ -191,6 +206,8 @@ async function refreshState(){
       ?`<span>suggested stake</span><b>${p.kelly.contracts} contracts (¼-Kelly ${(100*p.kelly.fraction).toFixed(1)}% of bankroll)</b>`:"";
     const arb=p&&p.arb_cents!=null
       ?`<div class="chg pos">⚠ ARB: YES+NO asks leave ${p.arb_cents}¢/pair gross</div>`:"";
+    const slipB=p&&p.slip&&p.slip.flagged
+      ?`<div class="chg pos">⚡ SLIP: quote ${p.slip.quote_age_s}s stale, fair value ${p.slip.expected_repricing_pts>=0?"+":""}${p.slip.expected_repricing_pts} pts vs posted</div>`:"";
     const staleBadge=d.stale?`<span class="badge stale">STALE DATA</span>`:"";
     const noMkt=d.kalshi.no_market?`<span class="badge">no Kalshi market</span>`:"";
     const meter=(p&&p.prob_up!=null)?`
@@ -212,7 +229,9 @@ async function refreshState(){
       const factors=(bd.factors||[]).map(f=>
         `<li>${f.label}: ${f.value}<span class="pts ${f.points>=0?"pos":"neg"}">${f.points>=0?"+":""}${f.points} pts</span></li>`).join("");
       bdHtml=`<details class="bd"><summary>AI breakdown — full deep dive</summary>
-        <div class="bh">Verdict</div><ul><li>${bd.verdict.line}</li></ul>
+        <div class="bh">Verdict</div><ul><li>${bd.verdict.line}</li>
+        ${bd.verdict.value_line?`<li>${bd.verdict.value_line}</li>`:""}
+        ${bd.verdict.slip_line?`<li class="pos">${bd.verdict.slip_line}</li>`:""}</ul>
         <div class="bh">Fair-value chain</div><ul>${(bd.fair_value_chain||[]).map(l=>`<li>${l}</li>`).join("")}</ul>
         ${factors?`<div class="bh">Top factors in this read</div><ul>${factors}</ul>`:""}
         ${(bd.analogs||[]).length?`<div class="bh">Historical analogs</div><ul>${bd.analogs.map(l=>`<li>${l}</li>`).join("")}</ul>`:""}
@@ -228,7 +247,7 @@ async function refreshState(){
       <div class="sect"><span class="tag">NOW · ${s.window.label}</span>
         <div class="call"><span class="pick ${pkCls}">${pk==="NO PLAY"?"NO PLAY":pk}</span>
           <span class="mini">${lean||(p&&p.status&&p.status!=="ok"?p.status:(p&&p.reasons&&p.reasons[0])||"waiting for first scan…")}</span></div>
-        ${meter} ${arb}
+        ${meter} ${arb} ${slipB}
         <div class="kv">
           <span>edge</span><b>${p&&p.edge!=null?((p.edge>=0?"+":"")+(100*p.edge).toFixed(1)+" pts"):"—"}</b>
           ${kelly}

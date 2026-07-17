@@ -101,6 +101,20 @@ the ML learns the move/time-remaining interaction. At most one pick per
 (asset, window) — enforced by the predictions UNIQUE constraint; first
 edge trigger wins, matching live execution semantics.
 
+## v2: tick buffer, slip detection, live plays feed
+
+- `LatestCache` (price_collector) keeps a rolling per-asset tick deque
+  (`TICK_BUFFER_SECONDS`); `price_at(asset, ts)` recovers the spot price
+  when a Kalshi quote was fetched.
+- `engine/slips.py` (pure math, unit-tested): expected repricing =
+  GBM(spot_now) − GBM(spot_at_quote); flagged when ≥ `SLIP_ALERT_POINTS`
+  and quote age ≥ `SLIP_MIN_QUOTE_AGE`. Computed each scan in the
+  predictor; surfaced as card banners and in `/api/state["plays"]`.
+- Live plays feed: server ranks assets each state call — PLAY > SLIP >
+  points-short > no-quotes — rendered as the dashboard's top panel.
+- Scan interval default is 10s. Tick data feeds slip detection and display
+  only; ML model inputs remain candle-based so train/live stay identical.
+
 ## Explanations & next-window preview
 
 - `engine/explain.py` builds the per-read "AI breakdown": fair-value chain,
