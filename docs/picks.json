@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-07-17T02:50:39+00:00",
-  "on_date": "2026-07-16",
+  "generated_at": "2026-07-17T05:43:28+00:00",
+  "on_date": "2026-07-17",
   "sports": [
     "NBA",
     "MLB",
@@ -19,9 +19,9 @@
   },
   "picks": [
     {
-      "id": 2176,
-      "generated_at": "2026-07-17T02:50:39+00:00",
-      "on_date": "2026-07-16",
+      "id": 2201,
+      "generated_at": "2026-07-17T05:43:28+00:00",
+      "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "A.J. Ewing",
       "market": "batter_total_bases",
@@ -57,9 +57,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2177,
-      "generated_at": "2026-07-17T02:50:39+00:00",
-      "on_date": "2026-07-16",
+      "id": 2202,
+      "generated_at": "2026-07-17T05:43:28+00:00",
+      "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Brandon Marsh",
       "market": "batter_total_bases",
@@ -95,9 +95,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2178,
-      "generated_at": "2026-07-17T02:50:39+00:00",
-      "on_date": "2026-07-16",
+      "id": 2203,
+      "generated_at": "2026-07-17T05:43:28+00:00",
+      "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Bryce Harper",
       "market": "batter_total_bases",
@@ -133,9 +133,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2179,
-      "generated_at": "2026-07-17T02:50:39+00:00",
-      "on_date": "2026-07-16",
+      "id": 2204,
+      "generated_at": "2026-07-17T05:43:28+00:00",
+      "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Carson Benge",
       "market": "batter_total_bases",
@@ -171,9 +171,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2180,
-      "generated_at": "2026-07-17T02:50:39+00:00",
-      "on_date": "2026-07-16",
+      "id": 2205,
+      "generated_at": "2026-07-17T05:43:28+00:00",
+      "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Francisco Lindor",
       "market": "batter_total_bases",
@@ -209,9 +209,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2181,
-      "generated_at": "2026-07-17T02:50:39+00:00",
-      "on_date": "2026-07-16",
+      "id": 2206,
+      "generated_at": "2026-07-17T05:43:28+00:00",
+      "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Juan Soto",
       "market": "batter_total_bases",
@@ -247,9 +247,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2182,
-      "generated_at": "2026-07-17T02:50:39+00:00",
-      "on_date": "2026-07-16",
+      "id": 2207,
+      "generated_at": "2026-07-17T05:43:28+00:00",
+      "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Kyle Schwarber",
       "market": "batter_total_bases",
@@ -285,9 +285,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2183,
-      "generated_at": "2026-07-17T02:50:39+00:00",
-      "on_date": "2026-07-16",
+      "id": 2208,
+      "generated_at": "2026-07-17T05:43:28+00:00",
+      "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Aaron Nola",
       "market": "pitcher_outs",
@@ -323,9 +323,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2184,
-      "generated_at": "2026-07-17T02:50:39+00:00",
-      "on_date": "2026-07-16",
+      "id": 2209,
+      "generated_at": "2026-07-17T05:43:28+00:00",
+      "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Christian Scott",
       "market": "pitcher_outs",
@@ -361,9 +361,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2185,
-      "generated_at": "2026-07-17T02:50:39+00:00",
-      "on_date": "2026-07-16",
+      "id": 2210,
+      "generated_at": "2026-07-17T05:43:28+00:00",
+      "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Trea Turner",
       "market": "batter_total_bases",
@@ -399,9 +399,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2186,
-      "generated_at": "2026-07-17T02:50:39+00:00",
-      "on_date": "2026-07-16",
+      "id": 2211,
+      "generated_at": "2026-07-17T05:43:28+00:00",
+      "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "A.J. Ewing",
       "market": "batter_hits",
@@ -437,9 +437,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2187,
-      "generated_at": "2026-07-17T02:50:39+00:00",
-      "on_date": "2026-07-16",
+      "id": 2212,
+      "generated_at": "2026-07-17T05:43:28+00:00",
+      "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Alec Bohm",
       "market": "batter_hits",
@@ -475,9 +475,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2188,
-      "generated_at": "2026-07-17T02:50:39+00:00",
-      "on_date": "2026-07-16",
+      "id": 2213,
+      "generated_at": "2026-07-17T05:43:28+00:00",
+      "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Brandon Marsh",
       "market": "batter_hits",
@@ -513,9 +513,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2189,
-      "generated_at": "2026-07-17T02:50:39+00:00",
-      "on_date": "2026-07-16",
+      "id": 2214,
+      "generated_at": "2026-07-17T05:43:28+00:00",
+      "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Brett Baty",
       "market": "batter_hits",
@@ -551,9 +551,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2190,
-      "generated_at": "2026-07-17T02:50:39+00:00",
-      "on_date": "2026-07-16",
+      "id": 2215,
+      "generated_at": "2026-07-17T05:43:28+00:00",
+      "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Bryce Harper",
       "market": "batter_hits",
@@ -589,9 +589,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2191,
-      "generated_at": "2026-07-17T02:50:39+00:00",
-      "on_date": "2026-07-16",
+      "id": 2216,
+      "generated_at": "2026-07-17T05:43:28+00:00",
+      "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Bryson Stott",
       "market": "batter_hits",
@@ -627,9 +627,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2192,
-      "generated_at": "2026-07-17T02:50:39+00:00",
-      "on_date": "2026-07-16",
+      "id": 2217,
+      "generated_at": "2026-07-17T05:43:28+00:00",
+      "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Carson Benge",
       "market": "batter_hits",
@@ -665,9 +665,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2193,
-      "generated_at": "2026-07-17T02:50:39+00:00",
-      "on_date": "2026-07-16",
+      "id": 2218,
+      "generated_at": "2026-07-17T05:43:28+00:00",
+      "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Francisco Alvarez",
       "market": "batter_hits",
@@ -703,9 +703,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2194,
-      "generated_at": "2026-07-17T02:50:39+00:00",
-      "on_date": "2026-07-16",
+      "id": 2219,
+      "generated_at": "2026-07-17T05:43:28+00:00",
+      "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Francisco Lindor",
       "market": "batter_hits",
@@ -741,9 +741,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2195,
-      "generated_at": "2026-07-17T02:50:39+00:00",
-      "on_date": "2026-07-16",
+      "id": 2220,
+      "generated_at": "2026-07-17T05:43:28+00:00",
+      "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Gabriel Rincones Jr.",
       "market": "batter_hits",
@@ -779,9 +779,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2196,
-      "generated_at": "2026-07-17T02:50:39+00:00",
-      "on_date": "2026-07-16",
+      "id": 2221,
+      "generated_at": "2026-07-17T05:43:28+00:00",
+      "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "J.T. Realmuto",
       "market": "batter_hits",
@@ -817,9 +817,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2197,
-      "generated_at": "2026-07-17T02:50:39+00:00",
-      "on_date": "2026-07-16",
+      "id": 2222,
+      "generated_at": "2026-07-17T05:43:28+00:00",
+      "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Jared Young",
       "market": "batter_hits",
@@ -855,9 +855,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2198,
-      "generated_at": "2026-07-17T02:50:39+00:00",
-      "on_date": "2026-07-16",
+      "id": 2223,
+      "generated_at": "2026-07-17T05:43:28+00:00",
+      "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Jorge Polanco",
       "market": "batter_hits",
@@ -893,9 +893,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2199,
-      "generated_at": "2026-07-17T02:50:39+00:00",
-      "on_date": "2026-07-16",
+      "id": 2224,
+      "generated_at": "2026-07-17T05:43:28+00:00",
+      "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Juan Soto",
       "market": "batter_hits",
@@ -931,9 +931,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2200,
-      "generated_at": "2026-07-17T02:50:39+00:00",
-      "on_date": "2026-07-16",
+      "id": 2225,
+      "generated_at": "2026-07-17T05:43:28+00:00",
+      "on_date": "2026-07-17",
       "sport": "MLB",
       "player_name": "Justin Crawford",
       "market": "batter_hits",
@@ -1425,15 +1425,6 @@
       "n_losses": 7,
       "n_push": 0,
       "roi_units": 8.12605042016807
-    },
-    {
-      "on_date": "2026-06-16",
-      "sport": "MLB",
-      "n_picks": 23,
-      "n_wins": 17,
-      "n_losses": 6,
-      "n_push": 0,
-      "roi_units": 8.285714285714288
     }
   ],
   "model_summary": [
