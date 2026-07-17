@@ -39,9 +39,12 @@ def _env_int(name: str, default: int) -> int:
 ASSETS: list[str] = ["BTC", "ETH", "XRP", "SOL"]
 
 # Preferred spot exchange for candles, with fallbacks tried in order.
-# binanceus works from the US; binance has the deepest books elsewhere.
-EXCHANGE_ID: str = _env("EXCHANGE_ID", "binanceus")
-EXCHANGE_FALLBACKS: list[str] = ["binance", "coinbase", "kraken"]
+# Default is coinbase: Kalshi settles its crypto markets on a 60-second
+# average of the CF Benchmarks Real-Time Index, whose constituents are
+# regulated USD venues (Coinbase chief among them) — binance.us USDT
+# pricing is NOT part of that index and can drift from settlement.
+EXCHANGE_ID: str = _env("EXCHANGE_ID", "coinbase")
+EXCHANGE_FALLBACKS: list[str] = ["kraken", "binanceus", "binance"]
 
 # ccxt symbol per exchange family. Quote currency differs by venue.
 SYMBOLS: dict[str, dict[str, str]] = {

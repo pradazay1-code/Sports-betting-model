@@ -30,11 +30,19 @@ FINDINGS_PATH = config.LOGS_DIR / "error_analysis.md"
 # --------------------------------------------------------------- grading ----
 
 def resolve_direction(asset: str, wstart: int, wclose: int) -> tuple[str, float | None]:
-    """(UP|DOWN|FLAT|UNKNOWN, window return) from stored 1m candles."""
+    """(UP|DOWN|FLAT|UNKNOWN, window return) from stored 1m candles.
+
+    Kalshi settles crypto windows on a 60-second AVERAGE of the CF
+    Benchmarks index over the final minute — not the last trade. The final
+    candle's OHLC mean approximates that average far better than its close,
+    which matters on windows that whip in the last seconds.
+    """
     df = storage.get_candles(asset, wstart, wclose)
     if df.empty or len(df) < 10:
         return "UNKNOWN", None
-    o, c = float(df.iloc[0]["open"]), float(df.iloc[-1]["close"])
+    o = float(df.iloc[0]["open"])
+    last = df.iloc[-1]
+    c = float(last["open"] + last["high"] + last["low"] + last["close"]) / 4.0
     if o <= 0:
         return "UNKNOWN", None
     ret = c / o - 1.0

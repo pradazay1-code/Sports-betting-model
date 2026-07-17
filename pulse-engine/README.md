@@ -96,6 +96,37 @@ Each asset card also shows:
   accuracy and Brier with trend arrows, total windows graded, model
   versions, and the current adaptive edge buffer.
 
+## Running 24/7
+
+```bash
+bash scripts/run_forever.sh     # supervises run.py, auto-restarts on crash
+tail -f logs/run.out            # watch it from another terminal
+```
+
+The engine grades every window and retrains on schedule *only while the
+machine is awake*. On a Chromebook the Linux container pauses when the lid
+closes or the device sleeps, so for true 24/7:
+
+- keep it plugged in, and in Settings → Device → Power set "When idle" to
+  **Keep display on** (or at least disable sleep while charging), or
+- run it on any always-on box (an old laptop, mini PC, or a ~$5/month VPS)
+  — clone the repo, same three commands, then `bash scripts/run_forever.sh`
+  under `tmux`/`nohup`.
+
+Gaps are handled gracefully either way: on wake the collector REST-backfills
+missed candles, windows that closed while asleep grade as soon as data
+allows, and unresolvable ones are marked UNKNOWN rather than guessed.
+
+## Data source & settlement alignment
+
+Kalshi settles its crypto markets on a **60-second average of the CF
+Benchmarks Real-Time Index** (regulated USD venues — Coinbase is a core
+constituent) over the final minute of the window. The engine therefore
+defaults to **Coinbase** for prices (`EXCHANGE_ID=coinbase`) and grades
+windows against the final candle's OHLC mean to approximate the settlement
+average. binance.us USDT pricing is available as a fallback but is not part
+of the settlement index — avoid it as the primary source.
+
 ## Honesty notes
 
 - 15-minute crypto direction is nearly a coin flip and Kalshi prices these

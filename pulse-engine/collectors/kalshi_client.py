@@ -205,27 +205,44 @@ class KalshiClient:
     # ---------------------------------------------------------- markets ----
 
     async def current_market(self, asset: str, window_close: int) -> MarketQuote | None:
-        """The open market for `asset` closing at `window_close`, with quotes."""
+        """The open market for `asset` closing nearest `window_close`.
+
+        Tolerant matching (±150s) instead of exact equality: Kalshi's
+        close_time can carry seconds-level offsets from the nominal quarter
+        hour, and an exact-match miss silently kills all edge math.
+        """
         series = await self.discover_series(asset)
         if not series:
             return None
         data = await self._get("/markets", {
             "series_ticker": series, "status": "open", "limit": 100})
-        for m in data.get("markets", []):
+        markets = data.get("markets", [])
+        best, best_gap = None, 10 ** 9
+        for m in markets:
             c = _parse_iso(m.get("close_time"))
-            if c != window_close:
+            if c is None:
                 continue
-            o = _parse_iso(m.get("open_time"))
-            return MarketQuote(
-                asset=asset, ticker=m.get("ticker", ""),
-                window_start=o, window_close=c,
-                yes_bid=m.get("yes_bid"), yes_ask=m.get("yes_ask"),
-                no_bid=m.get("no_bid"), no_ask=m.get("no_ask"),
-                last_price=m.get("last_price"),
-                strike_type=m.get("strike_type") or m.get("market_type"),
-                fetched_at=time.time(),
-            )
-        return None
+            gap = abs(c - window_close)
+            if gap < best_gap:
+                best, best_gap = m, gap
+        if best is None or best_gap > 150:
+            closes = sorted(_parse_iso(m.get("close_time")) or 0 for m in markets)[:4]
+            log.info("%s: no market near window close %d (nearest closes: %s)",
+                     asset, window_close, closes)
+            return None
+        if best_gap > 0:
+            log.debug("%s: matched %s with %ds close offset",
+                      asset, best.get("ticker"), best_gap)
+        o = _parse_iso(best.get("open_time"))
+        return MarketQuote(
+            asset=asset, ticker=best.get("ticker", ""),
+            window_start=o, window_close=window_close,  # normalized to our window
+            yes_bid=best.get("yes_bid"), yes_ask=best.get("yes_ask"),
+            no_bid=best.get("no_bid"), no_ask=best.get("no_ask"),
+            last_price=best.get("last_price"),
+            strike_type=best.get("strike_type") or best.get("market_type"),
+            fetched_at=time.time(),
+        )
 
 
 class KalshiPoller:

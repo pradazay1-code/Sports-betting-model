@@ -195,11 +195,16 @@ class PriceCollector:
 
     async def run(self) -> None:
         """Connect, stream, reconnect forever with exponential backoff."""
-        sources = []
-        if config.EXCHANGE_ID in config.BINANCE_WS_HOSTS:
-            sources.append(config.EXCHANGE_ID)
-        sources += [s for s in ("binanceus", "binance") if s not in sources]
-        sources.append("coinbase")
+        # Preferred source first: coinbase tracks Kalshi's settlement index
+        # (CF Benchmarks, USD venues) far better than binance USDT books.
+        if config.EXCHANGE_ID == "coinbase":
+            sources = ["coinbase", "binanceus", "binance"]
+        else:
+            sources = []
+            if config.EXCHANGE_ID in config.BINANCE_WS_HOSTS:
+                sources.append(config.EXCHANGE_ID)
+            sources += [s for s in ("binanceus", "binance") if s not in sources]
+            sources.append("coinbase")
 
         backoff = 1.0
         while not self._stop.is_set():
