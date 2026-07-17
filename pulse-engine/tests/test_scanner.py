@@ -115,6 +115,23 @@ def test_no_entries_after_cutoff(db, predictor, monkeypatch):
     assert row is not None and row["pick"] == "NO PLAY"
 
 
+def test_next_window_preview_and_breakdown(db, predictor):
+    _prep(db)
+    res = predictor.scan(now_ts=WSTART + 900 - 120)  # inside preview lead
+    assert len(res) == len(config.ASSETS)
+    for r in res:
+        nx = r.get("next_window")
+        assert nx and nx["window_start"] == WSTART + 900
+        assert 0.0 < nx["prob_up"] < 1.0
+        bd = r.get("breakdown")
+        assert bd and bd["verdict"]["pick"] == "NO PLAY"
+        assert bd["fair_value_chain"] and bd["self_tracking"]
+    # Early in the window there is no preview yet.
+    predictor2 = type(predictor)(price_cache=None)
+    res2 = predictor2.scan(now_ts=WSTART + 300)
+    assert all(r.get("next_window") is None for r in res2)
+
+
 def test_interrupted_streak_resets(db, predictor, monkeypatch):
     _prep(db)
     probs = iter([(0.70, "v"), (0.50, "v"), (0.70, "v")])

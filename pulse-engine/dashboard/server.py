@@ -110,6 +110,9 @@ def create_app(runtime: Runtime | None = None) -> FastAPI:
                     "kelly": pred.get("kelly"),
                     "arb_cents": pred.get("arb_cents"),
                     "scanned_at": pred.get("scanned_at"),
+                    "raw_prob_up": pred.get("raw_prob_up"),
+                    "breakdown": pred.get("breakdown"),
+                    "next_window": pred.get("next_window"),
                 } if pred else None,
             }
         versions = {r["asset"]: r["version"] for r in reversed(storage.registry_rows())}
@@ -170,12 +173,20 @@ def create_app(runtime: Runtime | None = None) -> FastAPI:
             if r["pick"] in (edge_mod.UP, edge_mod.DOWN):
                 cum += r["paper_pnl"] or 0.0
                 pnl_curve.append({"ts": r["resolved_at"], "pnl": round(cum, 2)})
+        seven = learner.rolling_metrics(7)
+        fourteen = learner.rolling_metrics(14)
         return {
-            "seven_day": learner.rolling_metrics(7),
+            "seven_day": seven,
             "all_time": learner.rolling_metrics(None),
             "calibration": learner.calibration_buckets(30),
             "pnl_curve": pnl_curve[-500:],
             "paper_contracts": config.PAPER_CONTRACTS,
+            # Self-improvement trend: this week vs the two-week average.
+            "trend": {"acc_7d": seven["overall"].get("pick_accuracy"),
+                      "acc_14d": fourteen["overall"].get("pick_accuracy"),
+                      "brier_7d": seven["overall"].get("brier"),
+                      "brier_14d": fourteen["overall"].get("brier"),
+                      "graded_total": storage.resolved_count()},
         }
 
     @app.get("/api/news")

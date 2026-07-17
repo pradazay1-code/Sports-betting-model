@@ -28,7 +28,7 @@ import config
 import storage
 from collectors.news_collector import news_features
 from engine import edge as edge_mod
-from engine import gbm
+from engine import explain
 from engine import window as win
 from engine.features import build_features
 from engine.model import ModelStore
@@ -45,6 +45,31 @@ class Predictor:
         self.last_run: dict[str, dict] = {}   # asset -> latest scan summary
         self._decided: dict[str, int] = {}    # asset -> window_start already decided
         self._streak: dict[str, tuple[int, str, int]] = {}  # asset -> (wstart, side, count)
+        self._self_stats: tuple[float, dict] = (0.0, {})    # (fetched_at, by_asset)
+
+    def _asset_self_stats(self, asset: str) -> dict | None:
+        """7-day graded record per asset, cached for 5 minutes."""
+        ts, stats = self._self_stats
+        if time.time() - ts > 300:
+            try:
+                from engine.learner import rolling_metrics
+                stats = rolling_metrics(7)["by_asset"]
+                self._self_stats = (time.time(), stats)
+            except Exception as e:  # noqa: BLE001
+                log.debug("self-stats refresh failed: %s", e)
+        return stats.get(asset)
+
+    def _next_window_preview(self, asset: str, wclose: int, candles,
+                             btc_candles) -> dict | None:
+        """Early read on the upcoming window, from at-the-open features."""
+        feats = build_features(asset, wclose, candles, btc_candles)
+        if feats is None:
+            return None
+        pred = self.models.predict_prob_up(asset, feats)
+        prob, version = pred if pred else (feats["gbm_prob"], "gbm-fallback")
+        return {"window_start": wclose, "window_close": wclose + config.WINDOW_SECONDS,
+                "label": f"{win.et_label(wclose)}–{win.et_label(wclose + config.WINDOW_SECONDS)}",
+                "prob_up": prob, "model_version": version}
 
     # ------------------------------------------------------------- inputs --
 
@@ -100,21 +125,23 @@ class Predictor:
                        "edge": None, "status": "ok", "reasons": [], "kelly": None,
                        "arb_cents": None, "decided": False, "scanned_at": at_ts}
             try:
-                if self._already_decided(asset, wstart):
-                    prev = self.last_run.get(asset)
-                    if prev and prev.get("window_start") == wstart:
-                        results.append(prev)
-                        continue
-                    row = storage.prediction_for(asset, wstart) or {}
-                    summary.update({"pick": row.get("pick", edge_mod.NO_PLAY),
-                                    "prob_up": row.get("prob_up"),
-                                    "edge": row.get("edge"), "decided": True})
-                    results.append(summary)
-                    self.last_run[asset] = summary
-                    continue
-
                 candles = btc_candles if asset == "BTC" else \
                     storage.get_candles(asset, lookback_start, at_ts)
+
+                if self._already_decided(asset, wstart):
+                    prev = self.last_run.get(asset)
+                    if not (prev and prev.get("window_start") == wstart):
+                        row = storage.prediction_for(asset, wstart) or {}
+                        summary.update({"pick": row.get("pick", edge_mod.NO_PLAY),
+                                        "prob_up": row.get("prob_up"),
+                                        "edge": row.get("edge"), "decided": True})
+                        prev = summary
+                    if remaining <= config.NEXT_WINDOW_PREVIEW_SECONDS:
+                        prev["next_window"] = self._next_window_preview(
+                            asset, wclose, candles, btc_candles)
+                    results.append(prev)
+                    self.last_run[asset] = prev
+                    continue
                 tick = self.price_cache.get(asset) if self.price_cache else None
                 live_price = tick.price if tick and now_ts - tick.ts < 120 else None
 
@@ -160,6 +187,7 @@ class Predictor:
                     "pick": decision.pick, "prob_up": prob_up,
                     "raw_prob_up": decision.raw_prob_up,
                     "implied_up": decision.implied_up, "edge": decision.edge,
+                    "entry_price": decision.entry_price, "buffer": buffer,
                     "reasons": decision.reasons + summary["reasons"],
                     "model_version": version,
                     "no_kalshi_market": decision.implied_up is None,
@@ -206,6 +234,13 @@ class Predictor:
                              asset, win.et_label(wstart), pick_to_store, int(elapsed),
                              prob_up, decision.implied_up, decision.edge,
                              f" kelly={summary['kelly']}" if summary["kelly"] else "")
+                # Deep-dive breakdown + early read on the NEXT window.
+                summary["breakdown"] = explain.build_breakdown(
+                    asset, summary, feats, self.models.get(asset),
+                    self._asset_self_stats(asset))
+                if remaining <= config.NEXT_WINDOW_PREVIEW_SECONDS:
+                    summary["next_window"] = self._next_window_preview(
+                        asset, wclose, candles, btc_candles)
             except Exception as e:  # noqa: BLE001 — one asset must not kill the pass
                 log.exception("%s scan failed: %s", asset, e)
                 summary["status"] = "error"

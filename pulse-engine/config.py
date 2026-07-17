@@ -75,7 +75,11 @@ SCAN_STOP_SECONDS: int = _env_int("SCAN_STOP_SECONDS", 45)      # no entries aft
 SCAN_CONFIRMATIONS: int = _env_int("SCAN_CONFIRMATIONS", 2)
 # Elapsed-time offsets (s) at which training rows are sampled per window, so
 # the model learns the move/time-remaining interaction the scanner sees live.
-TRAIN_SAMPLE_OFFSETS: list[int] = [75, 240, 480, 720, 840]
+# Offset 0 = at-the-open rows, powering the next-window early projection.
+TRAIN_SAMPLE_OFFSETS: list[int] = [0, 75, 240, 480, 720, 840]
+# The dashboard shows an early read on the NEXT window during the final
+# stretch of the current one (limited by the data-staleness gate).
+NEXT_WINDOW_PREVIEW_SECONDS: int = _env_int("NEXT_WINDOW_PREVIEW_SECONDS", 150)
 
 # --------------------------------------------------------------- storage ----
 DATA_DIR = BASE_DIR / "data"

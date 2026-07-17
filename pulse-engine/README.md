@@ -70,6 +70,22 @@ spot moves:
    Brier degradation, or every 200 resolved windows — and a new model is
    promoted only if its validation Brier improves.
 
+Each asset card also shows:
+
+- **NEXT WINDOW** — an early UP/DOWN lean on the upcoming market (computed
+  from at-the-open features the model was explicitly trained on), appearing
+  during the final ~2½ minutes of the current window and firming up once
+  the new window opens;
+- **AI breakdown** — a per-read deep dive: the fair-value chain (Brownian
+  fair value → ML probability → market-shrunk decision prob → Kalshi's
+  price → the fee+buffer hurdle), the top weighted factors behind the lean
+  (signed, in probability points, from LightGBM per-prediction
+  contributions), historical analogs (how windows in this time-of-day and
+  vol regime resolved), and the system's own recent graded record;
+- the **Learning** panel tracks whether it's improving: 7-day vs 14-day
+  accuracy and Brier with trend arrows, total windows graded, model
+  versions, and the current adaptive edge buffer.
+
 ## Honesty notes
 
 - 15-minute crypto direction is nearly a coin flip and Kalshi prices these

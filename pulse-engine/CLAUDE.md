@@ -101,6 +101,19 @@ the ML learns the move/time-remaining interaction. At most one pick per
 (asset, window) — enforced by the predictions UNIQUE constraint; first
 edge trigger wins, matching live execution semantics.
 
+## Explanations & next-window preview
+
+- `engine/explain.py` builds the per-read "AI breakdown": fair-value chain,
+  top factors via LightGBM `pred_contrib` (log-odds scaled to prob points
+  by p(1-p)), historical analogs from `bundle["context_stats"]` (computed
+  at train time in `model._context_stats`), and the asset's own 7-day
+  graded record. It must never raise into the scan loop.
+- Next-window preview: offset 0 lives in `TRAIN_SAMPLE_OFFSETS` so
+  at-the-open rows are in-distribution; `Predictor._next_window_preview`
+  calls `build_features(at_ts=window_close)` during the last
+  `NEXT_WINDOW_PREVIEW_SECONDS` of the current window (bounded by the
+  data-staleness gate). Preview is display-only — never persisted/graded.
+
 ## Things to Verify With Network Access
 
 Built/tested offline against synthetic data; these need one pass with real

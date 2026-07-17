@@ -140,6 +140,32 @@ def walk_forward(df: pd.DataFrame, factory) -> tuple[Metrics, np.ndarray, np.nda
     return _score(yy, p), p, yy
 
 
+def _context_stats(df: pd.DataFrame) -> dict:
+    """Historical analog stats for the AI-breakdown panel: how windows in
+    the training period resolved, sliced by ET time-of-day and vol regime.
+    Computed on one row per window (offset dedup) so counts are windows."""
+    one = df.drop_duplicates(subset=["_window_start"])
+    stats: dict = {"windows": int(len(one)),
+                   "up_rate": round(float(one["_label"].mean()), 4),
+                   "by_hour_bucket": {}, "by_vol": {}}
+    hours = one["_window_start"].map(lambda t: win.et_datetime(int(t)).hour)
+    buckets = {"overnight(12-6am)": (0, 6), "morning(6am-12)": (6, 12),
+               "afternoon(12-6pm)": (12, 18), "evening(6pm-12)": (18, 24)}
+    for name, (lo, hi) in buckets.items():
+        m = (hours >= lo) & (hours < hi)
+        if m.sum() >= 30:
+            stats["by_hour_bucket"][name] = {
+                "up_rate": round(float(one.loc[m, "_label"].mean()), 4),
+                "n": int(m.sum())}
+    for name, m in {"high-vol": one["vol_regime"] > 0.5,
+                    "normal-vol": one["vol_regime"] <= 0.5}.items():
+        if m.sum() >= 30:
+            stats["by_vol"][name] = {
+                "up_rate": round(float(one.loc[m, "_label"].mean()), 4),
+                "n": int(m.sum())}
+    return stats
+
+
 # ----------------------------------------------------------------- train ----
 
 def train_asset(asset: str, days: int | None = None,
@@ -177,11 +203,13 @@ def train_asset(asset: str, days: int | None = None,
     final.fit(df[FEATURE_COLUMNS].astype(float), df["_label"].to_numpy(dtype=int))
 
     version = f"{asset}-{time.strftime('%Y%m%d%H%M', time.gmtime())}"
+    context_stats = _context_stats(df)
     bundle = {
         "version": version, "asset": asset, "model": final,
         "calibrator": calibrator, "feature_columns": FEATURE_COLUMNS,
         "metrics": cal_metrics.row(), "baseline": base_metrics.row(),
         "raw": lgbm_metrics.row(), "reliability": reliability,
+        "context_stats": context_stats,
         "trained_at": int(time.time()), "train_rows": len(df),
     }
     joblib.dump(bundle, config.MODELS_DIR / f"{asset}.joblib")

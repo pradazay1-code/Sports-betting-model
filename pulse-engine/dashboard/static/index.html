@@ -57,6 +57,23 @@
   ul.findings{list-style:none;font-size:12px}
   ul.findings li{padding:4px 0;border-bottom:1px solid var(--line);color:var(--dim)}
   a{color:var(--accent);text-decoration:none}
+  .sect{margin-top:9px;padding-top:8px;border-top:1px solid var(--line)}
+  .sect .tag{font-size:10px;font-weight:700;letter-spacing:1px;color:var(--dim)}
+  .meter{position:relative;height:8px;border-radius:4px;margin:7px 0 3px;
+    background:linear-gradient(90deg,rgba(248,81,73,.25),rgba(139,148,158,.12) 45%,rgba(139,148,158,.12) 55%,rgba(63,185,80,.25))}
+  .meter .mk{position:absolute;top:-3px;width:2px;height:14px;border-radius:1px}
+  .meter .mk.model{background:var(--accent)}
+  .meter .mk.mkt{background:var(--warn)}
+  .meter .c50{position:absolute;left:50%;top:0;width:1px;height:8px;background:var(--line)}
+  .mlegend{font-size:10px;color:var(--dim)}
+  .mlegend .sw{display:inline-block;width:8px;height:8px;border-radius:2px;vertical-align:-1px;margin-right:3px}
+  details.bd{margin-top:8px;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:6px 10px}
+  details.bd summary{cursor:pointer;font-size:11px;color:var(--accent);font-weight:600}
+  .bd ul{list-style:none;font-size:11px;color:var(--dim);margin:6px 0 2px}
+  .bd li{padding:2px 0;border-bottom:1px dashed var(--line)}
+  .bd li:last-child{border-bottom:none}
+  .bd .bh{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--dim);margin-top:7px}
+  .bd .pts{float:right;font-variant-numeric:tabular-nums;font-weight:700}
 </style>
 </head>
 <body>
@@ -86,8 +103,9 @@
   </div>
   <div>
     <div class="card" style="margin-bottom:12px">
-      <h2>Learning</h2>
+      <h2>Learning — is it getting better?</h2>
       <div class="kv" id="learnkv"></div>
+      <div class="kv" id="trendkv" style="margin-top:6px"></div>
       <ul class="findings" id="findings"></ul>
     </div>
     <div class="card">
@@ -113,6 +131,7 @@ const $=id=>document.getElementById(id);
 const fmt=(v,d=2)=>v==null?"—":Number(v).toFixed(d);
 const pct=(v,d=1)=>v==null?"—":(100*v).toFixed(d)+"%";
 let closeAt=null;
+const openBreakdowns=new Set();  // keep expanded cards open across refreshes
 
 /* ---------- tiny canvas charts (self-contained, no CDN) ---------- */
 function prep(cv){const r=cv.getBoundingClientRect(),s=devicePixelRatio||1;
@@ -174,24 +193,54 @@ async function refreshState(){
       ?`<div class="chg pos">⚠ ARB: YES+NO asks leave ${p.arb_cents}¢/pair gross</div>`:"";
     const staleBadge=d.stale?`<span class="badge stale">STALE DATA</span>`:"";
     const noMkt=d.kalshi.no_market?`<span class="badge">no Kalshi market</span>`:"";
+    const meter=(p&&p.prob_up!=null)?`
+      <div class="meter"><span class="c50"></span>
+        <span class="mk model" style="left:${(100*p.prob_up).toFixed(1)}%"></span>
+        ${d.kalshi.implied_up!=null?`<span class="mk mkt" style="left:${(100*d.kalshi.implied_up).toFixed(1)}%"></span>`:""}
+      </div>
+      <div class="mlegend"><span class="sw" style="background:var(--accent)"></span>model ${pct(p.prob_up)}
+        ${d.kalshi.implied_up!=null?`&nbsp;<span class="sw" style="background:var(--warn)"></span>market ${pct(d.kalshi.implied_up)}`:""}
+        &nbsp;· DOWN ◄─► UP</div>`:"";
+    const nx=p&&p.next_window;
+    const nextHtml=nx&&nx.prob_up!=null
+      ?`${nx.label}: leans <b class="${nx.prob_up>=0.5?"pos":"neg"}">${nx.prob_up>=0.5?"UP":"DOWN"}</b>
+        ${pct(nx.prob_up>=0.5?nx.prob_up:1-nx.prob_up)} <span class="mini">(early read — firms up after the open)</span>`
+      :`<span class="mini">early read appears in the last ~2½ min of the current window</span>`;
+    const bd=p&&p.breakdown;
+    let bdHtml="";
+    if(bd){
+      const factors=(bd.factors||[]).map(f=>
+        `<li>${f.label}: ${f.value}<span class="pts ${f.points>=0?"pos":"neg"}">${f.points>=0?"+":""}${f.points} pts</span></li>`).join("");
+      bdHtml=`<details class="bd"><summary>AI breakdown — full deep dive</summary>
+        <div class="bh">Verdict</div><ul><li>${bd.verdict.line}</li></ul>
+        <div class="bh">Fair-value chain</div><ul>${(bd.fair_value_chain||[]).map(l=>`<li>${l}</li>`).join("")}</ul>
+        ${factors?`<div class="bh">Top factors in this read</div><ul>${factors}</ul>`:""}
+        ${(bd.analogs||[]).length?`<div class="bh">Historical analogs</div><ul>${bd.analogs.map(l=>`<li>${l}</li>`).join("")}</ul>`:""}
+        <div class="bh">Self-tracking</div><ul>${(bd.self_tracking||[]).map(l=>`<li>${l}</li>`).join("")}</ul>
+      </details>`;
+    }
     card.innerHTML=`
       <div class="top"><span class="sym">${a} ${staleBadge} ${noMkt}</span>
         <span class="px">${d.price?Number(d.price).toLocaleString(undefined,{maximumFractionDigits:d.price>100?2:4}):"—"}</span></div>
       <div class="chg ${chg>0?"pos":chg<0?"neg":""}">window open ${d.window_open?Number(d.window_open).toLocaleString(undefined,{maximumFractionDigits:d.window_open>100?2:4}):"—"}
         &nbsp; open→now ${chg==null?"—":(chg>=0?"+":"")+(100*chg).toFixed(3)+"%"}</div>
       <canvas class="spark"></canvas>
-      <div class="call"><span class="pick ${pkCls}">${pk==="NO PLAY"?"NO PLAY":pk}</span>
-        <span class="mini">${lean||(p&&p.status&&p.status!=="ok"?p.status:(p&&p.reasons&&p.reasons[0])||"")}</span></div>
-      ${arb}
-      <div class="kv">
-        <span>model P(up)</span><b>${p?pct(p.prob_up):"—"}</b>
-        <span>Kalshi implied</span><b>${d.kalshi.implied_up!=null?pct(d.kalshi.implied_up):"—"}
-          ${d.kalshi.yes_bid!=null?`<span class="mini">(${d.kalshi.yes_bid}/${d.kalshi.yes_ask}c)</span>`:""}</b>
-        <span>edge</span><b>${p&&p.edge!=null?((p.edge>=0?"+":"")+(100*p.edge).toFixed(1)+" pts"):"—"}</b>
-        ${kelly}
-        <span>ticker</span><b>${d.kalshi.ticker?`<a href="${d.kalshi.url||"#"}" target="_blank">${d.kalshi.ticker}</a>`:"—"}</b>
-      </div>`;
+      <div class="sect"><span class="tag">NOW · ${s.window.label}</span>
+        <div class="call"><span class="pick ${pkCls}">${pk==="NO PLAY"?"NO PLAY":pk}</span>
+          <span class="mini">${lean||(p&&p.status&&p.status!=="ok"?p.status:(p&&p.reasons&&p.reasons[0])||"waiting for first scan…")}</span></div>
+        ${meter} ${arb}
+        <div class="kv">
+          <span>edge</span><b>${p&&p.edge!=null?((p.edge>=0?"+":"")+(100*p.edge).toFixed(1)+" pts"):"—"}</b>
+          ${kelly}
+          <span>ticker</span><b>${d.kalshi.ticker?`<a href="${d.kalshi.url||"#"}" target="_blank">${d.kalshi.ticker}</a>`:"—"}
+            ${d.kalshi.yes_bid!=null?`<span class="mini">(${d.kalshi.yes_bid}/${d.kalshi.yes_ask}c)</span>`:""}</b>
+        </div></div>
+      <div class="sect"><span class="tag">NEXT WINDOW</span><div style="margin-top:4px">${nextHtml}</div></div>
+      ${bdHtml}`;
     cont.appendChild(card);
+    const det=card.querySelector("details.bd");
+    if(det&&openBreakdowns.has(a))det.open=true;
+    if(det)det.addEventListener("toggle",()=>{det.open?openBreakdowns.add(a):openBreakdowns.delete(a);});
     sparkline(card.querySelector("canvas"),d.sparkline,(chg??0)>=0);
   }
   const l=s.learning;
@@ -219,6 +268,13 @@ async function refreshPerf(){
   $("perftable").innerHTML=html;
   linechart($("pnlchart"),p.pnl_curve);
   barchart($("calchart"),p.calibration);
+  const t=p.trend||{};
+  const arrow=(a,b,lowerBetter)=>a==null||b==null?"":
+    ((lowerBetter?a<b:a>b)?` <b class="pos">▲ improving</b>`:(a===b?"":` <b class="neg">▼ worse</b>`));
+  $("trendkv").innerHTML=`
+    <span>windows graded</span><b>${t.graded_total??"—"}</b>
+    <span>accuracy 7d vs 14d</span><b>${pct(t.acc_7d)} / ${pct(t.acc_14d)}${arrow(t.acc_7d,t.acc_14d,false)}</b>
+    <span>Brier 7d vs 14d</span><b>${fmt(t.brier_7d,4)} / ${fmt(t.brier_14d,4)}${arrow(t.brier_7d,t.brier_14d,true)}</b>`;
 }
 
 async function refreshNews(){
