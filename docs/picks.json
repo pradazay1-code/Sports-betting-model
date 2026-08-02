@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-02T15:10:54+00:00",
+  "generated_at": "2026-08-02T16:16:40+00:00",
   "on_date": "2026-08-02",
   "sports": [
     "NBA",
@@ -19,8 +19,8 @@
   },
   "picks": [
     {
-      "id": 2876,
-      "generated_at": "2026-08-02T15:10:54+00:00",
+      "id": 2901,
+      "generated_at": "2026-08-02T16:16:40+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Alec Burleson",
@@ -57,8 +57,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2877,
-      "generated_at": "2026-08-02T15:10:54+00:00",
+      "id": 2902,
+      "generated_at": "2026-08-02T16:16:40+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Alejandro Kirk",
@@ -95,8 +95,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2878,
-      "generated_at": "2026-08-02T15:10:54+00:00",
+      "id": 2903,
+      "generated_at": "2026-08-02T16:16:40+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Brandon Lowe",
@@ -133,8 +133,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2879,
-      "generated_at": "2026-08-02T15:10:54+00:00",
+      "id": 2904,
+      "generated_at": "2026-08-02T16:16:40+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Bryan Reynolds",
@@ -171,8 +171,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2880,
-      "generated_at": "2026-08-02T15:10:54+00:00",
+      "id": 2905,
+      "generated_at": "2026-08-02T16:16:40+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Elly De La Cruz",
@@ -209,8 +209,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2881,
-      "generated_at": "2026-08-02T15:10:54+00:00",
+      "id": 2906,
+      "generated_at": "2026-08-02T16:16:40+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Ernie Clement",
@@ -247,8 +247,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2882,
-      "generated_at": "2026-08-02T15:10:54+00:00",
+      "id": 2907,
+      "generated_at": "2026-08-02T16:16:40+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "JJ Wetherholt",
@@ -285,8 +285,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2883,
-      "generated_at": "2026-08-02T15:10:54+00:00",
+      "id": 2908,
+      "generated_at": "2026-08-02T16:16:40+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Jordan Walker",
@@ -323,8 +323,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2884,
-      "generated_at": "2026-08-02T15:10:54+00:00",
+      "id": 2909,
+      "generated_at": "2026-08-02T16:16:40+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Julio Rodriguez",
@@ -334,7 +334,7 @@
       "price_american": -129,
       "book": "draftkings",
       "model_prob": 0.7855344472419318,
-      "fair_prob": 0.5534321372854915,
+      "fair_prob": 0.5477436555742076,
       "edge_pct": 39.44758792124217,
       "kelly_stake": 0.12721847104600595,
       "rating": 100.0,
@@ -346,7 +346,7 @@
           "sample": 1.0,
           "depth": 1.0
         },
-        "books_count": 5,
+        "books_count": 4,
         "pred_mean": 1.0732896199627773,
         "residual_std": 1.6995623345169695,
         "book": "draftkings"
@@ -361,8 +361,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2885,
-      "generated_at": "2026-08-02T15:10:54+00:00",
+      "id": 2910,
+      "generated_at": "2026-08-02T16:16:40+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Kazuma Okamoto",
@@ -399,8 +399,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2886,
-      "generated_at": "2026-08-02T15:10:54+00:00",
+      "id": 2911,
+      "generated_at": "2026-08-02T16:16:40+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Nick Gonzales",
@@ -437,8 +437,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2887,
-      "generated_at": "2026-08-02T15:10:54+00:00",
+      "id": 2912,
+      "generated_at": "2026-08-02T16:16:40+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Randy Arozarena",
@@ -460,7 +460,7 @@
           "sample": 1.0,
           "depth": 1.0
         },
-        "books_count": 5,
+        "books_count": 4,
         "pred_mean": 1.173649689718647,
         "residual_std": 1.6995623345169695,
         "book": "betmgm"
@@ -475,8 +475,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2888,
-      "generated_at": "2026-08-02T15:10:54+00:00",
+      "id": 2913,
+      "generated_at": "2026-08-02T16:16:40+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Vladimir Guerrero Jr.",
@@ -513,8 +513,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2889,
-      "generated_at": "2026-08-02T15:10:54+00:00",
+      "id": 2914,
+      "generated_at": "2026-08-02T16:16:40+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Braxton Ashcraft",
@@ -551,8 +551,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2890,
-      "generated_at": "2026-08-02T15:10:54+00:00",
+      "id": 2915,
+      "generated_at": "2026-08-02T16:16:40+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Connor Prielipp",
@@ -589,20 +589,20 @@
       "hidden_gem": false
     },
     {
-      "id": 2891,
-      "generated_at": "2026-08-02T15:10:54+00:00",
+      "id": 2916,
+      "generated_at": "2026-08-02T16:16:40+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Kevin Gausman",
       "market": "pitcher_strikeouts",
       "side": "under",
       "line": 5.5,
-      "price_american": -112,
-      "book": "draftkings",
+      "price_american": -115,
+      "book": "betmgm",
       "model_prob": 0.999,
-      "fair_prob": 0.5485519591141397,
-      "edge_pct": 89.09642857142856,
-      "kelly_stake": 0.24947,
+      "fair_prob": 0.5516162669447341,
+      "edge_pct": 86.7695652173913,
+      "kelly_stake": 0.24946249999999998,
       "rating": 100.0,
       "rationale": {
         "components": {
@@ -615,20 +615,20 @@
         "books_count": 5,
         "pred_mean": 2.0198628703166817,
         "residual_std": 1.407377560087876,
-        "book": "draftkings"
+        "book": "betmgm"
       },
       "graded": 0,
       "actual_value": null,
       "won": null,
       "payout_units": null,
-      "recommended_stake_units": 249.47,
+      "recommended_stake_units": 249.46,
       "grade": "A+",
       "projection": 2.0,
       "hidden_gem": false
     },
     {
-      "id": 2892,
-      "generated_at": "2026-08-02T15:10:54+00:00",
+      "id": 2917,
+      "generated_at": "2026-08-02T16:16:40+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Logan Gilbert",
@@ -665,8 +665,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2893,
-      "generated_at": "2026-08-02T15:10:54+00:00",
+      "id": 2918,
+      "generated_at": "2026-08-02T16:16:40+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Zach Thornton",
@@ -703,8 +703,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2894,
-      "generated_at": "2026-08-02T15:10:54+00:00",
+      "id": 2919,
+      "generated_at": "2026-08-02T16:16:40+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Cristopher Sanchez",
@@ -741,8 +741,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2895,
-      "generated_at": "2026-08-02T15:10:54+00:00",
+      "id": 2920,
+      "generated_at": "2026-08-02T16:16:40+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Jacob deGrom",
@@ -779,8 +779,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2896,
-      "generated_at": "2026-08-02T15:10:54+00:00",
+      "id": 2921,
+      "generated_at": "2026-08-02T16:16:40+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Kohl Drake",
@@ -817,8 +817,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2897,
-      "generated_at": "2026-08-02T15:10:54+00:00",
+      "id": 2922,
+      "generated_at": "2026-08-02T16:16:40+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Parker Messick",
@@ -855,8 +855,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2898,
-      "generated_at": "2026-08-02T15:10:54+00:00",
+      "id": 2923,
+      "generated_at": "2026-08-02T16:16:40+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Ronel Blanco",
@@ -893,8 +893,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2899,
-      "generated_at": "2026-08-02T15:10:54+00:00",
+      "id": 2924,
+      "generated_at": "2026-08-02T16:16:40+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Shane Baz",
@@ -931,20 +931,20 @@
       "hidden_gem": false
     },
     {
-      "id": 2900,
-      "generated_at": "2026-08-02T15:10:54+00:00",
+      "id": 2925,
+      "generated_at": "2026-08-02T16:16:40+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Alan Roden",
       "market": "batter_hits",
       "side": "over",
       "line": 0.5,
-      "price_american": 230,
+      "price_american": -110,
       "book": "betmgm",
       "model_prob": 0.999,
-      "fair_prob": 0.362588952897323,
-      "edge_pct": 229.67,
-      "kelly_stake": 0.2496413043478261,
+      "fair_prob": 0.495787700084246,
+      "edge_pct": 90.71818181818183,
+      "kelly_stake": 0.249475,
       "rating": 96.7,
       "rationale": {
         "components": {
@@ -963,7 +963,7 @@
       "actual_value": null,
       "won": null,
       "payout_units": null,
-      "recommended_stake_units": 249.64,
+      "recommended_stake_units": 249.47,
       "grade": "A+",
       "projection": 0.8,
       "hidden_gem": false
