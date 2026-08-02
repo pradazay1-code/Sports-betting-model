@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-08-02T02:40:51+00:00",
-  "on_date": "2026-08-01",
+  "generated_at": "2026-08-02T06:05:15+00:00",
+  "on_date": "2026-08-02",
   "sports": [
     "NBA",
     "MLB",
@@ -19,9 +19,9 @@
   },
   "picks": [
     {
-      "id": 2776,
-      "generated_at": "2026-08-02T02:40:51+00:00",
-      "on_date": "2026-08-01",
+      "id": 2801,
+      "generated_at": "2026-08-02T06:05:15+00:00",
+      "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Alejandro Kirk",
       "market": "batter_total_bases",
@@ -57,9 +57,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2777,
-      "generated_at": "2026-08-02T02:40:51+00:00",
-      "on_date": "2026-08-01",
+      "id": 2802,
+      "generated_at": "2026-08-02T06:05:15+00:00",
+      "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Brandon Lowe",
       "market": "batter_total_bases",
@@ -95,9 +95,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2778,
-      "generated_at": "2026-08-02T02:40:51+00:00",
-      "on_date": "2026-08-01",
+      "id": 2803,
+      "generated_at": "2026-08-02T06:05:15+00:00",
+      "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Bryan Reynolds",
       "market": "batter_total_bases",
@@ -133,9 +133,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2779,
-      "generated_at": "2026-08-02T02:40:51+00:00",
-      "on_date": "2026-08-01",
+      "id": 2804,
+      "generated_at": "2026-08-02T06:05:15+00:00",
+      "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Elly De La Cruz",
       "market": "batter_total_bases",
@@ -171,9 +171,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2780,
-      "generated_at": "2026-08-02T02:40:51+00:00",
-      "on_date": "2026-08-01",
+      "id": 2805,
+      "generated_at": "2026-08-02T06:05:15+00:00",
+      "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Ernie Clement",
       "market": "batter_total_bases",
@@ -209,9 +209,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2781,
-      "generated_at": "2026-08-02T02:40:51+00:00",
-      "on_date": "2026-08-01",
+      "id": 2806,
+      "generated_at": "2026-08-02T06:05:15+00:00",
+      "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Esmerlyn Valdez",
       "market": "batter_total_bases",
@@ -247,9 +247,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2782,
-      "generated_at": "2026-08-02T02:40:51+00:00",
-      "on_date": "2026-08-01",
+      "id": 2807,
+      "generated_at": "2026-08-02T06:05:15+00:00",
+      "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "George Springer",
       "market": "batter_total_bases",
@@ -285,9 +285,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2783,
-      "generated_at": "2026-08-02T02:40:51+00:00",
-      "on_date": "2026-08-01",
+      "id": 2808,
+      "generated_at": "2026-08-02T06:05:15+00:00",
+      "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "JJ Wetherholt",
       "market": "batter_total_bases",
@@ -323,9 +323,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2784,
-      "generated_at": "2026-08-02T02:40:51+00:00",
-      "on_date": "2026-08-01",
+      "id": 2809,
+      "generated_at": "2026-08-02T06:05:15+00:00",
+      "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Jordan Walker",
       "market": "batter_total_bases",
@@ -361,9 +361,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2785,
-      "generated_at": "2026-08-02T02:40:51+00:00",
-      "on_date": "2026-08-01",
+      "id": 2810,
+      "generated_at": "2026-08-02T06:05:15+00:00",
+      "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Josh Bell",
       "market": "batter_total_bases",
@@ -399,9 +399,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2786,
-      "generated_at": "2026-08-02T02:40:51+00:00",
-      "on_date": "2026-08-01",
+      "id": 2811,
+      "generated_at": "2026-08-02T06:05:15+00:00",
+      "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Julio Rodriguez",
       "market": "batter_total_bases",
@@ -437,9 +437,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2787,
-      "generated_at": "2026-08-02T02:40:51+00:00",
-      "on_date": "2026-08-01",
+      "id": 2812,
+      "generated_at": "2026-08-02T06:05:15+00:00",
+      "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Kazuma Okamoto",
       "market": "batter_total_bases",
@@ -475,9 +475,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2788,
-      "generated_at": "2026-08-02T02:40:51+00:00",
-      "on_date": "2026-08-01",
+      "id": 2813,
+      "generated_at": "2026-08-02T06:05:15+00:00",
+      "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Sal Stewart",
       "market": "batter_total_bases",
@@ -513,9 +513,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2789,
-      "generated_at": "2026-08-02T02:40:51+00:00",
-      "on_date": "2026-08-01",
+      "id": 2814,
+      "generated_at": "2026-08-02T06:05:15+00:00",
+      "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Braxton Ashcraft",
       "market": "pitcher_strikeouts",
@@ -551,9 +551,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2790,
-      "generated_at": "2026-08-02T02:40:51+00:00",
-      "on_date": "2026-08-01",
+      "id": 2815,
+      "generated_at": "2026-08-02T06:05:15+00:00",
+      "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Connor Prielipp",
       "market": "pitcher_strikeouts",
@@ -589,9 +589,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2791,
-      "generated_at": "2026-08-02T02:40:51+00:00",
-      "on_date": "2026-08-01",
+      "id": 2816,
+      "generated_at": "2026-08-02T06:05:15+00:00",
+      "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Kevin Gausman",
       "market": "pitcher_strikeouts",
@@ -627,9 +627,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2792,
-      "generated_at": "2026-08-02T02:40:51+00:00",
-      "on_date": "2026-08-01",
+      "id": 2817,
+      "generated_at": "2026-08-02T06:05:15+00:00",
+      "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Logan Gilbert",
       "market": "pitcher_strikeouts",
@@ -665,9 +665,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2793,
-      "generated_at": "2026-08-02T02:40:51+00:00",
-      "on_date": "2026-08-01",
+      "id": 2818,
+      "generated_at": "2026-08-02T06:05:15+00:00",
+      "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Zach Thornton",
       "market": "pitcher_strikeouts",
@@ -703,9 +703,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2794,
-      "generated_at": "2026-08-02T02:40:51+00:00",
-      "on_date": "2026-08-01",
+      "id": 2819,
+      "generated_at": "2026-08-02T06:05:15+00:00",
+      "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Cristopher Sanchez",
       "market": "pitcher_strikeouts",
@@ -741,9 +741,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2795,
-      "generated_at": "2026-08-02T02:40:51+00:00",
-      "on_date": "2026-08-01",
+      "id": 2820,
+      "generated_at": "2026-08-02T06:05:15+00:00",
+      "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Jacob deGrom",
       "market": "pitcher_strikeouts",
@@ -779,9 +779,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2796,
-      "generated_at": "2026-08-02T02:40:51+00:00",
-      "on_date": "2026-08-01",
+      "id": 2821,
+      "generated_at": "2026-08-02T06:05:15+00:00",
+      "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Kohl Drake",
       "market": "pitcher_strikeouts",
@@ -817,9 +817,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2797,
-      "generated_at": "2026-08-02T02:40:51+00:00",
-      "on_date": "2026-08-01",
+      "id": 2822,
+      "generated_at": "2026-08-02T06:05:15+00:00",
+      "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Parker Messick",
       "market": "pitcher_strikeouts",
@@ -855,9 +855,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2798,
-      "generated_at": "2026-08-02T02:40:51+00:00",
-      "on_date": "2026-08-01",
+      "id": 2823,
+      "generated_at": "2026-08-02T06:05:15+00:00",
+      "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Ronel Blanco",
       "market": "pitcher_strikeouts",
@@ -893,9 +893,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2799,
-      "generated_at": "2026-08-02T02:40:51+00:00",
-      "on_date": "2026-08-01",
+      "id": 2824,
+      "generated_at": "2026-08-02T06:05:15+00:00",
+      "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Shane Baz",
       "market": "pitcher_strikeouts",
@@ -931,9 +931,9 @@
       "hidden_gem": false
     },
     {
-      "id": 2800,
-      "generated_at": "2026-08-02T02:40:51+00:00",
-      "on_date": "2026-08-01",
+      "id": 2825,
+      "generated_at": "2026-08-02T06:05:15+00:00",
+      "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Alan Roden",
       "market": "batter_hits",
