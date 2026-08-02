@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-02T16:16:40+00:00",
+  "generated_at": "2026-08-02T18:07:47+00:00",
   "on_date": "2026-08-02",
   "sports": [
     "NBA",
@@ -19,8 +19,8 @@
   },
   "picks": [
     {
-      "id": 2901,
-      "generated_at": "2026-08-02T16:16:40+00:00",
+      "id": 2926,
+      "generated_at": "2026-08-02T18:07:46+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Alec Burleson",
@@ -57,8 +57,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2902,
-      "generated_at": "2026-08-02T16:16:40+00:00",
+      "id": 2927,
+      "generated_at": "2026-08-02T18:07:46+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Alejandro Kirk",
@@ -95,8 +95,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2903,
-      "generated_at": "2026-08-02T16:16:40+00:00",
+      "id": 2928,
+      "generated_at": "2026-08-02T18:07:46+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Brandon Lowe",
@@ -133,8 +133,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2904,
-      "generated_at": "2026-08-02T16:16:40+00:00",
+      "id": 2929,
+      "generated_at": "2026-08-02T18:07:46+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Bryan Reynolds",
@@ -171,8 +171,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2905,
-      "generated_at": "2026-08-02T16:16:40+00:00",
+      "id": 2930,
+      "generated_at": "2026-08-02T18:07:46+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Elly De La Cruz",
@@ -209,8 +209,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2906,
-      "generated_at": "2026-08-02T16:16:40+00:00",
+      "id": 2931,
+      "generated_at": "2026-08-02T18:07:46+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Ernie Clement",
@@ -247,8 +247,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2907,
-      "generated_at": "2026-08-02T16:16:40+00:00",
+      "id": 2932,
+      "generated_at": "2026-08-02T18:07:46+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "JJ Wetherholt",
@@ -285,8 +285,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2908,
-      "generated_at": "2026-08-02T16:16:40+00:00",
+      "id": 2933,
+      "generated_at": "2026-08-02T18:07:46+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Jordan Walker",
@@ -323,8 +323,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2909,
-      "generated_at": "2026-08-02T16:16:40+00:00",
+      "id": 2934,
+      "generated_at": "2026-08-02T18:07:46+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Julio Rodriguez",
@@ -361,8 +361,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2910,
-      "generated_at": "2026-08-02T16:16:40+00:00",
+      "id": 2935,
+      "generated_at": "2026-08-02T18:07:46+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Kazuma Okamoto",
@@ -399,8 +399,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2911,
-      "generated_at": "2026-08-02T16:16:40+00:00",
+      "id": 2936,
+      "generated_at": "2026-08-02T18:07:46+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Nick Gonzales",
@@ -437,8 +437,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2912,
-      "generated_at": "2026-08-02T16:16:40+00:00",
+      "id": 2937,
+      "generated_at": "2026-08-02T18:07:46+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Randy Arozarena",
@@ -475,8 +475,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2913,
-      "generated_at": "2026-08-02T16:16:40+00:00",
+      "id": 2938,
+      "generated_at": "2026-08-02T18:07:46+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Vladimir Guerrero Jr.",
@@ -513,8 +513,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2914,
-      "generated_at": "2026-08-02T16:16:40+00:00",
+      "id": 2939,
+      "generated_at": "2026-08-02T18:07:46+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Braxton Ashcraft",
@@ -551,8 +551,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2915,
-      "generated_at": "2026-08-02T16:16:40+00:00",
+      "id": 2940,
+      "generated_at": "2026-08-02T18:07:46+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Connor Prielipp",
@@ -589,8 +589,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2916,
-      "generated_at": "2026-08-02T16:16:40+00:00",
+      "id": 2941,
+      "generated_at": "2026-08-02T18:07:46+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Kevin Gausman",
@@ -627,8 +627,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2917,
-      "generated_at": "2026-08-02T16:16:40+00:00",
+      "id": 2942,
+      "generated_at": "2026-08-02T18:07:46+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Logan Gilbert",
@@ -665,8 +665,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2918,
-      "generated_at": "2026-08-02T16:16:40+00:00",
+      "id": 2943,
+      "generated_at": "2026-08-02T18:07:46+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Zach Thornton",
@@ -703,8 +703,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2919,
-      "generated_at": "2026-08-02T16:16:40+00:00",
+      "id": 2944,
+      "generated_at": "2026-08-02T18:07:46+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Cristopher Sanchez",
@@ -741,8 +741,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2920,
-      "generated_at": "2026-08-02T16:16:40+00:00",
+      "id": 2945,
+      "generated_at": "2026-08-02T18:07:46+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Jacob deGrom",
@@ -779,8 +779,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2921,
-      "generated_at": "2026-08-02T16:16:40+00:00",
+      "id": 2946,
+      "generated_at": "2026-08-02T18:07:46+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Kohl Drake",
@@ -817,8 +817,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2922,
-      "generated_at": "2026-08-02T16:16:40+00:00",
+      "id": 2947,
+      "generated_at": "2026-08-02T18:07:46+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Parker Messick",
@@ -855,8 +855,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2923,
-      "generated_at": "2026-08-02T16:16:40+00:00",
+      "id": 2948,
+      "generated_at": "2026-08-02T18:07:46+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Ronel Blanco",
@@ -893,8 +893,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2924,
-      "generated_at": "2026-08-02T16:16:40+00:00",
+      "id": 2949,
+      "generated_at": "2026-08-02T18:07:46+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Shane Baz",
@@ -931,8 +931,8 @@
       "hidden_gem": false
     },
     {
-      "id": 2925,
-      "generated_at": "2026-08-02T16:16:40+00:00",
+      "id": 2950,
+      "generated_at": "2026-08-02T18:07:46+00:00",
       "on_date": "2026-08-02",
       "sport": "MLB",
       "player_name": "Alan Roden",
