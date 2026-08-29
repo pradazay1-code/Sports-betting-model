@@ -38,7 +38,6 @@ from lib.odds import (
     default_method,
     devig,
     devig_spread,
-    implied_prob,
     price_edge,
     prob_to_american,
 )

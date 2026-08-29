@@ -5,8 +5,6 @@ These use fixtures rather than the network, so they run offline and don't burn
 API quota.
 """
 
-import time
-
 import pytest
 
 from lib import cache, db

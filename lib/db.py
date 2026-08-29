@@ -22,19 +22,13 @@ CLI:
 from __future__ import annotations
 
 import argparse
-import json
 import os
 import sqlite3
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterable
 
-from lib.odds import (
-    american_to_decimal,
-    clv as clv_calc,
-    ev_from_american,
-    implied_prob,
-)
+from lib.odds import american_to_decimal, clv as clv_calc, ev_from_american
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DB_PATH = Path(os.environ.get("DESK_DB_PATH", REPO_ROOT / "bets.db"))

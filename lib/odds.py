@@ -30,7 +30,7 @@ import itertools
 import json
 import math
 from dataclasses import dataclass, asdict
-from typing import Iterable, Sequence
+from typing import Sequence
 
 __all__ = [
     "american_to_decimal",
