@@ -1,175 +1,166 @@
-# Pradapicks
+# The Desk
 
-A 100% free, self-updating sports-betting model + dashboard for **NBA / MLB / NHL / NFL / Soccer (EPL + top leagues)** player props. No paid APIs, no servers to rent — everything runs on **GitHub Actions** and the dashboard is served by **GitHub Pages**.
+A persistent sports betting analysis agent that lives in files, not in a
+conversation. Run it through Claude Code every day.
 
-## What it does
+**The Desk** is a professional bettor and former sportsbook trader: market-first,
+allergic to fake precision, and willing to tell you the slate has no edge.
+Most days that's the answer.
 
-Every day, automatically, with no input from you:
+---
 
-1. **Pulls schedules + box scores** from MLB Stats API, stats.nba.com, api-web.nhle.com, and ESPN's public site API (NFL + soccer for the major leagues: Premier League, La Liga, Bundesliga, Serie A, Ligue 1, Champions League, MLS).
-2. **Pulls live prop lines** from PrizePicks, DraftKings, FanDuel, Bovada, and Pinnacle — five free books for line-shopping and a sharp anchor.
-3. **Pulls context**: ESPN injuries for every league, Open-Meteo weather for outdoor MLB parks, MLB confirmed lineups, MLB park factors.
-4. **Trains a LightGBM regressor** per `(sport, market)` over rolling-window features (last 5/10/25 game means, opponent-allowed averages, days rest, home/away, season-to-date averages).
-5. **Computes EV vs. the book**: de-vigs the two-way market with a multiplicative model, estimates a `P(over line)` via Poisson (count markets) or Normal (continuous), runs that through an isotonic calibrator, and prices Kelly stake + edge%.
-6. **Picks the top plays** with a 0–100 rating that combines edge / confidence / disagreement / sample size / market depth.
-7. **Predicts every game's score, total, spread, and home-win probability** from rolling team form, with park-factor adjustment for MLB.
-8. **Builds recommended parlays** from today's top picks with a Gaussian-copula same-game-correlation adjustment.
-9. **Grades yesterday's picks** against the actual box scores at 04:00 ET, records ROI in units, and **retrains every model** so the system gets better every day.
-10. **Grades any bet you type in** — a single bet or a full parlay — and hands back a **letter grade (A+ → F)** with a deep breakdown: model probability, no-vig fair probability, EV edge, projected stat value vs. the line, recent form (last 5/10/25), Kelly stake, and an itemised list of strengths and concerns. Available both as a client-side analyzer on the dashboard and as a server-side CLI (`python -m app.analysis`).
-11. **Writes `docs/picks.json`** which the static dashboard reads. GitHub Pages serves the dashboard, complete with the bet-analysis grader and letter-graded picks.
-
-Everything lives in this repo — code, training data (`data/pradapicks.db`), trained model artifacts (`models/*.joblib`), and rendered dashboard (`docs/`). The GitHub Actions bot commits updates back so the whole history is versioned in git.
-
-## How it runs itself
-
-Three scheduled workflows do all the work:
-
-| Workflow | When | What it does |
-|---|---|---|
-| `daily-picks.yml` | 13:00 UTC (~09:00 ET) | Pulls today's odds + context, regenerates the top-25 picks, refreshes the dashboard. |
-| `refresh-odds.yml` | Every 2h during the slate | Re-pulls odds, regenerates picks for line moves. |
-| `nightly.yml` | 08:00 UTC (~04:00 ET) | Ingests yesterday's finals, grades picks, retrains every model. |
-| `bootstrap.yml` | Manual one-shot | Backfills 45 days of history, trains every model, generates the first picks. |
-| `pages.yml` | On push to `docs/` | Re-deploys the GitHub Pages site. |
-| `ci.yml` | On every push/PR | Runs unit tests. |
-
-## Setup (one time, ~3 minutes)
-
-1. **Make the repo public** (optional — only matters for unlimited free Actions minutes; private has 2,000/mo which is also plenty).
-2. **Enable GitHub Pages**: Repo *Settings -> Pages -> Source = GitHub Actions*.
-3. **Enable Actions write permissions**: Repo *Settings -> Actions -> General -> Workflow permissions -> Read and write permissions*.
-4. Go to *Actions -> bootstrap -> Run workflow* and pick e.g. `45` days. This populates `data/pradapicks.db`, trains every model, and writes the first `docs/picks.json`.
-5. Visit the GitHub Pages URL the *deploy-pages* workflow prints. That's your dashboard.
-
-From that point on the daily / odds-refresh / nightly workflows take over and you never have to touch it.
-
-## Architecture
-
-```
-app/
-  config.py             env-driven config + sport/market registry
-  utils.py              http client with retries, time helpers
-  store.py              SQLite schema + read/write helpers
-  features.py           rolling-window feature engineering (no leakage)
-  ev.py                 de-vig, kelly, edge, 0-100 rating
-  ingest.py             pulls schedules/box scores into the DB
-  picks.py              picks generator
-  analysis.py           deep bet-analysis grader (letter grade A+..F + breakdown)
-  tracker.py            grading + ROI/Brier accumulation
-  backtest.py           walk-forward backtest harness
-  pipeline.py           CLI entry points used by the workflows
-  models/
-    prop_model.py       LightGBM regressor + isotonic + Poisson/Normal tail
-    trainer.py          train every (sport, market) model
-  sources/
-    mlb.py nba.py nhl.py nfl.py soccer.py   schedule + box score scrapers
-    prizepicks.py draftkings.py bovada.py   odds scrapers
-    markets.py                  market-name normalisation
-    odds.py                     parallel multi-book aggregator
-    injuries.py weather.py lineups.py   context scrapers
-
-data/pradapicks.db      SQLite — committed back by the workflows
-models/*.joblib         Trained model bundles — committed back
-docs/                   Static dashboard + picks.json (GitHub Pages)
-.github/workflows/      CI + scheduled pipelines
-```
-
-## CLI
-
-The pipeline is also runnable locally:
+## Setup
 
 ```bash
-pip install -r requirements.txt
-python -m app.pipeline bootstrap 30   # backfill 30 days, train, generate picks
-python -m app.pipeline daily          # today's picks
-python -m app.pipeline odds           # refresh just odds + regen picks
-python -m app.pipeline nightly        # grade yesterday + retrain
-python -m app.backtest                # walk-forward eval per (sport, market)
+# 1. Dependencies (uv is fastest; a plain venv works fine too)
+uv venv --python 3.11 .venv
+uv pip install --python .venv/bin/python -r requirements.txt
 
-# Deep bet-analysis grade for a single bet:
-python -m app.analysis '{"sport":"NBA","player_name":"Nikola Jokic","market":"player_points","side":"over","line":24.5,"price_american":-115}'
+# or:  python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 
-# ...or a parlay (pass a JSON array of legs):
-python -m app.analysis '[{"sport":"NBA","player_name":"Nikola Jokic","market":"player_points","side":"over","line":24.5,"price_american":-115}, {"sport":"NBA","player_name":"Jamal Murray","market":"player_assists","side":"over","line":5.5,"price_american":-120}]'
+# 2. API key
+cp .env.example .env
+# then put your key from https://the-odds-api.com/ into ODDS_API_KEY
+
+# 3. Create the bet log
+.venv/bin/python -m lib.db init
+
+# 4. Verify
+.venv/bin/python smoke_test.py
 ```
 
-## Bet-analysis grade
+The Odds API's free tier is **500 requests a month**. Everything is cached with
+a TTL so a careless loop can't burn it in an afternoon. Check what's left:
 
-The grader (`app/analysis.py`) reuses the exact same modelling stack as the
-picks generator, so the grade you get for a hand-entered bet is consistent
-with the auto-generated picks. For each leg it returns:
+```bash
+.venv/bin/python -m lib.fetch_odds quota
+```
 
-- a **letter grade** (A+ … F) — a bet can never grade above a ceiling set by
-  its EV edge, so a -EV play never gets an A no matter how confident the model;
-- model probability, no-vig fair probability, EV edge%, Kelly stake;
-- the model's **projected stat value** and its margin vs. the posted line;
-- **recent form** (last 5/10/25 averages, volatility, days rest, opponent
-  allowed) and a plain-English list of **strengths** and **concerns**.
+## Daily use
 
-For parlays it grades every leg, then assigns an overall grade that blends the
-correlation-adjusted parlay edge with the weakest leg (a chain is only as
-trustworthy as its shakiest link).
+Open Claude Code in this directory. `CLAUDE.md` loads automatically and is the
+agent's operating manual — persona, discipline rules, and the analytical engine.
 
-## How the model gets better every day
+| Command | What it does |
+|---|---|
+| `/slate <sport> [date]` | Full card, devigged, top 3-5 priced edges. Says "no plays" when that's true. |
+| `/analyze <game or fight>` | Deep dive: market read → model → stats → news → discrepancy → recommendation. |
+| `/parlay <request>` | Builds it, prices it honestly, shows the hold. |
+| `/props <player or game>` | Prop analysis with usage context and book-by-book shopping. |
+| `/log <bet>` | Writes to `bets.db`. |
+| `/clv` | Closing line value, ROI, expected vs. realized, calibration. |
+| `/review` | Weekly self-audit. |
 
-- The nightly job ingests yesterday's final box scores and appends them to the training table.
-- The grader marks each pick win/loss/push and records ROI in units.
-- The trainer retrains every `(sport, market)` model on the full updated history — including a fresh isotonic calibration, so calibration drift gets corrected daily.
-- Per-model metrics (rows, MAE, Brier, log-loss) get inserted into `model_runs` and surfaced on the dashboard, so you can watch quality move over time.
+## The CLI, directly
 
-## Live odds (recommended): The Odds API
+Every calculation the agent makes is a command you can run yourself. The agent
+is instructed to shell out to these rather than do arithmetic in its head —
+arithmetic errors in a betting analysis are indistinguishable from lies.
 
-Directly scraping DraftKings/FanDuel/etc. is fragile — those endpoints block
-cloud/CI IPs, so the free scrapers often return nothing when run from GitHub
-Actions. For reliable, all-sports live data — including the **FIFA World Cup**
-and every major league — plug in [The Odds API](https://the-odds-api.com):
+```bash
+# Devig a market and price an offer against it
+python3 -m lib.odds devig -110 -110
+python3 -m lib.odds devig 118 -128 --offered 132 --outcome 0
 
-1. Grab a **free** API key (500 requests/month).
-2. Add it as a repo secret: *Settings → Secrets and variables → Actions →
-   New repository secret*, named `ODDS_API_KEY`.
-3. That's it — the next pipeline run pulls live player props from The Odds API
-   across NBA/MLB/NHL/NFL and soccer (World Cup, Euros, Copa América, EPL, La
-   Liga, Bundesliga, Serie A, Ligue 1, Champions League, MLS). With no key the
-   system silently falls back to the free scrapers.
+# Edge, Kelly, parlays, hold, CLV
+python3 -m lib.odds ev --fair -105 --offered +100
+python3 -m lib.odds kelly --prob 0.55 --odds +100
+python3 -m lib.odds parlay -110 -110 -110 -110
+python3 -m lib.odds parlay -110 -110 +150 --fair 0.50 0.52 0.38 --correlation 0.12 --rr 2
+python3 -m lib.odds clv --taken +100 --closed -110
 
-`ODDS_API_MAX_EVENTS` (default 8) caps per-sport event lookups to stretch the
-free monthly budget. The dashboard flags **💎 hidden gems** — strong-edge props
-that only one or two books are pricing, i.e. lines that likely aren't sharpened
-yet.
+# The board
+.venv/bin/python -m lib.fetch_odds sports
+.venv/bin/python -m lib.fetch_odds board --sport nfl
+.venv/bin/python -m lib.fetch_odds edges --sport nfl --min-ev 0.02
 
-## On-the-spot alerts (phone + email)
+# Real-time layer
+.venv/bin/python -m lib.fetch_news weather --venue "Wrigley Field"
+.venv/bin/python -m lib.fetch_news injuries --sport nba
+.venv/bin/python -m lib.fetch_news pitchers
 
-Get pinged the moment a strong pick lands — both channels are optional and free:
+# Stats
+.venv/bin/python -m lib.fetch_stats check          # what's installed
+.venv/bin/python -m lib.fetch_stats nfl-team --season 2025
+.venv/bin/python -m lib.fetch_stats mlb-pitcher --name "Tarik Skubal"
 
-**Phone push (ntfy — no account, no key):**
-1. Install the **ntfy** app (iOS/Android) or open https://ntfy.sh.
-2. Subscribe to a hard-to-guess topic, e.g. `pradapicks-9f3k2`.
-3. Add a repo secret `NOTIFY_NTFY_TOPIC` = that topic.
+# The log
+.venv/bin/python -m lib.db log --sport NFL --event "KC @ BUF" --market h2h \
+    --side KC --price 132 --book draftkings --stake 0.76 --fair-prob 0.4482
+.venv/bin/python -m lib.db close --id 1 --closing -110
+.venv/bin/python -m lib.db grade --id 1 --result win
+.venv/bin/python -m lib.db report
+.venv/bin/python -m lib.db calibration
+```
 
-**Email (Gmail):**
-1. Turn on 2-Step Verification, then create a Google **App Password**
-   (Google Account → Security → App passwords).
-2. Add repo secrets: `NOTIFY_EMAIL_FROM` (your gmail), `NOTIFY_EMAIL_APP_PASSWORD`
-   (the app password), `NOTIFY_EMAIL_TO` (where to send).
+`lib/odds.py` is stdlib-only, so the price math runs with no venv and no
+network.
 
-Alerts fire for any pick graded at or above `NOTIFY_MIN_GRADE` (default `A-`,
-set it as a repo *variable* to change), and each pick is sent once. The
-odds-refresh workflow runs hourly across the slate, so alerts arrive close to
-real time. Test locally with `python -m app.pipeline alert`.
+## Layout
 
-## Sports & tennis
+```
+CLAUDE.md                 persona + operating rules — the core file
+.claude/commands/         the seven slash commands
+skills/
+  devig.md                no-vig / fair-odds math reference
+  parlay-construction.md  correlation + SGP pricing
+  book-behavior.md        how each sportsbook actually operates
+  sport-{nfl,nba,mlb,ufc,bkfc,generic}.md
+lib/
+  odds.py                 conversions, 4 devig methods, EV, Kelly, parlays, CLV
+  cache.py                TTL JSON cache
+  fetch_odds.py           The Odds API + line shopping + edge finding
+  fetch_stats.py          per-sport stat pulls
+  fetch_news.py           injuries / lineups / weather
+  db.py                   SQLite bet log + CLV tracking
+tests/                    103 tests, all offline
+data/cache/               gitignored
+bets.db                   gitignored
+```
 
-Beyond NBA/MLB/NHL/NFL and soccer (incl. the **FIFA World Cup**), the model
-covers **tennis** at the match level — a total-games (Over/Under) projection per
-ATP/WTA match, format-aware (best-of-3 vs best-of-5). Player-prop models use
-advanced, leakage-safe features: EWM form, floor/ceiling, momentum (5-vs-25
-trend), consistency (mean/volatility), back-to-back fatigue, and a matchup edge
-(recent level vs. opponent-allowed).
+## How it actually works
 
-## Honest reporting
+**Devig the sharp book. Bet the soft book. Never the same price for both.**
 
-The dashboard shows **calibrated probability, fair probability, edge%, Kelly stake, rating, and rolling ROI in units** — not made-up hit-rate marketing claims. Brier and log-loss are tracked per model so you can see calibration quality at a glance.
+The anchor order is Pinnacle → Circa → BetOnline/Bookmaker tier → market median.
+Soft books (DraftKings, FanDuel, ESPN Bet, Fanatics) are where you *place* the
+bet, never where you *estimate* the probability. Odds pulls include the `eu`
+region because that's where Pinnacle lives; a US-only pull leaves you devigging
+noise against noise.
 
-## License
+Two-way markets devig with **power**, multiway with **multiplicative**. When the
+methods disagree by more than ~1.5 points of probability, the desk quotes a
+range instead of a point estimate and lowers confidence.
 
-MIT.
+Staking is **quarter Kelly with a hard 2u ceiling**. Anything under ~2% EV after
+devig is inside the error bars of the devig method itself — that's not a thin
+edge, it's no edge.
+
+## The rules the agent won't break
+
+1. Never fabricate data. Missing → say so and lower confidence.
+2. Never recommend under ~2% EV.
+3. Never more than 2u.
+4. Never chase. Asking for a bigger play after a loss gets refused.
+5. Tilt gets flagged.
+6. Every recommendation carries a confidence level and a "what would change my
+   mind."
+7. `[FACT]` / `[MODEL]` / `[READ]` are labeled and never blurred.
+8. Track everything.
+9. No locks. Ever.
+
+## Tests
+
+```bash
+.venv/bin/python -m pytest tests/ -q
+```
+
+All offline — they use fixtures, so they never touch the network or burn quota.
+
+## Notes
+
+- `.env` is gitignored. Never commit a key.
+- `bets.db` and `data/cache/` are gitignored.
+- Closing lines have to be recorded after the fact (`db close`). Without them
+  there is no scoreboard — CLV is the only honest measure of whether this is
+  working, and results over a short sample are noise.

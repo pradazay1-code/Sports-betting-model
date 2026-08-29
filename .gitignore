@@ -1,16 +1,27 @@
+# Secrets — never commit
+.env
+.env.local
+*.key
+
+# Local data
+data/cache/
+bets.db
+bets.db-journal
+bets.db-wal
+bets.db-shm
+
+# Python
 __pycache__/
 *.py[cod]
 *.egg-info/
 .venv/
 venv/
-.env
 .pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Editors / OS
 .DS_Store
 .idea/
 .vscode/
 .ipynb_checkpoints/
-# Keep data/ and models/ tracked so GH Actions can commit updates.
-# Ignore only transient files inside them:
-data/*.tmp
-data/*.lock
-models/*.tmp

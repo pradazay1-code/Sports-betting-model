@@ -1,13 +1,19 @@
-httpx==0.27.2
-tenacity==9.0.0
-python-dateutil==2.9.0
-numpy==1.26.4
-pandas==2.2.3
-scikit-learn==1.5.2
-lightgbm==4.5.0
-scipy==1.13.1
-joblib==1.4.2
-orjson==3.10.7
-rapidfuzz==3.10.0
-python-dotenv==1.0.1
-pyyaml==6.0.2
+# Core — needed for the odds feed, caching, and env loading.
+requests>=2.31
+python-dotenv>=1.0
+
+# Analysis
+pandas>=2.0
+numpy>=1.24
+
+# Scraping (UFC/BKFC/PFR/etc. have no APIs)
+beautifulsoup4>=4.12
+lxml>=5.0
+
+# Per-sport data. Heavier; skip any you don't need for your sports.
+nfl_data_py>=0.3.2
+pybaseball>=2.2
+nba_api>=1.4
+
+# Dev
+pytest>=8.0

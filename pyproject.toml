@@ -1,8 +1,22 @@
+[project]
+name = "the-desk"
+version = "0.1.0"
+description = "The Desk — a persistent sports betting analysis agent."
+requires-python = ">=3.10"
+dependencies = [
+    "requests>=2.31",
+    "python-dotenv>=1.0",
+    "pandas>=2.0",
+    "numpy>=1.24",
+    "beautifulsoup4>=4.12",
+    "lxml>=5.0",
+    "nfl_data_py>=0.3.2",
+    "pybaseball>=2.2",
+    "nba_api>=1.4",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-python_files = ["test_*.py"]
-addopts = "-q"
-filterwarnings = [
-    "ignore::DeprecationWarning",
-    "ignore::FutureWarning",
-]
