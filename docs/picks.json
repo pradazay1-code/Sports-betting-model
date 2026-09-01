@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-01T09:13:38+00:00",
+  "generated_at": "2026-09-01T13:11:41+00:00",
   "on_date": "2026-09-01",
   "sports": [
     "NBA",
@@ -19,8 +19,8 @@
   },
   "picks": [
     {
-      "id": 3051,
-      "generated_at": "2026-09-01T09:13:38+00:00",
+      "id": 3076,
+      "generated_at": "2026-09-01T13:11:41+00:00",
       "on_date": "2026-09-01",
       "sport": "MLB",
       "player_name": "Nick Lodolo",
@@ -29,10 +29,10 @@
       "line": 4.5,
       "price_american": -110,
       "book": "betmgm",
-      "model_prob": 0.7796462109630924,
+      "model_prob": 0.7857428914697637,
       "fair_prob": 0.5273463875759622,
-      "edge_pct": 48.84154936568128,
-      "kelly_stake": 0.1343142607556235,
+      "edge_pct": 50.00546109877308,
+      "kelly_stake": 0.13751501802162597,
       "rating": 100.0,
       "rationale": {
         "components": {
@@ -43,22 +43,22 @@
           "depth": 1.0
         },
         "books_count": 4,
-        "pred_mean": 3.3766313331046294,
-        "residual_std": 1.3164888610283323,
+        "pred_mean": 3.3652147666515004,
+        "residual_std": 1.3281923541958258,
         "book": "betmgm"
       },
       "graded": 0,
       "actual_value": null,
       "won": null,
       "payout_units": null,
-      "recommended_stake_units": 134.31,
+      "recommended_stake_units": 137.52,
       "grade": "A+",
       "projection": 3.4,
       "hidden_gem": false
     },
     {
-      "id": 3052,
-      "generated_at": "2026-09-01T09:13:38+00:00",
+      "id": 3077,
+      "generated_at": "2026-09-01T13:11:41+00:00",
       "on_date": "2026-09-01",
       "sport": "MLB",
       "player_name": "Randy Vasquez",
@@ -67,10 +67,10 @@
       "line": 3.5,
       "price_american": -127,
       "book": "draftkings",
-      "model_prob": 0.9977728285077951,
+      "model_prob": 0.989406779661017,
       "fair_prob": 0.5402066032003241,
-      "edge_pct": 78.3420724970626,
-      "kelly_stake": 0.24873608017817372,
+      "edge_pct": 76.84672360870147,
+      "kelly_stake": 0.24398834745762712,
       "rating": 100.0,
       "rationale": {
         "components": {
@@ -81,22 +81,22 @@
           "depth": 1.0
         },
         "books_count": 4,
-        "pred_mean": 1.554101909001732,
-        "residual_std": 1.3164888610283323,
+        "pred_mean": 1.7393910361974174,
+        "residual_std": 1.3281923541958258,
         "book": "draftkings"
       },
       "graded": 0,
       "actual_value": null,
       "won": null,
       "payout_units": null,
-      "recommended_stake_units": 248.74,
+      "recommended_stake_units": 243.99,
       "grade": "A+",
-      "projection": 1.6,
+      "projection": 1.7,
       "hidden_gem": false
     },
     {
-      "id": 3053,
-      "generated_at": "2026-09-01T09:13:38+00:00",
+      "id": 3078,
+      "generated_at": "2026-09-01T13:11:41+00:00",
       "on_date": "2026-09-01",
       "sport": "MLB",
       "player_name": "Paul Skenes",
@@ -119,8 +119,8 @@
           "depth": 1.0
         },
         "books_count": 4,
-        "pred_mean": 2.3640552019061785,
-        "residual_std": 1.3164888610283323,
+        "pred_mean": 1.8795393508955278,
+        "residual_std": 1.3281923541958258,
         "book": "fanduel"
       },
       "graded": 0,
@@ -129,12 +129,12 @@
       "payout_units": null,
       "recommended_stake_units": 249.38,
       "grade": "A+",
-      "projection": 2.4,
+      "projection": 1.9,
       "hidden_gem": false
     },
     {
-      "id": 3054,
-      "generated_at": "2026-09-01T09:13:38+00:00",
+      "id": 3079,
+      "generated_at": "2026-09-01T13:11:41+00:00",
       "on_date": "2026-09-01",
       "sport": "NFL",
       "player_name": "Khalil Shakir",
@@ -171,8 +171,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3055,
-      "generated_at": "2026-09-01T09:13:38+00:00",
+      "id": 3080,
+      "generated_at": "2026-09-01T13:11:41+00:00",
       "on_date": "2026-09-01",
       "sport": "NFL",
       "player_name": "Colston Loveland",
@@ -209,8 +209,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3056,
-      "generated_at": "2026-09-01T09:13:38+00:00",
+      "id": 3081,
+      "generated_at": "2026-09-01T13:11:41+00:00",
       "on_date": "2026-09-01",
       "sport": "NFL",
       "player_name": "Deebo Samuel",
@@ -247,8 +247,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3057,
-      "generated_at": "2026-09-01T09:13:38+00:00",
+      "id": 3082,
+      "generated_at": "2026-09-01T13:11:41+00:00",
       "on_date": "2026-09-01",
       "sport": "NFL",
       "player_name": "Ja'Marr Chase",
@@ -285,8 +285,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3058,
-      "generated_at": "2026-09-01T09:13:38+00:00",
+      "id": 3083,
+      "generated_at": "2026-09-01T13:11:41+00:00",
       "on_date": "2026-09-01",
       "sport": "NFL",
       "player_name": "Rome Odunze",
@@ -323,8 +323,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3059,
-      "generated_at": "2026-09-01T09:13:38+00:00",
+      "id": 3084,
+      "generated_at": "2026-09-01T13:11:41+00:00",
       "on_date": "2026-09-01",
       "sport": "NFL",
       "player_name": "Tetairoa McMillan",
@@ -361,8 +361,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3060,
-      "generated_at": "2026-09-01T09:13:38+00:00",
+      "id": 3085,
+      "generated_at": "2026-09-01T13:11:41+00:00",
       "on_date": "2026-09-01",
       "sport": "MLB",
       "player_name": "Austin Hays",
@@ -371,10 +371,10 @@
       "line": 1.5,
       "price_american": -160,
       "book": "bovada",
-      "model_prob": 0.8063746747614917,
+      "model_prob": 0.784192037470726,
       "fair_prob": 0.5911949685534592,
-      "edge_pct": 31.035884648742407,
-      "kelly_stake": 0.12414353859496963,
+      "edge_pct": 27.431206088992965,
+      "kelly_stake": 0.10972482435597189,
       "rating": 96.7,
       "rationale": {
         "components": {
@@ -385,34 +385,34 @@
           "depth": 0.6666666666666666
         },
         "books_count": 3,
-        "pred_mean": 0.9166034922652354,
-        "residual_std": 1.7307785990337072,
+        "pred_mean": 0.9668080520777338,
+        "residual_std": 1.7604396572742076,
         "book": "bovada"
       },
       "graded": 0,
       "actual_value": null,
       "won": null,
       "payout_units": null,
-      "recommended_stake_units": 124.14,
+      "recommended_stake_units": 109.72,
       "grade": "A+",
-      "projection": 0.9,
+      "projection": 1.0,
       "hidden_gem": false
     },
     {
-      "id": 3061,
-      "generated_at": "2026-09-01T09:13:38+00:00",
+      "id": 3086,
+      "generated_at": "2026-09-01T13:11:41+00:00",
       "on_date": "2026-09-01",
       "sport": "MLB",
       "player_name": "Elly De La Cruz",
       "market": "batter_total_bases",
-      "side": "over",
+      "side": "under",
       "line": 1.5,
-      "price_american": 115,
-      "book": "bovada",
-      "model_prob": 0.9252873563218391,
-      "fair_prob": 0.44362292051756014,
-      "edge_pct": 98.9367816091954,
-      "kelly_stake": 0.21507996001999005,
+      "price_american": -140,
+      "book": "betmgm",
+      "model_prob": 0.7544395924308588,
+      "fair_prob": 0.55637707948244,
+      "edge_pct": 29.332501559575807,
+      "kelly_stake": 0.10266375545851526,
       "rating": 96.7,
       "rationale": {
         "components": {
@@ -423,22 +423,22 @@
           "depth": 0.6666666666666666
         },
         "books_count": 3,
-        "pred_mean": 2.202465073563433,
-        "residual_std": 1.7307785990337072,
-        "book": "bovada"
+        "pred_mean": 1.1308857118503364,
+        "residual_std": 1.7604396572742076,
+        "book": "betmgm"
       },
       "graded": 0,
       "actual_value": null,
       "won": null,
       "payout_units": null,
-      "recommended_stake_units": 215.08,
+      "recommended_stake_units": 102.66,
       "grade": "A+",
-      "projection": 2.2,
+      "projection": 1.1,
       "hidden_gem": false
     },
     {
-      "id": 3062,
-      "generated_at": "2026-09-01T09:13:38+00:00",
+      "id": 3087,
+      "generated_at": "2026-09-01T13:11:41+00:00",
       "on_date": "2026-09-01",
       "sport": "MLB",
       "player_name": "Fernando Tatis Jr.",
@@ -447,10 +447,10 @@
       "line": 1.5,
       "price_american": -110,
       "book": "betmgm",
-      "model_prob": 0.9873217115689382,
+      "model_prob": 0.9955323901712584,
       "fair_prob": 0.5177956371986222,
-      "edge_pct": 88.48869039043367,
-      "kelly_stake": 0.24334389857369257,
+      "edge_pct": 90.05618357814933,
+      "kelly_stake": 0.24765450483991067,
       "rating": 96.7,
       "rationale": {
         "components": {
@@ -461,72 +461,34 @@
           "depth": 0.6666666666666666
         },
         "books_count": 3,
-        "pred_mean": 2.5368528236935113,
-        "residual_std": 1.7307785990337072,
+        "pred_mean": 2.6215473882696134,
+        "residual_std": 1.7604396572742076,
         "book": "betmgm"
       },
       "graded": 0,
       "actual_value": null,
       "won": null,
       "payout_units": null,
-      "recommended_stake_units": 243.34,
+      "recommended_stake_units": 247.65,
       "grade": "A+",
-      "projection": 2.5,
+      "projection": 2.6,
       "hidden_gem": false
     },
     {
-      "id": 3063,
-      "generated_at": "2026-09-01T09:13:38+00:00",
+      "id": 3088,
+      "generated_at": "2026-09-01T13:11:41+00:00",
       "on_date": "2026-09-01",
       "sport": "MLB",
-      "player_name": "Manny Machado",
+      "player_name": "Jackson Merrill",
       "market": "batter_total_bases",
-      "side": "over",
+      "side": "under",
       "line": 1.5,
-      "price_american": 101,
-      "book": "draftkings",
-      "model_prob": 0.9981412639405205,
-      "fair_prob": 0.47796765533948804,
-      "edge_pct": 100.62639405204462,
-      "kelly_stake": 0.24907523280209062,
-      "rating": 96.7,
-      "rationale": {
-        "components": {
-          "edge": 1.0,
-          "confidence": 1.0,
-          "disagreement": 1.0,
-          "sample": 1.0,
-          "depth": 0.6666666666666666
-        },
-        "books_count": 3,
-        "pred_mean": 3.529230522547035,
-        "residual_std": 1.7307785990337072,
-        "book": "draftkings"
-      },
-      "graded": 0,
-      "actual_value": null,
-      "won": null,
-      "payout_units": null,
-      "recommended_stake_units": 249.08,
-      "grade": "A+",
-      "projection": 3.5,
-      "hidden_gem": false
-    },
-    {
-      "id": 3064,
-      "generated_at": "2026-09-01T09:13:38+00:00",
-      "on_date": "2026-09-01",
-      "sport": "MLB",
-      "player_name": "Sal Stewart",
-      "market": "batter_total_bases",
-      "side": "over",
-      "line": 1.5,
-      "price_american": 115,
+      "price_american": -140,
       "book": "betmgm",
-      "model_prob": 0.9152542372881356,
-      "fair_prob": 0.45225634442579243,
-      "edge_pct": 96.77966101694915,
-      "kelly_stake": 0.21039056742815035,
+      "model_prob": 0.8312724371759074,
+      "fair_prob": 0.55637707948244,
+      "edge_pct": 42.5038463730127,
+      "kelly_stake": 0.1487634623055444,
       "rating": 96.7,
       "rationale": {
         "components": {
@@ -537,22 +499,22 @@
           "depth": 0.6666666666666666
         },
         "books_count": 3,
-        "pred_mean": 2.128517529968847,
-        "residual_std": 1.7307785990337072,
+        "pred_mean": 0.8177101110915904,
+        "residual_std": 1.7604396572742076,
         "book": "betmgm"
       },
       "graded": 0,
       "actual_value": null,
       "won": null,
       "payout_units": null,
-      "recommended_stake_units": 210.39,
+      "recommended_stake_units": 148.76,
       "grade": "A+",
-      "projection": 2.1,
+      "projection": 0.8,
       "hidden_gem": false
     },
     {
-      "id": 3065,
-      "generated_at": "2026-09-01T09:13:38+00:00",
+      "id": 3089,
+      "generated_at": "2026-09-01T13:11:41+00:00",
       "on_date": "2026-09-01",
       "sport": "MLB",
       "player_name": "Ty France",
@@ -561,10 +523,10 @@
       "line": 1.5,
       "price_american": -135,
       "book": "betmgm",
-      "model_prob": 0.7801843992389873,
+      "model_prob": 0.7544395924308588,
       "fair_prob": 0.5419996102124343,
-      "edge_pct": 35.809876904564454,
-      "kelly_stake": 0.12085833455290504,
+      "edge_pct": 31.328373497223573,
+      "kelly_stake": 0.10573326055312952,
       "rating": 96.7,
       "rationale": {
         "components": {
@@ -575,22 +537,22 @@
           "depth": 0.6666666666666666
         },
         "books_count": 3,
-        "pred_mean": 1.032378294980966,
-        "residual_std": 1.7307785990337072,
+        "pred_mean": 1.1340030911013708,
+        "residual_std": 1.7604396572742076,
         "book": "betmgm"
       },
       "graded": 0,
       "actual_value": null,
       "won": null,
       "payout_units": null,
-      "recommended_stake_units": 120.86,
+      "recommended_stake_units": 105.73,
       "grade": "A+",
-      "projection": 1.0,
+      "projection": 1.1,
       "hidden_gem": false
     },
     {
-      "id": 3066,
-      "generated_at": "2026-09-01T09:13:38+00:00",
+      "id": 3090,
+      "generated_at": "2026-09-01T13:11:41+00:00",
       "on_date": "2026-09-01",
       "sport": "MLB",
       "player_name": "Xander Bogaerts",
@@ -599,10 +561,10 @@
       "line": 1.5,
       "price_american": 145,
       "book": "betmgm",
-      "model_prob": 0.9873217115689382,
+      "model_prob": 0.9988382899628253,
       "fair_prob": 0.4153778170570039,
-      "edge_pct": 141.8938193343899,
-      "kelly_stake": 0.24464451609377566,
+      "edge_pct": 144.71538104089223,
+      "kelly_stake": 0.24950927765671072,
       "rating": 96.7,
       "rationale": {
         "components": {
@@ -613,22 +575,22 @@
           "depth": 0.6666666666666666
         },
         "books_count": 3,
-        "pred_mean": 2.510907090666808,
-        "residual_std": 1.7307785990337072,
+        "pred_mean": 2.9995016140652764,
+        "residual_std": 1.7604396572742076,
         "book": "betmgm"
       },
       "graded": 0,
       "actual_value": null,
       "won": null,
       "payout_units": null,
-      "recommended_stake_units": 244.64,
+      "recommended_stake_units": 249.51,
       "grade": "A+",
-      "projection": 2.5,
+      "projection": 3.0,
       "hidden_gem": false
     },
     {
-      "id": 3067,
-      "generated_at": "2026-09-01T09:13:38+00:00",
+      "id": 3091,
+      "generated_at": "2026-09-01T13:11:41+00:00",
       "on_date": "2026-09-01",
       "sport": "MLB",
       "player_name": "Nick Lodolo",
@@ -651,8 +613,8 @@
           "depth": 0.6666666666666666
         },
         "books_count": 3,
-        "pred_mean": 5.81766346138307,
-        "residual_std": 2.2347436457844294,
+        "pred_mean": 5.570096044833796,
+        "residual_std": 2.238240436912155,
         "book": "bovada"
       },
       "graded": 0,
@@ -661,12 +623,12 @@
       "payout_units": null,
       "recommended_stake_units": 249.35,
       "grade": "A+",
-      "projection": 5.8,
+      "projection": 5.6,
       "hidden_gem": false
     },
     {
-      "id": 3068,
-      "generated_at": "2026-09-01T09:13:38+00:00",
+      "id": 3092,
+      "generated_at": "2026-09-01T13:11:41+00:00",
       "on_date": "2026-09-01",
       "sport": "MLB",
       "player_name": "Randy Vasquez",
@@ -689,8 +651,8 @@
           "depth": 0.6666666666666666
         },
         "books_count": 3,
-        "pred_mean": 9.977124270713535,
-        "residual_std": 2.2347436457844294,
+        "pred_mean": 8.329054229840231,
+        "residual_std": 2.238240436912155,
         "book": "draftkings"
       },
       "graded": 0,
@@ -699,164 +661,12 @@
       "payout_units": null,
       "recommended_stake_units": 249.48,
       "grade": "A+",
-      "projection": 10.0,
+      "projection": 8.3,
       "hidden_gem": false
     },
     {
-      "id": 3069,
-      "generated_at": "2026-09-01T09:13:38+00:00",
-      "on_date": "2026-09-01",
-      "sport": "MLB",
-      "player_name": "Bo Bichette",
-      "market": "batter_total_bases",
-      "side": "over",
-      "line": 1.5,
-      "price_american": 150,
-      "book": "bovada",
-      "model_prob": 0.9769392033542977,
-      "fair_prob": 0.3795141168745897,
-      "edge_pct": 144.23480083857444,
-      "kelly_stake": 0.24039133473095742,
-      "rating": 96.7,
-      "rationale": {
-        "components": {
-          "edge": 1.0,
-          "confidence": 1.0,
-          "disagreement": 1.0,
-          "sample": 1.0,
-          "depth": 0.6666666666666666
-        },
-        "books_count": 3,
-        "pred_mean": 2.4115164236927322,
-        "residual_std": 1.7307785990337072,
-        "book": "bovada"
-      },
-      "graded": 0,
-      "actual_value": null,
-      "won": null,
-      "payout_units": null,
-      "recommended_stake_units": 240.39,
-      "grade": "A+",
-      "projection": 2.4,
-      "hidden_gem": false
-    },
-    {
-      "id": 3070,
-      "generated_at": "2026-09-01T09:13:38+00:00",
-      "on_date": "2026-09-01",
-      "sport": "MLB",
-      "player_name": "Bryan Reynolds",
-      "market": "batter_total_bases",
-      "side": "under",
-      "line": 1.5,
-      "price_american": -170,
-      "book": "bovada",
-      "model_prob": 0.7562611806797854,
-      "fair_prob": 0.5936183022275737,
-      "edge_pct": 20.112069872671825,
-      "kelly_stake": 0.08547629695885518,
-      "rating": 96.7,
-      "rationale": {
-        "components": {
-          "edge": 1.0,
-          "confidence": 1.0,
-          "disagreement": 1.0,
-          "sample": 1.0,
-          "depth": 0.6666666666666666
-        },
-        "books_count": 3,
-        "pred_mean": 1.124553162906612,
-        "residual_std": 1.7307785990337072,
-        "book": "bovada"
-      },
-      "graded": 0,
-      "actual_value": null,
-      "won": null,
-      "payout_units": null,
-      "recommended_stake_units": 85.48,
-      "grade": "A+",
-      "projection": 1.1,
-      "hidden_gem": false
-    },
-    {
-      "id": 3071,
-      "generated_at": "2026-09-01T09:13:38+00:00",
-      "on_date": "2026-09-01",
-      "sport": "MLB",
-      "player_name": "Chandler Simpson",
-      "market": "batter_total_bases",
-      "side": "under",
-      "line": 1.5,
-      "price_american": -183,
-      "book": "draftkings",
-      "model_prob": 0.7684391080617495,
-      "fair_prob": 0.6168789852031354,
-      "edge_pct": 18.83511889698095,
-      "kelly_stake": 0.08617066895368783,
-      "rating": 96.7,
-      "rationale": {
-        "components": {
-          "edge": 1.0,
-          "confidence": 1.0,
-          "disagreement": 1.0,
-          "sample": 1.0,
-          "depth": 0.6666666666666666
-        },
-        "books_count": 3,
-        "pred_mean": 1.082548669083006,
-        "residual_std": 1.7307785990337072,
-        "book": "draftkings"
-      },
-      "graded": 0,
-      "actual_value": null,
-      "won": null,
-      "payout_units": null,
-      "recommended_stake_units": 86.17,
-      "grade": "A+",
-      "projection": 1.1,
-      "hidden_gem": false
-    },
-    {
-      "id": 3072,
-      "generated_at": "2026-09-01T09:13:38+00:00",
-      "on_date": "2026-09-01",
-      "sport": "MLB",
-      "player_name": "Francisco Lindor",
-      "market": "batter_total_bases",
-      "side": "under",
-      "line": 1.5,
-      "price_american": -179,
-      "book": "betonlineag",
-      "model_prob": 0.7684391080617495,
-      "fair_prob": 0.602246806569343,
-      "edge_pct": 19.773469915769915,
-      "kelly_stake": 0.08848627787307031,
-      "rating": 96.7,
-      "rationale": {
-        "components": {
-          "edge": 1.0,
-          "confidence": 1.0,
-          "disagreement": 1.0,
-          "sample": 1.0,
-          "depth": 0.6666666666666666
-        },
-        "books_count": 3,
-        "pred_mean": 1.0945464079689842,
-        "residual_std": 1.7307785990337072,
-        "book": "betonlineag"
-      },
-      "graded": 0,
-      "actual_value": null,
-      "won": null,
-      "payout_units": null,
-      "recommended_stake_units": 88.49,
-      "grade": "A+",
-      "projection": 1.1,
-      "hidden_gem": false
-    },
-    {
-      "id": 3073,
-      "generated_at": "2026-09-01T09:13:38+00:00",
+      "id": 3093,
+      "generated_at": "2026-09-01T13:11:41+00:00",
       "on_date": "2026-09-01",
       "sport": "MLB",
       "player_name": "Jake Mangum",
@@ -865,10 +675,10 @@
       "line": 1.5,
       "price_american": 155,
       "book": "betonlineag",
-      "model_prob": 0.9252873563218391,
+      "model_prob": 0.875,
       "fair_prob": 0.3703703703703704,
-      "edge_pct": 135.94827586206895,
-      "kelly_stake": 0.21927141268075642,
+      "edge_pct": 123.12499999999997,
+      "kelly_stake": 0.19858870967741934,
       "rating": 96.7,
       "rationale": {
         "components": {
@@ -879,22 +689,60 @@
           "depth": 0.6666666666666666
         },
         "books_count": 3,
-        "pred_mean": 2.203623303480318,
-        "residual_std": 1.7307785990337072,
+        "pred_mean": 2.0602051386108684,
+        "residual_std": 1.7604396572742076,
         "book": "betonlineag"
       },
       "graded": 0,
       "actual_value": null,
       "won": null,
       "payout_units": null,
-      "recommended_stake_units": 219.27,
+      "recommended_stake_units": 198.59,
       "grade": "A+",
-      "projection": 2.2,
+      "projection": 2.1,
       "hidden_gem": false
     },
     {
-      "id": 3074,
-      "generated_at": "2026-09-01T09:13:38+00:00",
+      "id": 3094,
+      "generated_at": "2026-09-01T13:11:41+00:00",
+      "on_date": "2026-09-01",
+      "sport": "MLB",
+      "player_name": "Junior Caminero",
+      "market": "batter_total_bases",
+      "side": "over",
+      "line": 1.5,
+      "price_american": 102,
+      "book": "betonlineag",
+      "model_prob": 0.8849557522123894,
+      "fair_prob": 0.46691027202598456,
+      "edge_pct": 78.76106194690267,
+      "kelly_stake": 0.19304181849731045,
+      "rating": 96.7,
+      "rationale": {
+        "components": {
+          "edge": 1.0,
+          "confidence": 1.0,
+          "disagreement": 1.0,
+          "sample": 1.0,
+          "depth": 0.6666666666666666
+        },
+        "books_count": 3,
+        "pred_mean": 2.0718614378613682,
+        "residual_std": 1.7604396572742076,
+        "book": "betonlineag"
+      },
+      "graded": 0,
+      "actual_value": null,
+      "won": null,
+      "payout_units": null,
+      "recommended_stake_units": 193.04,
+      "grade": "A+",
+      "projection": 2.1,
+      "hidden_gem": false
+    },
+    {
+      "id": 3095,
+      "generated_at": "2026-09-01T13:11:41+00:00",
       "on_date": "2026-09-01",
       "sport": "MLB",
       "player_name": "Nick Gonzales",
@@ -903,10 +751,10 @@
       "line": 1.5,
       "price_american": 144,
       "book": "betonlineag",
-      "model_prob": 0.9769392033542977,
+      "model_prob": 0.9955323901712584,
       "fair_prob": 0.38701792504073873,
-      "edge_pct": 138.37316561844864,
-      "kelly_stake": 0.24023119030980666,
+      "edge_pct": 142.90990320178705,
+      "kelly_stake": 0.24810747083643586,
       "rating": 96.7,
       "rationale": {
         "components": {
@@ -917,22 +765,22 @@
           "depth": 0.6666666666666666
         },
         "books_count": 3,
-        "pred_mean": 2.49082622231609,
-        "residual_std": 1.7307785990337072,
+        "pred_mean": 2.5481209704730636,
+        "residual_std": 1.7604396572742076,
         "book": "betonlineag"
       },
       "graded": 0,
       "actual_value": null,
       "won": null,
       "payout_units": null,
-      "recommended_stake_units": 240.23,
+      "recommended_stake_units": 248.11,
       "grade": "A+",
       "projection": 2.5,
       "hidden_gem": false
     },
     {
-      "id": 3075,
-      "generated_at": "2026-09-01T09:13:38+00:00",
+      "id": 3096,
+      "generated_at": "2026-09-01T13:11:41+00:00",
       "on_date": "2026-09-01",
       "sport": "MLB",
       "player_name": "Spencer Horwitz",
@@ -941,10 +789,10 @@
       "line": 1.5,
       "price_american": -170,
       "book": "bovada",
-      "model_prob": 0.7865853658536586,
+      "model_prob": 0.784192037470726,
       "fair_prob": 0.5956873315363881,
-      "edge_pct": 24.92826398852226,
-      "kelly_stake": 0.10594512195121955,
+      "edge_pct": 24.548147127703544,
+      "kelly_stake": 0.10432962529274005,
       "rating": 96.7,
       "rationale": {
         "components": {
@@ -955,17 +803,169 @@
           "depth": 0.6666666666666666
         },
         "books_count": 3,
-        "pred_mean": 0.951758060776939,
-        "residual_std": 1.7307785990337072,
+        "pred_mean": 0.9819550695699337,
+        "residual_std": 1.7604396572742076,
         "book": "bovada"
       },
       "graded": 0,
       "actual_value": null,
       "won": null,
       "payout_units": null,
-      "recommended_stake_units": 105.95,
+      "recommended_stake_units": 104.33,
       "grade": "A+",
       "projection": 1.0,
+      "hidden_gem": false
+    },
+    {
+      "id": 3097,
+      "generated_at": "2026-09-01T13:11:41+00:00",
+      "on_date": "2026-09-01",
+      "sport": "MLB",
+      "player_name": "Gavin Williams",
+      "market": "pitcher_strikeouts",
+      "side": "under",
+      "line": 6.5,
+      "price_american": -140,
+      "book": "draftkings",
+      "model_prob": 0.9677631578947369,
+      "fair_prob": 0.5620437956204379,
+      "edge_pct": 65.90225563909777,
+      "kelly_stake": 0.23065789473684212,
+      "rating": 96.7,
+      "rationale": {
+        "components": {
+          "edge": 1.0,
+          "confidence": 1.0,
+          "disagreement": 1.0,
+          "sample": 1.0,
+          "depth": 0.6666666666666666
+        },
+        "books_count": 3,
+        "pred_mean": 4.102849664751241,
+        "residual_std": 1.3281923541958258,
+        "book": "draftkings"
+      },
+      "graded": 0,
+      "actual_value": null,
+      "won": null,
+      "payout_units": null,
+      "recommended_stake_units": 230.66,
+      "grade": "A+",
+      "projection": 4.1,
+      "hidden_gem": false
+    },
+    {
+      "id": 3098,
+      "generated_at": "2026-09-01T13:11:41+00:00",
+      "on_date": "2026-09-01",
+      "sport": "MLB",
+      "player_name": "Logan Webb",
+      "market": "pitcher_strikeouts",
+      "side": "under",
+      "line": 4.5,
+      "price_american": 124,
+      "book": "fanduel",
+      "model_prob": 0.9677631578947369,
+      "fair_prob": 0.4210286754665452,
+      "edge_pct": 116.77894736842109,
+      "kelly_stake": 0.23544142614601024,
+      "rating": 96.7,
+      "rationale": {
+        "components": {
+          "edge": 1.0,
+          "confidence": 1.0,
+          "disagreement": 1.0,
+          "sample": 1.0,
+          "depth": 0.6666666666666666
+        },
+        "books_count": 3,
+        "pred_mean": 2.69194582219019,
+        "residual_std": 1.3281923541958258,
+        "book": "fanduel"
+      },
+      "graded": 0,
+      "actual_value": null,
+      "won": null,
+      "payout_units": null,
+      "recommended_stake_units": 235.44,
+      "grade": "A+",
+      "projection": 2.7,
+      "hidden_gem": false
+    },
+    {
+      "id": 3099,
+      "generated_at": "2026-09-01T13:11:41+00:00",
+      "on_date": "2026-09-01",
+      "sport": "NFL",
+      "player_name": "DJ Moore",
+      "market": "player_rec_yards",
+      "side": "under",
+      "line": 46.5,
+      "price_american": -114,
+      "book": "betrivers",
+      "model_prob": 0.999,
+      "fair_prob": 0.5,
+      "edge_pct": 87.53157894736843,
+      "kelly_stake": 0.249465,
+      "rating": 96.7,
+      "rationale": {
+        "components": {
+          "edge": 1.0,
+          "confidence": 1.0,
+          "disagreement": 1.0,
+          "sample": 1.0,
+          "depth": 0.6666666666666666
+        },
+        "books_count": 3,
+        "pred_mean": 4.465363355792131,
+        "residual_std": 15.937743360561726,
+        "book": "betrivers"
+      },
+      "graded": 0,
+      "actual_value": null,
+      "won": null,
+      "payout_units": null,
+      "recommended_stake_units": 249.47,
+      "grade": "A+",
+      "projection": 4.5,
+      "hidden_gem": false
+    },
+    {
+      "id": 3100,
+      "generated_at": "2026-09-01T13:11:41+00:00",
+      "on_date": "2026-09-01",
+      "sport": "NFL",
+      "player_name": "Rome Odunze",
+      "market": "player_rec_yards",
+      "side": "under",
+      "line": 47.5,
+      "price_american": -114,
+      "book": "fanduel",
+      "model_prob": 0.999,
+      "fair_prob": 0.5,
+      "edge_pct": 87.53157894736843,
+      "kelly_stake": 0.249465,
+      "rating": 96.7,
+      "rationale": {
+        "components": {
+          "edge": 1.0,
+          "confidence": 1.0,
+          "disagreement": 1.0,
+          "sample": 1.0,
+          "depth": 0.6666666666666666
+        },
+        "books_count": 3,
+        "pred_mean": 6.2300507508764245,
+        "residual_std": 15.937743360561726,
+        "book": "fanduel"
+      },
+      "graded": 0,
+      "actual_value": null,
+      "won": null,
+      "payout_units": null,
+      "recommended_stake_units": 249.47,
+      "grade": "A+",
+      "projection": 6.2,
       "hidden_gem": false
     }
   ],
@@ -988,7 +988,7 @@
           "side": "under",
           "line": 3.5,
           "price_american": -127,
-          "model_prob": 0.9977728285077951,
+          "model_prob": 0.989406779661017,
           "rating": 90.0
         },
         {
@@ -1014,9 +1014,9 @@
       ],
       "parlay_american": 472,
       "parlay_decimal": 5.718,
-      "naive_model_prob": 0.9958,
-      "correlated_model_prob": 0.9958,
-      "parlay_edge_pct": 469.38,
+      "naive_model_prob": 0.9874,
+      "correlated_model_prob": 0.9874,
+      "parlay_edge_pct": 464.6,
       "verdict": "Strong +EV"
     },
     {
@@ -1028,7 +1028,7 @@
           "side": "under",
           "line": 3.5,
           "price_american": -127,
-          "model_prob": 0.9977728285077951,
+          "model_prob": 0.989406779661017,
           "rating": 90.0
         },
         {
@@ -1054,9 +1054,9 @@
       ],
       "parlay_american": 489,
       "parlay_decimal": 5.885,
-      "naive_model_prob": 0.9446,
-      "correlated_model_prob": 0.9446,
-      "parlay_edge_pct": 455.92,
+      "naive_model_prob": 0.9367,
+      "correlated_model_prob": 0.9367,
+      "parlay_edge_pct": 451.26,
       "verdict": "Strong +EV"
     },
     {
@@ -1068,7 +1068,7 @@
           "side": "under",
           "line": 3.5,
           "price_american": -127,
-          "model_prob": 0.9977728285077951,
+          "model_prob": 0.989406779661017,
           "rating": 90.0
         },
         {
@@ -1094,9 +1094,9 @@
       ],
       "parlay_american": 485,
       "parlay_decimal": 5.85,
-      "naive_model_prob": 0.9446,
-      "correlated_model_prob": 0.9446,
-      "parlay_edge_pct": 452.58,
+      "naive_model_prob": 0.9367,
+      "correlated_model_prob": 0.9367,
+      "parlay_edge_pct": 447.95,
       "verdict": "Strong +EV"
     },
     {
@@ -1228,7 +1228,7 @@
           "side": "under",
           "line": 4.5,
           "price_american": -110,
-          "model_prob": 0.7796462109630924,
+          "model_prob": 0.7857428914697637,
           "rating": 90.0
         },
         {
@@ -1238,7 +1238,7 @@
           "side": "under",
           "line": 3.5,
           "price_american": -127,
-          "model_prob": 0.9977728285077951,
+          "model_prob": 0.989406779661017,
           "rating": 90.0
         },
         {
@@ -1254,9 +1254,9 @@
       ],
       "parlay_american": 551,
       "parlay_decimal": 6.514,
-      "naive_model_prob": 0.7771,
-      "correlated_model_prob": 0.7771,
-      "parlay_edge_pct": 406.26,
+      "naive_model_prob": 0.7766,
+      "correlated_model_prob": 0.7766,
+      "parlay_edge_pct": 405.94,
       "verdict": "Strong +EV"
     },
     {
@@ -1268,7 +1268,7 @@
           "side": "under",
           "line": 3.5,
           "price_american": -127,
-          "model_prob": 0.9977728285077951,
+          "model_prob": 0.989406779661017,
           "rating": 90.0
         },
         {
@@ -1294,9 +1294,9 @@
       ],
       "parlay_american": 485,
       "parlay_decimal": 5.85,
-      "naive_model_prob": 0.8547,
-      "correlated_model_prob": 0.8547,
-      "parlay_edge_pct": 400.0,
+      "naive_model_prob": 0.8476,
+      "correlated_model_prob": 0.8476,
+      "parlay_edge_pct": 395.81,
       "verdict": "Strong +EV"
     },
     {
@@ -1308,7 +1308,7 @@
           "side": "under",
           "line": 3.5,
           "price_american": -127,
-          "model_prob": 0.9977728285077951,
+          "model_prob": 0.989406779661017,
           "rating": 90.0
         },
         {
@@ -1334,9 +1334,9 @@
       ],
       "parlay_american": 417,
       "parlay_decimal": 5.165,
-      "naive_model_prob": 0.9446,
-      "correlated_model_prob": 0.9446,
-      "parlay_edge_pct": 387.95,
+      "naive_model_prob": 0.9367,
+      "correlated_model_prob": 0.9367,
+      "parlay_edge_pct": 383.86,
       "verdict": "Strong +EV"
     },
     {
@@ -1348,7 +1348,7 @@
           "side": "under",
           "line": 3.5,
           "price_american": -127,
-          "model_prob": 0.9977728285077951,
+          "model_prob": 0.989406779661017,
           "rating": 90.0
         },
         {
@@ -1374,90 +1374,100 @@
       ],
       "parlay_american": 413,
       "parlay_decimal": 5.134,
-      "naive_model_prob": 0.9446,
-      "correlated_model_prob": 0.9446,
-      "parlay_edge_pct": 385.02,
+      "naive_model_prob": 0.9367,
+      "correlated_model_prob": 0.9367,
+      "parlay_edge_pct": 380.95,
       "verdict": "Strong +EV"
     }
   ],
-  "history_30d": [],
+  "history_30d": [
+    {
+      "on_date": "2026-08-31",
+      "sport": "MLB",
+      "n_picks": 4,
+      "n_wins": 3,
+      "n_losses": 1,
+      "n_push": 0,
+      "roi_units": 1.7832968990365154
+    }
+  ],
   "model_summary": [
     {
       "sport": "MLB",
       "market": "batter_hits",
-      "finished_at": "2026-08-31T15:50:57",
-      "rows": 437228,
-      "mae": 0.7001302900186701,
-      "brier": 0.11996282976458332,
-      "log_loss": 0.39274966952278884
+      "finished_at": "2026-09-01T13:05:01",
+      "rows": 439949,
+      "mae": 0.701426107929466,
+      "brier": 0.12044168775279,
+      "log_loss": 0.3937521937675646
     },
     {
       "sport": "MLB",
       "market": "batter_rbis",
-      "finished_at": "2026-08-31T15:51:51",
-      "rows": 437228,
-      "mae": 0.629243648963606,
-      "brier": 0.1591778584903609,
-      "log_loss": 0.49122631465544575
+      "finished_at": "2026-09-01T13:05:56",
+      "rows": 439949,
+      "mae": 0.6500305816292947,
+      "brier": 0.15922111894888302,
+      "log_loss": 0.49127879218148746
     },
     {
       "sport": "MLB",
       "market": "batter_runs",
-      "finished_at": "2026-08-31T15:51:25",
-      "rows": 437228,
-      "mae": 0.5977809533570412,
-      "brier": 0.1865241072415614,
-      "log_loss": 0.5523842992885603
+      "finished_at": "2026-09-01T13:05:29",
+      "rows": 439949,
+      "mae": 0.5824039243654755,
+      "brier": 0.1870695117682983,
+      "log_loss": 0.553815412095658
     },
     {
       "sport": "MLB",
       "market": "batter_strikeouts",
-      "finished_at": "2026-08-31T15:52:20",
-      "rows": 437228,
-      "mae": 0.7298146256259558,
-      "brier": 0.12363042259064828,
-      "log_loss": 0.40062595836843024
+      "finished_at": "2026-09-01T13:06:25",
+      "rows": 439949,
+      "mae": 0.6957879776441193,
+      "brier": 0.12361369809869638,
+      "log_loss": 0.4008039151704745
     },
     {
       "sport": "MLB",
       "market": "batter_total_bases",
-      "finished_at": "2026-08-31T15:50:30",
-      "rows": 437228,
-      "mae": 1.3667336363480935,
-      "brier": 0.17555644452484157,
-      "log_loss": 0.5279426958526646
+      "finished_at": "2026-09-01T13:04:32",
+      "rows": 439949,
+      "mae": 1.3920099740117813,
+      "brier": 0.1755519812171769,
+      "log_loss": 0.5277873839385545
     },
     {
       "sport": "MLB",
       "market": "pitcher_earned_runs",
-      "finished_at": "2026-08-31T15:52:46",
-      "rows": 70718,
-      "mae": 0.9054312296137674,
-      "brier": 0.16141729292258147,
-      "log_loss": 0.48879589854669686
+      "finished_at": "2026-09-01T13:06:50",
+      "rows": 71137,
+      "mae": 0.9009811777814858,
+      "brier": 0.16182862239019313,
+      "log_loss": 0.48960340827780474
     },
     {
       "sport": "MLB",
       "market": "pitcher_outs",
-      "finished_at": "2026-08-31T15:52:37",
-      "rows": 70718,
-      "mae": 1.4234668730231896,
-      "brier": 0.11303591365129809,
-      "log_loss": 0.3602223669609789
+      "finished_at": "2026-09-01T13:06:42",
+      "rows": 71137,
+      "mae": 1.4231882737719215,
+      "brier": 0.11338216017584096,
+      "log_loss": 0.36052703432391575
     },
     {
       "sport": "MLB",
       "market": "pitcher_strikeouts",
-      "finished_at": "2026-08-31T15:52:29",
-      "rows": 70718,
-      "mae": 0.969484094228221,
-      "brier": 0.14801649371688627,
-      "log_loss": 0.44925898566892825
+      "finished_at": "2026-09-01T13:06:33",
+      "rows": 71137,
+      "mae": 0.9807816061980622,
+      "brier": 0.14854656339592226,
+      "log_loss": 0.45056120430968294
     },
     {
       "sport": "NFL",
       "market": "player_rec_yards",
-      "finished_at": "2026-08-31T15:53:35",
+      "finished_at": "2026-09-01T13:07:37",
       "rows": 2356,
       "mae": 12.837240838365862,
       "brier": 0.018505269513226646,
@@ -1466,7 +1476,7 @@
     {
       "sport": "NFL",
       "market": "player_receptions",
-      "finished_at": "2026-08-31T15:53:32",
+      "finished_at": "2026-09-01T13:07:34",
       "rows": 2356,
       "mae": 1.431232521991686,
       "brier": 0.08833668304010696,
@@ -1475,7 +1485,7 @@
     {
       "sport": "NFL",
       "market": "player_rush_attempts",
-      "finished_at": "2026-08-31T15:53:29",
+      "finished_at": "2026-09-01T13:07:32",
       "rows": 564,
       "mae": 4.476957402260385,
       "brier": 0.06957501316598226,
@@ -1484,7 +1494,7 @@
     {
       "sport": "NFL",
       "market": "player_rush_yards",
-      "finished_at": "2026-08-31T15:53:28",
+      "finished_at": "2026-09-01T13:07:31",
       "rows": 564,
       "mae": 25.04910818134255,
       "brier": 0.011761489146225124,
@@ -1493,7 +1503,7 @@
     {
       "sport": "NHL",
       "market": "goalie_saves",
-      "finished_at": "2026-08-31T15:53:25",
+      "finished_at": "2026-09-01T13:07:28",
       "rows": 1431,
       "mae": 9.339207179950742,
       "brier": 0.05818087778138964,
@@ -1502,7 +1512,7 @@
     {
       "sport": "NHL",
       "market": "player_assists",
-      "finished_at": "2026-08-31T15:53:23",
+      "finished_at": "2026-09-01T13:07:26",
       "rows": 115056,
       "mae": 0.45896340946008574,
       "brier": 0.09973650545310705,
@@ -1511,7 +1521,7 @@
     {
       "sport": "NHL",
       "market": "player_goals",
-      "finished_at": "2026-08-31T15:53:14",
+      "finished_at": "2026-09-01T13:07:17",
       "rows": 115056,
       "mae": 0.29175802675457246,
       "brier": 0.0707157720939813,
@@ -1520,7 +1530,7 @@
     {
       "sport": "NHL",
       "market": "player_points",
-      "finished_at": "2026-08-31T15:52:56",
+      "finished_at": "2026-09-01T13:06:59",
       "rows": 115056,
       "mae": 0.5765527894413184,
       "brier": 0.1264302368921407,
@@ -1529,7 +1539,7 @@
     {
       "sport": "NHL",
       "market": "player_shots_on_goal",
-      "finished_at": "2026-08-31T15:53:06",
+      "finished_at": "2026-09-01T13:07:09",
       "rows": 115056,
       "mae": 1.180141739135485,
       "brier": 0.13999800213804484,
