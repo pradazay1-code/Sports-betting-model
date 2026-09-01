@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-01T13:11:41+00:00",
+  "generated_at": "2026-09-01T17:10:50+00:00",
   "on_date": "2026-09-01",
   "sports": [
     "NBA",
@@ -19,8 +19,8 @@
   },
   "picks": [
     {
-      "id": 3076,
-      "generated_at": "2026-09-01T13:11:41+00:00",
+      "id": 3101,
+      "generated_at": "2026-09-01T17:10:50+00:00",
       "on_date": "2026-09-01",
       "sport": "MLB",
       "player_name": "Nick Lodolo",
@@ -57,8 +57,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3077,
-      "generated_at": "2026-09-01T13:11:41+00:00",
+      "id": 3102,
+      "generated_at": "2026-09-01T17:10:50+00:00",
       "on_date": "2026-09-01",
       "sport": "MLB",
       "player_name": "Randy Vasquez",
@@ -95,8 +95,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3078,
-      "generated_at": "2026-09-01T13:11:41+00:00",
+      "id": 3103,
+      "generated_at": "2026-09-01T17:10:50+00:00",
       "on_date": "2026-09-01",
       "sport": "MLB",
       "player_name": "Paul Skenes",
@@ -133,8 +133,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3079,
-      "generated_at": "2026-09-01T13:11:41+00:00",
+      "id": 3104,
+      "generated_at": "2026-09-01T17:10:50+00:00",
       "on_date": "2026-09-01",
       "sport": "NFL",
       "player_name": "Khalil Shakir",
@@ -171,8 +171,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3080,
-      "generated_at": "2026-09-01T13:11:41+00:00",
+      "id": 3105,
+      "generated_at": "2026-09-01T17:10:50+00:00",
       "on_date": "2026-09-01",
       "sport": "NFL",
       "player_name": "Colston Loveland",
@@ -209,8 +209,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3081,
-      "generated_at": "2026-09-01T13:11:41+00:00",
+      "id": 3106,
+      "generated_at": "2026-09-01T17:10:50+00:00",
       "on_date": "2026-09-01",
       "sport": "NFL",
       "player_name": "Deebo Samuel",
@@ -247,8 +247,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3082,
-      "generated_at": "2026-09-01T13:11:41+00:00",
+      "id": 3107,
+      "generated_at": "2026-09-01T17:10:50+00:00",
       "on_date": "2026-09-01",
       "sport": "NFL",
       "player_name": "Ja'Marr Chase",
@@ -285,8 +285,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3083,
-      "generated_at": "2026-09-01T13:11:41+00:00",
+      "id": 3108,
+      "generated_at": "2026-09-01T17:10:50+00:00",
       "on_date": "2026-09-01",
       "sport": "NFL",
       "player_name": "Rome Odunze",
@@ -323,8 +323,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3084,
-      "generated_at": "2026-09-01T13:11:41+00:00",
+      "id": 3109,
+      "generated_at": "2026-09-01T17:10:50+00:00",
       "on_date": "2026-09-01",
       "sport": "NFL",
       "player_name": "Tetairoa McMillan",
@@ -361,8 +361,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3085,
-      "generated_at": "2026-09-01T13:11:41+00:00",
+      "id": 3110,
+      "generated_at": "2026-09-01T17:10:50+00:00",
       "on_date": "2026-09-01",
       "sport": "MLB",
       "player_name": "Austin Hays",
@@ -399,8 +399,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3086,
-      "generated_at": "2026-09-01T13:11:41+00:00",
+      "id": 3111,
+      "generated_at": "2026-09-01T17:10:50+00:00",
       "on_date": "2026-09-01",
       "sport": "MLB",
       "player_name": "Elly De La Cruz",
@@ -437,8 +437,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3087,
-      "generated_at": "2026-09-01T13:11:41+00:00",
+      "id": 3112,
+      "generated_at": "2026-09-01T17:10:50+00:00",
       "on_date": "2026-09-01",
       "sport": "MLB",
       "player_name": "Fernando Tatis Jr.",
@@ -475,8 +475,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3088,
-      "generated_at": "2026-09-01T13:11:41+00:00",
+      "id": 3113,
+      "generated_at": "2026-09-01T17:10:50+00:00",
       "on_date": "2026-09-01",
       "sport": "MLB",
       "player_name": "Jackson Merrill",
@@ -513,8 +513,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3089,
-      "generated_at": "2026-09-01T13:11:41+00:00",
+      "id": 3114,
+      "generated_at": "2026-09-01T17:10:50+00:00",
       "on_date": "2026-09-01",
       "sport": "MLB",
       "player_name": "Ty France",
@@ -551,8 +551,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3090,
-      "generated_at": "2026-09-01T13:11:41+00:00",
+      "id": 3115,
+      "generated_at": "2026-09-01T17:10:50+00:00",
       "on_date": "2026-09-01",
       "sport": "MLB",
       "player_name": "Xander Bogaerts",
@@ -589,8 +589,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3091,
-      "generated_at": "2026-09-01T13:11:41+00:00",
+      "id": 3116,
+      "generated_at": "2026-09-01T17:10:50+00:00",
       "on_date": "2026-09-01",
       "sport": "MLB",
       "player_name": "Nick Lodolo",
@@ -627,8 +627,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3092,
-      "generated_at": "2026-09-01T13:11:41+00:00",
+      "id": 3117,
+      "generated_at": "2026-09-01T17:10:50+00:00",
       "on_date": "2026-09-01",
       "sport": "MLB",
       "player_name": "Randy Vasquez",
@@ -665,8 +665,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3093,
-      "generated_at": "2026-09-01T13:11:41+00:00",
+      "id": 3118,
+      "generated_at": "2026-09-01T17:10:50+00:00",
       "on_date": "2026-09-01",
       "sport": "MLB",
       "player_name": "Jake Mangum",
@@ -703,8 +703,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3094,
-      "generated_at": "2026-09-01T13:11:41+00:00",
+      "id": 3119,
+      "generated_at": "2026-09-01T17:10:50+00:00",
       "on_date": "2026-09-01",
       "sport": "MLB",
       "player_name": "Junior Caminero",
@@ -741,8 +741,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3095,
-      "generated_at": "2026-09-01T13:11:41+00:00",
+      "id": 3120,
+      "generated_at": "2026-09-01T17:10:50+00:00",
       "on_date": "2026-09-01",
       "sport": "MLB",
       "player_name": "Nick Gonzales",
@@ -779,8 +779,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3096,
-      "generated_at": "2026-09-01T13:11:41+00:00",
+      "id": 3121,
+      "generated_at": "2026-09-01T17:10:50+00:00",
       "on_date": "2026-09-01",
       "sport": "MLB",
       "player_name": "Spencer Horwitz",
@@ -817,8 +817,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3097,
-      "generated_at": "2026-09-01T13:11:41+00:00",
+      "id": 3122,
+      "generated_at": "2026-09-01T17:10:50+00:00",
       "on_date": "2026-09-01",
       "sport": "MLB",
       "player_name": "Gavin Williams",
@@ -855,8 +855,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3098,
-      "generated_at": "2026-09-01T13:11:41+00:00",
+      "id": 3123,
+      "generated_at": "2026-09-01T17:10:50+00:00",
       "on_date": "2026-09-01",
       "sport": "MLB",
       "player_name": "Logan Webb",
@@ -893,8 +893,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3099,
-      "generated_at": "2026-09-01T13:11:41+00:00",
+      "id": 3124,
+      "generated_at": "2026-09-01T17:10:50+00:00",
       "on_date": "2026-09-01",
       "sport": "NFL",
       "player_name": "DJ Moore",
@@ -931,8 +931,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3100,
-      "generated_at": "2026-09-01T13:11:41+00:00",
+      "id": 3125,
+      "generated_at": "2026-09-01T17:10:50+00:00",
       "on_date": "2026-09-01",
       "sport": "NFL",
       "player_name": "Rome Odunze",
