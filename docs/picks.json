@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-09-02T01:02:24+00:00",
-  "on_date": "2026-09-01",
+  "generated_at": "2026-09-02T05:38:23+00:00",
+  "on_date": "2026-09-02",
   "sports": [
     "NBA",
     "MLB",
@@ -19,9 +19,9 @@
   },
   "picks": [
     {
-      "id": 3201,
-      "generated_at": "2026-09-02T01:02:24+00:00",
-      "on_date": "2026-09-01",
+      "id": 3226,
+      "generated_at": "2026-09-02T05:38:23+00:00",
+      "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Nick Lodolo",
       "market": "pitcher_strikeouts",
@@ -57,9 +57,9 @@
       "hidden_gem": false
     },
     {
-      "id": 3202,
-      "generated_at": "2026-09-02T01:02:24+00:00",
-      "on_date": "2026-09-01",
+      "id": 3227,
+      "generated_at": "2026-09-02T05:38:23+00:00",
+      "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Randy Vasquez",
       "market": "pitcher_strikeouts",
@@ -95,9 +95,9 @@
       "hidden_gem": false
     },
     {
-      "id": 3203,
-      "generated_at": "2026-09-02T01:02:24+00:00",
-      "on_date": "2026-09-01",
+      "id": 3228,
+      "generated_at": "2026-09-02T05:38:23+00:00",
+      "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Paul Skenes",
       "market": "pitcher_strikeouts",
@@ -133,9 +133,9 @@
       "hidden_gem": false
     },
     {
-      "id": 3204,
-      "generated_at": "2026-09-02T01:02:24+00:00",
-      "on_date": "2026-09-01",
+      "id": 3229,
+      "generated_at": "2026-09-02T05:38:23+00:00",
+      "on_date": "2026-09-02",
       "sport": "NFL",
       "player_name": "Khalil Shakir",
       "market": "player_rec_yards",
@@ -171,9 +171,9 @@
       "hidden_gem": false
     },
     {
-      "id": 3205,
-      "generated_at": "2026-09-02T01:02:24+00:00",
-      "on_date": "2026-09-01",
+      "id": 3230,
+      "generated_at": "2026-09-02T05:38:23+00:00",
+      "on_date": "2026-09-02",
       "sport": "NFL",
       "player_name": "Colston Loveland",
       "market": "player_receptions",
@@ -209,9 +209,9 @@
       "hidden_gem": false
     },
     {
-      "id": 3206,
-      "generated_at": "2026-09-02T01:02:24+00:00",
-      "on_date": "2026-09-01",
+      "id": 3231,
+      "generated_at": "2026-09-02T05:38:23+00:00",
+      "on_date": "2026-09-02",
       "sport": "NFL",
       "player_name": "Deebo Samuel",
       "market": "player_receptions",
@@ -247,9 +247,9 @@
       "hidden_gem": false
     },
     {
-      "id": 3207,
-      "generated_at": "2026-09-02T01:02:24+00:00",
-      "on_date": "2026-09-01",
+      "id": 3232,
+      "generated_at": "2026-09-02T05:38:23+00:00",
+      "on_date": "2026-09-02",
       "sport": "NFL",
       "player_name": "Ja'Marr Chase",
       "market": "player_receptions",
@@ -285,9 +285,9 @@
       "hidden_gem": false
     },
     {
-      "id": 3208,
-      "generated_at": "2026-09-02T01:02:24+00:00",
-      "on_date": "2026-09-01",
+      "id": 3233,
+      "generated_at": "2026-09-02T05:38:23+00:00",
+      "on_date": "2026-09-02",
       "sport": "NFL",
       "player_name": "Rome Odunze",
       "market": "player_receptions",
@@ -323,9 +323,9 @@
       "hidden_gem": false
     },
     {
-      "id": 3209,
-      "generated_at": "2026-09-02T01:02:24+00:00",
-      "on_date": "2026-09-01",
+      "id": 3234,
+      "generated_at": "2026-09-02T05:38:23+00:00",
+      "on_date": "2026-09-02",
       "sport": "NFL",
       "player_name": "Tetairoa McMillan",
       "market": "player_receptions",
@@ -361,9 +361,9 @@
       "hidden_gem": false
     },
     {
-      "id": 3210,
-      "generated_at": "2026-09-02T01:02:24+00:00",
-      "on_date": "2026-09-01",
+      "id": 3235,
+      "generated_at": "2026-09-02T05:38:23+00:00",
+      "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Austin Hays",
       "market": "batter_total_bases",
@@ -399,9 +399,9 @@
       "hidden_gem": false
     },
     {
-      "id": 3211,
-      "generated_at": "2026-09-02T01:02:24+00:00",
-      "on_date": "2026-09-01",
+      "id": 3236,
+      "generated_at": "2026-09-02T05:38:23+00:00",
+      "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Elly De La Cruz",
       "market": "batter_total_bases",
@@ -437,9 +437,9 @@
       "hidden_gem": false
     },
     {
-      "id": 3212,
-      "generated_at": "2026-09-02T01:02:24+00:00",
-      "on_date": "2026-09-01",
+      "id": 3237,
+      "generated_at": "2026-09-02T05:38:23+00:00",
+      "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Fernando Tatis Jr.",
       "market": "batter_total_bases",
@@ -475,9 +475,9 @@
       "hidden_gem": false
     },
     {
-      "id": 3213,
-      "generated_at": "2026-09-02T01:02:24+00:00",
-      "on_date": "2026-09-01",
+      "id": 3238,
+      "generated_at": "2026-09-02T05:38:23+00:00",
+      "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Jackson Merrill",
       "market": "batter_total_bases",
@@ -513,9 +513,9 @@
       "hidden_gem": false
     },
     {
-      "id": 3214,
-      "generated_at": "2026-09-02T01:02:24+00:00",
-      "on_date": "2026-09-01",
+      "id": 3239,
+      "generated_at": "2026-09-02T05:38:23+00:00",
+      "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Ty France",
       "market": "batter_total_bases",
@@ -551,9 +551,9 @@
       "hidden_gem": false
     },
     {
-      "id": 3215,
-      "generated_at": "2026-09-02T01:02:24+00:00",
-      "on_date": "2026-09-01",
+      "id": 3240,
+      "generated_at": "2026-09-02T05:38:23+00:00",
+      "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Xander Bogaerts",
       "market": "batter_total_bases",
@@ -589,9 +589,9 @@
       "hidden_gem": false
     },
     {
-      "id": 3216,
-      "generated_at": "2026-09-02T01:02:24+00:00",
-      "on_date": "2026-09-01",
+      "id": 3241,
+      "generated_at": "2026-09-02T05:38:23+00:00",
+      "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Nick Lodolo",
       "market": "pitcher_outs",
@@ -627,9 +627,9 @@
       "hidden_gem": false
     },
     {
-      "id": 3217,
-      "generated_at": "2026-09-02T01:02:24+00:00",
-      "on_date": "2026-09-01",
+      "id": 3242,
+      "generated_at": "2026-09-02T05:38:23+00:00",
+      "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Randy Vasquez",
       "market": "pitcher_outs",
@@ -665,9 +665,9 @@
       "hidden_gem": false
     },
     {
-      "id": 3218,
-      "generated_at": "2026-09-02T01:02:24+00:00",
-      "on_date": "2026-09-01",
+      "id": 3243,
+      "generated_at": "2026-09-02T05:38:23+00:00",
+      "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Jake Mangum",
       "market": "batter_total_bases",
@@ -703,9 +703,9 @@
       "hidden_gem": false
     },
     {
-      "id": 3219,
-      "generated_at": "2026-09-02T01:02:24+00:00",
-      "on_date": "2026-09-01",
+      "id": 3244,
+      "generated_at": "2026-09-02T05:38:23+00:00",
+      "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Junior Caminero",
       "market": "batter_total_bases",
@@ -741,9 +741,9 @@
       "hidden_gem": false
     },
     {
-      "id": 3220,
-      "generated_at": "2026-09-02T01:02:24+00:00",
-      "on_date": "2026-09-01",
+      "id": 3245,
+      "generated_at": "2026-09-02T05:38:23+00:00",
+      "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Nick Gonzales",
       "market": "batter_total_bases",
@@ -779,9 +779,9 @@
       "hidden_gem": false
     },
     {
-      "id": 3221,
-      "generated_at": "2026-09-02T01:02:24+00:00",
-      "on_date": "2026-09-01",
+      "id": 3246,
+      "generated_at": "2026-09-02T05:38:23+00:00",
+      "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Spencer Horwitz",
       "market": "batter_total_bases",
@@ -817,9 +817,9 @@
       "hidden_gem": false
     },
     {
-      "id": 3222,
-      "generated_at": "2026-09-02T01:02:24+00:00",
-      "on_date": "2026-09-01",
+      "id": 3247,
+      "generated_at": "2026-09-02T05:38:23+00:00",
+      "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Gavin Williams",
       "market": "pitcher_strikeouts",
@@ -855,9 +855,9 @@
       "hidden_gem": false
     },
     {
-      "id": 3223,
-      "generated_at": "2026-09-02T01:02:24+00:00",
-      "on_date": "2026-09-01",
+      "id": 3248,
+      "generated_at": "2026-09-02T05:38:23+00:00",
+      "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Logan Webb",
       "market": "pitcher_strikeouts",
@@ -893,9 +893,9 @@
       "hidden_gem": false
     },
     {
-      "id": 3224,
-      "generated_at": "2026-09-02T01:02:24+00:00",
-      "on_date": "2026-09-01",
+      "id": 3249,
+      "generated_at": "2026-09-02T05:38:23+00:00",
+      "on_date": "2026-09-02",
       "sport": "NFL",
       "player_name": "DJ Moore",
       "market": "player_rec_yards",
@@ -931,9 +931,9 @@
       "hidden_gem": false
     },
     {
-      "id": 3225,
-      "generated_at": "2026-09-02T01:02:24+00:00",
-      "on_date": "2026-09-01",
+      "id": 3250,
+      "generated_at": "2026-09-02T05:38:23+00:00",
+      "on_date": "2026-09-02",
       "sport": "NFL",
       "player_name": "Rome Odunze",
       "market": "player_rec_yards",
