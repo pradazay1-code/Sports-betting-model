@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-02T12:39:38+00:00",
+  "generated_at": "2026-09-02T17:01:28+00:00",
   "on_date": "2026-09-02",
   "sports": [
     "NBA",
@@ -19,8 +19,8 @@
   },
   "picks": [
     {
-      "id": 3251,
-      "generated_at": "2026-09-02T12:39:38+00:00",
+      "id": 3276,
+      "generated_at": "2026-09-02T17:01:28+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Nick Lodolo",
@@ -57,8 +57,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3252,
-      "generated_at": "2026-09-02T12:39:38+00:00",
+      "id": 3277,
+      "generated_at": "2026-09-02T17:01:28+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Randy Vasquez",
@@ -95,274 +95,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3253,
-      "generated_at": "2026-09-02T12:39:38+00:00",
-      "on_date": "2026-09-02",
-      "sport": "MLB",
-      "player_name": "Paul Skenes",
-      "market": "pitcher_strikeouts",
-      "side": "under",
-      "line": 6.5,
-      "price_american": -148,
-      "book": "fanduel",
-      "model_prob": 0.7779166666666667,
-      "fair_prob": 0.5631341600901917,
-      "edge_pct": 30.353603603603617,
-      "kelly_stake": 0.11230833333333334,
-      "rating": 100.0,
-      "rationale": {
-        "components": {
-          "edge": 1.0,
-          "confidence": 1.0,
-          "disagreement": 1.0,
-          "sample": 1.0,
-          "depth": 1.0
-        },
-        "books_count": 4,
-        "pred_mean": 5.03645791306039,
-        "residual_std": 1.3298661562408307,
-        "book": "fanduel"
-      },
-      "graded": 0,
-      "actual_value": null,
-      "won": null,
-      "payout_units": null,
-      "recommended_stake_units": 112.31,
-      "grade": "A+",
-      "projection": 5.0,
-      "hidden_gem": false
-    },
-    {
-      "id": 3254,
-      "generated_at": "2026-09-02T12:39:38+00:00",
-      "on_date": "2026-09-02",
-      "sport": "NFL",
-      "player_name": "Khalil Shakir",
-      "market": "player_rec_yards",
-      "side": "under",
-      "line": 38.5,
-      "price_american": -110,
-      "book": "draftkings",
-      "model_prob": 0.999,
-      "fair_prob": 0.5,
-      "edge_pct": 90.71818181818183,
-      "kelly_stake": 0.249475,
-      "rating": 100.0,
-      "rationale": {
-        "components": {
-          "edge": 1.0,
-          "confidence": 1.0,
-          "disagreement": 1.0,
-          "sample": 1.0,
-          "depth": 1.0
-        },
-        "books_count": 4,
-        "pred_mean": 4.465363355792131,
-        "residual_std": 15.937743360561726,
-        "book": "draftkings"
-      },
-      "graded": 0,
-      "actual_value": null,
-      "won": null,
-      "payout_units": null,
-      "recommended_stake_units": 249.47,
-      "grade": "A+",
-      "projection": 4.5,
-      "hidden_gem": false
-    },
-    {
-      "id": 3255,
-      "generated_at": "2026-09-02T12:39:38+00:00",
-      "on_date": "2026-09-02",
-      "sport": "NFL",
-      "player_name": "Colston Loveland",
-      "market": "player_receptions",
-      "side": "under",
-      "line": 4.5,
-      "price_american": -140,
-      "book": "fanduel",
-      "model_prob": 0.9476923076923077,
-      "fair_prob": 0.55637707948244,
-      "edge_pct": 62.46153846153848,
-      "kelly_stake": 0.21861538461538463,
-      "rating": 100.0,
-      "rationale": {
-        "components": {
-          "edge": 1.0,
-          "confidence": 1.0,
-          "disagreement": 1.0,
-          "sample": 1.0,
-          "depth": 1.0
-        },
-        "books_count": 4,
-        "pred_mean": 3.1915381292768177,
-        "residual_std": 1.7619274045558388,
-        "book": "fanduel"
-      },
-      "graded": 0,
-      "actual_value": null,
-      "won": null,
-      "payout_units": null,
-      "recommended_stake_units": 218.62,
-      "grade": "A+",
-      "projection": 3.2,
-      "hidden_gem": false
-    },
-    {
-      "id": 3256,
-      "generated_at": "2026-09-02T12:39:38+00:00",
-      "on_date": "2026-09-02",
-      "sport": "NFL",
-      "player_name": "Deebo Samuel",
-      "market": "player_receptions",
-      "side": "over",
-      "line": 2.5,
-      "price_american": -140,
-      "book": "pinnacle",
-      "model_prob": 0.8575129533678757,
-      "fair_prob": 0.5718872636460935,
-      "edge_pct": 47.00222057735013,
-      "kelly_stake": 0.16450777202072542,
-      "rating": 100.0,
-      "rationale": {
-        "components": {
-          "edge": 1.0,
-          "confidence": 1.0,
-          "disagreement": 1.0,
-          "sample": 1.0,
-          "depth": 1.0
-        },
-        "books_count": 5,
-        "pred_mean": 3.1915381292768177,
-        "residual_std": 1.7619274045558388,
-        "book": "pinnacle"
-      },
-      "graded": 0,
-      "actual_value": null,
-      "won": null,
-      "payout_units": null,
-      "recommended_stake_units": 164.51,
-      "grade": "A+",
-      "projection": 3.2,
-      "hidden_gem": false
-    },
-    {
-      "id": 3257,
-      "generated_at": "2026-09-02T12:39:38+00:00",
-      "on_date": "2026-09-02",
-      "sport": "NFL",
-      "player_name": "Ja'Marr Chase",
-      "market": "player_receptions",
-      "side": "under",
-      "line": 7.5,
-      "price_american": -138,
-      "book": "draftkings",
-      "model_prob": 0.9476923076923077,
-      "fair_prob": 0.5560364124757499,
-      "edge_pct": 63.44258639910816,
-      "kelly_stake": 0.2188769230769231,
-      "rating": 100.0,
-      "rationale": {
-        "components": {
-          "edge": 1.0,
-          "confidence": 1.0,
-          "disagreement": 1.0,
-          "sample": 1.0,
-          "depth": 1.0
-        },
-        "books_count": 4,
-        "pred_mean": 3.636832363640144,
-        "residual_std": 1.7619274045558388,
-        "book": "draftkings"
-      },
-      "graded": 0,
-      "actual_value": null,
-      "won": null,
-      "payout_units": null,
-      "recommended_stake_units": 218.88,
-      "grade": "A+",
-      "projection": 3.6,
-      "hidden_gem": false
-    },
-    {
-      "id": 3258,
-      "generated_at": "2026-09-02T12:39:38+00:00",
-      "on_date": "2026-09-02",
-      "sport": "NFL",
-      "player_name": "Rome Odunze",
-      "market": "player_receptions",
-      "side": "under",
-      "line": 3.5,
-      "price_american": -127,
-      "book": "betonlineag",
-      "model_prob": 0.7758620689655172,
-      "fair_prob": 0.5471954041330886,
-      "edge_pct": 38.67770838989952,
-      "kelly_stake": 0.12280172413793103,
-      "rating": 100.0,
-      "rationale": {
-        "components": {
-          "edge": 1.0,
-          "confidence": 1.0,
-          "disagreement": 1.0,
-          "sample": 1.0,
-          "depth": 1.0
-        },
-        "books_count": 4,
-        "pred_mean": 3.1915381292768177,
-        "residual_std": 1.7619274045558388,
-        "book": "betonlineag"
-      },
-      "graded": 0,
-      "actual_value": null,
-      "won": null,
-      "payout_units": null,
-      "recommended_stake_units": 122.8,
-      "grade": "A+",
-      "projection": 3.2,
-      "hidden_gem": false
-    },
-    {
-      "id": 3259,
-      "generated_at": "2026-09-02T12:39:38+00:00",
-      "on_date": "2026-09-02",
-      "sport": "NFL",
-      "player_name": "Tetairoa McMillan",
-      "market": "player_receptions",
-      "side": "under",
-      "line": 4.5,
-      "price_american": 107,
-      "book": "draftkings",
-      "model_prob": 0.9476923076923077,
-      "fair_prob": 0.47557669229743543,
-      "edge_pct": 96.17230769230774,
-      "kelly_stake": 0.22470165348670024,
-      "rating": 100.0,
-      "rationale": {
-        "components": {
-          "edge": 1.0,
-          "confidence": 1.0,
-          "disagreement": 1.0,
-          "sample": 1.0,
-          "depth": 1.0
-        },
-        "books_count": 4,
-        "pred_mean": 3.1915381292768177,
-        "residual_std": 1.7619274045558388,
-        "book": "draftkings"
-      },
-      "graded": 0,
-      "actual_value": null,
-      "won": null,
-      "payout_units": null,
-      "recommended_stake_units": 224.7,
-      "grade": "A+",
-      "projection": 3.2,
-      "hidden_gem": false
-    },
-    {
-      "id": 3260,
-      "generated_at": "2026-09-02T12:39:38+00:00",
+      "id": 3278,
+      "generated_at": "2026-09-02T17:01:28+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Austin Hays",
@@ -372,7 +106,7 @@
       "price_american": -160,
       "book": "bovada",
       "model_prob": 0.8332053448011059,
-      "fair_prob": 0.5911949685534592,
+      "fair_prob": 0.5859872611464968,
       "edge_pct": 35.39586853017971,
       "kelly_stake": 0.14158347412071884,
       "rating": 96.7,
@@ -399,8 +133,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3261,
-      "generated_at": "2026-09-02T12:39:38+00:00",
+      "id": 3279,
+      "generated_at": "2026-09-02T17:01:28+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Elly De La Cruz",
@@ -437,8 +171,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3262,
-      "generated_at": "2026-09-02T12:39:38+00:00",
+      "id": 3280,
+      "generated_at": "2026-09-02T17:01:28+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Fernando Tatis Jr.",
@@ -475,20 +209,20 @@
       "hidden_gem": false
     },
     {
-      "id": 3263,
-      "generated_at": "2026-09-02T12:39:38+00:00",
+      "id": 3281,
+      "generated_at": "2026-09-02T17:01:28+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Jackson Merrill",
       "market": "batter_total_bases",
       "side": "over",
       "line": 1.5,
-      "price_american": 115,
-      "book": "bovada",
+      "price_american": 110,
+      "book": "draftkings",
       "model_prob": 0.9881873727087577,
-      "fair_prob": 0.44362292051756014,
-      "edge_pct": 112.46028513238291,
-      "kelly_stake": 0.24447888072257157,
+      "fair_prob": 0.44943820224719105,
+      "edge_pct": 107.51934826883911,
+      "kelly_stake": 0.24436215515645252,
       "rating": 96.7,
       "rationale": {
         "components": {
@@ -501,32 +235,32 @@
         "books_count": 3,
         "pred_mean": 2.8510569365526353,
         "residual_std": 1.878980831811759,
-        "book": "bovada"
+        "book": "draftkings"
       },
       "graded": 0,
       "actual_value": null,
       "won": null,
       "payout_units": null,
-      "recommended_stake_units": 244.48,
+      "recommended_stake_units": 244.36,
       "grade": "A+",
       "projection": 2.9,
       "hidden_gem": false
     },
     {
-      "id": 3264,
-      "generated_at": "2026-09-02T12:39:38+00:00",
+      "id": 3282,
+      "generated_at": "2026-09-02T17:01:28+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Manny Machado",
       "market": "batter_total_bases",
       "side": "over",
       "line": 1.5,
-      "price_american": 101,
-      "book": "draftkings",
+      "price_american": 100,
+      "book": "betmgm",
       "model_prob": 0.9733201581027668,
-      "fair_prob": 0.47796765533948804,
-      "edge_pct": 95.63735177865611,
-      "kelly_stake": 0.23672611826400033,
+      "fair_prob": 0.47921225382932175,
+      "edge_pct": 94.66403162055337,
+      "kelly_stake": 0.23666007905138342,
       "rating": 96.7,
       "rationale": {
         "components": {
@@ -539,20 +273,20 @@
         "books_count": 3,
         "pred_mean": 2.457279460757458,
         "residual_std": 1.878980831811759,
-        "book": "draftkings"
+        "book": "betmgm"
       },
       "graded": 0,
       "actual_value": null,
       "won": null,
       "payout_units": null,
-      "recommended_stake_units": 236.73,
+      "recommended_stake_units": 236.66,
       "grade": "A+",
       "projection": 2.5,
       "hidden_gem": false
     },
     {
-      "id": 3265,
-      "generated_at": "2026-09-02T12:39:38+00:00",
+      "id": 3283,
+      "generated_at": "2026-09-02T17:01:28+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Sal Stewart",
@@ -589,8 +323,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3266,
-      "generated_at": "2026-09-02T12:39:38+00:00",
+      "id": 3284,
+      "generated_at": "2026-09-02T17:01:28+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Ty France",
@@ -627,8 +361,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3267,
-      "generated_at": "2026-09-02T12:39:38+00:00",
+      "id": 3285,
+      "generated_at": "2026-09-02T17:01:28+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Xander Bogaerts",
@@ -638,7 +372,7 @@
       "price_american": 145,
       "book": "betmgm",
       "model_prob": 0.9967532467532467,
-      "fair_prob": 0.4153778170570039,
+      "fair_prob": 0.4017329657345411,
       "edge_pct": 144.2045454545455,
       "kelly_stake": 0.248628526645768,
       "rating": 96.7,
@@ -665,8 +399,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3268,
-      "generated_at": "2026-09-02T12:39:38+00:00",
+      "id": 3286,
+      "generated_at": "2026-09-02T17:01:28+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Nick Lodolo",
@@ -703,8 +437,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3269,
-      "generated_at": "2026-09-02T12:39:38+00:00",
+      "id": 3287,
+      "generated_at": "2026-09-02T17:01:28+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Randy Vasquez",
@@ -714,7 +448,7 @@
       "price_american": -108,
       "book": "draftkings",
       "model_prob": 0.999,
-      "fair_prob": 0.4988948810892052,
+      "fair_prob": 0.48581617766250607,
       "edge_pct": 92.40000000000002,
       "kelly_stake": 0.24948,
       "rating": 96.7,
@@ -741,223 +475,261 @@
       "hidden_gem": false
     },
     {
-      "id": 3270,
-      "generated_at": "2026-09-02T12:39:38+00:00",
+      "id": 3288,
+      "generated_at": "2026-09-02T17:01:28+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
-      "player_name": "Bo Bichette",
-      "market": "batter_total_bases",
+      "player_name": "Austin Hays",
+      "market": "batter_hits",
       "side": "over",
-      "line": 1.5,
-      "price_american": 150,
-      "book": "bovada",
-      "model_prob": 0.9985849056603774,
-      "fair_prob": 0.3795141168745897,
-      "edge_pct": 149.64622641509436,
-      "kelly_stake": 0.2494103773584906,
-      "rating": 96.7,
+      "line": 0.5,
+      "price_american": -210,
+      "book": "betmgm",
+      "model_prob": 0.995049504950495,
+      "fair_prob": 0.6465222348916762,
+      "edge_pct": 46.888260254596894,
+      "kelly_stake": 0.24616336633663366,
+      "rating": 93.3,
       "rationale": {
         "components": {
           "edge": 1.0,
           "confidence": 1.0,
           "disagreement": 1.0,
           "sample": 1.0,
-          "depth": 0.6666666666666666
+          "depth": 0.3333333333333333
         },
-        "books_count": 3,
-        "pred_mean": 3.216079315407504,
-        "residual_std": 1.878980831811759,
-        "book": "bovada"
+        "books_count": 2,
+        "pred_mean": 0.7185023524256894,
+        "residual_std": 0.8833671964774532,
+        "book": "betmgm"
       },
       "graded": 0,
       "actual_value": null,
       "won": null,
       "payout_units": null,
-      "recommended_stake_units": 249.41,
+      "recommended_stake_units": 246.16,
       "grade": "A+",
-      "projection": 3.2,
-      "hidden_gem": false
+      "projection": 0.7,
+      "hidden_gem": true
     },
     {
-      "id": 3271,
-      "generated_at": "2026-09-02T12:39:38+00:00",
+      "id": 3289,
+      "generated_at": "2026-09-02T17:01:28+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
-      "player_name": "Brandon Lowe",
-      "market": "batter_total_bases",
-      "side": "over",
-      "line": 1.5,
-      "price_american": 132,
-      "book": "betonlineag",
-      "model_prob": 0.9881873727087577,
-      "fair_prob": 0.4063816977724262,
-      "edge_pct": 129.25947046843183,
-      "kelly_stake": 0.2448096031599087,
-      "rating": 96.7,
+      "player_name": "Elly De La Cruz",
+      "market": "batter_hits",
+      "side": "under",
+      "line": 0.5,
+      "price_american": 190,
+      "book": "betmgm",
+      "model_prob": 0.9389243391066545,
+      "fair_prob": 0.33248081841432225,
+      "edge_pct": 172.2880583409298,
+      "kelly_stake": 0.2266948136064866,
+      "rating": 93.3,
       "rationale": {
         "components": {
           "edge": 1.0,
           "confidence": 1.0,
           "disagreement": 1.0,
           "sample": 1.0,
-          "depth": 0.6666666666666666
+          "depth": 0.3333333333333333
         },
-        "books_count": 3,
-        "pred_mean": 2.7751213590599795,
-        "residual_std": 1.878980831811759,
-        "book": "betonlineag"
+        "books_count": 2,
+        "pred_mean": 0.11000390849959102,
+        "residual_std": 0.8833671964774532,
+        "book": "betmgm"
       },
       "graded": 0,
       "actual_value": null,
       "won": null,
       "payout_units": null,
-      "recommended_stake_units": 244.81,
+      "recommended_stake_units": 226.69,
       "grade": "A+",
-      "projection": 2.8,
-      "hidden_gem": false
+      "projection": 0.1,
+      "hidden_gem": true
     },
     {
-      "id": 3272,
-      "generated_at": "2026-09-02T12:39:38+00:00",
+      "id": 3290,
+      "generated_at": "2026-09-02T17:01:28+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
-      "player_name": "Bryan Reynolds",
-      "market": "batter_total_bases",
+      "player_name": "Eugenio Suarez",
+      "market": "batter_hits",
       "side": "over",
-      "line": 1.5,
-      "price_american": 132,
-      "book": "betonlineag",
-      "model_prob": 0.9524187153053132,
-      "fair_prob": 0.4063816977724262,
-      "edge_pct": 120.9611419508327,
-      "kelly_stake": 0.22909307187657701,
-      "rating": 96.7,
+      "line": 0.5,
+      "price_american": -155,
+      "book": "draftkings",
+      "model_prob": 0.9825,
+      "fair_prob": 0.5721476510067114,
+      "edge_pct": 61.63709677419354,
+      "kelly_stake": 0.23884375000000002,
+      "rating": 93.3,
       "rationale": {
         "components": {
           "edge": 1.0,
           "confidence": 1.0,
           "disagreement": 1.0,
           "sample": 1.0,
-          "depth": 0.6666666666666666
+          "depth": 0.3333333333333333
         },
-        "books_count": 3,
-        "pred_mean": 2.313441373754093,
-        "residual_std": 1.878980831811759,
-        "book": "betonlineag"
+        "books_count": 2,
+        "pred_mean": 0.6720233251312118,
+        "residual_std": 0.8833671964774532,
+        "book": "draftkings"
       },
       "graded": 0,
       "actual_value": null,
       "won": null,
       "payout_units": null,
-      "recommended_stake_units": 229.09,
+      "recommended_stake_units": 238.84,
       "grade": "A+",
-      "projection": 2.3,
-      "hidden_gem": false
+      "projection": 0.7,
+      "hidden_gem": true
     },
     {
-      "id": 3273,
-      "generated_at": "2026-09-02T12:39:38+00:00",
+      "id": 3291,
+      "generated_at": "2026-09-02T17:01:28+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
-      "player_name": "Chandler Simpson",
-      "market": "batter_total_bases",
-      "side": "over",
-      "line": 1.5,
-      "price_american": 149,
-      "book": "betonlineag",
-      "model_prob": 0.9696509863429439,
-      "fair_prob": 0.38312101479686467,
-      "edge_pct": 141.44309559939305,
-      "kelly_stake": 0.23732063020032387,
-      "rating": 96.7,
-      "rationale": {
-        "components": {
-          "edge": 1.0,
-          "confidence": 1.0,
-          "disagreement": 1.0,
-          "sample": 1.0,
-          "depth": 0.6666666666666666
-        },
-        "books_count": 3,
-        "pred_mean": 2.4220738570003775,
-        "residual_std": 1.878980831811759,
-        "book": "betonlineag"
-      },
-      "graded": 0,
-      "actual_value": null,
-      "won": null,
-      "payout_units": null,
-      "recommended_stake_units": 237.32,
-      "grade": "A+",
-      "projection": 2.4,
-      "hidden_gem": false
-    },
-    {
-      "id": 3274,
-      "generated_at": "2026-09-02T12:39:38+00:00",
-      "on_date": "2026-09-02",
-      "sport": "MLB",
-      "player_name": "Francisco Lindor",
-      "market": "batter_total_bases",
+      "player_name": "Fernando Tatis Jr.",
+      "market": "batter_hits",
       "side": "under",
       "line": 1.5,
-      "price_american": -179,
-      "book": "betonlineag",
-      "model_prob": 0.7686853200459947,
-      "fair_prob": 0.602246806569343,
-      "edge_pct": 19.811845973649444,
-      "kelly_stake": 0.08865801073208128,
-      "rating": 96.7,
+      "price_american": -187,
+      "book": "draftkings",
+      "model_prob": 0.8247957259585167,
+      "fair_prob": 0.633250271548144,
+      "edge_pct": 26.58629590914132,
+      "kelly_stake": 0.1242909333752357,
+      "rating": 93.3,
       "rationale": {
         "components": {
           "edge": 1.0,
           "confidence": 1.0,
           "disagreement": 1.0,
           "sample": 1.0,
-          "depth": 0.6666666666666666
+          "depth": 0.3333333333333333
         },
-        "books_count": 3,
-        "pred_mean": 1.0306718102878505,
-        "residual_std": 1.878980831811759,
-        "book": "betonlineag"
+        "books_count": 2,
+        "pred_mean": 0.8595825050263691,
+        "residual_std": 0.8833671964774532,
+        "book": "draftkings"
       },
       "graded": 0,
       "actual_value": null,
       "won": null,
       "payout_units": null,
-      "recommended_stake_units": 88.66,
+      "recommended_stake_units": 124.29,
       "grade": "A+",
-      "projection": 1.0,
-      "hidden_gem": false
+      "projection": 0.9,
+      "hidden_gem": true
     },
     {
-      "id": 3275,
-      "generated_at": "2026-09-02T12:39:38+00:00",
+      "id": 3292,
+      "generated_at": "2026-09-02T17:01:28+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
-      "player_name": "Jung Hoo Lee",
-      "market": "batter_total_bases",
+      "player_name": "Freddy Fermin",
+      "market": "batter_hits",
       "side": "over",
-      "line": 1.5,
-      "price_american": 144,
-      "book": "betonlineag",
-      "model_prob": 0.9985849056603774,
-      "fair_prob": 0.3879263077091787,
-      "edge_pct": 143.65471698113205,
-      "kelly_stake": 0.2494005503144654,
-      "rating": 96.7,
+      "line": 0.5,
+      "price_american": -160,
+      "book": "betmgm",
+      "model_prob": 0.999,
+      "fair_prob": 0.5870393900889453,
+      "edge_pct": 62.3375,
+      "kelly_stake": 0.24935000000000002,
+      "rating": 93.3,
       "rationale": {
         "components": {
           "edge": 1.0,
           "confidence": 1.0,
           "disagreement": 1.0,
           "sample": 1.0,
-          "depth": 0.6666666666666666
+          "depth": 0.3333333333333333
         },
-        "books_count": 3,
-        "pred_mean": 3.322635049472248,
-        "residual_std": 1.878980831811759,
-        "book": "betonlineag"
+        "books_count": 2,
+        "pred_mean": 1.2623016040588448,
+        "residual_std": 0.8833671964774532,
+        "book": "betmgm"
+      },
+      "graded": 0,
+      "actual_value": null,
+      "won": null,
+      "payout_units": null,
+      "recommended_stake_units": 249.35,
+      "grade": "A+",
+      "projection": 1.3,
+      "hidden_gem": true
+    },
+    {
+      "id": 3293,
+      "generated_at": "2026-09-02T17:01:28+00:00",
+      "on_date": "2026-09-02",
+      "sport": "MLB",
+      "player_name": "JJ Bleday",
+      "market": "batter_hits",
+      "side": "over",
+      "line": 0.5,
+      "price_american": -160,
+      "book": "betmgm",
+      "model_prob": 0.999,
+      "fair_prob": 0.5962732919254659,
+      "edge_pct": 62.3375,
+      "kelly_stake": 0.24935000000000002,
+      "rating": 93.3,
+      "rationale": {
+        "components": {
+          "edge": 1.0,
+          "confidence": 1.0,
+          "disagreement": 1.0,
+          "sample": 1.0,
+          "depth": 0.3333333333333333
+        },
+        "books_count": 2,
+        "pred_mean": 1.483584476689315,
+        "residual_std": 0.8833671964774532,
+        "book": "betmgm"
+      },
+      "graded": 0,
+      "actual_value": null,
+      "won": null,
+      "payout_units": null,
+      "recommended_stake_units": 249.35,
+      "grade": "A+",
+      "projection": 1.5,
+      "hidden_gem": true
+    },
+    {
+      "id": 3294,
+      "generated_at": "2026-09-02T17:01:28+00:00",
+      "on_date": "2026-09-02",
+      "sport": "MLB",
+      "player_name": "Jake Cronenworth",
+      "market": "batter_hits",
+      "side": "over",
+      "line": 0.5,
+      "price_american": -140,
+      "book": "betmgm",
+      "model_prob": 0.999,
+      "fair_prob": 0.5718872636460935,
+      "edge_pct": 71.25714285714287,
+      "kelly_stake": 0.2494,
+      "rating": 93.3,
+      "rationale": {
+        "components": {
+          "edge": 1.0,
+          "confidence": 1.0,
+          "disagreement": 1.0,
+          "sample": 1.0,
+          "depth": 0.3333333333333333
+        },
+        "books_count": 2,
+        "pred_mean": 0.8389946922557653,
+        "residual_std": 0.8833671964774532,
+        "book": "betmgm"
       },
       "graded": 0,
       "actual_value": null,
@@ -965,8 +737,236 @@
       "payout_units": null,
       "recommended_stake_units": 249.4,
       "grade": "A+",
-      "projection": 3.3,
-      "hidden_gem": false
+      "projection": 0.8,
+      "hidden_gem": true
+    },
+    {
+      "id": 3295,
+      "generated_at": "2026-09-02T17:01:28+00:00",
+      "on_date": "2026-09-02",
+      "sport": "MLB",
+      "player_name": "Matt McLain",
+      "market": "batter_hits",
+      "side": "over",
+      "line": 0.5,
+      "price_american": -140,
+      "book": "betmgm",
+      "model_prob": 0.999,
+      "fair_prob": 0.5575221238938053,
+      "edge_pct": 71.25714285714287,
+      "kelly_stake": 0.2494,
+      "rating": 93.3,
+      "rationale": {
+        "components": {
+          "edge": 1.0,
+          "confidence": 1.0,
+          "disagreement": 1.0,
+          "sample": 1.0,
+          "depth": 0.3333333333333333
+        },
+        "books_count": 2,
+        "pred_mean": 1.232541509805262,
+        "residual_std": 0.8833671964774532,
+        "book": "betmgm"
+      },
+      "graded": 0,
+      "actual_value": null,
+      "won": null,
+      "payout_units": null,
+      "recommended_stake_units": 249.4,
+      "grade": "A+",
+      "projection": 1.2,
+      "hidden_gem": true
+    },
+    {
+      "id": 3296,
+      "generated_at": "2026-09-02T17:01:28+00:00",
+      "on_date": "2026-09-02",
+      "sport": "MLB",
+      "player_name": "Samad Taylor",
+      "market": "batter_hits",
+      "side": "over",
+      "line": 0.5,
+      "price_american": -165,
+      "book": "betmgm",
+      "model_prob": 0.999,
+      "fair_prob": 0.6199627133228166,
+      "edge_pct": 60.44545454545454,
+      "kelly_stake": 0.2493375,
+      "rating": 93.3,
+      "rationale": {
+        "components": {
+          "edge": 1.0,
+          "confidence": 1.0,
+          "disagreement": 1.0,
+          "sample": 1.0,
+          "depth": 0.3333333333333333
+        },
+        "books_count": 2,
+        "pred_mean": 1.022268686576276,
+        "residual_std": 0.8833671964774532,
+        "book": "betmgm"
+      },
+      "graded": 0,
+      "actual_value": null,
+      "won": null,
+      "payout_units": null,
+      "recommended_stake_units": 249.34,
+      "grade": "A+",
+      "projection": 1.0,
+      "hidden_gem": true
+    },
+    {
+      "id": 3297,
+      "generated_at": "2026-09-02T17:01:28+00:00",
+      "on_date": "2026-09-02",
+      "sport": "MLB",
+      "player_name": "TJ Friedl",
+      "market": "batter_hits",
+      "side": "over",
+      "line": 0.5,
+      "price_american": -115,
+      "book": "betmgm",
+      "model_prob": 0.999,
+      "fair_prob": 0.5131897120246207,
+      "edge_pct": 86.7695652173913,
+      "kelly_stake": 0.24946249999999998,
+      "rating": 93.3,
+      "rationale": {
+        "components": {
+          "edge": 1.0,
+          "confidence": 1.0,
+          "disagreement": 1.0,
+          "sample": 1.0,
+          "depth": 0.3333333333333333
+        },
+        "books_count": 2,
+        "pred_mean": 1.0996792898596548,
+        "residual_std": 0.8833671964774532,
+        "book": "betmgm"
+      },
+      "graded": 0,
+      "actual_value": null,
+      "won": null,
+      "payout_units": null,
+      "recommended_stake_units": 249.46,
+      "grade": "A+",
+      "projection": 1.1,
+      "hidden_gem": true
+    },
+    {
+      "id": 3298,
+      "generated_at": "2026-09-02T17:01:28+00:00",
+      "on_date": "2026-09-02",
+      "sport": "MLB",
+      "player_name": "Ty France",
+      "market": "batter_hits",
+      "side": "under",
+      "line": 1.5,
+      "price_american": -267,
+      "book": "draftkings",
+      "model_prob": 0.8979591836734694,
+      "fair_prob": 0.6828880517056649,
+      "edge_pct": 23.42734846747687,
+      "kelly_stake": 0.15637755102040818,
+      "rating": 93.3,
+      "rationale": {
+        "components": {
+          "edge": 1.0,
+          "confidence": 1.0,
+          "disagreement": 1.0,
+          "sample": 1.0,
+          "depth": 0.3333333333333333
+        },
+        "books_count": 2,
+        "pred_mean": 0.6326017648376404,
+        "residual_std": 0.8833671964774532,
+        "book": "draftkings"
+      },
+      "graded": 0,
+      "actual_value": null,
+      "won": null,
+      "payout_units": null,
+      "recommended_stake_units": 156.38,
+      "grade": "A+",
+      "projection": 0.6,
+      "hidden_gem": true
+    },
+    {
+      "id": 3299,
+      "generated_at": "2026-09-02T17:01:28+00:00",
+      "on_date": "2026-09-02",
+      "sport": "MLB",
+      "player_name": "Tyler Stephenson",
+      "market": "batter_hits",
+      "side": "over",
+      "line": 0.5,
+      "price_american": -188,
+      "book": "draftkings",
+      "model_prob": 0.9745222929936306,
+      "fair_prob": 0.6113779888810925,
+      "edge_pct": 49.28852147987533,
+      "kelly_stake": 0.23165605095541403,
+      "rating": 93.3,
+      "rationale": {
+        "components": {
+          "edge": 1.0,
+          "confidence": 1.0,
+          "disagreement": 1.0,
+          "sample": 1.0,
+          "depth": 0.3333333333333333
+        },
+        "books_count": 2,
+        "pred_mean": 0.5472906716853027,
+        "residual_std": 0.8833671964774532,
+        "book": "draftkings"
+      },
+      "graded": 0,
+      "actual_value": null,
+      "won": null,
+      "payout_units": null,
+      "recommended_stake_units": 231.66,
+      "grade": "A+",
+      "projection": 0.5,
+      "hidden_gem": true
+    },
+    {
+      "id": 3300,
+      "generated_at": "2026-09-02T17:01:28+00:00",
+      "on_date": "2026-09-02",
+      "sport": "MLB",
+      "player_name": "Xander Bogaerts",
+      "market": "batter_hits",
+      "side": "over",
+      "line": 0.5,
+      "price_american": -210,
+      "book": "betmgm",
+      "model_prob": 0.999,
+      "fair_prob": 0.6702127659574467,
+      "edge_pct": 47.47142857142859,
+      "kelly_stake": 0.249225,
+      "rating": 93.3,
+      "rationale": {
+        "components": {
+          "edge": 1.0,
+          "confidence": 1.0,
+          "disagreement": 1.0,
+          "sample": 1.0,
+          "depth": 0.3333333333333333
+        },
+        "books_count": 2,
+        "pred_mean": 1.1015778290354117,
+        "residual_std": 0.8833671964774532,
+        "book": "betmgm"
+      },
+      "graded": 0,
+      "actual_value": null,
+      "won": null,
+      "payout_units": null,
+      "recommended_stake_units": 249.22,
+      "grade": "A+",
+      "projection": 1.1,
+      "hidden_gem": true
     }
   ],
   "by_sport": {
@@ -983,160 +983,360 @@
       "legs": [
         {
           "sport": "MLB",
-          "player_name": "Randy Vasquez",
-          "market": "pitcher_strikeouts",
-          "side": "under",
-          "line": 3.5,
-          "price_american": -127,
-          "model_prob": 0.946969696969697,
-          "rating": 90.0
-        },
-        {
-          "sport": "NFL",
-          "player_name": "Khalil Shakir",
-          "market": "player_rec_yards",
-          "side": "under",
-          "line": 38.5,
-          "price_american": -110,
-          "model_prob": 0.999,
-          "rating": 90.0
-        },
-        {
-          "sport": "NFL",
-          "player_name": "Ja'Marr Chase",
-          "market": "player_receptions",
-          "side": "under",
-          "line": 7.5,
-          "price_american": -138,
-          "model_prob": 0.9476923076923077,
-          "rating": 90.0
-        }
-      ],
-      "parlay_american": 489,
-      "parlay_decimal": 5.885,
-      "naive_model_prob": 0.8965,
-      "correlated_model_prob": 0.8965,
-      "parlay_edge_pct": 427.61,
-      "verdict": "Strong +EV"
-    },
-    {
-      "legs": [
-        {
-          "sport": "MLB",
-          "player_name": "Randy Vasquez",
-          "market": "pitcher_strikeouts",
-          "side": "under",
-          "line": 3.5,
-          "price_american": -127,
-          "model_prob": 0.946969696969697,
-          "rating": 90.0
-        },
-        {
-          "sport": "NFL",
-          "player_name": "Khalil Shakir",
-          "market": "player_rec_yards",
-          "side": "under",
-          "line": 38.5,
-          "price_american": -110,
-          "model_prob": 0.999,
-          "rating": 90.0
-        },
-        {
-          "sport": "NFL",
-          "player_name": "Colston Loveland",
-          "market": "player_receptions",
-          "side": "under",
-          "line": 4.5,
-          "price_american": -140,
-          "model_prob": 0.9476923076923077,
-          "rating": 90.0
-        }
-      ],
-      "parlay_american": 485,
-      "parlay_decimal": 5.85,
-      "naive_model_prob": 0.8965,
-      "correlated_model_prob": 0.8965,
-      "parlay_edge_pct": 424.45,
-      "verdict": "Strong +EV"
-    },
-    {
-      "legs": [
-        {
-          "sport": "NFL",
-          "player_name": "Khalil Shakir",
-          "market": "player_rec_yards",
-          "side": "under",
-          "line": 38.5,
-          "price_american": -110,
-          "model_prob": 0.999,
-          "rating": 90.0
-        },
-        {
-          "sport": "NFL",
-          "player_name": "Colston Loveland",
-          "market": "player_receptions",
-          "side": "under",
-          "line": 4.5,
-          "price_american": -140,
-          "model_prob": 0.9476923076923077,
-          "rating": 90.0
-        },
-        {
-          "sport": "NFL",
-          "player_name": "Ja'Marr Chase",
-          "market": "player_receptions",
-          "side": "under",
-          "line": 7.5,
-          "price_american": -138,
-          "model_prob": 0.9476923076923077,
-          "rating": 90.0
-        }
-      ],
-      "parlay_american": 464,
-      "parlay_decimal": 5.644,
-      "naive_model_prob": 0.8972,
-      "correlated_model_prob": 0.8972,
-      "parlay_edge_pct": 406.42,
-      "verdict": "Strong +EV"
-    },
-    {
-      "legs": [
-        {
-          "sport": "MLB",
-          "player_name": "Randy Vasquez",
-          "market": "pitcher_strikeouts",
-          "side": "under",
-          "line": 3.5,
-          "price_american": -127,
-          "model_prob": 0.946969696969697,
-          "rating": 90.0
-        },
-        {
-          "sport": "NFL",
-          "player_name": "Khalil Shakir",
-          "market": "player_rec_yards",
-          "side": "under",
-          "line": 38.5,
-          "price_american": -110,
-          "model_prob": 0.999,
-          "rating": 90.0
-        },
-        {
-          "sport": "NFL",
-          "player_name": "Deebo Samuel",
-          "market": "player_receptions",
+          "player_name": "Jackson Merrill",
+          "market": "batter_total_bases",
           "side": "over",
-          "line": 2.5,
-          "price_american": -140,
-          "model_prob": 0.8575129533678757,
+          "line": 1.5,
+          "price_american": 110,
+          "model_prob": 0.9881873727087577,
+          "rating": 90.0
+        },
+        {
+          "sport": "MLB",
+          "player_name": "Manny Machado",
+          "market": "batter_total_bases",
+          "side": "over",
+          "line": 1.5,
+          "price_american": 100,
+          "model_prob": 0.9733201581027668,
+          "rating": 90.0
+        },
+        {
+          "sport": "MLB",
+          "player_name": "Sal Stewart",
+          "market": "batter_total_bases",
+          "side": "over",
+          "line": 1.5,
+          "price_american": 115,
+          "model_prob": 0.9881873727087577,
           "rating": 90.0
         }
       ],
-      "parlay_american": 485,
-      "parlay_decimal": 5.85,
-      "naive_model_prob": 0.8112,
-      "correlated_model_prob": 0.8112,
-      "parlay_edge_pct": 374.54,
+      "parlay_american": 803,
+      "parlay_decimal": 9.03,
+      "naive_model_prob": 0.9505,
+      "correlated_model_prob": 0.9505,
+      "parlay_edge_pct": 758.27,
+      "verdict": "Strong +EV"
+    },
+    {
+      "legs": [
+        {
+          "sport": "MLB",
+          "player_name": "Fernando Tatis Jr.",
+          "market": "batter_total_bases",
+          "side": "over",
+          "line": 1.5,
+          "price_american": -110,
+          "model_prob": 0.999,
+          "rating": 90.0
+        },
+        {
+          "sport": "MLB",
+          "player_name": "Jackson Merrill",
+          "market": "batter_total_bases",
+          "side": "over",
+          "line": 1.5,
+          "price_american": 110,
+          "model_prob": 0.9881873727087577,
+          "rating": 90.0
+        },
+        {
+          "sport": "MLB",
+          "player_name": "Sal Stewart",
+          "market": "batter_total_bases",
+          "side": "over",
+          "line": 1.5,
+          "price_american": 115,
+          "model_prob": 0.9881873727087577,
+          "rating": 90.0
+        }
+      ],
+      "parlay_american": 762,
+      "parlay_decimal": 8.62,
+      "naive_model_prob": 0.9755,
+      "correlated_model_prob": 0.9755,
+      "parlay_edge_pct": 740.87,
+      "verdict": "Strong +EV"
+    },
+    {
+      "legs": [
+        {
+          "sport": "MLB",
+          "player_name": "Fernando Tatis Jr.",
+          "market": "batter_total_bases",
+          "side": "over",
+          "line": 1.5,
+          "price_american": -110,
+          "model_prob": 0.999,
+          "rating": 90.0
+        },
+        {
+          "sport": "MLB",
+          "player_name": "Manny Machado",
+          "market": "batter_total_bases",
+          "side": "over",
+          "line": 1.5,
+          "price_american": 100,
+          "model_prob": 0.9733201581027668,
+          "rating": 90.0
+        },
+        {
+          "sport": "MLB",
+          "player_name": "Sal Stewart",
+          "market": "batter_total_bases",
+          "side": "over",
+          "line": 1.5,
+          "price_american": 115,
+          "model_prob": 0.9881873727087577,
+          "rating": 90.0
+        }
+      ],
+      "parlay_american": 721,
+      "parlay_decimal": 8.209,
+      "naive_model_prob": 0.9609,
+      "correlated_model_prob": 0.9609,
+      "parlay_edge_pct": 688.78,
+      "verdict": "Strong +EV"
+    },
+    {
+      "legs": [
+        {
+          "sport": "MLB",
+          "player_name": "Fernando Tatis Jr.",
+          "market": "batter_total_bases",
+          "side": "over",
+          "line": 1.5,
+          "price_american": -110,
+          "model_prob": 0.999,
+          "rating": 90.0
+        },
+        {
+          "sport": "MLB",
+          "player_name": "Jackson Merrill",
+          "market": "batter_total_bases",
+          "side": "over",
+          "line": 1.5,
+          "price_american": 110,
+          "model_prob": 0.9881873727087577,
+          "rating": 90.0
+        },
+        {
+          "sport": "MLB",
+          "player_name": "Manny Machado",
+          "market": "batter_total_bases",
+          "side": "over",
+          "line": 1.5,
+          "price_american": 100,
+          "model_prob": 0.9733201581027668,
+          "rating": 90.0
+        }
+      ],
+      "parlay_american": 702,
+      "parlay_decimal": 8.018,
+      "naive_model_prob": 0.9609,
+      "correlated_model_prob": 0.9609,
+      "parlay_edge_pct": 670.44,
+      "verdict": "Strong +EV"
+    },
+    {
+      "legs": [
+        {
+          "sport": "MLB",
+          "player_name": "Randy Vasquez",
+          "market": "pitcher_strikeouts",
+          "side": "under",
+          "line": 3.5,
+          "price_american": -127,
+          "model_prob": 0.946969696969697,
+          "rating": 90.0
+        },
+        {
+          "sport": "MLB",
+          "player_name": "Jackson Merrill",
+          "market": "batter_total_bases",
+          "side": "over",
+          "line": 1.5,
+          "price_american": 110,
+          "model_prob": 0.9881873727087577,
+          "rating": 90.0
+        },
+        {
+          "sport": "MLB",
+          "player_name": "Sal Stewart",
+          "market": "batter_total_bases",
+          "side": "over",
+          "line": 1.5,
+          "price_american": 115,
+          "model_prob": 0.9881873727087577,
+          "rating": 90.0
+        }
+      ],
+      "parlay_american": 707,
+      "parlay_decimal": 8.07,
+      "naive_model_prob": 0.9247,
+      "correlated_model_prob": 0.9247,
+      "parlay_edge_pct": 646.27,
+      "verdict": "Strong +EV"
+    },
+    {
+      "legs": [
+        {
+          "sport": "MLB",
+          "player_name": "Randy Vasquez",
+          "market": "pitcher_strikeouts",
+          "side": "under",
+          "line": 3.5,
+          "price_american": -127,
+          "model_prob": 0.946969696969697,
+          "rating": 90.0
+        },
+        {
+          "sport": "MLB",
+          "player_name": "Manny Machado",
+          "market": "batter_total_bases",
+          "side": "over",
+          "line": 1.5,
+          "price_american": 100,
+          "model_prob": 0.9733201581027668,
+          "rating": 90.0
+        },
+        {
+          "sport": "MLB",
+          "player_name": "Sal Stewart",
+          "market": "batter_total_bases",
+          "side": "over",
+          "line": 1.5,
+          "price_american": 115,
+          "model_prob": 0.9881873727087577,
+          "rating": 90.0
+        }
+      ],
+      "parlay_american": 669,
+      "parlay_decimal": 7.686,
+      "naive_model_prob": 0.9108,
+      "correlated_model_prob": 0.9108,
+      "parlay_edge_pct": 600.04,
+      "verdict": "Strong +EV"
+    },
+    {
+      "legs": [
+        {
+          "sport": "MLB",
+          "player_name": "Randy Vasquez",
+          "market": "pitcher_strikeouts",
+          "side": "under",
+          "line": 3.5,
+          "price_american": -127,
+          "model_prob": 0.946969696969697,
+          "rating": 90.0
+        },
+        {
+          "sport": "MLB",
+          "player_name": "Fernando Tatis Jr.",
+          "market": "batter_total_bases",
+          "side": "over",
+          "line": 1.5,
+          "price_american": -110,
+          "model_prob": 0.999,
+          "rating": 90.0
+        },
+        {
+          "sport": "MLB",
+          "player_name": "Sal Stewart",
+          "market": "batter_total_bases",
+          "side": "over",
+          "line": 1.5,
+          "price_american": 115,
+          "model_prob": 0.9881873727087577,
+          "rating": 90.0
+        }
+      ],
+      "parlay_american": 634,
+      "parlay_decimal": 7.336,
+      "naive_model_prob": 0.9348,
+      "correlated_model_prob": 0.9348,
+      "parlay_edge_pct": 585.85,
+      "verdict": "Strong +EV"
+    },
+    {
+      "legs": [
+        {
+          "sport": "MLB",
+          "player_name": "Randy Vasquez",
+          "market": "pitcher_strikeouts",
+          "side": "under",
+          "line": 3.5,
+          "price_american": -127,
+          "model_prob": 0.946969696969697,
+          "rating": 90.0
+        },
+        {
+          "sport": "MLB",
+          "player_name": "Jackson Merrill",
+          "market": "batter_total_bases",
+          "side": "over",
+          "line": 1.5,
+          "price_american": 110,
+          "model_prob": 0.9881873727087577,
+          "rating": 90.0
+        },
+        {
+          "sport": "MLB",
+          "player_name": "Manny Machado",
+          "market": "batter_total_bases",
+          "side": "over",
+          "line": 1.5,
+          "price_american": 100,
+          "model_prob": 0.9733201581027668,
+          "rating": 90.0
+        }
+      ],
+      "parlay_american": 651,
+      "parlay_decimal": 7.507,
+      "naive_model_prob": 0.9108,
+      "correlated_model_prob": 0.9108,
+      "parlay_edge_pct": 583.76,
+      "verdict": "Strong +EV"
+    },
+    {
+      "legs": [
+        {
+          "sport": "MLB",
+          "player_name": "Randy Vasquez",
+          "market": "pitcher_strikeouts",
+          "side": "under",
+          "line": 3.5,
+          "price_american": -127,
+          "model_prob": 0.946969696969697,
+          "rating": 90.0
+        },
+        {
+          "sport": "MLB",
+          "player_name": "Fernando Tatis Jr.",
+          "market": "batter_total_bases",
+          "side": "over",
+          "line": 1.5,
+          "price_american": -110,
+          "model_prob": 0.999,
+          "rating": 90.0
+        },
+        {
+          "sport": "MLB",
+          "player_name": "Jackson Merrill",
+          "market": "batter_total_bases",
+          "side": "over",
+          "line": 1.5,
+          "price_american": 110,
+          "model_prob": 0.9881873727087577,
+          "rating": 90.0
+        }
+      ],
+      "parlay_american": 617,
+      "parlay_decimal": 7.166,
+      "naive_model_prob": 0.9348,
+      "correlated_model_prob": 0.9348,
+      "parlay_edge_pct": 569.9,
       "verdict": "Strong +EV"
     },
     {
@@ -1153,230 +1353,30 @@
         },
         {
           "sport": "MLB",
-          "player_name": "Randy Vasquez",
-          "market": "pitcher_strikeouts",
-          "side": "under",
-          "line": 3.5,
-          "price_american": -127,
-          "model_prob": 0.946969696969697,
-          "rating": 90.0
-        },
-        {
-          "sport": "NFL",
-          "player_name": "Khalil Shakir",
-          "market": "player_rec_yards",
-          "side": "under",
-          "line": 38.5,
-          "price_american": -110,
-          "model_prob": 0.999,
-          "rating": 90.0
-        }
-      ],
-      "parlay_american": 551,
-      "parlay_decimal": 6.514,
-      "naive_model_prob": 0.7245,
-      "correlated_model_prob": 0.7245,
-      "parlay_edge_pct": 371.97,
-      "verdict": "Strong +EV"
-    },
-    {
-      "legs": [
-        {
-          "sport": "NFL",
-          "player_name": "Khalil Shakir",
-          "market": "player_rec_yards",
-          "side": "under",
-          "line": 38.5,
-          "price_american": -110,
-          "model_prob": 0.999,
-          "rating": 90.0
-        },
-        {
-          "sport": "NFL",
-          "player_name": "Deebo Samuel",
-          "market": "player_receptions",
+          "player_name": "Jackson Merrill",
+          "market": "batter_total_bases",
           "side": "over",
-          "line": 2.5,
-          "price_american": -140,
-          "model_prob": 0.8575129533678757,
+          "line": 1.5,
+          "price_american": 110,
+          "model_prob": 0.9881873727087577,
           "rating": 90.0
         },
-        {
-          "sport": "NFL",
-          "player_name": "Ja'Marr Chase",
-          "market": "player_receptions",
-          "side": "under",
-          "line": 7.5,
-          "price_american": -138,
-          "model_prob": 0.9476923076923077,
-          "rating": 90.0
-        }
-      ],
-      "parlay_american": 464,
-      "parlay_decimal": 5.644,
-      "naive_model_prob": 0.8118,
-      "correlated_model_prob": 0.8118,
-      "parlay_edge_pct": 358.23,
-      "verdict": "Strong +EV"
-    },
-    {
-      "legs": [
         {
           "sport": "MLB",
-          "player_name": "Nick Lodolo",
-          "market": "pitcher_strikeouts",
-          "side": "under",
-          "line": 4.5,
-          "price_american": -110,
-          "model_prob": 0.7658465387823186,
-          "rating": 90.0
-        },
-        {
-          "sport": "NFL",
-          "player_name": "Khalil Shakir",
-          "market": "player_rec_yards",
-          "side": "under",
-          "line": 38.5,
-          "price_american": -110,
-          "model_prob": 0.999,
-          "rating": 90.0
-        },
-        {
-          "sport": "NFL",
-          "player_name": "Ja'Marr Chase",
-          "market": "player_receptions",
-          "side": "under",
-          "line": 7.5,
-          "price_american": -138,
-          "model_prob": 0.9476923076923077,
-          "rating": 90.0
-        }
-      ],
-      "parlay_american": 529,
-      "parlay_decimal": 6.286,
-      "naive_model_prob": 0.7251,
-      "correlated_model_prob": 0.7251,
-      "parlay_edge_pct": 355.75,
-      "verdict": "Strong +EV"
-    },
-    {
-      "legs": [
-        {
-          "sport": "NFL",
-          "player_name": "Khalil Shakir",
-          "market": "player_rec_yards",
-          "side": "under",
-          "line": 38.5,
-          "price_american": -110,
-          "model_prob": 0.999,
-          "rating": 90.0
-        },
-        {
-          "sport": "NFL",
-          "player_name": "Colston Loveland",
-          "market": "player_receptions",
-          "side": "under",
-          "line": 4.5,
-          "price_american": -140,
-          "model_prob": 0.9476923076923077,
-          "rating": 90.0
-        },
-        {
-          "sport": "NFL",
-          "player_name": "Deebo Samuel",
-          "market": "player_receptions",
+          "player_name": "Sal Stewart",
+          "market": "batter_total_bases",
           "side": "over",
-          "line": 2.5,
-          "price_american": -140,
-          "model_prob": 0.8575129533678757,
+          "line": 1.5,
+          "price_american": 115,
+          "model_prob": 0.9881873727087577,
           "rating": 90.0
         }
       ],
-      "parlay_american": 461,
-      "parlay_decimal": 5.61,
-      "naive_model_prob": 0.8118,
-      "correlated_model_prob": 0.8118,
-      "parlay_edge_pct": 355.48,
-      "verdict": "Strong +EV"
-    },
-    {
-      "legs": [
-        {
-          "sport": "MLB",
-          "player_name": "Nick Lodolo",
-          "market": "pitcher_strikeouts",
-          "side": "under",
-          "line": 4.5,
-          "price_american": -110,
-          "model_prob": 0.7658465387823186,
-          "rating": 90.0
-        },
-        {
-          "sport": "NFL",
-          "player_name": "Khalil Shakir",
-          "market": "player_rec_yards",
-          "side": "under",
-          "line": 38.5,
-          "price_american": -110,
-          "model_prob": 0.999,
-          "rating": 90.0
-        },
-        {
-          "sport": "NFL",
-          "player_name": "Colston Loveland",
-          "market": "player_receptions",
-          "side": "under",
-          "line": 4.5,
-          "price_american": -140,
-          "model_prob": 0.9476923076923077,
-          "rating": 90.0
-        }
-      ],
-      "parlay_american": 525,
-      "parlay_decimal": 6.248,
-      "naive_model_prob": 0.7251,
-      "correlated_model_prob": 0.7251,
-      "parlay_edge_pct": 353.01,
-      "verdict": "Strong +EV"
-    },
-    {
-      "legs": [
-        {
-          "sport": "MLB",
-          "player_name": "Randy Vasquez",
-          "market": "pitcher_strikeouts",
-          "side": "under",
-          "line": 3.5,
-          "price_american": -127,
-          "model_prob": 0.946969696969697,
-          "rating": 90.0
-        },
-        {
-          "sport": "NFL",
-          "player_name": "Colston Loveland",
-          "market": "player_receptions",
-          "side": "under",
-          "line": 4.5,
-          "price_american": -140,
-          "model_prob": 0.9476923076923077,
-          "rating": 90.0
-        },
-        {
-          "sport": "NFL",
-          "player_name": "Ja'Marr Chase",
-          "market": "player_receptions",
-          "side": "under",
-          "line": 7.5,
-          "price_american": -138,
-          "model_prob": 0.9476923076923077,
-          "rating": 90.0
-        }
-      ],
-      "parlay_american": 428,
-      "parlay_decimal": 5.284,
-      "naive_model_prob": 0.8505,
-      "correlated_model_prob": 0.8505,
-      "parlay_edge_pct": 349.44,
+      "parlay_american": 762,
+      "parlay_decimal": 8.62,
+      "naive_model_prob": 0.7479,
+      "correlated_model_prob": 0.7479,
+      "parlay_edge_pct": 544.62,
       "verdict": "Strong +EV"
     }
   ],
