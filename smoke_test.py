@@ -232,7 +232,65 @@ def _wind():
     return "blowing in / out / across all resolve correctly"
 
 
-# --- 5. environment --------------------------------------------------------
+# --- 5. edge-detection statistics ------------------------------------------
+
+
+@check("sample size required to prove an edge")
+def _sample_size():
+    from lib.backtest import required_sample_size
+
+    r = required_sample_size(0.55, -110)
+    assert 2000 < r["n_required"] < 2500
+    return f"a 5% ROI needs ~{r['n_required']:,} bets to distinguish from luck"
+
+
+@check("a real edge still loses sometimes")
+def _drawdown():
+    from lib.backtest import drawdown_simulation, losing_streak_probability
+
+    d = drawdown_simulation(0.55, -110, n_bets=500, trials=1500)
+    p7 = losing_streak_probability(0.55, 7, 500)
+    assert 0.05 < d["prob_losing_overall"] < 0.20
+    return (
+        f"true 55% bettor over 500 bets: loses money {d['prob_losing_overall']:.0%} "
+        f"of the time, 7-bet skid {p7:.0%} likely"
+    )
+
+
+@check("a hot record proves little")
+def _reality():
+    from lib.backtest import reality_check
+
+    r = reality_check(12, 3, -110)
+    lo, hi = r["ci95"]
+    assert hi - lo > 0.30
+    return f"12-3 -> true hit rate somewhere in {lo:.0%}-{hi:.0%}"
+
+
+@check("ranked plays keep win rate and edge separate")
+def _ranking():
+    from lib.fetch_odds import normalize, rank_plays
+
+    board = [{
+        "away_team": "A", "home_team": "B", "commence_time": "",
+        "bookmakers": [
+            {"key": "pinnacle", "markets": [{"key": "h2h", "outcomes": [
+                {"name": "A", "price": 118}, {"name": "B", "price": -128}]}]},
+            {"key": "draftkings", "markets": [{"key": "h2h", "outcomes": [
+                {"name": "A", "price": 132}, {"name": "B", "price": -155}]}]},
+        ],
+    }]
+    plays = rank_plays(normalize(board, "x"))
+    assert plays, "expected a ranked play"
+    p = plays[0]
+    assert p["win_prob"] < 0.5 < 1.0, "this +EV play wins less than half the time"
+    return (
+        f"top play wins {p['win_prob']:.1%} of the time with {p['ev']:+.2%} EV — "
+        "high win rate and good bet are different axes"
+    )
+
+
+# --- 6. environment --------------------------------------------------------
 
 
 @check("data packages installed")

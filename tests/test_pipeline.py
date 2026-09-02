@@ -377,3 +377,56 @@ def test_open_bets_excludes_graded(conn):
 
 def test_tilt_needs_a_baseline_before_it_accuses(conn):
     assert db.tilt_signals(conn)["enough_data"] is False
+
+
+# --- ranked plays: win probability vs. edge --------------------------------
+
+
+def test_rank_plays_reports_both_axes():
+    from lib.fetch_odds import rank_plays
+
+    plays = rank_plays(normalize(make_board(), "americanfootball_nfl"))
+    assert plays
+    p = plays[0]
+    assert p["win_prob"] == p["fair_prob"]
+    assert "ev" in p and "confidence" in p and "confidence_reason" in p
+
+
+def test_min_win_prob_filters_to_high_hit_rate_plays():
+    """Someone asking for 'high probability' wants this axis, not the EV one."""
+    from lib.fetch_odds import rank_plays
+
+    views = normalize(make_board(), "americanfootball_nfl")
+    all_plays = rank_plays(views)
+    filtered = rank_plays(views, min_win_prob=0.60)
+    assert len(filtered) <= len(all_plays)
+    assert all(p["win_prob"] >= 0.60 for p in filtered)
+
+
+def test_ranking_puts_confidence_ahead_of_raw_ev():
+    """A 6% edge off a median anchor is worse than a 3% edge off Pinnacle."""
+    from lib.fetch_odds import rank_plays
+
+    views = normalize(make_board(), "americanfootball_nfl")
+    plays = rank_plays(views, min_ev=-1.0)
+    tiers = [p["tier_rank"] for p in plays]
+    assert tiers == sorted(tiers), "confidence tier must sort before EV"
+    for lo, hi in zip(plays, plays[1:]):
+        if lo["tier_rank"] == hi["tier_rank"]:
+            assert lo["ev"] >= hi["ev"], "within a tier, EV descends"
+
+
+def test_empty_board_summary_says_no_plays_plainly():
+    from lib.fetch_odds import summarize_board
+
+    s = summarize_board([])
+    assert "No plays" in s
+    assert "complete answer" in s
+
+
+def test_summary_warns_when_every_play_is_low_confidence():
+    from lib.fetch_odds import summarize_board
+
+    s = summarize_board([{"confidence": "low"}, {"confidence": "low"}])
+    assert "low confidence" in s
+    assert "unconfirmed" in s

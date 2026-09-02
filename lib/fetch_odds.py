@@ -530,6 +530,73 @@ def confidence_for(edge: dict) -> tuple[str, str]:
     return level, "; ".join(reasons)
 
 
+#: Confidence tiers, best first. Used to order plays within an EV band.
+_TIER_ORDER = {"high": 0, "medium": 1, "low": 2}
+
+
+def rank_plays(
+    views: Iterable[MarketView],
+    *,
+    min_ev: float = MIN_EV,
+    min_win_prob: float = 0.0,
+    bankroll_units: float = 100.0,
+) -> list[dict]:
+    """
+    Rank every priced edge on a board, carrying BOTH axes a bettor cares about.
+
+    Two different questions get conflated constantly and this keeps them apart:
+
+      - **win_prob** — how often this bet wins. A -800 favorite wins ~89% of
+        the time.
+      - **ev** — whether the price is better than that probability warrants.
+
+    A high win probability is not a good bet, and a good bet is not a high win
+    probability. The -800 favorite that wins 89% of the time is a bad bet if its
+    true probability is 85%. Anyone asking for "high probability picks" wants
+    the first number; anyone who wants to make money needs the second. Report
+    both, separately, and never let one stand in for the other.
+
+    Sorted by confidence tier first, then EV — a 3% edge off a Pinnacle anchor
+    with eight books quoting is a better bet than a 6% edge off a median anchor
+    with three, and sorting on EV alone puts the worse bet on top.
+    """
+    plays = []
+    for e in find_edges(views, min_ev=min_ev, bankroll_units=bankroll_units):
+        if e["fair_prob"] < min_win_prob:
+            continue
+        level, why = confidence_for(e)
+        plays.append({
+            **e,
+            "win_prob": e["fair_prob"],
+            "confidence": level,
+            "confidence_reason": why,
+            "tier_rank": _TIER_ORDER[level],
+        })
+    plays.sort(key=lambda p: (p["tier_rank"], -p["ev"]))
+    return plays
+
+
+def summarize_board(plays: list[dict], *, min_ev: float = MIN_EV) -> str:
+    """One honest paragraph about what the board is offering. Often: nothing."""
+    if not plays:
+        return (
+            f"No plays. Nothing on this board clears {min_ev:.1%} EV after devig.\n"
+            "That is a complete answer — the correct number of bets on most days is "
+            "zero or one, and manufacturing a card is how bankrolls die."
+        )
+    high = [p for p in plays if p["confidence"] == "high"]
+    med = [p for p in plays if p["confidence"] == "medium"]
+    low = [p for p in plays if p["confidence"] == "low"]
+    parts = [f"{len(plays)} priced edge(s) over {min_ev:.1%} EV: "
+             f"{len(high)} high / {len(med)} medium / {len(low)} low confidence."]
+    if not high and not med:
+        parts.append(
+            "Every one of these is low confidence — thin markets, no sharp anchor, "
+            "or devig methods that disagree. Treat the whole board as unconfirmed."
+        )
+    return " ".join(parts)
+
+
 # ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
@@ -622,6 +689,46 @@ def _cmd_edges(args) -> int:
     return 0
 
 
+def _cmd_best(args) -> int:
+    try:
+        board, meta = get_odds(args.sport, markets=args.markets.split(","))
+    except OddsAPIError as e:
+        print(f"FETCH FAILED: {e}")
+        return 1
+    print(_meta_line(meta))
+    views = normalize(board, resolve_sport(args.sport))
+    plays = rank_plays(views, min_ev=args.min_ev, min_win_prob=args.min_win_prob)
+
+    print()
+    print(summarize_board(plays, min_ev=args.min_ev))
+    if not plays:
+        print(f"\n{QUOTA}")
+        return 0
+
+    if args.min_win_prob > 0:
+        print(f"(filtered to plays winning at least {args.min_win_prob:.0%} of the time)")
+    print()
+    for i, p in enumerate(plays[: args.top], 1):
+        print(f"{i}. {p['event']}  —  {p['market']}")
+        print(f"   side       : {p['side']}")
+        print(f"   WINS       : {p['win_prob']:.1%} of the time")
+        print(f"   EDGE       : {p['ev']:+.2%} EV  "
+              f"(fair {p['fair_american']:+.1f}, offered {p['offered']:+.0f} @ {p['book']})")
+        print(f"   stake      : {p['stake_units']}u")
+        print(f"   confidence : {p['confidence']} — {p['confidence_reason']}")
+        print()
+
+    print("Win rate and edge are different things. The highest-winning play here is")
+    print("not necessarily the best bet — a favorite that wins 80% of the time is a")
+    print("bad bet if its true probability is 85%. The EV column is the one that")
+    print("makes money; the WINS column is the one that feels good.")
+    print()
+    print("None of these are guaranteed. Nothing is. Check injuries, lineups and")
+    print("weather before betting any of them — these numbers predate the news layer.")
+    print(f"\n{QUOTA}")
+    return 0
+
+
 def _cmd_quota(args) -> int:
     q = load_quota()
     if not q:
@@ -651,6 +758,15 @@ def build_parser() -> argparse.ArgumentParser:
     e.add_argument("--top", type=int, default=5)
     e.add_argument("--all-books", action="store_true", help="include non-soft books as bettable")
     e.set_defaults(func=_cmd_edges)
+
+    bp = sub.add_parser("best", help="ranked plays, with win probability AND edge")
+    bp.add_argument("--sport", required=True)
+    bp.add_argument("--markets", default="h2h,spreads,totals")
+    bp.add_argument("--min-ev", dest="min_ev", type=float, default=MIN_EV)
+    bp.add_argument("--min-win-prob", dest="min_win_prob", type=float, default=0.0,
+                    help="only plays that win at least this often, e.g. 0.65")
+    bp.add_argument("--top", type=int, default=5)
+    bp.set_defaults(func=_cmd_best)
 
     sub.add_parser("quota", help="API requests remaining").set_defaults(func=_cmd_quota)
     return p

@@ -44,6 +44,7 @@ agent's operating manual — persona, discipline rules, and the analytical engin
 | Command | What it does |
 |---|---|
 | `/slate <sport> [date]` | Full card, devigged, top 3-5 priced edges. Says "no plays" when that's true. |
+| `/best <sport>` | Ranked plays with **win probability and edge reported separately**. The honest answer to "give me your best picks." |
 | `/analyze <game or fight>` | Deep dive: market read → model → stats → news → discrepancy → recommendation. |
 | `/parlay <request>` | Builds it, prices it honestly, shows the hold. |
 | `/props <player or game>` | Prop analysis with usage context and book-by-book shopping. |
@@ -69,8 +70,17 @@ python3 -m lib.odds parlay -110 -110 -110 -110
 python3 -m lib.odds parlay -110 -110 +150 --fair 0.50 0.52 0.38 --correlation 0.12 --rr 2
 python3 -m lib.odds clv --taken +100 --closed -110
 
+# Is my edge real, or am I lucky?
+python3 -m lib.backtest breakeven --odds -110
+python3 -m lib.backtest sample-size --roi 0.05      # ~2,200 bets to prove it
+python3 -m lib.backtest drawdown --prob 0.55 --bets 500
+python3 -m lib.backtest streak --prob 0.55 --bets 500
+python3 -m lib.backtest reality-check --record 12-3
+.venv/bin/python -m lib.backtest evaluate           # backtests your own bets.db
+
 # The board
 .venv/bin/python -m lib.fetch_odds sports
+.venv/bin/python -m lib.fetch_odds best --sport nfl --min-win-prob 0.65
 .venv/bin/python -m lib.fetch_odds board --sport nfl
 .venv/bin/python -m lib.fetch_odds edges --sport nfl --min-ev 0.02
 
@@ -104,16 +114,18 @@ CLAUDE.md                 persona + operating rules — the core file
 skills/
   devig.md                no-vig / fair-odds math reference
   parlay-construction.md  correlation + SGP pricing
+  probability-reality.md  why no pick is guaranteed, and what to say instead
   book-behavior.md        how each sportsbook actually operates
   sport-{nfl,nba,mlb,ufc,bkfc,generic}.md
 lib/
   odds.py                 conversions, 4 devig methods, EV, Kelly, parlays, CLV
+  backtest.py             edge-detection stats: sample size, drawdown, significance
   cache.py                TTL JSON cache
   fetch_odds.py           The Odds API + line shopping + edge finding
   fetch_stats.py          per-sport stat pulls
   fetch_news.py           injuries / lineups / weather
   db.py                   SQLite bet log + CLV tracking
-tests/                    103 tests, all offline
+tests/                    138 tests, all offline
 data/cache/               gitignored
 bets.db                   gitignored
 ```
@@ -135,6 +147,42 @@ range instead of a point estimate and lowers confidence.
 Staking is **quarter Kelly with a hard 2u ceiling**. Anything under ~2% EV after
 devig is inside the error bars of the devig method itself — that's not a thin
 edge, it's no edge.
+
+## On "guaranteed picks"
+
+There aren't any. If a guaranteed pick existed the market would price it away —
+that's the mechanism, not a disclaimer. What the agent gives you instead is the
+genuinely useful version: plays ranked by edge, with **win probability and EV
+reported as the separate things they are.**
+
+A -800 favorite wins ~89% of the time and is a terrible bet if its true
+probability is 85%. High win rate and good bet are different axes, and `/best`
+never lets one stand in for the other.
+
+`lib/backtest.py` is there so you can check any claim, including the agent's:
+
+```
+$ python3 -m lib.backtest drawdown --prob 0.55 --bets 500
+  chance of LOSING money anyway : 11.4%
+  median longest losing streak  : 7 bets
+
+$ python3 -m lib.backtest sample-size --roi 0.05
+  BETS REQUIRED   : 2,231
+
+$ python3 -m lib.backtest reality-check --record 12-3
+  95% CI on true  : 54.8% to 93.0%
+```
+
+A bettor with a real 5% edge still loses money 11% of the time over 500 bets,
+hits a 7-bet losing streak more often than not, and needs ~2,200 bets before the
+record itself proves anything. That's what a genuine edge looks like from the
+inside.
+
+## Answering normal questions
+
+The betting persona applies to betting questions. Ask it to debug a script or
+explain something and it answers like Claude Code normally would — no epistemic
+tags, no market metaphors, no steering back to the card.
 
 ## The rules the agent won't break
 
