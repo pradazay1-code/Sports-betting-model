@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-02T17:41:08+00:00",
+  "generated_at": "2026-09-02T20:31:42+00:00",
   "on_date": "2026-09-02",
   "sports": [
     "NBA",
@@ -19,8 +19,8 @@
   },
   "picks": [
     {
-      "id": 3301,
-      "generated_at": "2026-09-02T17:41:08+00:00",
+      "id": 3326,
+      "generated_at": "2026-09-02T20:31:42+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Nick Lodolo",
@@ -57,8 +57,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3302,
-      "generated_at": "2026-09-02T17:41:08+00:00",
+      "id": 3327,
+      "generated_at": "2026-09-02T20:31:42+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Randy Vasquez",
@@ -95,8 +95,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3303,
-      "generated_at": "2026-09-02T17:41:08+00:00",
+      "id": 3328,
+      "generated_at": "2026-09-02T20:31:42+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Austin Hays",
@@ -133,8 +133,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3304,
-      "generated_at": "2026-09-02T17:41:08+00:00",
+      "id": 3329,
+      "generated_at": "2026-09-02T20:31:42+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Elly De La Cruz",
@@ -171,8 +171,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3305,
-      "generated_at": "2026-09-02T17:41:08+00:00",
+      "id": 3330,
+      "generated_at": "2026-09-02T20:31:42+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Fernando Tatis Jr.",
@@ -209,8 +209,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3306,
-      "generated_at": "2026-09-02T17:41:08+00:00",
+      "id": 3331,
+      "generated_at": "2026-09-02T20:31:42+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Jackson Merrill",
@@ -247,8 +247,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3307,
-      "generated_at": "2026-09-02T17:41:08+00:00",
+      "id": 3332,
+      "generated_at": "2026-09-02T20:31:42+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Manny Machado",
@@ -285,8 +285,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3308,
-      "generated_at": "2026-09-02T17:41:08+00:00",
+      "id": 3333,
+      "generated_at": "2026-09-02T20:31:42+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Sal Stewart",
@@ -323,8 +323,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3309,
-      "generated_at": "2026-09-02T17:41:08+00:00",
+      "id": 3334,
+      "generated_at": "2026-09-02T20:31:42+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Ty France",
@@ -361,8 +361,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3310,
-      "generated_at": "2026-09-02T17:41:08+00:00",
+      "id": 3335,
+      "generated_at": "2026-09-02T20:31:42+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Xander Bogaerts",
@@ -399,8 +399,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3311,
-      "generated_at": "2026-09-02T17:41:08+00:00",
+      "id": 3336,
+      "generated_at": "2026-09-02T20:31:42+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Nick Lodolo",
@@ -437,8 +437,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3312,
-      "generated_at": "2026-09-02T17:41:08+00:00",
+      "id": 3337,
+      "generated_at": "2026-09-02T20:31:42+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Randy Vasquez",
@@ -475,8 +475,8 @@
       "hidden_gem": false
     },
     {
-      "id": 3313,
-      "generated_at": "2026-09-02T17:41:08+00:00",
+      "id": 3338,
+      "generated_at": "2026-09-02T20:31:42+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Austin Hays",
@@ -513,8 +513,8 @@
       "hidden_gem": true
     },
     {
-      "id": 3314,
-      "generated_at": "2026-09-02T17:41:08+00:00",
+      "id": 3339,
+      "generated_at": "2026-09-02T20:31:42+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Elly De La Cruz",
@@ -551,8 +551,8 @@
       "hidden_gem": true
     },
     {
-      "id": 3315,
-      "generated_at": "2026-09-02T17:41:08+00:00",
+      "id": 3340,
+      "generated_at": "2026-09-02T20:31:42+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Eugenio Suarez",
@@ -589,8 +589,8 @@
       "hidden_gem": true
     },
     {
-      "id": 3316,
-      "generated_at": "2026-09-02T17:41:08+00:00",
+      "id": 3341,
+      "generated_at": "2026-09-02T20:31:42+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Fernando Tatis Jr.",
@@ -627,8 +627,8 @@
       "hidden_gem": true
     },
     {
-      "id": 3317,
-      "generated_at": "2026-09-02T17:41:08+00:00",
+      "id": 3342,
+      "generated_at": "2026-09-02T20:31:42+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Freddy Fermin",
@@ -665,8 +665,8 @@
       "hidden_gem": true
     },
     {
-      "id": 3318,
-      "generated_at": "2026-09-02T17:41:08+00:00",
+      "id": 3343,
+      "generated_at": "2026-09-02T20:31:42+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "JJ Bleday",
@@ -703,8 +703,8 @@
       "hidden_gem": true
     },
     {
-      "id": 3319,
-      "generated_at": "2026-09-02T17:41:08+00:00",
+      "id": 3344,
+      "generated_at": "2026-09-02T20:31:42+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Jake Cronenworth",
@@ -741,8 +741,8 @@
       "hidden_gem": true
     },
     {
-      "id": 3320,
-      "generated_at": "2026-09-02T17:41:08+00:00",
+      "id": 3345,
+      "generated_at": "2026-09-02T20:31:42+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Matt McLain",
@@ -779,8 +779,8 @@
       "hidden_gem": true
     },
     {
-      "id": 3321,
-      "generated_at": "2026-09-02T17:41:08+00:00",
+      "id": 3346,
+      "generated_at": "2026-09-02T20:31:42+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Samad Taylor",
@@ -817,8 +817,8 @@
       "hidden_gem": true
     },
     {
-      "id": 3322,
-      "generated_at": "2026-09-02T17:41:08+00:00",
+      "id": 3347,
+      "generated_at": "2026-09-02T20:31:42+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "TJ Friedl",
@@ -855,8 +855,8 @@
       "hidden_gem": true
     },
     {
-      "id": 3323,
-      "generated_at": "2026-09-02T17:41:08+00:00",
+      "id": 3348,
+      "generated_at": "2026-09-02T20:31:42+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Ty France",
@@ -893,8 +893,8 @@
       "hidden_gem": true
     },
     {
-      "id": 3324,
-      "generated_at": "2026-09-02T17:41:08+00:00",
+      "id": 3349,
+      "generated_at": "2026-09-02T20:31:42+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Tyler Stephenson",
@@ -931,8 +931,8 @@
       "hidden_gem": true
     },
     {
-      "id": 3325,
-      "generated_at": "2026-09-02T17:41:08+00:00",
+      "id": 3350,
+      "generated_at": "2026-09-02T20:31:42+00:00",
       "on_date": "2026-09-02",
       "sport": "MLB",
       "player_name": "Xander Bogaerts",
