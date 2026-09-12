@@ -3,6 +3,13 @@
 .env.local
 *.key
 
+# Scratch analysis output — slate runs, projections, one-off boards.
+# These belong in the scratchpad, not the repo.
+projections.json
+slate*.json
+board*.html
+*.scratch.json
+
 # Local data
 data/cache/
 bets.db
