@@ -130,6 +130,27 @@ VENUES: tuple[Venue, ...] = (
           "following week too - fade Hawaii road opponents the NEXT week as well."),
     Venue("Rentschler Field", "UConn", 41.7614, -72.6432, 40, 40000, "grass", "open", 1.8),
 
+    # --- FCS venues, added because an FCS visitor defaulting to sea level
+    #     silently overstates every altitude edge. Several FCS programs play
+    #     HIGHER than the FBS teams they visit. ----------------------------------
+    Venue("Eccles Coliseum", "Southern Utah", 37.6742, -113.0619, 5830, 8500, "turf", "open", 2.0,
+          "FCS. Higher than most FBS altitude venues - SUU travels DOWN to Colorado State."),
+    Venue("Bobcat Stadium", "Montana State", 45.6660, -111.0429, 4820, 21650, "turf", "open", 3.4,
+          "FCS elite. Bozeman altitude means MTST carries its own acclimation on the road."),
+    Venue("Stewart Stadium", "Weber State", 41.1900, -111.9450, 4775, 17500, "turf", "open", 2.8, "FCS."),
+    Venue("Nottingham Field", "Northern Colorado", 40.4050, -104.6970, 4675, 8533, "turf", "open", 2.4,
+          "FCS. Greeley sits high - UNC is NOT a sea-level visitor at Wyoming."),
+    Venue("Holt Arena", "Idaho State", 42.8610, -112.4340, 4450, 12000, "turf", "dome", 2.6, "FCS, indoor."),
+    Venue("Washington-Grizzly Stadium", "Montana", 46.8590, -113.9850, 3200, 25217, "turf", "open", 3.6,
+          "FCS elite. One of the best home environments at any level."),
+    Venue("Roos Field", "Eastern Washington", 47.4920, -117.5830, 1900, 11702, "turf", "open", 2.8,
+          "FCS. The red turf."),
+    Venue("Fargodome", "North Dakota State", 46.8920, -96.8060, 900, 18700, "turf", "dome", 3.8,
+          "MOVED TO FBS (Mountain West) for 2026. Indoor - NDSU never practices in wind, "
+          "and at 900 ft it is effectively a sea-level team when it travels to altitude."),
+    Venue("Dana J. Dykhouse Stadium", "South Dakota State", 44.3200, -96.7710, 1650, 19340, "turf", "open", 3.4, "FCS elite."),
+    Venue("Hornet Stadium", "Sacramento State", 38.5560, -121.4230, 30, 21195, "turf", "open", 2.6, "FCS."),
+
     # --- Notable mid-tier / low HFA (do not apply a flat number) -------------
     Venue("Gaylord Family Oklahoma Memorial", "Oklahoma", 35.2058, -97.4425, 1180, 86112, "grass", "open", 3.3),
     Venue("Darrell K Royal-Texas Memorial", "Texas", 30.2837, -97.7325, 500, 100119, "turf", "open", 3.3),
@@ -235,9 +256,16 @@ def home_edge(home_team: str, away_team: str | None = None, *, fcs: bool = False
             ),
         }
 
+    away_known = av is not None
     alt = altitude_edge(hv.altitude_ft, av.altitude_ft if av else 0)
+    if not away_known and hv.altitude_ft >= 3000:
+        alt["warning"] = (
+            f"No venue record for {away_team!r}, so its elevation defaulted to sea level. "
+            f"If that team plays at altitude, this OVERSTATES the edge — verify before using."
+        )
     total = hv.hfa + alt["points"]
     return {
+        "away_altitude_known": away_known,
         "home": hv.team,
         "venue": hv.name,
         "capacity": hv.capacity,

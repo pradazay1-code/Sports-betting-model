@@ -35,11 +35,17 @@ Consequences that matter for betting:
 
 | Tier | Examples | Read |
 |---|---|---|
-| **Elite** | North Dakota State, South Dakota State, Montana, Montana State, Sacramento State | Would beat the bottom third of FBS on a neutral field. Genuinely. |
+| **Elite** | South Dakota State, Montana, Montana State, Sacramento State | Would beat the bottom third of FBS on a neutral field. Genuinely. |
 | **Strong** | Missouri State, Villanova, UIW, Idaho, Furman | Competitive with bad FBS teams. |
 | **Mid** | Most of the CAA, Big Sky, Southern | The broad middle. |
 | **Low** | Much of the SWAC, MEAC, NEC | Large gap even inside FCS. |
 | **Non-scholarship** | Ivy League, Pioneer League | A different sport. Do not compare their stats to scholarship FCS. |
+
+**Verify conference membership before you classify a team.** Realignment moves
+programs between subdivisions and stale tier lists produce confidently wrong
+analysis. **North Dakota State moved up to FBS (Mountain West) for the 2026
+season** — a game against them is a conference game, not a money game, and any
+framework that still files them under "elite FCS" will misprice it.
 
 **The single most common FCS handicapping error is treating the division as one
 talent pool.** The gap between NDSU and a bottom-tier SWAC team is wider than
