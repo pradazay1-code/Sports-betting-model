@@ -352,7 +352,64 @@ def _cfbd_key():
             os.environ["CFBD_API_KEY"] = saved
 
 
-# --- 7. environment --------------------------------------------------------
+# --- 7. the keyless path (must never break) --------------------------------
+
+
+@check("keyless board finds the same edge as the live feed")
+def _manual_board():
+    import json
+    import tempfile
+
+    from lib import manual
+    from lib.fetch_odds import rank_plays
+
+    board = {
+        "event": "KC @ BUF",
+        "markets": [{
+            "name": "moneyline",
+            "books": {
+                "pinnacle": {"Chiefs": 118, "Bills": -128},
+                "draftkings": {"Chiefs": 132, "Bills": -155},
+                "fanduel": {"Chiefs": 115, "Bills": -136},
+                "betmgm": {"Chiefs": 120, "Bills": -140},
+            },
+        }],
+    }
+    with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as f:
+        json.dump(board, f)
+        path = f.name
+    plays = rank_plays(manual.board_to_views(manual.load_board(path)))
+    assert plays and plays[0]["book"] == "draftkings"
+    return (
+        f"hand-entered prices -> {plays[0]['side']} {plays[0]['offered']:+.0f} "
+        f"@ {plays[0]['book']}, EV {plays[0]['ev']:+.2%}. No key, no network."
+    )
+
+
+@check("keyless board audits itself for silent failures")
+def _manual_audit():
+    from lib import manual
+
+    one_sided = manual.board_to_views(
+        {"markets": [{"name": "spread", "books": {"draftkings": {"KC -2.5": -110}}}]}
+    )
+    a = manual.audit_board(one_sided)[0]
+    assert a["one_sided"] and not a["devig_possible"]
+    return "one-sided market correctly flagged as un-devig-able"
+
+
+@check("FCS reachable without a key")
+def _fcs_keyless():
+    from lib.free_sources import CFB_FCS_GROUP, LEAGUES, parse_scoreboard
+
+    assert CFB_FCS_GROUP == 81 and "cfb" in LEAGUES
+    row = parse_scoreboard({"events": [{"id": "1", "shortName": "A @ B",
+                                        "competitions": [{"competitors": []}]}]})[0]
+    assert row["spread"] is None
+    return "ESPN group 81 = FCS; parser survives games with no odds block"
+
+
+# --- 8. environment --------------------------------------------------------
 
 
 @check("data packages installed")

@@ -9,6 +9,26 @@ Most days that's the answer.
 
 ---
 
+## No API key? That's the normal case
+
+**The web is the primary data path.** Keys are an accelerator, not a requirement.
+Everything below works with zero keys and zero network:
+
+```bash
+python3 -m lib.manual devig --labels "Chiefs,Bills" --prices 118 -128
+python3 -m lib.manual shop --prices "pinnacle:118,draftkings:132,fanduel:115"
+python3 -m lib.manual template > slate.json    # fill in researched prices
+python3 -m lib.manual board slate.json
+```
+
+A hand-built board runs through the **same engine** as the live feed — sharp-book
+anchoring, devig, soft-book shopping, confidence tiering, Kelly staking — and
+audits itself for one-sided markets and missing anchors. Prices come from
+wherever you found them: search, a screenshot, the book's own page.
+
+Keyless HTTP feeds (`lib/free_sources.py`) add ESPN scoreboards with consensus
+lines — including **FCS via group 81** — plus MLB StatsAPI and Open-Meteo.
+
 ## Setup
 
 ```bash
@@ -122,6 +142,7 @@ CLAUDE.md                 persona + operating rules — the core file
 skills/
   devig.md                no-vig / fair-odds math reference
   parlay-construction.md  correlation + SGP pricing
+  web-research.md         THE KEYLESS PATH — search protocol, source reliability
   probability-reality.md  why no pick is guaranteed, and what to say instead
   situational-context.md  news / rotation / game plan / motivation protocol
   sport-cfb.md            college football (FBS) — SP+, talent, key numbers
@@ -132,13 +153,15 @@ lib/
   odds.py                 conversions, 4 devig methods, EV, Kelly, parlays, CLV
   backtest.py             edge-detection stats: sample size, drawdown, significance
   cache.py                TTL JSON cache
+  manual.py               price anything from anywhere — no key, no network
+  free_sources.py         keyless feeds: ESPN (incl. FCS), MLB StatsAPI
   fetch_odds.py           The Odds API + line shopping + edge finding
   fetch_cfb.py            CollegeFootballData — FBS *and* FCS, lines, SP+, talent
   venues.py               CFB venue DB: home-field advantage, altitude, weather geo
   fetch_stats.py          per-sport stat pulls
   fetch_news.py           injuries / lineups / weather
   db.py                   SQLite bet log + CLV tracking
-tests/                    159 tests, all offline
+tests/                    181 tests, all offline
 data/cache/               gitignored
 bets.db                   gitignored
 ```

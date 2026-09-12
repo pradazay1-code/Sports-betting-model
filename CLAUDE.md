@@ -299,10 +299,47 @@ it provisional.**
 
 ## 4. Data sources
 
+### 4.0 No API key is the normal case — work the web
+
+**Load `skills/web-research.md`.** The web is the PRIMARY data path. Keys are an
+accelerator, not a requirement, and you should never tell the user you can't analyze
+something because a key is missing.
+
+Three tiers, tried in order:
+
+| Tier | Source | Needs | Notes |
+|---|---|---|---|
+| **1** | **WebSearch** | nothing | Runs server-side; works even when the machine's network is locked down. **Always try first.** |
+| **2** | Keyless HTTP — `lib/free_sources.py` | nothing | ESPN scoreboard with consensus lines (**FCS via group 81**), MLB StatsAPI, Open-Meteo. |
+| **3** | Keyed APIs — `lib/fetch_odds.py`, `lib/fetch_cfb.py` | a key | Richest data. Optional. |
+
+**WebFetch is frequently blocked by network egress policy even when WebSearch works.**
+If a fetch is refused once, pivot to search rather than retrying.
+
+Prices found by research go through `lib/manual.py`, which needs no key and no network
+and runs the **same** engine as the live feed — sharp anchoring, devig, soft-book
+shopping, confidence tiering, Kelly:
+
+```
+python3 -m lib.manual devig --labels "Chiefs,Bills" --prices 118 -128
+python3 -m lib.manual shop --prices "pinnacle:118,draftkings:132,fanduel:115"
+python3 -m lib.manual template > slate.json     # then fill in researched prices
+python3 -m lib.manual board slate.json
+```
+
+**A hand-built board is a first-class board.** `board` audits itself and flags a
+one-sided market (cannot be devigged) or a missing sharp anchor — both are silent
+failures otherwise.
+
+When you have no price at all, you can still rank by probability — but say plainly that
+you cannot compute EV, and give **trigger prices** instead ("I'd need +150 or better").
+
+
+
 Free / no-key first, keys where necessary. Everything goes through the TTL cache in
 `lib/fetch_odds.py` so we're not hammering endpoints. Cache lives in `data/cache/`.
 
-**Odds & lines**
+**Odds & lines** (tier 3 — optional)
 - The Odds API (`the-odds-api.com`) — free tier, primary odds feed. Key in `.env` as
   `ODDS_API_KEY`. Implemented in `lib/fetch_odds.py`.
 - Pinnacle and Circa as the sharp anchor (via The Odds API where available, else fetch).
@@ -402,6 +439,7 @@ CLAUDE.md                   # this file — persona + operating rules
 README.md                   # how to run it
 .claude/commands/           # slash commands
 skills/
+  web-research.md           # THE KEYLESS PATH — search protocol, source reliability
   devig.md                  # no-vig / fair-odds math reference
   parlay-construction.md    # correlation + SGP pricing rules
   probability-reality.md    # why no pick is guaranteed, and what to say instead
@@ -419,6 +457,8 @@ lib/
   odds.py                   # American<->decimal<->implied, devig, EV, Kelly, parlays, CLV
   backtest.py               # edge detection stats: sample size, drawdown, significance
   cache.py                  # TTL JSON cache — every network call goes through it
+  manual.py                 # price anything from anywhere — NO KEY, NO NETWORK
+  free_sources.py           # keyless feeds: ESPN (incl. FCS), MLB StatsAPI
   fetch_odds.py             # The Odds API client + line shopping + edge finding
   fetch_cfb.py              # CollegeFootballData — FBS *and* FCS, lines, SP+, talent
   venues.py                 # CFB venue DB: home-field advantage, altitude, weather geo
@@ -447,6 +487,9 @@ bets.db                     # SQLite, gitignored
   python3 -m lib.odds parlay -110 -110 +150
   python3 -m lib.backtest reality-check --record 12-3
   python3 -m lib.backtest drawdown --prob 0.55 --bets 500
+  python3 -m lib.manual devig --labels "Chiefs,Bills" --prices 118 -128
+  python3 -m lib.manual board slate.json
+  python3 -m lib.free_sources scoreboard --league cfb --fcs
   python3 -m lib.venues edge --home Wyoming --away Hawaii
   python3 -m lib.fetch_cfb spread --home Oregon --away Washington
   python3 -m lib.fetch_cfb games --week 3 --division fcs
@@ -455,6 +498,8 @@ bets.db                     # SQLite, gitignored
   specifics when the checklist is on disk.
 - **Check the real-time layer last.** Model first, news last, re-run if news moved anything.
 - **Log every recommendation the user takes.** `/log` writes to `bets.db`.
+- **Never say you can't analyze something because a key is missing.** Work the web.
+  A missing key changes which tier you use, not whether you deliver.
 - **When you don't know, say you don't know.** This is the whole job.
 - If the user asks for a pick and the honest answer is that there isn't one, the answer is
   "nothing on this card." Deliver it without padding.
