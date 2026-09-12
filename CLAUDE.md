@@ -216,6 +216,22 @@ edge as unconfirmed.
   totals and puck lines late.
 - Quote the **cost of the half point** whenever you recommend buying or selling one.
 
+### 3.4a Home field advantage is not a constant
+
+In the NFL it is nearly flat. **In college football it is not**, and the spread between the
+hardest place to play and an empty MAC stadium is worth four points or more. Most public
+models apply a flat 2.5 to everything; that gap is the most reliably mispriced situational
+factor in the sport.
+
+```
+python3 -m lib.venues edge --home Wyoming --away Hawaii   # crowd + altitude, separated
+python3 -m lib.venues altitude                             # the elevation venues
+```
+
+Crowd environment and altitude are **independent** and are reported separately on purpose —
+stacking them naively double-counts. Altitude is a **fourth-quarter** effect: weight it
+toward second-half and live markets, not the full-game side.
+
 ### 3.4 Model layer, per sport
 
 Detailed checklists live in `/skills/`. Load the relevant one before a deep dive.
@@ -241,10 +257,26 @@ Detailed checklists live in `/skills/`. Load the relevant one before a deep dive
   speed, boxing pedigree vs. MMA-convert, cardio in 2-minute rounds, prior BKFC experience
   vs. debut, and the fact that finishes come early and often. Say clearly when you're
   operating on limited data — in BKFC you usually are.
-- **Everything else** — soccer, CFB, CBB, NHL, tennis, esports: `skills/sport-generic.md`.
+- **College football (FBS)** (`skills/sport-cfb.md`) — SP+ as the rating spine, success
+  rate, explosiveness (PPA), havoc rate, finishing drives, field position. Talent composite
+  for blowouts, returning production for year-over-year change. **Garbage time must be
+  filtered** — this sport is full of 40-point blowouts. Key numbers are FLATTER than the
+  NFL's: take the better price over the better number, the reverse of the NFL instinct.
+  The softest major market in American sports — 134 teams, and books cannot sharpen them all.
+- **FCS and money games** (`skills/sport-fcs.md`) — 63 scholarships vs 85 is the structural
+  fact that explains everything. Talent tiers within FCS are wider than within FBS; the Ivy
+  and Pioneer leagues are non-scholarship and are a different sport. **FBS-vs-FCS money
+  games**: big favorites empty the bench, so second-half and team-total unders are the sound
+  plays, not the side. Data is genuinely thin — cap stakes at 1u and say so.
+- **Everything else** — soccer, CBB, NHL, tennis, esports: `skills/sport-generic.md`.
   Market-anchored, sport-appropriate rate stats, explicit acknowledgment of model thinness.
 
 ### 3.5 Real-time inputs that override the model
+
+**Load `skills/situational-context.md` before any recommendation.** It carries the research
+protocol (what to search, in what order, with what recency), the points-conversion table for
+news events, and the weather/motivation/travel reads. In college football that layer beats
+the ratings layer more often than in any other sport.
 
 These beat the model. **Always check them last, right before a recommendation**, and re-run
 the number if anything material changed:
@@ -278,6 +310,15 @@ Free / no-key first, keys where necessary. Everything goes through the TTL cache
 
 **NFL** — `nfl_data_py` (nflverse play-by-play, rosters, snap counts), ESPN public JSON
 endpoints, Pro Football Reference, rbsdm.com for EPA, FTN/Football Outsiders for DVOA.
+
+**College football (FBS + FCS)** — **CollegeFootballData.com** is the primary source and
+covers *both divisions* (`division=fcs`), which mainstream feeds do not. Free key in `.env`
+as `CFBD_API_KEY`. Implemented in `lib/fetch_cfb.py`: games, betting lines with per-provider
+history, SP+, SRS/Elo, talent composite, returning production, advanced stats with garbage
+time excluded. Cross-check with Bill Connelly's SP+ writeups, FEI, Sports Reference CFB, and
+247Sports composite for recruiting. **There is no mandated injury report in college football**
+— beat writers and local radio are the primary availability source, and that is exactly why
+the edge exists.
 
 **NBA** — `nba_api` (stats.nba.com), Basketball Reference, Cleaning the Glass, Dunks & Threes
 for EPM, ESPN injury feed.
@@ -364,6 +405,9 @@ skills/
   devig.md                  # no-vig / fair-odds math reference
   parlay-construction.md    # correlation + SGP pricing rules
   probability-reality.md    # why no pick is guaranteed, and what to say instead
+  situational-context.md    # news / rotation / game plan / motivation research protocol
+  sport-cfb.md              # college football (FBS) — SP+, talent, key numbers
+  sport-fcs.md              # FCS + FBS-vs-FCS money games
   sport-nfl.md
   sport-nba.md
   sport-mlb.md
@@ -376,6 +420,8 @@ lib/
   backtest.py               # edge detection stats: sample size, drawdown, significance
   cache.py                  # TTL JSON cache — every network call goes through it
   fetch_odds.py             # The Odds API client + line shopping + edge finding
+  fetch_cfb.py              # CollegeFootballData — FBS *and* FCS, lines, SP+, talent
+  venues.py                 # CFB venue DB: home-field advantage, altitude, weather geo
   fetch_stats.py            # per-sport stat pulls
   fetch_news.py             # injuries / lineups / weather
   db.py                     # SQLite bet log + CLV tracking
@@ -401,6 +447,9 @@ bets.db                     # SQLite, gitignored
   python3 -m lib.odds parlay -110 -110 +150
   python3 -m lib.backtest reality-check --record 12-3
   python3 -m lib.backtest drawdown --prob 0.55 --bets 500
+  python3 -m lib.venues edge --home Wyoming --away Hawaii
+  python3 -m lib.fetch_cfb spread --home Oregon --away Washington
+  python3 -m lib.fetch_cfb games --week 3 --division fcs
   ```
 - **Load the relevant skill file before a deep dive.** Don't work from memory on sport
   specifics when the checklist is on disk.

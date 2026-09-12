@@ -45,6 +45,7 @@ agent's operating manual — persona, discipline rules, and the analytical engin
 |---|---|
 | `/slate <sport> [date]` | Full card, devigged, top 3-5 priced edges. Says "no plays" when that's true. |
 | `/best <sport>` | Ranked plays with **win probability and edge reported separately**. The honest answer to "give me your best picks." |
+| `/cfb <team or week>` | College football, **FBS and FCS**, with the full situational layer. |
 | `/analyze <game or fight>` | Deep dive: market read → model → stats → news → discrepancy → recommendation. |
 | `/parlay <request>` | Builds it, prices it honestly, shows the hold. |
 | `/props <player or game>` | Prop analysis with usage context and book-by-book shopping. |
@@ -77,6 +78,13 @@ python3 -m lib.backtest drawdown --prob 0.55 --bets 500
 python3 -m lib.backtest streak --prob 0.55 --bets 500
 python3 -m lib.backtest reality-check --record 12-3
 .venv/bin/python -m lib.backtest evaluate           # backtests your own bets.db
+
+# College football — FBS and FCS
+.venv/bin/python -m lib.fetch_cfb games --week 3 --division fcs
+.venv/bin/python -m lib.fetch_cfb lines --week 3
+.venv/bin/python -m lib.fetch_cfb spread --home Oregon --away Washington
+python3 -m lib.venues edge --home Wyoming --away Hawaii   # crowd + altitude, split
+python3 -m lib.venues altitude
 
 # The board
 .venv/bin/python -m lib.fetch_odds sports
@@ -115,6 +123,9 @@ skills/
   devig.md                no-vig / fair-odds math reference
   parlay-construction.md  correlation + SGP pricing
   probability-reality.md  why no pick is guaranteed, and what to say instead
+  situational-context.md  news / rotation / game plan / motivation protocol
+  sport-cfb.md            college football (FBS) — SP+, talent, key numbers
+  sport-fcs.md            FCS + FBS-vs-FCS money games
   book-behavior.md        how each sportsbook actually operates
   sport-{nfl,nba,mlb,ufc,bkfc,generic}.md
 lib/
@@ -122,10 +133,12 @@ lib/
   backtest.py             edge-detection stats: sample size, drawdown, significance
   cache.py                TTL JSON cache
   fetch_odds.py           The Odds API + line shopping + edge finding
+  fetch_cfb.py            CollegeFootballData — FBS *and* FCS, lines, SP+, talent
+  venues.py               CFB venue DB: home-field advantage, altitude, weather geo
   fetch_stats.py          per-sport stat pulls
   fetch_news.py           injuries / lineups / weather
   db.py                   SQLite bet log + CLV tracking
-tests/                    138 tests, all offline
+tests/                    159 tests, all offline
 data/cache/               gitignored
 bets.db                   gitignored
 ```
@@ -147,6 +160,23 @@ range instead of a point estimate and lowers confidence.
 Staking is **quarter Kelly with a hard 2u ceiling**. Anything under ~2% EV after
 devig is inside the error bars of the devig method itself — that's not a thin
 edge, it's no edge.
+
+## Home field advantage is not a constant
+
+In the NFL it nearly is. In college football it is not — and most public models
+apply a flat 2.5 to every venue.
+
+```
+$ python3 -m lib.venues edge --home Wyoming --away Hawaii
+  crowd edge     : +3.00 pts
+  altitude       : 7,220 ft vs 20 ft -> +1.50 pts (severe)
+  TOTAL          : +4.50 pts
+  vs baseline    : +2.00 pts (MORE than a flat 2.5)
+```
+
+Crowd and altitude are reported separately because they're independent and
+stacking them naively double-counts. Altitude is a **fourth-quarter** effect —
+weight it toward second-half and live markets.
 
 ## On "guaranteed picks"
 

@@ -290,7 +290,69 @@ def _ranking():
     )
 
 
-# --- 6. environment --------------------------------------------------------
+# --- 6. college football ---------------------------------------------------
+
+
+@check("venue home-field advantage separates crowd from altitude")
+def _hfa():
+    from lib.venues import FBS_BASELINE_HFA, home_edge
+
+    e = home_edge("Wyoming", "Hawaii")
+    assert e["crowd_points"] == 3.0 and e["altitude"]["points"] == 1.5
+    assert e["total_points"] == 4.5
+    return (
+        f"Wyoming vs Hawaii: {e['crowd_points']}(crowd) + {e['altitude']['points']}(altitude) "
+        f"= {e['total_points']} pts vs a flat {FBS_BASELINE_HFA}"
+    )
+
+
+@check("altitude priced off the differential, not raw elevation")
+def _alt():
+    from lib.venues import altitude_edge
+
+    fl = altitude_edge(7220, 82)["points"]
+    co = altitude_edge(7220, 5360)["points"]
+    assert fl > co
+    return f"sea-level visitor {fl} pts vs Colorado visitor {co} pts at the same venue"
+
+
+@check("CFB spread combines SP+ gap with venue HFA")
+def _cfb_spread():
+    from lib import fetch_cfb
+
+    real = fetch_cfb.sp_ratings
+    fetch_cfb.sp_ratings = lambda **kw: (
+        [{"team": "Wyoming", "rating": 5.0}, {"team": "Hawaii", "rating": 0.0}],
+        {"source": "fixture", "age": "0s"},
+    )
+    try:
+        r = fetch_cfb.sp_spread("Wyoming", "Hawaii")
+        assert r["projected_spread"] == -9.5
+        return f"SP+ gap 5.0 + HFA 4.5 -> {r['reading']}"
+    finally:
+        fetch_cfb.sp_ratings = real
+
+
+@check("CFBD refuses to run without a key")
+def _cfbd_key():
+    import os
+
+    from lib.fetch_cfb import CFBDError, api_key
+
+    saved = os.environ.pop("CFBD_API_KEY", None)
+    try:
+        try:
+            api_key()
+        except CFBDError as e:
+            assert "will not invent" in str(e)
+            return "no key -> clean refusal, no fabricated slate"
+        raise AssertionError("expected CFBDError")
+    finally:
+        if saved:
+            os.environ["CFBD_API_KEY"] = saved
+
+
+# --- 7. environment --------------------------------------------------------
 
 
 @check("data packages installed")
