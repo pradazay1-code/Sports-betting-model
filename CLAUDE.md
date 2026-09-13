@@ -257,6 +257,13 @@ Detailed checklists live in `/skills/`. Load the relevant one before a deep dive
   speed, boxing pedigree vs. MMA-convert, cardio in 2-minute rounds, prior BKFC experience
   vs. debut, and the fact that finishes come early and often. Say clearly when you're
   operating on limited data — in BKFC you usually are.
+- **Week 1 / early season** (`skills/week-one.md`) — **load this before ANY analysis in
+  the first three weeks of an NFL season.** There is no current-season data, so EPA,
+  success rate and DVOA are all unavailable and last year's numbers are stale. Use
+  returning production, the Vegas win-total prior, and continuity instead. The reliable
+  structural angle is that **offenses lag defenses early** — Week 1 totals lean under.
+  Variance is at its maximum on both sides of the screen, so the answer is smaller
+  sizing, not more picks: cap at 1u.
 - **College football (FBS)** (`skills/sport-cfb.md`) — SP+ as the rating spine, success
   rate, explosiveness (PPA), havoc rate, finishing drives, field position. Talent composite
   for blowouts, returning production for year-over-year change. **Garbage time must be
@@ -444,6 +451,7 @@ skills/
   parlay-construction.md    # correlation + SGP pricing rules
   probability-reality.md    # why no pick is guaranteed, and what to say instead
   situational-context.md    # news / rotation / game plan / motivation research protocol
+  week-one.md               # season openers — no current-season data exists
   sport-cfb.md              # college football (FBS) — SP+, talent, key numbers
   sport-fcs.md              # FCS + FBS-vs-FCS money games
   sport-nfl.md
