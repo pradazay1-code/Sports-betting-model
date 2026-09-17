@@ -166,3 +166,75 @@ def test_cli_prints_a_priced_game(capsys):
     out = capsys.readouterr().out
     for fragment in ("fair spread", "BUF -4.5", "over 53.5", "key-number mass", "1H:"):
         assert fragment in out
+
+
+# --- path-dependent sim ----------------------------------------------------
+
+
+def _paths(home_ppd=2.6, away_ppd=2.0, n=20000, seed=91):
+    from lib.simulate import GameSim, TeamModel
+
+    return GameSim(TeamModel("H", home_ppd), TeamModel("A", away_ppd),
+                   base_drives=11.0, seed=seed).run_paths(n)
+
+
+def test_leading_by_k_is_monotonically_decreasing_in_k():
+    ps = _paths()
+    probs = [ps.p_leads_by("home", k) for k in (3, 7, 10, 14, 21, 28)]
+    assert probs == sorted(probs, reverse=True)
+
+
+def test_leading_at_some_point_beats_winning_outright():
+    """The whole point of a live-lead promo: leading by 7 is easier than winning."""
+    from lib.simulate import GameSim, TeamModel
+
+    g = GameSim(TeamModel("H", 2.6), TeamModel("A", 2.0), base_drives=11.0, seed=91)
+    win = g.run(20000).summary()
+    ps = g.run_paths(20000)
+    assert ps.p_leads_by("away", 7) > 1 - win["home_win_prob"]
+    assert ps.p_leads_by("home", 7) > win["home_win_prob"]
+
+
+def test_the_underdog_gains_more_from_a_live_lead_trigger():
+    """A favourite that goes up 7 was probably winning anyway; a dog was not."""
+    from lib.simulate import GameSim, TeamModel
+
+    g = GameSim(TeamModel("H", 2.7), TeamModel("A", 1.9), base_drives=11.0, seed=93)
+    win = g.run(30000).summary()
+    ps = g.run_paths(30000)
+    fav_gain = ps.p_leads_by("home", 7) - win["home_win_prob"]
+    dog_gain = ps.p_leads_by("away", 7) - (1 - win["home_win_prob"])
+    assert dog_gain > fav_gain
+
+
+def test_either_team_leading_is_at_least_each_team_alone():
+    ps = _paths()
+    both = ps.p_either_leads_by(7)
+    assert both >= ps.p_leads_by("home", 7)
+    assert both >= ps.p_leads_by("away", 7)
+    assert both <= 1.0
+
+
+def test_a_lead_of_zero_is_certain():
+    ps = _paths(n=3000)
+    assert ps.p_leads_by("home", 0) == 1.0
+
+
+def test_path_sim_final_scores_match_the_score_model():
+    """run_paths must not drift from run() -- same scoring engine, same means."""
+    from lib.simulate import GameSim, TeamModel
+    import statistics
+
+    g = GameSim(TeamModel("H", 2.4), TeamModel("A", 2.0), base_drives=11.0, seed=95)
+    flat = g.run(30000).summary()
+    ps = g.run_paths(30000)
+    assert statistics.fmean(h for h, _, _, _ in ps.results) == pytest.approx(
+        flat["home_mean"], rel=0.05)
+    assert statistics.fmean(a for _, a, _, _ in ps.results) == pytest.approx(
+        flat["away_mean"], rel=0.05)
+
+
+def test_lead_curve_returns_every_requested_threshold():
+    ps = _paths(n=5000)
+    curve = ps.lead_curve("home", [3, 7, 14])
+    assert sorted(curve) == [3, 7, 14]

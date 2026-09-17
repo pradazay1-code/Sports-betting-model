@@ -145,6 +145,80 @@ class GameSim:
         return o / (o + u) if o + u else 0.0
 
 
+    # --- path-dependent readouts -------------------------------------------
+
+    def run_paths(self, n: int = 50000) -> "PathSim":
+        """Simulate the drive-by-drive SEQUENCE, not just the final score.
+
+        Needed for anything that resolves on the score at a moment rather than
+        at the end: "leads by 7+ at any point", "leads at halftime", live-lead
+        promos. A final-score sim cannot answer those -- a team that loses by 3
+        very often led by 10 on the way there.
+
+        Possessions alternate, with a coin flip for who receives.
+        """
+        rng = random.Random(None if self.seed is None else self.seed + 7)
+        h_td, h_fg = self.home.drive_probs()
+        a_td, a_fg = self.away.drive_probs()
+        out = []
+        for _ in range(n):
+            pace = max(0.6, rng.gauss(1.0, self.pace_sd))
+            env = max(0.4, rng.gauss(1.0, self.env_sd))
+            drives = max(2, int(round(self.base_drives * pace)))
+            hm = env * max(0.3, rng.gauss(1.0, self.team_sd))
+            am = env * max(0.3, rng.gauss(1.0, self.team_sd))
+
+            def caps(p_td, p_fg, mult):
+                td = min(p_td * mult, 0.75)
+                return td, min(p_fg * mult, 0.75 - td)
+
+            h = caps(h_td, h_fg, hm)
+            a = caps(a_td, a_fg, am)
+            home_first = rng.random() < 0.5
+            hs = as_ = 0
+            hi = lo = 0          # running max / min of (home - away)
+            for d in range(drives):
+                for is_home in ((True, False) if home_first else (False, True)):
+                    td, fg = h if is_home else a
+                    r = rng.random()
+                    pts = 0
+                    if r < td:
+                        pts = 7 if rng.random() < 0.94 else 6
+                    elif r < td + fg:
+                        pts = 3
+                    if is_home:
+                        hs += pts
+                    else:
+                        as_ += pts
+                    m = hs - as_
+                    hi = max(hi, m)
+                    lo = min(lo, m)
+            out.append((hs, as_, hi, lo))
+        return PathSim(out, self.home.name, self.away.name)
+
+
+@dataclass
+class PathSim:
+    """Drive-sequence results: (home_score, away_score, max_margin, min_margin)."""
+
+    results: list[tuple[int, int, int, int]]
+    home_name: str = "home"
+    away_name: str = "away"
+
+    def p_leads_by(self, side: str, k: int) -> float:
+        """P(`side` leads by >= k points at ANY point in the game)."""
+        if side == "home":
+            return sum(1 for _, _, hi, _ in self.results if hi >= k) / len(self.results)
+        return sum(1 for _, _, _, lo in self.results if -lo >= k) / len(self.results)
+
+    def p_either_leads_by(self, k: int) -> float:
+        return sum(1 for _, _, hi, lo in self.results
+                   if hi >= k or -lo >= k) / len(self.results)
+
+    def lead_curve(self, side: str, ks) -> dict:
+        return {k: self.p_leads_by(side, k) for k in ks}
+
+
 def first_half(game: "GameSim", share: float = 0.49) -> "GameSim":
     """Build a first-half version of a full-game sim.
 
