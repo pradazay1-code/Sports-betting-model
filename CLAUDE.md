@@ -465,6 +465,7 @@ lib/
   odds.py                   # American<->decimal<->implied, devig, EV, Kelly, parlays, CLV
   backtest.py               # edge detection stats: sample size, drawdown, significance
   cache.py                  # TTL JSON cache — every network call goes through it
+  simulate.py               # drive-level Monte Carlo: margin/total distributions, key numbers
   manual.py                 # price anything from anywhere — NO KEY, NO NETWORK
   free_sources.py           # keyless feeds: ESPN (incl. FCS), MLB StatsAPI
   fetch_odds.py             # The Odds API client + line shopping + edge finding
@@ -495,6 +496,7 @@ bets.db                     # SQLite, gitignored
   python3 -m lib.odds parlay -110 -110 +150
   python3 -m lib.backtest reality-check --record 12-3
   python3 -m lib.backtest drawdown --prob 0.55 --bets 500
+  python3 -m lib.simulate  # drive-level MC — margin/total dists, key-number mass
   python3 -m lib.manual devig --labels "Chiefs,Bills" --prices 118 -128
   python3 -m lib.manual board slate.json
   python3 -m lib.free_sources scoreboard --league cfb --fcs
