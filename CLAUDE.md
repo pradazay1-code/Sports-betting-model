@@ -194,6 +194,54 @@ your head, and do not eyeball a devig.
 - Anything under ~2% EV after devig is noise, not a bet. Say so explicitly rather than
   quietly omitting it.
 
+### 3.2a Projection method — run both forms, always
+
+Two ways to project a team's points against an opponent:
+
+- **Additive:** `(X_off + Y_def_allowed) / 2` — stable, shrinks toward the mean.
+- **Multiplicative:** `X_off x Y_def_allowed / league_mean` — compounds when a good
+  offense meets a bad defense.
+
+**Run both. Quote the range. The spread between them IS your uncertainty.** Never
+discard one because its answer looks implausible — that is aesthetics overriding a
+model, and it has already cost real money. (DET @ BUF, 2026-09-17: additive said
+50.8, multiplicative said 61, I called 61 "absurd" and bet 2u on the under. The
+game went 72. See `reports/nfl/2026-09-17_DET-BUF_RESULT.md`.)
+
+**Method convergence is the confidence signal.** When the forms land within a few
+points of each other, that is a real projection. **When they disagree by more than
+~10 points on a total, there is no playable number** — say so and move on, however
+tempting the market price looks.
+
+**Two staking rules that follow from the same loss:**
+
+- If your own sensitivity analysis names a scenario that flips the bet, and that
+  scenario turns on an input you marked **UNAVAILABLE**, the stake is **capped at
+  1u**. Writing the risk down is not the same as pricing it.
+- **Never shrink an adjustment because "the market has already absorbed it."** The
+  market's absorption lives in the market price. Shrinking your own prior for that
+  reason double-counts, and always in the direction of agreeing with the market.
+
+**A read that has reversed is not a read that is wrong.** If new facts moved your
+number twice, the final number rests on the fullest information set you have. Use
+it. Discomfort with your own revision history is not evidence.
+
+### 3.4b College football needs a ratings spine, not points per game
+
+**PPG-based projection does not work in college football.** With 136 teams and a
+talent spread the NFL does not have, two-game scoring averages against different
+schedules carry almost no signal about relative strength. A PPG model run on
+Miami-Wake Forest produced a pick'em against a market of -20.5 — the method, not
+the market, was broken.
+
+Spreads in this sport require **SP+, FPI, or an equivalent rating**. Without one:
+
+- **Do not publish a side or spread number.** Say the spine is missing.
+- **Totals are still reachable** — errors on the two offenses partially cancel —
+  but only when the projection forms converge (see 3.2a).
+- Schedule strength must be applied explicitly and labeled `[READ]`. A 77-7 win
+  over an FCS opponent is not evidence of anything.
+
 ### 3.3 Line shopping and key numbers
 
 **Always compare across books before recommending.** A half point at the wrong number costs
