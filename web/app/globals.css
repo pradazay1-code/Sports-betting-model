@@ -1,0 +1,86 @@
+:root {
+  --bg: #0b0d10;
+  --panel: #14181d;
+  --panel-2: #1a1f26;
+  --border: #262d36;
+  --text: #e6e9ed;
+  --muted: #8b95a3;
+  --accent: #4ade80;
+  --accent-dim: #22633c;
+  --warn: #fbbf24;
+  --danger: #f87171;
+  --radius: 10px;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #f7f8fa; --panel: #ffffff; --panel-2: #f0f2f5; --border: #dde1e7;
+    --text: #12161c; --muted: #5b6673; --accent: #15803d; --accent-dim: #bbf7d0;
+  }
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; height: 100%; }
+body {
+  background: var(--bg); color: var(--text);
+  font: 15px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 980px; margin: 0 auto; padding: 0 16px 140px; }
+header.top {
+  position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 14px 0 12px; margin-bottom: 20px;
+}
+.brand { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.brand h1 { font-size: 19px; margin: 0; letter-spacing: -0.01em; }
+.brand span { color: var(--muted); font-size: 13px; }
+.presets { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+.presets button {
+  background: var(--panel-2); color: var(--text); border: 1px solid var(--border);
+  border-radius: 999px; padding: 6px 13px; font-size: 13px; cursor: pointer;
+}
+.presets button:hover { border-color: var(--accent); }
+.msg { margin: 18px 0; }
+.msg .who { font-size: 11px; text-transform: uppercase; letter-spacing: 0.09em; color: var(--muted); margin-bottom: 7px; }
+.msg.user .bubble {
+  background: var(--panel-2); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 11px 14px; white-space: pre-wrap;
+}
+.msg.desk .bubble { background: transparent; }
+.bubble table { border-collapse: collapse; width: 100%; margin: 14px 0; font-size: 13.5px; display: block; overflow-x: auto; }
+.bubble th, .bubble td { border: 1px solid var(--border); padding: 7px 10px; text-align: left; }
+.bubble th { background: var(--panel-2); font-weight: 600; }
+.bubble code { background: var(--panel-2); padding: 1px 5px; border-radius: 4px; font-size: 13px; }
+.bubble pre { background: var(--panel-2); padding: 12px; border-radius: 8px; overflow-x: auto; }
+.bubble pre code { background: none; padding: 0; }
+.bubble h2 { font-size: 17px; margin: 22px 0 8px; }
+.bubble h3 { font-size: 15px; margin: 18px 0 6px; }
+.bubble blockquote { margin: 12px 0; padding: 2px 14px; border-left: 3px solid var(--accent-dim); color: var(--muted); }
+.bubble a { color: var(--accent); }
+.activity { display: flex; gap: 7px; flex-wrap: wrap; margin: 8px 0 12px; }
+.chip {
+  font-size: 11.5px; padding: 3px 9px; border-radius: 999px; border: 1px solid var(--border);
+  background: var(--panel-2); color: var(--muted); font-variant-numeric: tabular-nums;
+}
+.chip.live { border-color: var(--accent); color: var(--accent); }
+details.think { margin: 8px 0 14px; }
+details.think summary { cursor: pointer; color: var(--muted); font-size: 12.5px; }
+details.think .body { color: var(--muted); font-size: 13px; white-space: pre-wrap; margin-top: 8px; padding-left: 12px; border-left: 2px solid var(--border); }
+.composer {
+  position: fixed; bottom: 0; left: 0; right: 0; background: color-mix(in srgb, var(--bg) 94%, transparent);
+  backdrop-filter: blur(10px); border-top: 1px solid var(--border); padding: 12px 16px 16px;
+}
+.composer .inner { max-width: 980px; margin: 0 auto; display: flex; gap: 10px; align-items: flex-end; }
+textarea {
+  flex: 1; resize: none; background: var(--panel); color: var(--text); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 11px 13px; font: inherit; min-height: 48px; max-height: 200px;
+}
+textarea:focus { outline: none; border-color: var(--accent); }
+.composer button {
+  background: var(--accent); color: #07120b; border: 0; border-radius: var(--radius);
+  padding: 13px 20px; font-weight: 600; cursor: pointer; font-size: 14px;
+}
+.composer button:disabled { opacity: 0.45; cursor: not-allowed; }
+.composer .hint { max-width: 980px; margin: 8px auto 0; color: var(--muted); font-size: 11.5px; }
+.err { border: 1px solid var(--danger); color: var(--danger); border-radius: var(--radius); padding: 10px 13px; margin: 14px 0; font-size: 14px; }
+.empty { color: var(--muted); padding: 30px 0; }
+.empty ul { padding-left: 20px; }
+@media (max-width: 640px) { .wrap { padding: 0 14px 150px; } .brand h1 { font-size: 17px; } }

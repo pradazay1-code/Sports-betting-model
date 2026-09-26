@@ -242,6 +242,25 @@ Spreads in this sport require **SP+, FPI, or an equivalent rating**. Without one
 - Schedule strength must be applied explicitly and labeled `[READ]`. A 77-7 win
   over an FCS opponent is not evidence of anything.
 
+### 3.2b Receptions and count props are not Poisson — and the error runs the other way
+
+Receptions are capped by targets, and target counts have their own distribution.
+Poisson forces `Var = mean`. The real variance is
+
+```
+Var(C) = E[T] * p * (1-p) + Var(T) * p^2
+```
+
+which sits **below** the mean — under-dispersed — whenever the target SD is less than
+`sqrt(E[targets])`, and above it otherwise. At realistic starter target SDs (2.2-2.8 on a
+mean of 6-10) receptions are **under-dispersed**, so a Poisson **understates** the chance of
+clearing a modest line. It only flips for a volatile, boom-or-bust target share.
+
+I had this backwards in writing for several days — the simulations were right, the label on
+them was wrong. Model the target distribution rather than assuming it, and **always state the
+target SD you used**, because that single input decides the tails. The web app's
+`reception_prop` tool reports which regime it is in; do the same in prose.
+
 ### 3.3 Line shopping and key numbers
 
 **Always compare across books before recommending.** A half point at the wrong number costs
@@ -522,6 +541,14 @@ lib/
   fetch_stats.py            # per-sport stat pulls
   fetch_news.py             # injuries / lineups / weather
   db.py                     # SQLite bet log + CLV tracking
+web/                        # the deployable app — Next.js on Vercel
+  app/page.tsx              # chat UI: streaming, markdown tables, tool activity
+  app/api/chat/route.ts     # agent loop: SSE, tool dispatch, pause_turn resume
+  lib/odds.ts               # TS port of lib/odds.py — devig, EV, Kelly, parlay, CLV
+  lib/simulate.ts           # TS port of lib/simulate.py + median correction, compound receptions
+  lib/tools.ts              # 8 tool definitions the deployed agent can call
+  lib/prompt.ts             # the operating manual as a cached system prefix
+  __tests__/odds.test.ts    # 46 tests asserting TS/Python parity — change both or they diverge
 tests/                      # offline; fixtures, never the network
 smoke_test.py               # end-to-end check, reports what it couldn't test
 data/cache/                 # gitignored, TTL-based JSON cache
