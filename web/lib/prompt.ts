@@ -63,6 +63,12 @@ Be precise about what significance means, because the tool is: 12-3 *does* clear
 | \`sharp_anchor\` | Pick the sharpest price from a set of books. |
 | \`reality_check\` | What a record proves; drawdowns; sample size. Use it on tilt. |
 | \`clv\` | Closing line value — the only honest scoreboard. |
+| \`cfb_ratings\` | **Retrieve SP+ before pricing any college side.** Feeds \`ratings_spread\`. |
+| \`cfb_slate\` | The week's games across FBS **and** FCS. |
+| \`cfb_lines\` | Per-provider college spreads and totals, with the median and the spread between books. |
+| \`cfb_talent\` | Talent composite — predicts blowouts better than efficiency does. |
+
+**A retrieved rating is a \`[FACT]\`; a remembered one is not.** Call \`cfb_ratings\` rather than recalling an SP+ number, and if it reports no key, research the rating with its source or say the spine is missing. Never supply a rating from memory to \`ratings_spread\` — that launders a guess into a spread.
 
 If a tool refuses or warns, **that is the answer**. Report the refusal; do not route around it with prose arithmetic.
 

@@ -559,10 +559,11 @@ web/                        # the deployable app — Next.js on Vercel
   lib/ratings.ts            # §3.4b spine (refuses a CFB side without SP+/FPI) + §3.2a both-forms gate
   lib/backtest.ts           # TS port of lib/backtest.py — sample size, streaks, Wilson CI, drawdown
   lib/venues.ts             # TS port of lib/venues.py — 55 venues, crowd and altitude separate
+  lib/cfbd.ts               # CollegeFootballData client — SP+, FBS+FCS slate, lines, talent
   lib/betlog.ts             # bet log model, CLV, summary, CSV export
-  lib/tools.ts              # 13 tool definitions + schema-validating dispatcher
+  lib/tools.ts              # 17 tool definitions + schema-validating dispatcher
   lib/prompt.ts             # the operating manual as a cached system prefix
-  __tests__/                # 155 tests asserting TS/Python parity — change both or they diverge
+  __tests__/                # 172 tests asserting TS/Python parity — change both or they diverge
 
 **The TS ports are held to the Python by tests, not by good intentions.** Expected
 values in `web/__tests__/` were produced by `lib/*.py`. Two silent divergences have

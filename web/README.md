@@ -41,9 +41,9 @@ a time.
 
 ```bash
 npm install
-echo 'ANTHROPIC_API_KEY=sk-ant-...' > .env.local
+cp .env.example .env.local     # then add ANTHROPIC_API_KEY (and CFBD_API_KEY for college)
 npm run dev            # http://localhost:3000
-npm test               # 155 tests, asserted against the Python engine
+npm test               # 172 tests, asserted against the Python engine
 npm run typecheck
 ```
 
@@ -64,7 +64,8 @@ lib/
   backtest.ts           required sample size, losing streaks, Wilson CI, drawdown MC
   venues.ts             55 CFB venues — crowd and altitude priced separately
   betlog.ts             bet log model, CLV, summary, CSV
-  tools.ts              13 tool definitions + dispatcher with schema validation
+  cfbd.ts               CollegeFootballData — SP+, FBS+FCS slate, lines, talent
+  tools.ts              17 tool definitions + dispatcher with schema validation
   prompt.ts             the operating manual
 __tests__/              155 tests: odds, ratings, backtest, venues, betlog, tools
 ```
@@ -94,6 +95,10 @@ engine, change both and the test, or they silently diverge.
 | `venue_edge` | Venue-specific CFB home field; crowd and altitude never stacked naively |
 | `reality_check` | What a record proves, drawdowns, sample size. For tilt and cold streaks |
 | `clv` | Closing line value — the only honest scoreboard |
+| `cfb_ratings` | Retrieves SP+ so a college side rests on a [FACT], not a recollection |
+| `cfb_slate` | The week's games across FBS **and** FCS |
+| `cfb_lines` | Per-provider college spreads and totals, median and book disagreement |
+| `cfb_talent` | Talent composite — predicts blowouts better than efficiency does |
 
 Plus Anthropic's server-side `web_search` for live research.
 
@@ -108,6 +113,16 @@ Two of these exist to stop the model doing something it has already done wrong:
   between them. On DET @ BUF the forms bracketed the market at 52.4 and 57.0 with
   the line at 54.5 — there was never a side to take. 2u went on the under and the
   game went 72.
+
+**`cfb_ratings` closes the loop on the refusal.** `ratings_spread` declining to
+price without SP+ is only useful if the rating can actually be *retrieved* —
+otherwise the agent web-searches for a precise number, which is where a
+confident-looking fabrication comes from. With `CFBD_API_KEY` set the rating is a
+retrieved `[FACT]`; without it the tool says so and names the fallback. It also
+returns `null` for a team it cannot match rather than substituting a number, so a
+missing rating propagates to a refusal instead of being papered over. `cfb_slate`
+throws when *both* divisions fail rather than returning an empty slate that could
+be read as "no games this week."
 
 `runTool` also validates every call against the tool's own schema. It previously
 did not, so `simulate_game` missing a `home_name` returned

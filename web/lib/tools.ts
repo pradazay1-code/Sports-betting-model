@@ -12,6 +12,7 @@ import * as S from "./simulate";
 import * as R from "./ratings";
 import * as B from "./backtest";
 import * as V from "./venues";
+import * as C from "./cfbd";
 
 export const DESK_TOOLS: Anthropic.Tool[] = [
   {
@@ -302,6 +303,78 @@ export const DESK_TOOLS: Anthropic.Tool[] = [
       additionalProperties: false,
     },
   },
+  {
+    name: "cfb_ratings",
+    description:
+      "Retrieve SP+ ratings from CollegeFootballData for the two teams in a college matchup, shaped to " +
+      "feed straight into ratings_spread. USE THIS BEFORE PRICING ANY COLLEGE SIDE — a retrieved rating " +
+      "is a [FACT], a remembered one is not, and ratings_spread refuses to price without one. Covers FBS " +
+      "and FCS. Returns null for a team it cannot match rather than substituting a number, so a missing " +
+      "rating correctly propagates to a refusal. Requires CFBD_API_KEY; if it is not configured the tool " +
+      "says so and you should research the rating by web search with its source, or say the spine is missing.",
+    input_schema: {
+      type: "object",
+      properties: {
+        home_team: { type: "string" },
+        away_team: { type: "string" },
+        year: { type: "number", description: "Season. Defaults to the current one." },
+      },
+      required: ["home_team", "away_team"],
+      additionalProperties: false,
+    },
+  },
+  {
+    name: "cfb_slate",
+    description:
+      "The full college football slate for a week across BOTH divisions — FBS and FCS. This is what a " +
+      "request for 'every game including FCS' needs; mainstream feeds omit FCS entirely. Reports each " +
+      "division's fetch separately, so a partial failure is visible instead of silently returning a short " +
+      "slate. Requires CFBD_API_KEY.",
+    input_schema: {
+      type: "object",
+      properties: {
+        year: { type: "number" },
+        week: { type: "number" },
+        division: { type: "string", enum: ["fbs", "fcs", "both"], description: "Default both." },
+      },
+      required: [],
+      additionalProperties: false,
+    },
+  },
+  {
+    name: "cfb_lines",
+    description:
+      "Betting lines by game from CollegeFootballData, with per-provider spreads and totals plus the " +
+      "median and the disagreement between books. None of these providers is Pinnacle, so treat the " +
+      "median as a MEDIAN ANCHOR and say so — it is not a sharp price, and that alone should cut your " +
+      "confidence. Requires CFBD_API_KEY.",
+    input_schema: {
+      type: "object",
+      properties: {
+        year: { type: "number" },
+        week: { type: "number" },
+        team: { type: "string", description: "Filter to one team's game." },
+      },
+      required: [],
+      additionalProperties: false,
+    },
+  },
+  {
+    name: "cfb_talent",
+    description:
+      "Team talent composite (aggregated recruiting ratings). Talent predicts BLOWOUTS better than " +
+      "efficiency does, because depth shows up late and a talent chasm means the backups are better too. " +
+      "Reach for this on large spreads and on FBS-vs-FCS money games. Requires CFBD_API_KEY.",
+    input_schema: {
+      type: "object",
+      properties: {
+        year: { type: "number" },
+        teams: { type: "array", items: { type: "string" }, description: "Optional: only return these teams." },
+      },
+      required: [],
+      additionalProperties: false,
+    },
+  },
 ];
 
 const r2 = (x: number) => Math.round(x * 10000) / 10000;
@@ -346,7 +419,7 @@ function normalizeInput(name: string, input: Record<string, unknown>): Record<st
   return out;
 }
 
-export function runTool(name: string, rawInput: Record<string, unknown>): unknown {
+export async function runTool(name: string, rawInput: Record<string, unknown>): Promise<unknown> {
   const input = normalizeInput(name, rawInput);
   switch (name) {
     case "devig": {
@@ -572,6 +645,41 @@ export function runTool(name: string, rawInput: Record<string, unknown>): unknow
         note: c.beatClose
           ? "Beat the close. This is the signal that matters; results are noise by comparison."
           : "Did not beat the close. Consistently closing worse than you bet means no edge, whatever the record says.",
+      };
+    }
+    case "cfb_ratings": {
+      const i = input as { home_team: string; away_team: string; year?: number };
+      return await C.matchupRatings(i.home_team, i.away_team, i.year);
+    }
+    case "cfb_slate": {
+      const i = input as { year?: number; week?: number; division?: "fbs" | "fcs" | "both" };
+      if (i.division && i.division !== "both") {
+        const rows = await C.games({ year: i.year, week: i.week, division: i.division });
+        return { division: i.division, count: rows.length, games: rows };
+      }
+      const s = await C.fullSlate(i.year, i.week);
+      return {
+        count: s.games.length, by_division: s.byDivision, games: s.games, errors: s.errors,
+        note: s.errors.length
+          ? "At least one division failed to fetch. Say the slate is incomplete rather than presenting it as complete."
+          : "Both divisions fetched.",
+      };
+    }
+    case "cfb_lines": {
+      const i = input as { year?: number; week?: number; team?: string };
+      const rows = await C.lines(i);
+      return { count: rows.length, games: rows.map((g) => ({ ...C.consensus(g), books: g.lines })) };
+    }
+    case "cfb_talent": {
+      const i = input as { year?: number; teams?: string[] };
+      const rows = await C.talent(i.year);
+      const wanted = i.teams?.map((s) => s.trim().toLowerCase());
+      const filtered = wanted?.length
+        ? rows.filter((r) => wanted.some((w) => r.team.toLowerCase().includes(w)))
+        : rows;
+      return {
+        count: filtered.length, teams: filtered,
+        note: "Talent predicts blowouts better than efficiency. Use it on large spreads and money games.",
       };
     }
     default:

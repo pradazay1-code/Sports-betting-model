@@ -20,46 +20,46 @@ export async function GET() {
   const checks: Array<{ name: string; ok: boolean; detail: string }> = [];
   const near = (a: number, b: number, tol = 1e-6) => Math.abs(a - b) < tol;
 
-  function check(name: string, fn: () => string) {
+  async function check(name: string, fn: () => string | Promise<string>) {
     try {
-      checks.push({ name, ok: true, detail: fn() });
+      checks.push({ name, ok: true, detail: await fn() });
     } catch (e: any) {
       checks.push({ name, ok: false, detail: e?.message ?? String(e) });
     }
   }
 
-  check("devig removes the vig", () => {
+  await check("devig removes the vig", () => {
     const fair = devig([-110, -110], "power");
     if (!near(fair[0] + fair[1], 1, 1e-9)) throw new Error(`probabilities sum to ${fair[0] + fair[1]}`);
     if (!near(fair[0], 0.5, 1e-9)) throw new Error(`symmetric market devigged to ${fair[0]}`);
     return "-110/-110 -> 0.500/0.500";
   });
 
-  check("parlay hold exceeds single-leg hold", () => {
+  await check("parlay hold exceeds single-leg hold", () => {
     const a = parlayAnalysis([-110, -110, -110, -110]);
     if (a.holdPct < 0.15) throw new Error(`four -110 legs held only ${(a.holdPct * 100).toFixed(1)}%`);
     return `four -110 legs hold ${(a.holdPct * 100).toFixed(1)}%`;
   });
 
-  check("2u stake ceiling holds", () => {
-    const r = runTool("price_edge", { fair_prob: 0.95, offered_american: 200 }) as any;
+  await check("2u stake ceiling holds", async () => {
+    const r = await runTool("price_edge", { fair_prob: 0.95, offered_american: 200 }) as any;
     if (r.stake > 2) throw new Error(`staked ${r.stake}u`);
     return `capped at ${r.stake}u`;
   });
 
-  check("2% EV floor holds", () => {
-    const r = runTool("price_edge", { fair_prob: 0.525, offered_american: -110 }) as any;
+  await check("2% EV floor holds", async () => {
+    const r = await runTool("price_edge", { fair_prob: 0.525, offered_american: -110 }) as any;
     if (r.verdict !== "NO BET") throw new Error(`verdict was ${r.verdict} at ${r.evPct}% EV`);
     return "0.525 at -110 -> NO BET";
   });
 
-  check("CFB side refuses without a ratings spine", () => {
-    const r = runTool("ratings_spread", { home_team: "A", away_team: "B", market_spread: -20.5 }) as any;
+  await check("CFB side refuses without a ratings spine", async () => {
+    const r = await runTool("ratings_spread", { home_team: "A", away_team: "B", market_spread: -20.5 }) as any;
     if (r.playable !== false) throw new Error("priced a side with no ratings");
     return "refused, as designed";
   });
 
-  check("projection gate catches divergent forms", () => {
+  await check("projection gate catches divergent forms", () => {
     const r = projectBoth({
       homeTeam: "A", awayTeam: "B",
       homeOff: 38, homeDefAllowed: 14, awayOff: 34, awayDefAllowed: 40,
@@ -69,20 +69,20 @@ export async function GET() {
     return `${r.divergence.toFixed(1)}pt divergence -> not playable`;
   });
 
-  check("sample size matches the python reference", () => {
+  await check("sample size matches the python reference", () => {
     const n = requiredSampleSize(0.55, -110).nRequired;
     if (n !== 2231) throw new Error(`got ${n}, reference is 2231`);
     return "55% at -110 -> 2231 bets";
   });
 
-  check("venue database loaded", () => {
+  await check("venue database loaded", () => {
     if (VENUES.length < 50) throw new Error(`only ${VENUES.length} venues`);
     return `${VENUES.length} venues`;
   });
 
-  check("every tool dispatches", () => {
+  await check("every tool dispatches", async () => {
     const names = DESK_TOOLS.map((t) => t.name);
-    if (names.length !== 13) throw new Error(`expected 13 tools, found ${names.length}`);
+    if (names.length !== 17) throw new Error(`expected 17 tools, found ${names.length}`);
     return names.join(", ");
   });
 
@@ -92,6 +92,7 @@ export async function GET() {
       status: ok ? "ok" : "degraded",
       // Whether a key is configured, never the key itself.
       anthropicKeyConfigured: Boolean(process.env.ANTHROPIC_API_KEY),
+      cfbdKeyConfigured: Boolean(process.env.CFBD_API_KEY),
       model: "claude-opus-5",
       tools: DESK_TOOLS.length,
       checks,

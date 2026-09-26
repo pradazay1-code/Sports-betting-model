@@ -172,7 +172,7 @@ export async function POST(req: Request) {
           for (const block of msg.content) {
             if (block.type !== "tool_use") continue;
             try {
-              const out = runTool(block.name, block.input as Record<string, unknown>);
+              const out = await runTool(block.name, block.input as Record<string, unknown>);
               results.push({ type: "tool_result", tool_use_id: block.id, content: JSON.stringify(out) });
               send("tool", { name: block.name, status: "done" });
             } catch (err) {
