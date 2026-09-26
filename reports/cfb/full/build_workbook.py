@@ -131,12 +131,14 @@ ws.cell(row=ws.max_row, column=1).font = Font(bold=True, size=11, color="1F3864"
 SHOP = [(102,"Citadel +11.5  or  Chattanooga -10.5  (books 1 pt apart)"),(119,"Cornell +15.5  or  Yale -14  (1.5 pts apart)"),
         (117,"Monmouth +3  (not +2.5)"),(3,"Colorado +10  or  Baylor -9.5"),(18,"NMSU +13.5 or UNM -11.5; over 48.5 / under 50.5"),
         (23,"ODU +6.5  or  JMU -5.5"),(32,"WSU +10.5  or  Arizona -9.5"),(38,"Charlotte +10.5; over 48.5 / under 50.5"),
-        (30,"App State +14  (not +13.5)"),(4,"Louisville -13  (not -13.5)")]
+        (30,"App State +14  (not +13.5)"),(4,"Louisville -13  (not -13.5)"),(43,"Boise St/WMU: over 48.5 or under 50.5 (2 pts apart)"),(120,"Cal Poly +3.5  (not +3) - through the key number")]
 for gid, s in SHOP: ws.append(["","",R[gid]["et"],f"{R[gid]['a']} @ {R[gid]['h']}", s])
 ws.append([]); ws.append(["STRUCTURAL (price not retrieved - bet only if the team total is posted at or above the implied number):"])
 ws.cell(row=ws.max_row, column=1).font = Font(bold=True, size=11, color="1F3864")
-for gid in (7,17,16,36,6,24,2):
-    r = R[gid]; ft = (r["tot"] + abs(r["sp"]))/2
+for gid in (7,17,16,36,6,24,2,58,60,61,62,63,64,65,121):
+    r = R[gid]
+    if r.get("tot") is None: continue
+    ft = (r["tot"] + abs(r["sp"]))/2
     fav = r["h"] if r["sp"] < 0 else r["a"]
     ws.append(["","",r["et"],f"{r['a']} @ {r['h']}", f"{fav} team-total UNDER / 2H under (implied team total {ft:.1f})"])
 
@@ -163,6 +165,12 @@ for i, (k, r, txt, typ, stake, conf, fav, p) in enumerate(allr, 1):
     ws2.append([i, r["div"], r["et"], r["a"], r["h"], r["sp"], r.get("tot"), mproj, dproj, fav, round(p*100,1),
                 ", ".join(mods) or "none (market only)", None if "model_vs_mkt" not in r else round(r["model_vs_mkt"],1),
                 r.get("wx","not retrieved"), conf, txt, stake, typ])
+# every identified game on the first sheet: the no-line games go at the bottom, clearly marked
+ws2.append([]); ws2.append(["IDENTIFIED - NO LINE RETRIEVABLE (not projected; nothing estimated)"])
+ws2.cell(row=ws2.max_row, column=1).font = Font(bold=True, color="C00000", size=11)
+for j, (d, a, h, note) in enumerate(NO_MARKET, 1):
+    ws2.append([len(allr)+j, d, "", a, h, None, None, "no line", "no line", "", None, "", None, "", "-",
+                "No bet - no line" + (f" ({note})" if note else ""), "0", "None"])
 header(ws2, len(cols))
 for row in range(2, ws2.max_row+1):
     c = ws2.cell(row=row, column=15); c.fill = PatternFill("solid", fgColor=CF.get(c.value, "FFFFFF"))
@@ -247,14 +255,14 @@ header(ws6, 8); widths(ws6, [32,30,9,9,12,9,10,60]); wrap(ws6)
 
 # =================== 7. NO MARKET ===================
 ws7 = wb.create_sheet("No Market")
-ws7.append(["Div","Away","Home","Status"])
-for d, a, h in NO_MARKET: ws7.append([d, a, h, "Identified on the slate. No line retrievable. Nothing estimated."])
-header(ws7, 4); widths(ws7, [6,24,42,60])
+ws7.append(["Div","Away","Home","Status","Note"])
+for d, a, h, note in NO_MARKET: ws7.append([d, a, h, "Identified on the slate. No line retrievable. Nothing estimated.", note])
+header(ws7, 5); widths(ws7, [6,24,26,50,70]); wrap(ws7)
 
 # =================== 8. METHOD & SOURCES ===================
 ws8 = wb.create_sheet("Method & Sources")
 M = [("WHAT THIS IS",""),
- ("Coverage", f"{len(A['rows'])} games with a retrieved market (40 FBS, 19 FCS) + {len(NO_MARKET)} identified with no market. Friday games (already played) excluded."),
+ ("Coverage", f"{len(A['rows'])} games with a retrieved market ({sum(1 for r in A['rows'] if r['div']=='FBS')} FBS, {sum(1 for r in A['rows'] if r['div']=='FCS')} FCS) + {len(NO_MARKET)} identified with no market = {len(A['rows'])+len(NO_MARKET)} games. FBS count reconciles to the published 71 FBS-involved Week 4 games (66 Saturday + 5 Friday, already played and excluded)."),
  ("Retrieved [FACT]", "Spreads, totals, moneylines, two-sided prices, ESPN FPI, Bill Connelly SP+ projections & ratings, numberFire/dimers/SportsLine, weather, injury reports. All via web search, 2026-09-26."),
  ("Derived [MODEL]", "Market-implied score, devigged fair prices (power), model bias, bias-corrected consensus, desk margin/total, win probability, EV, weather scenarios."),
  ("Judgment [READ]", "Model-vs-market weights (40%/25%/30%), storm cost per category, margin SD 16.5 FBS / 17.5 FCS, total SD 14."),
@@ -285,6 +293,10 @@ for row in range(2, ws8.max_row+1):
     if a.value and not ws8.cell(row=row, column=2).value: a.font = Font(bold=True, color="1F3864", size=11); a.fill = SUB
 widths(ws8, [22, 130]); wrap(ws8)
 
+# Phone previews often render ONLY the first sheet. Put every game there.
+wb.move_sheet("All Games (ranked)", offset=-wb.sheetnames.index("All Games (ranked)"))
+wb["All Games (ranked)"].title = "ALL GAMES"
+wb.active = 0
 out = "/home/user/Sports-betting-model/reports/cfb/CFB_FULL_SLATE_2026-09-26.xlsx"
 wb.save(out)
 print("wrote", out)
