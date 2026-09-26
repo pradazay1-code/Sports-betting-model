@@ -14,8 +14,46 @@ const WEB_SEARCH = { type: "web_search_20260209" as const, name: "web_search" as
 
 const MAX_ITERATIONS = 40; // a big slate legitimately needs many rounds; this is a runaway guard
 
+/**
+ * Rate limiting, honestly labelled.
+ *
+ * This is an in-memory bucket, so on serverless it is PER INSTANCE and resets on
+ * cold start — a determined caller who lands on fresh instances gets more than
+ * the stated limit. It is real protection against a stuck client hammering the
+ * endpoint and running up an API bill, and it is NOT protection against a
+ * motivated attacker. For that you need Vercel KV, Upstash, or a WAF rule.
+ */
+const RATE_LIMIT = Number(process.env.RATE_LIMIT_PER_HOUR ?? 30);
+const RATE_WINDOW_MS = 60 * 60 * 1000;
+const buckets = new Map<string, number[]>();
+
+function clientKey(req: Request): string {
+  const fwd = req.headers.get("x-forwarded-for");
+  return (fwd?.split(",")[0].trim()) || req.headers.get("x-real-ip") || "unknown";
+}
+
+function rateLimit(req: Request): { ok: true } | { ok: false; retryAfter: number } {
+  if (RATE_LIMIT <= 0) return { ok: true };            // 0 disables it
+  const key = clientKey(req);
+  const now = Date.now();
+  const hits = (buckets.get(key) ?? []).filter((t) => now - t < RATE_WINDOW_MS);
+  if (hits.length >= RATE_LIMIT) {
+    return { ok: false, retryAfter: Math.ceil((RATE_WINDOW_MS - (now - hits[0])) / 1000) };
+  }
+  hits.push(now);
+  buckets.set(key, hits);
+  // Keep the map from growing without bound across a long-lived instance.
+  if (buckets.size > 5000) {
+    for (const [k, v] of buckets) if (!v.some((t) => now - t < RATE_WINDOW_MS)) buckets.delete(k);
+  }
+  return { ok: true };
+}
+
 type Role = "user" | "assistant";
 interface IncomingMessage { role: Role; content: string }
+
+const MAX_CHARS_PER_MESSAGE = 20_000;
+const MAX_MESSAGES = 60;
 
 export async function POST(req: Request) {
   // Validate the REQUEST before the environment, so a malformed call gets a 400
@@ -30,6 +68,32 @@ export async function POST(req: Request) {
   const incoming = (body.messages ?? []).filter((m) => m.content?.trim());
   if (!incoming.length) {
     return new Response(JSON.stringify({ error: "No messages supplied." }), { status: 400, headers: { "content-type": "application/json" } });
+  }
+  if (incoming.length > MAX_MESSAGES) {
+    return new Response(
+      JSON.stringify({ error: `Too many messages (${incoming.length}). Start a new conversation.` }),
+      { status: 400, headers: { "content-type": "application/json" } },
+    );
+  }
+  const oversized = incoming.find((m) => m.content.length > MAX_CHARS_PER_MESSAGE);
+  if (oversized) {
+    return new Response(
+      JSON.stringify({ error: `A message exceeds ${MAX_CHARS_PER_MESSAGE} characters.` }),
+      { status: 400, headers: { "content-type": "application/json" } },
+    );
+  }
+
+  const limit = rateLimit(req);
+  if (!limit.ok) {
+    return new Response(
+      JSON.stringify({
+        error: `Rate limit reached (${RATE_LIMIT}/hour). Try again in ${Math.ceil(limit.retryAfter / 60)} minute(s).`,
+      }),
+      {
+        status: 429,
+        headers: { "content-type": "application/json", "retry-after": String(limit.retryAfter) },
+      },
+    );
   }
   const effort = (["low", "medium", "high", "xhigh", "max"] as const).includes(body.effort as never)
     ? (body.effort as "low" | "medium" | "high" | "xhigh" | "max")

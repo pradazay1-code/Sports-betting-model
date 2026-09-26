@@ -551,12 +551,25 @@ lib/
   db.py                     # SQLite bet log + CLV tracking
 web/                        # the deployable app — Next.js on Vercel
   app/page.tsx              # chat UI: streaming, markdown tables, tool activity
-  app/api/chat/route.ts     # agent loop: SSE, tool dispatch, pause_turn resume
+  app/log/page.tsx          # bet log: CLV first, reality check on the record, CSV export
+  app/api/chat/route.ts     # agent loop: SSE, tool dispatch, pause_turn resume, rate limit
+  app/api/health/route.ts   # liveness + 9 assertions on the engine's math (503 if any fail)
   lib/odds.ts               # TS port of lib/odds.py — devig, EV, Kelly, parlay, CLV
   lib/simulate.ts           # TS port of lib/simulate.py + median correction, compound receptions
-  lib/tools.ts              # 8 tool definitions the deployed agent can call
+  lib/ratings.ts            # §3.4b spine (refuses a CFB side without SP+/FPI) + §3.2a both-forms gate
+  lib/backtest.ts           # TS port of lib/backtest.py — sample size, streaks, Wilson CI, drawdown
+  lib/venues.ts             # TS port of lib/venues.py — 55 venues, crowd and altitude separate
+  lib/betlog.ts             # bet log model, CLV, summary, CSV export
+  lib/tools.ts              # 13 tool definitions + schema-validating dispatcher
   lib/prompt.ts             # the operating manual as a cached system prefix
-  __tests__/odds.test.ts    # 46 tests asserting TS/Python parity — change both or they diverge
+  __tests__/                # 155 tests asserting TS/Python parity — change both or they diverge
+
+**The TS ports are held to the Python by tests, not by good intentions.** Expected
+values in `web/__tests__/` were produced by `lib/*.py`. Two silent divergences have
+already happened and were caught only by writing the assertion: `altitudeEdge` had
+invented tiers more aggressive than `lib/venues.py`, and `runTool` validated nothing,
+so a missing team name produced an object keyed `undefined`. If you change one engine,
+change both and the test.
 tests/                      # offline; fixtures, never the network
 smoke_test.py               # end-to-end check, reports what it couldn't test
 data/cache/                 # gitignored, TTL-based JSON cache

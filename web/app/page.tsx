@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
@@ -98,6 +99,7 @@ export default function Page() {
             {PRESETS.map((p) => (
               <button key={p.label} onClick={() => send(p.q)} disabled={busy}>{p.label}</button>
             ))}
+            <Link href="/log"><button>Bet log →</button></Link>
           </div>
         </header>
 
