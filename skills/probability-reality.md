@@ -98,10 +98,23 @@ record          : 12-3  (80.0%)
 p-value         : 0.0272
 ```
 
-12-3 looks spectacular. The honest read: the true hit rate is somewhere between
-55% and 93%, which is a range so wide it's nearly useless. And a break-even
-bettor produces a run that good about 2.7% of the time — which sounds rare until
-you remember that thousands of touts are all posting their best 15-bet stretch.
+12-3 looks spectacular, and it does clear a one-sided test at p = 0.027. Say so
+— do not overclaim in the skeptical direction either. But the honest read is that
+the true hit rate sits somewhere between 55% and 93%, a range so wide it cannot
+tell a marginal winner from a world-beater. And that 2.7% only counts as rare if
+this was the only record you were ever going to test; thousands of touts are each
+posting their best 15-bet stretch, so a break-even field generates 12-3 runs
+constantly.
+
+**Want the example that genuinely proves nothing? Use 11-4.** p = 0.084, and the
+confidence interval still contains break-even:
+
+```
+$ python3 -m lib.backtest reality-check --record 11-4
+record          : 11-4  (73.3%)
+95% CI on true  : 48.0% to 89.1%
+p-value         : 0.0843
+```
 
 ## 5. What to say instead — and it's a real answer
 

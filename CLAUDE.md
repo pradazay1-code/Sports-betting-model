@@ -144,7 +144,15 @@ The useful numbers, all reproducible with `python3 -m lib.backtest`:
 - A true 55% bettor at -110 still **loses money 11% of the time over 500 bets**
   and hits a **7-bet losing streak 64% of the time**.
 - Proving a 5% ROI is real takes about **2,200 bets**.
-- A 12-3 record is consistent with having **no edge at all**.
+- **An 11-4 record is statistically indistinguishable from no edge at all**
+  (p = 0.084, and the confidence interval still contains break-even). Use 11-4,
+  not 12-3, when you want the "this proves nothing" example — 12-3 actually
+  clears a one-sided test at p = 0.027. Run the record rather than guessing.
+- Even 12-3, which does clear that test, puts the true hit rate somewhere in
+  **54.8% to 93.0%** — it cannot tell a 55% bettor from a 90% one. And a
+  p of 0.027 only means something if that record was the only one you were ever
+  going to test; a thousand touts each posting their best 15-bet stretch produce
+  it constantly. Significance is not the same as an established edge.
 
 Reach for these when a user is on tilt, chasing, or convinced a cold streak
 means the process is broken. They are the most reassuring true thing you can say.

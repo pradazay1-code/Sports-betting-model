@@ -9,6 +9,9 @@
 import type Anthropic from "@anthropic-ai/sdk";
 import * as O from "./odds";
 import * as S from "./simulate";
+import * as R from "./ratings";
+import * as B from "./backtest";
+import * as V from "./venues";
 
 export const DESK_TOOLS: Anthropic.Tool[] = [
   {
@@ -183,12 +186,168 @@ export const DESK_TOOLS: Anthropic.Tool[] = [
       additionalProperties: false,
     },
   },
+  {
+    name: "ratings_spread",
+    description:
+      "Convert a ratings differential (SP+, FPI or equivalent) plus venue-specific home field into a " +
+      "fair spread, and compare it to the market. REQUIRED for any college football side or spread: " +
+      "points-per-game projection does not work with 136 teams on wildly different schedules, and this " +
+      "tool REFUSES to return a number when a rating is missing rather than returning a bad one. If it " +
+      "refuses, say the ratings spine is missing and do not publish a side — totals may still be " +
+      "reachable via project_both.",
+    input_schema: {
+      type: "object",
+      properties: {
+        home_team: { type: "string" },
+        away_team: { type: "string" },
+        home_rating: { type: "number", description: "Points above average, e.g. SP+. Omit if you could not retrieve it — do NOT invent one." },
+        away_rating: { type: "number", description: "Points above average for the away team. Omit if unavailable." },
+        rating_name: { type: "string", description: "What rating this is, e.g. 'SP+' or 'FPI'." },
+        hfa: { type: "number", description: "Home-field points from venue_edge. Omit only if you have no venue data; a flat number will be flagged." },
+        neutral_site: { type: "boolean" },
+        market_spread: { type: "number", description: "The market's HOME spread. -20.5 means home favored by 20.5." },
+        sport: { type: "string", enum: ["cfb", "nfl"] },
+      },
+      required: ["home_team", "away_team"],
+      additionalProperties: false,
+    },
+  },
+  {
+    name: "project_both",
+    description:
+      "Project a total by running BOTH projection forms — additive (X_off + Y_def)/2 and multiplicative " +
+      "(X_off * Y_def / league_mean) — and report the range. The spread between the forms IS the " +
+      "uncertainty. Use this for every total. It enforces three rules learned from a 21-point miss: " +
+      "neither form may be discarded for looking implausible; when the forms diverge past the gate " +
+      "there is no playable number; and when the market total falls INSIDE the range there is no " +
+      "directional read regardless of which form you prefer. Also caps the stake at 1u when you name " +
+      "an input you could not retrieve.",
+    input_schema: {
+      type: "object",
+      properties: {
+        home_team: { type: "string" },
+        away_team: { type: "string" },
+        home_off: { type: "number", description: "Home team points scored per game." },
+        home_def_allowed: { type: "number", description: "Home team points allowed per game." },
+        away_off: { type: "number" },
+        away_def_allowed: { type: "number" },
+        league_mean: { type: "number", description: "League points per team per game. Defaults to the sport constant." },
+        sport: { type: "string", enum: ["nfl", "cfb"] },
+        market_total: { type: "number", description: "The posted total, so the tool can tell you whether a directional read exists." },
+        gate: { type: "number", description: "Divergence on the total above which nothing is playable. Default 10." },
+        unavailable_inputs: {
+          type: "array", items: { type: "string" },
+          description: "Inputs you could NOT retrieve (pace, weather, a starter's status). Any entry caps the stake at 1u. List them honestly.",
+        },
+      },
+      required: ["home_team", "away_team", "home_off", "home_def_allowed", "away_off", "away_def_allowed"],
+      additionalProperties: false,
+    },
+  },
+  {
+    name: "venue_edge",
+    description:
+      "Venue-specific home-field advantage for college football, with crowd and altitude reported " +
+      "SEPARATELY so they are not double-counted. Home field is not a constant in this sport — the gap " +
+      "between the hardest place to play and an empty stadium is worth four points or more, and most " +
+      "public models apply a flat 2.5 to everything. Altitude is priced on the DIFFERENTIAL, not raw " +
+      "elevation, and is a fourth-quarter effect that belongs in second-half and live markets. Warns " +
+      "loudly instead of inventing a number when a venue is not in the database.",
+    input_schema: {
+      type: "object",
+      properties: {
+        home_team: { type: "string" },
+        away_team: { type: "string", description: "Needed to price the altitude differential. A high-altitude visitor carries its own acclimation." },
+        fcs: { type: "boolean", description: "True for an FCS home venue, which uses a higher baseline." },
+      },
+      required: ["home_team"],
+      additionalProperties: false,
+    },
+  },
+  {
+    name: "reality_check",
+    description:
+      "What a win-loss record actually proves, and how long it takes to prove an edge. Use this whenever " +
+      "a user presents a record, is on tilt, is chasing, or believes a cold streak means the process is " +
+      "broken. Returns the confidence interval on the true hit rate, a one-sided p-value against " +
+      "break-even, how many bets a claimed ROI would need, and a Monte Carlo of the drawdown a genuinely " +
+      "winning bettor still experiences. Read 'proves_an_edge' as 'clears a one-sided test at this alpha', " +
+      "NOT as 'has an edge' — and remember the p-value assumes this was the only record ever tested.",
+    input_schema: {
+      type: "object",
+      properties: {
+        wins: { type: "number" },
+        losses: { type: "number" },
+        american: { type: "number", description: "Average price of the bets. Default -110." },
+        true_prob: { type: "number", description: "A hit rate to run the sample-size and drawdown math on, e.g. 0.55." },
+        n_bets: { type: "number", description: "Horizon for the drawdown simulation. Default 500." },
+      },
+      required: [],
+      additionalProperties: false,
+    },
+  },
+  {
+    name: "clv",
+    description:
+      "Closing line value: compare the price you took against the closing price. This is the only honest " +
+      "scoreboard — short-run win/loss is noise. Reports the probability points gained or lost and the EV " +
+      "of the bet measured against the close.",
+    input_schema: {
+      type: "object",
+      properties: {
+        taken_american: { type: "number", description: "The price you actually got." },
+        closing_american: { type: "number", description: "The closing price at the same book or the sharp book." },
+      },
+      required: ["taken_american", "closing_american"],
+      additionalProperties: false,
+    },
+  },
 ];
 
 const r2 = (x: number) => Math.round(x * 10000) / 10000;
 const am = (p: number) => (p > 0 && p < 1 ? Math.round(O.probToAmerican(p)) : null);
 
-export function runTool(name: string, input: Record<string, unknown>): unknown {
+/**
+ * The tool surface grew inconsistent naming (`home_name` in simulate_game vs
+ * `home_team` elsewhere). Rather than let a plausible-but-wrong key through,
+ * accept both spellings and validate required fields loudly.
+ */
+const ALIASES: Record<string, string[]> = {
+  home_name: ["home_team"],
+  away_name: ["away_team"],
+  home_team: ["home_name"],
+  away_team: ["away_name"],
+  prices: ["legs"],
+};
+
+function normalizeInput(name: string, input: Record<string, unknown>): Record<string, unknown> {
+  const def = DESK_TOOLS.find((d) => d.name === name);
+  if (!def) throw new Error(`Unknown tool: ${name}`);
+  const schema = def.input_schema as { properties?: Record<string, unknown>; required?: string[] };
+  const props = Object.keys(schema.properties ?? {});
+  const out: Record<string, unknown> = { ...input };
+
+  // Fill a declared field from an accepted alias when the caller used the other spelling.
+  for (const prop of props) {
+    if (out[prop] !== undefined) continue;
+    for (const alt of ALIASES[prop] ?? []) {
+      if (out[alt] !== undefined) { out[prop] = out[alt]; break; }
+    }
+  }
+
+  const missing = (schema.required ?? []).filter((k) => out[k] === undefined || out[k] === null);
+  if (missing.length) {
+    throw new Error(
+      `Tool '${name}' is missing required field(s): ${missing.join(", ")}. ` +
+        `Accepted fields: ${props.join(", ")}. ` +
+        "Re-call the tool with those fields rather than reporting a number without them.",
+    );
+  }
+  return out;
+}
+
+export function runTool(name: string, rawInput: Record<string, unknown>): unknown {
+  const input = normalizeInput(name, rawInput);
   switch (name) {
     case "devig": {
       const { labels, prices, method } = input as { labels: string[]; prices: number[]; method?: O.DevigMethod };
@@ -359,6 +518,60 @@ export function runTool(name: string, input: Record<string, unknown>): unknown {
         reserved_for_unlisted: reserve, players: priced,
         ev_range_pts: r2(evRange),
         warnings: warnings.length ? warnings : ["Board looks internally consistent and reasonably complete."],
+      };
+    }
+    case "ratings_spread": {
+      const i = input as Record<string, any>;
+      return R.ratingsSpread({
+        homeTeam: i.home_team, awayTeam: i.away_team,
+        homeRating: i.home_rating ?? null, awayRating: i.away_rating ?? null,
+        ratingName: i.rating_name ?? "rating",
+        hfa: i.hfa, neutralSite: i.neutral_site ?? false,
+        marketSpread: i.market_spread ?? null, sport: i.sport ?? "cfb",
+      });
+    }
+    case "project_both": {
+      const i = input as Record<string, any>;
+      return R.projectBoth({
+        homeTeam: i.home_team, awayTeam: i.away_team,
+        homeOff: i.home_off, homeDefAllowed: i.home_def_allowed,
+        awayOff: i.away_off, awayDefAllowed: i.away_def_allowed,
+        leagueMean: i.league_mean, sport: i.sport ?? "nfl",
+        marketTotal: i.market_total ?? null, gate: i.gate ?? 10,
+        unavailableInputs: i.unavailable_inputs ?? [],
+      });
+    }
+    case "venue_edge": {
+      const i = input as { home_team: string; away_team?: string; fcs?: boolean };
+      return V.homeEdge(i.home_team, i.away_team, i.fcs ?? false);
+    }
+    case "reality_check": {
+      const i = input as Record<string, any>;
+      const out: Record<string, unknown> = {};
+      const american = i.american ?? -110;
+      if (i.wins != null && i.losses != null) {
+        out.record = B.realityCheck(i.wins, i.losses, american);
+        out.how_to_read =
+          "'proves_an_edge' means the record clears a one-sided binomial test at alpha=0.05. It does " +
+          "NOT mean an edge is established: the interval is usually tens of points wide, and the " +
+          "p-value assumes this was the only record you were ever going to test, which is never true " +
+          "of a streak someone chose to show you.";
+      }
+      const p = i.true_prob ?? 0.55;
+      out.sample_size_needed = B.requiredSampleSize(p, american);
+      out.drawdown = B.drawdownSimulation(p, i.n_bets ?? 500, american);
+      out.seven_bet_losing_streak_prob = r2(B.losingStreakProbability(p, 7, i.n_bets ?? 500));
+      return out;
+    }
+    case "clv": {
+      const i = input as { taken_american: number; closing_american: number };
+      const c = O.clv(i.taken_american, i.closing_american);
+      return {
+        ...c,
+        clv_pts: r2(c.clvPts), ev_vs_close_pct: r2(c.evVsClose * 100),
+        note: c.beatClose
+          ? "Beat the close. This is the signal that matters; results are noise by comparison."
+          : "Did not beat the close. Consistently closing worse than you bet means no edge, whatever the record says.",
       };
     }
     default:

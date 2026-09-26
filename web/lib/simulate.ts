@@ -243,6 +243,11 @@ export function impliedMean(line: number, cv: number): number {
   return line * Math.exp(Math.log(1 + cv * cv) / 2);
 }
 
+/** Standard normal CDF. Exported so other modules need not re-derive erf. */
+export function normCdf(z: number): number {
+  return 0.5 * (1 + erf(z / Math.SQRT2));
+}
+
 function erf(x: number): number {
   // Abramowitz & Stegun 7.1.26
   const s = x < 0 ? -1 : 1;

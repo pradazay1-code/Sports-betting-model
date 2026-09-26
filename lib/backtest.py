@@ -317,8 +317,14 @@ def reality_check(wins: int, losses: int, american: float = -110) -> dict:
     What a hot record actually proves. Usually: nothing.
 
     Takes a W-L and reports the confidence interval on the true hit rate, and
-    whether the record is even distinguishable from a break-even bettor. A 12-3
-    run looks spectacular and is entirely consistent with having no edge.
+    whether the record is even distinguishable from a break-even bettor.
+
+    Read `proves_an_edge` as "clears a one-sided test at this alpha," not as
+    "has an edge." 12-3 clears it (p = 0.027) while leaving the true rate
+    anywhere in 54.8%-93.0%; 11-4 does not (p = 0.084). Both are far too small
+    to establish an ROI, and the p-value assumes this was the only record you
+    were ever going to test, which for a hot streak someone chose to show you
+    is never true.
     """
     n = wins + losses
     if n == 0:
