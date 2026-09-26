@@ -1,5 +1,10 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "nextjs",
-  "functions": { "app/api/chat/route.ts": { "maxDuration": 800 } }
+  "functions": {
+    "app/api/chat/route.ts": {
+      "__comment": "Hobby caps at 300s, Pro at 800s. Over your plan's cap the deploy FAILS. Raise to 800 on Pro, and match app/api/chat/route.ts.",
+      "maxDuration": 300
+    }
+  }
 }

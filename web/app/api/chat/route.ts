@@ -3,10 +3,12 @@ import { SYSTEM_PROMPT, contextPreamble } from "@/lib/prompt";
 import { DESK_TOOLS, runTool } from "@/lib/tools";
 
 export const runtime = "nodejs";
-// A full FBS+FCS slate is a long agentic run. Vercel caps this per plan:
-// Hobby 300s, Pro 800s. Exceeding the plan cap fails the deploy, so keep this
-// at or below what your plan allows.
-export const maxDuration = 800;
+// A full FBS+FCS slate is a long agentic run, so this wants to be as high as the
+// plan allows. Vercel caps it per plan: Hobby 300s, Pro 800s. Exceeding your
+// plan's cap makes the DEPLOY FAIL rather than clamping, so this defaults to the
+// Hobby-safe 300. On Pro, raise it to 800 here AND in vercel.json — a big slate
+// will use it. Next.js reads this statically, so it must stay a literal.
+export const maxDuration = 300;
 
 const MODEL = "claude-opus-5";
 /** Server-side web search: Anthropic runs it, so the deployed agent researches like the CLI does. */

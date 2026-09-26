@@ -27,9 +27,11 @@ Get a key at [platform.claude.com](https://platform.claude.com) → API keys.
 
 ### One thing to check before you deploy
 
-`app/api/chat/route.ts` sets `maxDuration = 800`. **Vercel caps this by plan —
-300s on Hobby, 800s on Pro.** Exceeding your plan's cap fails the deploy. On
-Hobby, change it to `300` in both `route.ts` and `vercel.json`.
+`app/api/chat/route.ts` sets `maxDuration = 300`, which is the **Hobby-safe**
+value, so it deploys as-is on any plan. **Vercel caps this by plan — 300s on
+Hobby, 800s on Pro — and exceeding your plan's cap makes the deploy fail rather
+than clamping.** On Pro, raise it to `800` in both `route.ts` and `vercel.json`;
+a full slate will use it.
 
 A full FBS+FCS slate is a genuinely long agentic run — dozens of searches and
 many tool calls. On Hobby's 300s ceiling, ask for one conference or one sport at
