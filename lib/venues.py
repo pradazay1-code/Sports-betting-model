@@ -141,6 +141,12 @@ VENUES: tuple[Venue, ...] = (
     Venue("Nottingham Field", "Northern Colorado", 40.4050, -104.6970, 4675, 8533, "turf", "open", 2.4,
           "FCS. Greeley sits high - UNC is NOT a sea-level visitor at Wyoming."),
     Venue("Holt Arena", "Idaho State", 42.8610, -112.4340, 4450, 12000, "turf", "dome", 2.6, "FCS, indoor."),
+    # Added 2026-09-26: its absence made home_edge credit Montana State with +1.0 of
+    # altitude against NAU by defaulting the visitor to sea level. NAU plays HIGHER
+    # than Bozeman, so the real differential is negative and the edge is zero.
+    Venue("Walkup Skydome", "Northern Arizona", 35.1810, -111.6540, 6900, 10000, "turf", "dome", 2.4,
+          "FCS. Flagstaff is among the highest elevations in the country - NAU carries its own "
+          "acclimation everywhere and NEUTRALISES the altitude edge of other mountain hosts. Indoor."),
     Venue("Washington-Grizzly Stadium", "Montana", 46.8590, -113.9850, 3200, 25217, "turf", "open", 3.6,
           "FCS elite. One of the best home environments at any level."),
     Venue("Roos Field", "Eastern Washington", 47.4920, -117.5830, 1900, 11702, "turf", "open", 2.8,

@@ -80,7 +80,16 @@ ACTION = [
   "N wind 10-20 gusting ~25 at Beaver Stadium. BUT 44.5 is already 7 pts below every comparable "
   "number on the board - the wind is largely in the price. Fair is exactly 50/50.","1u max","Low",
   "Gusts under 10 at kick makes 44.5 a live OVER"),
- (6,"Money games (Pitt/FSU/Duke/SMU)","various","Structural","Favorite 2H under / team-total under - NOT the side",
+ (6,"FCS: Chattanooga @ The Citadel","14:00","Shop","Citadel +11.5 (not +10.5), or Chattanooga -10.5 (not -11.5)",
+  "Two books are on different numbers: CHAT -11.5 (-111) and CIT +10.5 (-132). The market is 10.5/11.5, "
+  "so one full point is available on whichever side you want. Pure shopping.","1u (FCS cap)","Low-Med",
+  "Both books converging to 11"),
+ (7,"FCS: Northern Arizona @ Montana State","15:00","Situational","No bet - but do NOT add altitude for Montana State",
+  "My own venue engine initially credited MSU with +1.0 of altitude by defaulting NAU to sea level. NAU plays "
+  "in Flagstaff at ~6,900ft - HIGHER than Bozeman's 4,820. Real differential is -2,080ft, so the altitude edge "
+  "is ZERO. MSU gets crowd only (+3.4). Most models would add a point that does not exist.","-","Medium",
+  "Nothing - this is a correction, not a bet"),
+ (8,"Money games (Pitt/FSU/Duke/SMU)","various","Structural","Favorite 2H under / team-total under - NOT the side",
   "FBS-vs-FCS: big favorites empty the bench. Implied favorite team totals are Pitt 58.5, FSU 54.5, "
   "Duke 53.0, SMU 47.0. Those are 1st-half numbers being priced as full-game.","1u, thin data","Low",
   "A backup QB who can actually play, or a starter left in for 4 quarters"),
@@ -186,6 +195,40 @@ for r in range(2, ws5.max_row+1):
     if a.value and not ws5.cell(row=r,column=2).value:
         a.font = Font(bold=True, color="1F3864", size=11); a.fill = SUB
     ws5.cell(row=r,column=2).alignment = Alignment(wrap_text=True, vertical="top")
+
+
+# ============ SHEET: FCS ============
+import json as _json
+fcs = _json.load(open("/home/user/Sports-betting-model/reports/cfb/computed_fcs_2026-09-26.json"))
+exec(open("/home/user/Sports-betting-model/reports/cfb/slate_fcs_2026-09-26.py").read())
+ws6 = wb.create_sheet("FCS")
+FC = [("Kick ET","et"),("Away","away"),("Home","home"),("Conf","conf"),
+      ("Home Spread","spread_home"),("Total","total"),("Favorite","fav"),("Margin","margin"),
+      ("PROJ SCORE (market-implied)","proj_score"),("Proj Home","proj_home"),("Proj Away","proj_away"),
+      ("P(fav win) %","p_fav_win"),("ML fair home %","ml_fair_home_pct"),("ML fair home (Am)","ml_fair_home_am"),
+      ("ML hold %","ml_hold_pct"),("Total fair OVER %","tot_fair_over_pct"),("Total hold %","tot_hold_pct"),
+      ("Venue","venue"),("HFA crowd","hfa_crowd"),("HFA altitude","hfa_alt"),("HFA total","hfa_total"),
+      ("Confidence","confidence"),("Edge type","edge_type"),("BEST BET","best_bet"),
+      ("Stake cap","stake_cap"),("Notes","notes")]
+ws6.append([c[0] for c in FC])
+for r in sorted(fcs, key=lambda x:(-x["conf_score"], x["et"])):
+    ws6.append([r.get(k) for _,k in FC])
+style_header(ws6, len(FC))
+ci = [k for _,k in FC].index("confidence")+1
+for row in range(2, ws6.max_row+1):
+    val = ws6.cell(row=row, column=ci).value
+    if val: ws6.cell(row=row, column=ci).fill = {"High":GOOD,"Medium":WARN,"Low":BAD}[val]
+    ws6.cell(row=row, column=9).font = Font(bold=True, size=10)
+ws6.append([])
+ws6.append(["IDENTIFIED BUT NO MARKET RETRIEVABLE - listed, never estimated:"])
+for a_,h_,c_ in FCS_NO_MARKET:
+    ws6.append(["", a_, h_, c_, None, None, None, None, "no market retrieved"])
+ws6.append([])
+ws6.append(["FBS-vs-FCS money games are on the Slate tab: " + "; ".join(MONEY_GAMES)])
+ws6.append(["FCS stakes are capped at 1u per skills/sport-fcs.md - 63 scholarships vs 85, and the data is genuinely thin."])
+ws6.append(["Ivy and Pioneer leagues are NON-SCHOLARSHIP and are effectively a different sport. Princeton/Dartmouth/Penn/Georgetown games carry that caveat."])
+ws6.append(["Margin SD used for FCS win probability: 17.5 pts (a PRIOR, wider than the 16.5 used for FBS - FCS talent spread is larger)."])
+autosize(ws6)
 
 out = "/home/user/Sports-betting-model/reports/cfb/CFB_Slate_2026-09-26.xlsx"
 wb.save(out)
