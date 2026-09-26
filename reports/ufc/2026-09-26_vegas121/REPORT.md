@@ -42,7 +42,7 @@
 |---|---|---|---|---|---|
 | 1 | Rosas Jr. vs Barcelos (5 rds) | **Rosas Jr.** (57.7%) | 5, full 25:00 | Decision | **Barcelos ML +150** (BetRivers), 0.75u |
 | 2 | Pérez vs Dumont | **Pérez** (57.9%) | 3 | Decision | Pérez by decision, **only at +108 or better** |
-| 3 | Bellato vs Edwards | **Bellato** (62.5%) | Ends R2 | KO/TKO | Bellato by KO/TKO, **only at +191 or better** |
+| 3 | Bellato vs Edwards | **Bellato** (62.5%) | Ends R2 | KO/TKO | Bellato by KO/TKO, **only at +197 or better** |
 | 4 | Hernandez vs Dumas | **Hernandez** (68.7%) | Ends R1 | Submission | Hernandez by sub, **only at +176 or better** |
 | 5 | Osmanli vs Akylbek | **Osmanli** (72.3%) | Ends R2 | Submission | **Osmanli by submission +330**, 0.5u |
 | 6 | Black vs Amaya | **Black** (66.1%) | 3 | Decision | Black by decision, **only at +137 or better** |
@@ -73,9 +73,42 @@
 **Trigger-only plays.** These method prices were not retrieved. Bet one only if you see the price listed or better; each is capped at 0.5u.
 - Hernandez by submission +176 (fair +170). Alternatively, Hernandez inside the distance at −163 (fair −172).
 - Pérez by decision +108 (fair +104).
-- Bellato by KO/TKO +191 (fair +186).
+- Bellato by KO/TKO +197 (fair +191).
 - Tina Black by decision +137 (fair +133).
 - Castañeda/Alatengheili goes the distance −162 (fair −170).
+
+---
+
+## Which fights end by KO/TKO
+
+This comes from `ko.py`. For each fight, P(KO) = P(A wins) x P(KO | A wins) + P(B wins) x P(KO | B wins).
+- The win probabilities are the devigged market `[MODEL]`.
+- The KO-given-win shares are `[READ]`. Only one KO method price could be retrieved: Covers' implied Nakamura KO, about 34% with vig. That one anchors fight 7.
+
+The card expects **3.6 KO/TKO finishes out of 12.** The 2026 UFC base rate (37.4%) would give 4.5. The card runs low because so many of these fighters are grapplers.
+
+| Fight | P(KO/TKO) | Who lands it | Fair: fight ends by KO |
+|---|---|---|---|
+| Bellato vs Edwards | **49%** | Bellato 34%, Edwards 15% | +103 |
+| Hernandez vs Dumas | 40% | Hernandez 25%, Dumas 14% (a submission is likelier) | +153 |
+| Harrell vs Brener | 38% | Harrell 24%, Brener 14% | +163 |
+| Nakamura vs Hiestand | 36% | Nakamura 30% | +176 |
+| Vieira vs Bryczek | 33% | Bryczek 28%, Vieira 5% | +201 |
+| Jackson vs Simón | 30% | Jackson 26% | +236 |
+| Jauregui vs Demopoulos | 30% | Jauregui 29% | +237 |
+| Castañeda vs Alatengheili | 25% | Castañeda 16%, Alatengheili 10% | +293 |
+| Black vs Amaya | 24% | Amaya 14%, Black 10% | +326 |
+| Rosas vs Barcelos | 21% | Barcelos 13%, Rosas 9% | +368 |
+| Osmanli vs Akylbek | 21% | Osmanli 18% | +380 |
+| Pérez vs Dumont | 11% | Dumont 8% | +784 |
+
+**KO trigger prices.** None of these props were retrieved. Each price below is the worst price at which the bet still clears 2% EV. Each is capped at 0.5u, because the KO share behind it is a `[READ]`.
+- Bellato/Edwards ends by KO/TKO (either fighter): +107
+- Bellato by KO/TKO: +197
+- Bryczek by KO/TKO: +262
+- Nakamura by KO/TKO: +241
+- Jauregui by KO/TKO: +248
+- Jackson by KO/TKO: +286
 
 ---
 
@@ -154,7 +187,7 @@
 **`[READ]`:** Bellato has the power and the experience. Edwards's clinch-and-grind approach can drag this into R2 and R3, which is why I'm not forcing the R1 under. Light heavyweight finish rates are high on both sides.
 
 **Pick:** Bellato by KO/TKO, R2.
-**Bet:** Bellato by KO/TKO at +191 or better; otherwise no bet.
+**Bet:** Bellato by KO/TKO at +197 or better; otherwise no bet.
 
 ### 4. Luis Hernandez (−238) vs Sedriques Dumas (+195): light heavyweight
 

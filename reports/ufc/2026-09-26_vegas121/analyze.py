@@ -109,7 +109,7 @@ CANDIDATES = [
          p_lo=0.45, p=0.49, p_hi=0.53,
          why="0.58 win (mkt) x ~0.85 dec|win. All 6 of Perez's UFC wins are decisions; Dumont is decision-heavy."),
     dict(n=3, bet="Bellato by KO/TKO", offered=None, book="not retrieved",
-         p_lo=0.30, p=0.35, p_hi=0.40,
+         p_lo=0.30, p=0.344, p_hi=0.40,
          why="0.63 win (mkt) x ~0.55 KO|win. 8 KO wins incl. 2:42 R1 KO in March; Edwards absorbed heavy volume vs Bukauskas."),
     dict(n=6, bet="Tina Black by decision", offered=None, book="not retrieved",
          p_lo=0.38, p=0.43, p_hi=0.48,
