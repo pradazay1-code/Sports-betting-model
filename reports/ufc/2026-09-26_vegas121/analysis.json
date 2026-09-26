@@ -1,0 +1,524 @@
+{
+  "fights": [
+    {
+      "n": 1,
+      "a": "Raul Rosas Jr.",
+      "b": "Raoni Barcelos",
+      "pa": 0.5767508206717648,
+      "pb": 0.4232491793282353,
+      "fair_a": -136.27,
+      "fair_b": 136.27,
+      "hold": 0.04320276497695863,
+      "method_spread": 0.004691185111300955,
+      "spread_flag": false,
+      "best_a": [
+        -148,
+        "consensus"
+      ],
+      "best_b": [
+        150,
+        "BetRivers"
+      ],
+      "ev_best_a": -0.0335526788743401,
+      "ev_best_b": 0.058122948320588286,
+      "src": "Covers consensus -148/+124; DK -155/+130; BetRivers Barcelos +150; Kalshi 59/41; opened -210/+177",
+      "card": "Main (5 rds)",
+      "wc": "BW"
+    },
+    {
+      "n": 2,
+      "a": "Ailin Perez",
+      "b": "Norma Dumont",
+      "pa": 0.5794622635188946,
+      "pb": 0.4205377364811054,
+      "fair_a": -137.79,
+      "fair_b": 137.79,
+      "hold": 0.04444444444444451,
+      "method_spread": 0.004994178412511596,
+      "spread_flag": false,
+      "best_a": [
+        -138,
+        "DK"
+      ],
+      "best_b": [
+        135,
+        "BetMGM"
+      ],
+      "ev_best_a": -0.0006375455253845308,
+      "ev_best_b": -0.011736319269402329,
+      "src": "DK -138/+117; BetMGM -165/+135; others -155/+130",
+      "card": "Co-main",
+      "wc": "W-BW"
+    },
+    {
+      "n": 3,
+      "a": "Rodolfo Bellato",
+      "b": "Christian Edwards",
+      "pa": 0.6246882706741272,
+      "pb": 0.3753117293258727,
+      "fair_a": -166.45,
+      "fair_b": 166.45,
+      "hold": 0.041263517359134916,
+      "method_spread": 0.0073064723685793975,
+      "spread_flag": false,
+      "best_a": [
+        -170,
+        "best of range"
+      ],
+      "best_b": [
+        155,
+        "best of range"
+      ],
+      "ev_best_a": -0.00784804069403311,
+      "ev_best_b": -0.04295509021902466,
+      "src": "aggregated -180/+151; books -170 to -190 on Bellato",
+      "card": "Main",
+      "wc": "LHW"
+    },
+    {
+      "n": 4,
+      "a": "Luis Hernandez",
+      "b": "Sedriques Dumas",
+      "pa": 0.6865134322818562,
+      "pb": 0.3134865677181438,
+      "fair_a": -218.99,
+      "fair_b": 218.99,
+      "hold": 0.04312506268177696,
+      "method_spread": 0.011482185286375013,
+      "spread_flag": false,
+      "best_a": [
+        -225,
+        "book"
+      ],
+      "best_b": [
+        195,
+        "Covers"
+      ],
+      "ev_best_a": -0.008369486703985407,
+      "ev_best_b": -0.0752146252314757,
+      "src": "Covers -238/+195; others -225/+185; open -192/+160",
+      "card": "Main",
+      "wc": "LHW"
+    },
+    {
+      "n": 5,
+      "a": "Mahammadali Osmanli",
+      "b": "Ilimbek Akylbek",
+      "pa": 0.7234217715810802,
+      "pb": 0.27657822841891966,
+      "fair_a": -261.56,
+      "fair_b": 261.56,
+      "hold": 0.04329004329004338,
+      "method_spread": 0.013878203116350019,
+      "spread_flag": false,
+      "best_a": [
+        -285,
+        "DK"
+      ],
+      "best_b": [
+        240,
+        "book"
+      ],
+      "ev_best_a": -0.022746027864154805,
+      "ev_best_b": -0.05963402337567314,
+      "src": "DK -285/+230; Covers -298/+240; opened -400",
+      "card": "Main (TUF final)",
+      "wc": "BW"
+    },
+    {
+      "n": 6,
+      "a": "Tina Black",
+      "b": "Melissa Amaya",
+      "pa": 0.6606280357167834,
+      "pb": 0.3393719642832167,
+      "fair_a": -194.66,
+      "fair_b": 194.66,
+      "hold": 0.03973819541841994,
+      "method_spread": 0.009099258738366256,
+      "spread_flag": false,
+      "best_a": [
+        -205,
+        "book"
+      ],
+      "best_b": [
+        184,
+        "book"
+      ],
+      "ev_best_a": -0.017114385884785643,
+      "ev_best_b": -0.03618362143566467,
+      "src": "-205/+170, -210/+176, -219/+184; opened near pick'em",
+      "card": "Main (TUF final)",
+      "wc": "W-SW"
+    },
+    {
+      "n": 7,
+      "a": "Rinya Nakamura",
+      "b": "Brady Hiestand",
+      "pa": 0.748780052076275,
+      "pb": 0.2512199479237251,
+      "fair_a": -298.06,
+      "fair_b": 298.06,
+      "hold": 0.0424836601307188,
+      "method_spread": 0.015237732327058662,
+      "spread_flag": true,
+      "best_a": [
+        -325,
+        "book"
+      ],
+      "best_b": [
+        300,
+        "book"
+      ],
+      "ev_best_a": -0.02082608574640965,
+      "ev_best_b": 0.004879791694900382,
+      "src": "-325/+260 (BetMGM/Covers); up to -380/+300; opened -500",
+      "card": "Prelim",
+      "wc": "BW"
+    },
+    {
+      "n": 8,
+      "a": "Rodolfo Vieira",
+      "b": "Robert Bryczek",
+      "pa": 0.6239618222971441,
+      "pb": 0.37603817770285586,
+      "fair_a": -165.93,
+      "fair_b": 165.93,
+      "hold": 0.05728607232366634,
+      "method_spread": 0.01000990898864429,
+      "spread_flag": false,
+      "best_a": [
+        -185,
+        "Covers"
+      ],
+      "best_b": [
+        145,
+        "Covers"
+      ],
+      "ev_best_a": -0.03876151700169683,
+      "ev_best_b": -0.07870646462800313,
+      "src": "Covers -185/+145; OPENED Bryczek -210 / Vieira +177 (full flip)",
+      "card": "Prelim",
+      "wc": "MW"
+    },
+    {
+      "n": 9,
+      "a": "Josiah Harrell",
+      "b": "Elves Brener",
+      "pa": 0.5345862274328562,
+      "pb": 0.4654137725671439,
+      "fair_a": -114.86,
+      "fair_b": 114.86,
+      "hold": 0.04336043360433606,
+      "method_spread": 0.0021186949653236864,
+      "spread_flag": false,
+      "best_a": [
+        -122,
+        "book"
+      ],
+      "best_b": [
+        110,
+        "book"
+      ],
+      "ev_best_a": -0.027228340245130433,
+      "ev_best_b": -0.02263107760899774,
+      "src": "-125/+105; -130/+110; opened -130/+111",
+      "card": "Prelim",
+      "wc": "LW"
+    },
+    {
+      "n": 10,
+      "a": "Montel Jackson",
+      "b": "Ricky Simon",
+      "pa": 0.6600662555461934,
+      "pb": 0.3399337444538067,
+      "fair_a": -194.17,
+      "fair_b": 194.17,
+      "hold": 0.04105571847507328,
+      "method_spread": 0.009362030194080662,
+      "spread_flag": false,
+      "best_a": [
+        -205,
+        "book"
+      ],
+      "best_b": [
+        185,
+        "book"
+      ],
+      "ev_best_a": -0.017950205162980626,
+      "ev_best_b": -0.03118882830665093,
+      "src": "-205/+173, -210/+175, -225/+185",
+      "card": "Prelim",
+      "wc": "BW"
+    },
+    {
+      "n": 11,
+      "a": "John Castaneda",
+      "b": "Alatengheili",
+      "pa": 0.7831282578032954,
+      "pb": 0.21687174219670452,
+      "fair_a": -361.1,
+      "fair_b": 361.1,
+      "hold": 0.04188223700418825,
+      "method_spread": 0.017226153286861362,
+      "spread_flag": true,
+      "best_a": [
+        -360,
+        "book"
+      ],
+      "best_b": [
+        310,
+        "book"
+      ],
+      "ev_best_a": 0.0006638849708773265,
+      "ev_best_b": -0.11082585699351155,
+      "src": "-395/+310, -400/+300, -360/+280",
+      "card": "Prelim",
+      "wc": "BW"
+    },
+    {
+      "n": 12,
+      "a": "Yazmin Jauregui",
+      "b": "Vanessa Demopoulos",
+      "pa": 0.889463873092117,
+      "pb": 0.11053612690788286,
+      "fair_a": -804.68,
+      "fair_b": 804.68,
+      "hold": 0.037931034482758585,
+      "method_spread": 0.02235423854062213,
+      "spread_flag": true,
+      "best_a": [
+        -850,
+        "book"
+      ],
+      "best_b": [
+        675,
+        "book"
+      ],
+      "ev_best_a": -0.005893318308810347,
+      "ev_best_b": -0.14334501646390785,
+      "src": "-900/+575, -850/+625, -1050/+675; opened -1000",
+      "card": "Prelim",
+      "wc": "W-SW"
+    }
+  ],
+  "totals": [
+    {
+      "n": 1,
+      "line": 4.5,
+      "over": -125,
+      "under": -105,
+      "p_over": 0.5224258196571057,
+      "p_under": 0.47757418034289434,
+      "src": "MMA Mania odds table"
+    },
+    {
+      "n": 1,
+      "line": 3.5,
+      "over": -180,
+      "under": null,
+      "p_over": null,
+      "p_under": null,
+      "src": "DK over 3.5 -180 (under not retrieved); Lineups: 64.3% over 3.5"
+    },
+    {
+      "n": 4,
+      "line": 1.5,
+      "over": 165,
+      "under": -215,
+      "p_over": 0.3427285404999771,
+      "p_under": 0.6572714595000227,
+      "src": "Clutchpoints/BodyLock"
+    },
+    {
+      "n": 5,
+      "line": 1.5,
+      "over": -175,
+      "under": 135,
+      "p_over": 0.6087266696419598,
+      "p_under": 0.39127333035804024,
+      "src": "DK"
+    },
+    {
+      "n": 5,
+      "line": 2.5,
+      "over": -105,
+      "under": -125,
+      "p_over": 0.47757418034289434,
+      "p_under": 0.5224258196571057,
+      "src": "MMA Mania odds table"
+    },
+    {
+      "n": 8,
+      "line": 1.5,
+      "over": -120,
+      "under": -110,
+      "p_over": 0.5112040114787546,
+      "p_under": 0.4887959885212455,
+      "src": "MMA Mania odds table"
+    },
+    {
+      "n": 10,
+      "line": 2.5,
+      "over": -190,
+      "under": 145,
+      "p_over": 0.627503342529933,
+      "p_under": 0.37249665747006705,
+      "src": "book via Clutchpoints"
+    },
+    {
+      "n": 12,
+      "line": 2.5,
+      "over": -230,
+      "under": 175,
+      "p_over": 0.6718739975835087,
+      "p_under": 0.32812600241649126,
+      "src": "book via Clutchpoints"
+    }
+  ],
+  "candidates": [
+    {
+      "n": 5,
+      "bet": "Osmanli by submission",
+      "offered": 330,
+      "book": "per Clutchpoints (book unnamed)",
+      "p_lo": 0.21,
+      "p": 0.26,
+      "p_hi": 0.3,
+      "why": "0.72 win (mkt) x ~0.62 finish|win x ~0.58 sub share. 8 of 12 wins by sub; both TUF wins by choke; Akylbek's two recent losses were TKOs, so the sub share is shaded down from his career 80%.",
+      "fair": 284.62,
+      "trigger": 292.31,
+      "ev": 0.11799999999999988,
+      "ev_lo": -0.09700000000000009,
+      "ev_hi": 0.2899999999999998,
+      "kelly_units": 0.89
+    },
+    {
+      "n": 1,
+      "bet": "Rosas/Barcelos OVER 4.5 rounds",
+      "offered": -125,
+      "book": "per MMA Mania table",
+      "p_lo": 0.555,
+      "p": 0.585,
+      "p_hi": 0.61,
+      "why": "Market: 64% over 3.5, ~54% over 4.5 -> it prices ~10% of a finish in R4-early R5. Barcelos has reached the final round 6 straight; Rosas's last 3 and Barcelos's last 3 wins all went to decision. The age-39 late fade is the real risk and is why this is not higher.",
+      "fair": -140.96,
+      "trigger": -134.48,
+      "ev": 0.052999999999999936,
+      "ev_lo": -0.0009999999999998899,
+      "ev_hi": 0.09800000000000009,
+      "kelly_units": 1.66
+    },
+    {
+      "n": 1,
+      "bet": "Barcelos ML",
+      "offered": 150,
+      "book": "BetRivers (per Lineups)",
+      "p_lo": 0.41,
+      "p": 0.43,
+      "p_hi": 0.45,
+      "why": "Market fair ~41-42% (soft consensus and Kalshi agree). +1-3 pts for TDD vs Rosas's 54%-accurate shots and Rosas's 1.34 SLpM / 25% TDD; -1-2 pts for 39 y/o in a first 25-minute fight.",
+      "fair": 132.56,
+      "trigger": 137.21,
+      "ev": 0.07499999999999996,
+      "ev_lo": 0.02499999999999991,
+      "ev_hi": 0.125,
+      "kelly_units": 1.25
+    },
+    {
+      "n": 4,
+      "bet": "Hernandez by submission",
+      "offered": null,
+      "book": "not retrieved",
+      "p_lo": 0.32,
+      "p": 0.37,
+      "p_hi": 0.42,
+      "why": "0.685 win (mkt) x ~0.55 sub|win. Hernandez 5 of 8 by sub; Dumas's 3 sub losses were all chokes inside R1-R2 (McVey D'arce 2:14 R1, Johnson guillotine R2, Fremd guillotine R2); 33% UFC TDD.",
+      "fair": 170.27,
+      "trigger": 175.68,
+      "ev": null,
+      "ev_lo": null,
+      "ev_hi": null,
+      "kelly_units": null
+    },
+    {
+      "n": 2,
+      "bet": "Perez by decision",
+      "offered": null,
+      "book": "not retrieved",
+      "p_lo": 0.45,
+      "p": 0.49,
+      "p_hi": 0.53,
+      "why": "0.58 win (mkt) x ~0.85 dec|win. All 6 of Perez's UFC wins are decisions; Dumont is decision-heavy.",
+      "fair": 104.08,
+      "trigger": 108.16,
+      "ev": null,
+      "ev_lo": null,
+      "ev_hi": null,
+      "kelly_units": null
+    },
+    {
+      "n": 3,
+      "bet": "Bellato by KO/TKO",
+      "offered": null,
+      "book": "not retrieved",
+      "p_lo": 0.3,
+      "p": 0.35,
+      "p_hi": 0.4,
+      "why": "0.63 win (mkt) x ~0.55 KO|win. 8 KO wins incl. 2:42 R1 KO in March; Edwards absorbed heavy volume vs Bukauskas.",
+      "fair": 185.71,
+      "trigger": 191.43,
+      "ev": null,
+      "ev_lo": null,
+      "ev_hi": null,
+      "kelly_units": null
+    },
+    {
+      "n": 6,
+      "bet": "Tina Black by decision",
+      "offered": null,
+      "book": "not retrieved",
+      "p_lo": 0.38,
+      "p": 0.43,
+      "p_hi": 0.48,
+      "why": "0.665 win (mkt) x ~0.65 dec|win. Black is a volume-light decision fighter (2.4 SLpM, last win UD).",
+      "fair": 132.56,
+      "trigger": 137.21,
+      "ev": null,
+      "ev_lo": null,
+      "ev_hi": null,
+      "kelly_units": null
+    },
+    {
+      "n": 11,
+      "bet": "Castaneda/Alatengheili goes the distance",
+      "offered": null,
+      "book": "not retrieved",
+      "p_lo": 0.58,
+      "p": 0.63,
+      "p_hi": 0.68,
+      "why": "Consensus 'destined to go the distance'; Castaneda volume-decision profile; Alatengheili inactive.",
+      "fair": -170.27,
+      "trigger": -161.54,
+      "ev": null,
+      "ev_lo": null,
+      "ev_hi": null,
+      "kelly_units": null
+    },
+    {
+      "n": 12,
+      "bet": "Demopoulos ML",
+      "offered": 675,
+      "book": "best retrieved",
+      "p_lo": 0.1,
+      "p": 0.12,
+      "p_hi": 0.14,
+      "why": "Market fair ~12%. Jauregui's 2-yr layoff and last loss (R1 RNC) push up; Demopoulos age 38, 0-3, out-grappled by Alencar (4 TD, 12:38 control) push down. Net ~ market.",
+      "fair": 733.33,
+      "trigger": 750.0,
+      "ev": -0.07000000000000006,
+      "ev_lo": -0.22499999999999998,
+      "ev_hi": 0.08500000000000019,
+      "kelly_units": 0.0
+    }
+  ]
+}
