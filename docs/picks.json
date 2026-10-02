@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-10-01T23:41:27+00:00",
-  "on_date": "2026-10-01",
+  "generated_at": "2026-10-02T04:00:43+00:00",
+  "on_date": "2026-10-02",
   "sports": [
     "NBA",
     "MLB",
@@ -28,17 +28,7 @@
   },
   "game_predictions": [],
   "recommended_slips": [],
-  "history_30d": [
-    {
-      "on_date": "2026-09-01",
-      "sport": "MLB",
-      "n_picks": 15,
-      "n_wins": 8,
-      "n_losses": 7,
-      "n_push": 0,
-      "roi_units": 0.3647930397930401
-    }
-  ],
+  "history_30d": [],
   "model_summary": [
     {
       "sport": "MLB",
