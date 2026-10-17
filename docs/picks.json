@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-17T07:35:17+00:00",
+  "generated_at": "2026-10-17T12:04:31+00:00",
   "on_date": "2026-10-17",
   "sports": [
     "NBA",
@@ -33,7 +33,7 @@
     {
       "sport": "MLB",
       "market": "batter_hits",
-      "finished_at": "2026-10-06T14:45:51",
+      "finished_at": "2026-10-17T12:00:51",
       "rows": 531363,
       "mae": 0.6892865087574633,
       "brier": 0.12323796093892483,
@@ -42,7 +42,7 @@
     {
       "sport": "MLB",
       "market": "batter_rbis",
-      "finished_at": "2026-10-06T14:46:56",
+      "finished_at": "2026-10-17T12:01:58",
       "rows": 531363,
       "mae": 0.6033127632083319,
       "brier": 0.16340601543039107,
@@ -51,7 +51,7 @@
     {
       "sport": "MLB",
       "market": "batter_runs",
-      "finished_at": "2026-10-06T14:46:24",
+      "finished_at": "2026-10-17T12:01:25",
       "rows": 531363,
       "mae": 0.5447529432277592,
       "brier": 0.19119084521498905,
@@ -60,7 +60,7 @@
     {
       "sport": "MLB",
       "market": "batter_strikeouts",
-      "finished_at": "2026-10-06T14:47:31",
+      "finished_at": "2026-10-17T12:02:32",
       "rows": 531363,
       "mae": 0.6998570723430538,
       "brier": 0.1266710017522373,
@@ -69,7 +69,7 @@
     {
       "sport": "MLB",
       "market": "batter_total_bases",
-      "finished_at": "2026-10-06T14:45:17",
+      "finished_at": "2026-10-17T12:00:15",
       "rows": 531363,
       "mae": 1.302368576969933,
       "brier": 0.17889569212293277,
@@ -78,7 +78,7 @@
     {
       "sport": "MLB",
       "market": "pitcher_earned_runs",
-      "finished_at": "2026-10-06T14:48:00",
+      "finished_at": "2026-10-17T12:03:03",
       "rows": 87244,
       "mae": 0.9126271903160432,
       "brier": 0.16663305215695265,
@@ -87,7 +87,7 @@
     {
       "sport": "MLB",
       "market": "pitcher_outs",
-      "finished_at": "2026-10-06T14:47:51",
+      "finished_at": "2026-10-17T12:02:53",
       "rows": 87244,
       "mae": 1.6628484547582356,
       "brier": 0.11681703015566333,
@@ -96,7 +96,7 @@
     {
       "sport": "MLB",
       "market": "pitcher_strikeouts",
-      "finished_at": "2026-10-06T14:47:41",
+      "finished_at": "2026-10-17T12:02:43",
       "rows": 87244,
       "mae": 1.0631346085294278,
       "brier": 0.15469652140951867,
@@ -105,7 +105,7 @@
     {
       "sport": "NFL",
       "market": "player_interceptions",
-      "finished_at": "2026-10-06T14:48:58",
+      "finished_at": "2026-10-17T12:04:01",
       "rows": 241,
       "mae": 0.6147856965596279,
       "brier": 0.1929671379878766,
@@ -114,7 +114,7 @@
     {
       "sport": "NFL",
       "market": "player_pass_attempts",
-      "finished_at": "2026-10-06T14:48:57",
+      "finished_at": "2026-10-17T12:04:00",
       "rows": 241,
       "mae": 10.485832747986226,
       "brier": 0.0883541852250837,
@@ -123,7 +123,7 @@
     {
       "sport": "NFL",
       "market": "player_pass_completions",
-      "finished_at": "2026-10-06T14:48:57",
+      "finished_at": "2026-10-17T12:04:00",
       "rows": 241,
       "mae": 7.477130187011834,
       "brier": 0.12085737720065513,
@@ -132,7 +132,7 @@
     {
       "sport": "NFL",
       "market": "player_pass_tds",
-      "finished_at": "2026-10-06T14:48:56",
+      "finished_at": "2026-10-17T12:03:59",
       "rows": 241,
       "mae": 0.9354760372131179,
       "brier": 0.2194826283899123,
@@ -141,7 +141,7 @@
     {
       "sport": "NFL",
       "market": "player_pass_yards",
-      "finished_at": "2026-10-06T14:48:56",
+      "finished_at": "2026-10-17T12:03:59",
       "rows": 241,
       "mae": 78.75610176593933,
       "brier": 0.11291972516653184,
@@ -150,7 +150,7 @@
     {
       "sport": "NFL",
       "market": "player_rec_yards",
-      "finished_at": "2026-10-06T14:49:10",
+      "finished_at": "2026-10-17T12:04:13",
       "rows": 6154,
       "mae": 19.91802401021717,
       "brier": 0.03116284271551041,
@@ -159,7 +159,7 @@
     {
       "sport": "NFL",
       "market": "player_receptions",
-      "finished_at": "2026-10-06T14:49:06",
+      "finished_at": "2026-10-17T12:04:09",
       "rows": 6154,
       "mae": 1.672431411063003,
       "brier": 0.0857690504192425,
@@ -168,7 +168,7 @@
     {
       "sport": "NFL",
       "market": "player_rush_attempts",
-      "finished_at": "2026-10-06T14:49:02",
+      "finished_at": "2026-10-17T12:04:05",
       "rows": 1384,
       "mae": 3.898911431835274,
       "brier": 0.049768405786336754,
@@ -177,7 +177,7 @@
     {
       "sport": "NFL",
       "market": "player_rush_yards",
-      "finished_at": "2026-10-06T14:49:00",
+      "finished_at": "2026-10-17T12:04:03",
       "rows": 1384,
       "mae": 18.493446820676336,
       "brier": 0.026120650763328174,
@@ -186,47 +186,47 @@
     {
       "sport": "NHL",
       "market": "goalie_saves",
-      "finished_at": "2026-10-06T14:48:55",
-      "rows": 1949,
-      "mae": 10.790526350790827,
-      "brier": 0.07422839846082632,
-      "log_loss": 0.25807658872911243
+      "finished_at": "2026-10-17T12:03:58",
+      "rows": 1965,
+      "mae": 10.611399723834563,
+      "brier": 0.07647311844575168,
+      "log_loss": 0.26274602598961305
     },
     {
       "sport": "NHL",
       "market": "player_assists",
-      "finished_at": "2026-10-06T14:48:53",
-      "rows": 159930,
-      "mae": 0.43244095710375297,
-      "brier": 0.10756528685584629,
-      "log_loss": 0.3509179560313163
+      "finished_at": "2026-10-17T12:03:56",
+      "rows": 161226,
+      "mae": 0.4362135750627111,
+      "brier": 0.10763787762985422,
+      "log_loss": 0.35098139414491575
     },
     {
       "sport": "NHL",
       "market": "player_goals",
-      "finished_at": "2026-10-06T14:48:41",
-      "rows": 159930,
-      "mae": 0.28869073776549675,
-      "brier": 0.07091235718731369,
-      "log_loss": 0.25399371251892444
+      "finished_at": "2026-10-17T12:03:43",
+      "rows": 161226,
+      "mae": 0.28933092884914385,
+      "brier": 0.07123531578014233,
+      "log_loss": 0.25535511234799263
     },
     {
       "sport": "NHL",
       "market": "player_points",
-      "finished_at": "2026-10-06T14:48:15",
-      "rows": 159930,
-      "mae": 0.580722850399767,
-      "brier": 0.1405711993287201,
-      "log_loss": 0.43489140382827124
+      "finished_at": "2026-10-17T12:03:17",
+      "rows": 161226,
+      "mae": 0.577638282348043,
+      "brier": 0.14054594910184606,
+      "log_loss": 0.4348300867233925
     },
     {
       "sport": "NHL",
       "market": "player_shots_on_goal",
-      "finished_at": "2026-10-06T14:48:29",
-      "rows": 159930,
-      "mae": 1.0325802231116525,
-      "brier": 0.15468922358018425,
-      "log_loss": 0.464912900073336
+      "finished_at": "2026-10-17T12:03:31",
+      "rows": 161226,
+      "mae": 1.0235979934292012,
+      "brier": 0.15442385887267193,
+      "log_loss": 0.46474113419377827
     }
   ]
 }
